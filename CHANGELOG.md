@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.0.3] - 2026-11-20
+### Fixed
+- `update.sh` stopped with "cosign is not installed" on hosts without it (TrueNAS has a read-only `/usr`). The scripts now install cosign themselves into the root-only `.state/bin/` (checksum-verified, `scripts/install-cosign.sh`) the first time they need it.
+- A failed signature check now prints cosign's reason instead of a bare error.
+
 ## [2.0.2] - 2026-11-20
 ### Fixed
 - `update.sh` failed with "unable to open database file": it created `data/backups` as root, so the app (running as user 568) could not write the pre-update backup. The folder is now created with the app's ownership, and a failed backup prints the real reason.

@@ -2,7 +2,7 @@
 
 > Adaptive Ontario math practice and rewards for Grades 5-12, self-hosted and invite-only.
 
-![Version](https://img.shields.io/badge/version-2.0.2-blue)
+![Version](https://img.shields.io/badge/version-2.0.3-blue)
 
 ## Overview
 
@@ -25,7 +25,7 @@ This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (
 
 ## Requirements
 
-- Docker with Compose v2, `curl`, and `cosign` (to verify signed images)
+- Docker with Compose v2 and `curl`. `cosign` (to verify signed images) is installed automatically into `.state/bin/` the first time it is needed (`scripts/install-cosign.sh`, checksum-verified; TrueNAS's read-only `/usr` is not touched)
 - On TrueNAS: `midclt` (present by default) for the upgrade agent's cron job, and `jq`
 - A Resend account with a verified sender domain
 - Node.js 22 only for development
