@@ -1,0 +1,91 @@
+import express, { type Express } from 'express';
+import helmet from 'helmet';
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
+import type { Config } from './config.js';
+import { makeLimits, type Ctx } from './context.js';
+import type { DB } from './db.js';
+import type { Mailer } from './mail.js';
+import { originMiddleware, sessionMiddleware } from './session.js';
+import { authRoutes } from './routes/auth.js';
+import { deviceRoutes } from './routes/devices.js';
+import { studentRoutes } from './routes/students.js';
+import { adminRoutes } from './routes/admin.js';
+import { updateRoutes } from './routes/updates.js';
+import { curriculumRoutes } from './routes/curriculum.js';
+
+export interface AppDeps {
+  db: DB;
+  cfg: Config;
+  mailer: Mailer;
+  now?: () => number;
+  webRoot?: string;
+}
+
+export function createApp(deps: AppDeps): { app: Express; ctx: Ctx } {
+  const now = deps.now ?? Date.now;
+  const ctx: Ctx = { db: deps.db, cfg: deps.cfg, mailer: deps.mailer, now, limits: makeLimits(now) };
+  const app = express();
+  app.disable('x-powered-by');
+  app.set('trust proxy', 'loopback, linklocal, uniquelocal'); // Cloudflare Tunnel / reverse proxy on the host
+
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        useDefaults: false,
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'"],
+          styleSrc: ["'self'"],
+          imgSrc: ["'self'", 'data:'],
+          fontSrc: ["'self'"],
+          connectSrc: ["'self'"],
+          mediaSrc: ["'self'"],
+          workerSrc: ["'self'"],
+          manifestSrc: ["'self'"],
+          objectSrc: ["'none'"],
+          baseUri: ["'self'"],
+          formAction: ["'self'"],
+          frameAncestors: ["'none'"],
+        },
+      },
+      crossOriginEmbedderPolicy: false,
+      hsts: deps.cfg.secure,
+    }),
+  );
+  app.use(express.json({ limit: '100kb' }));
+
+  app.get('/api/health', (_req, res) => {
+    try {
+      deps.db.prepare('SELECT 1').get();
+      res.json({ ok: true, version: deps.cfg.version });
+    } catch {
+      res.status(503).json({ ok: false });
+    }
+  });
+
+  const api = express.Router();
+  api.use(originMiddleware(ctx));
+  api.use(sessionMiddleware(ctx));
+  api.use(authRoutes(ctx));
+  api.use(deviceRoutes(ctx));
+  api.use(studentRoutes(ctx));
+  api.use(adminRoutes(ctx));
+  api.use(updateRoutes(ctx));
+  api.use(curriculumRoutes(ctx));
+  api.use((_req, res) => void res.status(404).json({ error: 'not_found' }));
+  app.use('/api', api);
+
+  // Built SPA. Client routes live under /app/* so they can never collide with /api/*.
+  const webRoot = deps.webRoot ?? join(process.cwd(), 'dist', 'web');
+  if (existsSync(webRoot)) {
+    app.use(express.static(webRoot, { index: false, maxAge: '1h' }));
+    app.get(/^\/(app(\/.*)?)?$/, (_req, res) => res.sendFile(join(webRoot, 'index.html')));
+  }
+
+  app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    console.error(`[error] ${err.message}`);
+    res.status(err.name === 'SyntaxError' ? 400 : 500).json({ error: 'server_error' });
+  });
+  return { app, ctx };
+}

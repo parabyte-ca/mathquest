@@ -1,0 +1,84 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # pin
+      - uses: actions/setup-node@v4 # pin
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validate VERSION and keep every version reference in step
+        run: |
+          set -euo pipefail
+          v="$(tr -d '[:space:]' < VERSION)"
+          [[ "$v" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "VERSION must be X.Y.Z"; exit 1; }
+          [ "$(node -p "require('./package.json').version")" = "$v" ] || { echo "package.json version differs from VERSION"; exit 1; }
+          grep -q "badge/version-$v-blue" README.md || { echo "README badge is not $v"; exit 1; }
+          grep -q "^MATHQUEST_VERSION=$v$" .env.example || { echo ".env.example MATHQUEST_VERSION is not $v"; exit 1; }
+          grep -q "^## \[$v\]" CHANGELOG.md || { echo "CHANGELOG.md has no section for $v"; exit 1; }
+      - run: npm run typecheck
+      - run: npm run i18n:check
+      - run: npm test
+      - run: npm run build
+      - name: Curriculum seed is up to date
+        run: |
+          npm run curriculum:build
+          git diff --exit-code content/curriculum.json
+      - run: npm audit --omit=dev --audit-level=high
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # pin
+      - run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - run: shellcheck -x setup.sh update.sh scripts/*.sh
+
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # pin
+      - uses: actions/setup-node@v4 # pin
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run e2e
+      - if: failure()
+        uses: actions/upload-artifact@v4 # pin
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 7
+
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # pin
+      - name: Build the image
+        run: docker build --build-arg GIT_SHA="$GITHUB_SHA" -t mathquest:ci .
+      - name: Smoke test inside the built container (read-only fs, no capabilities)
+        run: |
+          set -euo pipefail
+          mkdir -p ci-data && sudo chown 568:568 ci-data
+          docker run -d --name mq --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges:true \
+            --user 568:568 -p 18086:8086 -v "$PWD/ci-data:/data" -e DATA_DIR=/data mathquest:ci
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:18086/api/health && break; sleep 1; done
+          curl -fsS http://127.0.0.1:18086/api/health | grep -q '"ok":true'
+          curl -fsS http://127.0.0.1:18086/app | grep -q '<div id="app">'
+          docker exec mq node dist/server/cli.js backup | grep -q '/data/backups/mathquest-'
+          docker logs mq
+          docker rm -f mq
