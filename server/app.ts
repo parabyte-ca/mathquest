@@ -10,6 +10,7 @@ import { originMiddleware, sessionMiddleware } from './session.js';
 import { authRoutes } from './routes/auth.js';
 import { deviceRoutes } from './routes/devices.js';
 import { studentRoutes } from './routes/students.js';
+import { aiRoutes } from './routes/ai.js';
 import { adminRoutes } from './routes/admin.js';
 import { updateRoutes } from './routes/updates.js';
 import { curriculumRoutes } from './routes/curriculum.js';
@@ -73,6 +74,7 @@ export function createApp(deps: AppDeps): { app: Express; ctx: Ctx } {
   api.use(deviceRoutes(ctx));
   api.use(studentRoutes(ctx));
   api.use(adminRoutes(ctx));
+  api.use(aiRoutes(ctx));
   api.use(updateRoutes(ctx));
   api.use(curriculumRoutes(ctx));
   api.use(learnRoutes(ctx));

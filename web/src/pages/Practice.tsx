@@ -45,7 +45,7 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
   }, []);
 
   const show = (s: Step) => {
-    setStep(s); setResult(null); setHints([]); setShowHow(false);
+    setStep(s); setResult(null); setHints([]); setShowHow(false); setReported(false); setReporting(false);
     shownAt.current = Date.now();
     if (s.type === 'item' && settings.autoRead) say(tt(s.item.prompt));
   };
@@ -67,6 +67,15 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
     setResult(r.data);
     const f = r.data.feedback;
     if (settings.autoRead) say([tt(f.message), f.why ? tt(f.why) : '', f.correct ? '' : tt(f.correctAnswer ?? { en: '', fr: '' })].filter(Boolean).join(' '));
+  };
+
+  const [reporting, setReporting] = useState(false);
+  const [reported, setReported] = useState(false);
+  const sendReport = async (reason: string) => {
+    if (step?.type !== 'item') return;
+    const r = await api('POST', '/learn/report', { itemId: step.item.id, reason });
+    setReporting(false);
+    if (r.ok) setReported(true);
   };
 
   const askHint = async () => {
@@ -155,6 +164,17 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
         )}
         {showHow && lesson && <div class="overlay"><LessonView lesson={lesson} settings={settings} doneLabel={t('lesson.backToQuestion')} onDone={() => setShowHow(false)} /></div>}
       </section>
+      <div class="report">
+        {reported ? <p class="muted small" role="status">{t('report.thanks')}</p> : reporting ? (
+          <div role="group" aria-label={t('report.title')}>
+            <p class="small"><strong>{t('report.title')}</strong></p>
+            <div class="row-actions">
+              {(['unclear', 'answer', 'too_hard', 'other'] as const).map((k) => <button type="button" class="secondary small" key={k} onClick={() => sendReport(k)}>{t(`report.${k}`)}</button>)}
+              <button type="button" class="link" onClick={() => setReporting(false)}>{t('report.cancel')}</button>
+            </div>
+          </div>
+        ) : <button type="button" class="link small" onClick={() => setReporting(true)}>{t('report.btn')}</button>}
+      </div>
       {scratch && <aside class="card" aria-label={t('scratch.title')}><Scratchpad resetKey={item.id} /></aside>}
       {caption && <div class="caption" role="status" aria-live="off">{caption}</div>}
     </div>

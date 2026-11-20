@@ -36,6 +36,13 @@ export function learnRoutes(ctx: Ctx): Router {
     }
   };
 
+  // A student flags a question that looks wrong or unclear. Two different students retire an AI-written item automatically.
+  r.post('/learn/report', handle((req, res) => {
+    const body = z.object({ itemId: z.string().regex(/^[A-Za-z0-9.:_-]{3,80}$/), reason: z.enum(['unclear', 'answer', 'too_hard', 'other']) }).safeParse(req.body);
+    if (!body.success) throw new svc.LearnError('invalid_request');
+    return svc.reportItem(ctx, student(res), body.data.itemId, body.data.reason);
+  }));
+
   r.get('/learn/options', handle((_req, res) => svc.options(ctx, student(res))));
 
   r.post('/learn/session', handle((req, res) => {

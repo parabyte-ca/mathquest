@@ -215,6 +215,51 @@ const MIGRATIONS: { id: number; name: string; sql: string }[] = [
     );
     `,
   },
+  {
+    id: 3,
+    name: 'ai_pipeline',
+    sql: `
+    -- Items written by Claude. Nothing is served until an admin approves it.
+    CREATE TABLE bank_item (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      skill TEXT NOT NULL,
+      tier INTEGER NOT NULL,
+      status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft','approved','rejected','retired')),
+      item_json TEXT NOT NULL,
+      compute TEXT NOT NULL,
+      model TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      reviewed_by TEXT,
+      reviewed_at TEXT,
+      reject_reason TEXT,
+      served INTEGER NOT NULL DEFAULT 0
+    );
+    CREATE INDEX idx_bank_serve ON bank_item(status, skill, tier);
+
+    CREATE TABLE ai_usage (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      at INTEGER NOT NULL,
+      kind TEXT NOT NULL,
+      model TEXT NOT NULL,
+      input_tokens INTEGER NOT NULL DEFAULT 0,
+      output_tokens INTEGER NOT NULL DEFAULT 0,
+      cost_micro_usd INTEGER NOT NULL DEFAULT 0,
+      ok INTEGER NOT NULL DEFAULT 1
+    );
+    CREATE INDEX idx_usage_at ON ai_usage(at);
+
+    CREATE TABLE item_report (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      item_ref TEXT NOT NULL,
+      bank_id INTEGER REFERENCES bank_item(id) ON DELETE SET NULL,
+      reason TEXT NOT NULL,
+      at INTEGER NOT NULL,
+      resolved INTEGER NOT NULL DEFAULT 0,
+      UNIQUE (student_id, item_ref)
+    );
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

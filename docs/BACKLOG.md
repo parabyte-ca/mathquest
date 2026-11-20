@@ -45,3 +45,10 @@ A guided first-run tour so people know what to do without a manual. Student and 
 - Phase 4: rewards, themes, caregiver dashboard, weekly email, printable worksheets.
 - Phase 5: French review, PWA and offline practice, performance (lazy-load lesson and generator code).
 - Create a `mathquest` skill (architecture, ports, release flow) and refresh `ontario-math-curriculum` once Grade 5-6 content is real.
+
+## Phase 3 follow-ups (from 2.2.0)
+- Add the new Grade 5-6 Number micro-skills to the prerequisite chains and placement ladders.
+- Lessons and generators for Grade 5-6 strands C to F (algebra, data, geometry, financial literacy).
+- Admin usage view: translate the "failed" label; add a per-skill bank-size summary.
+- Let the question writer produce non-numeric formats (choice, fraction) once the verifier can re-compute them.
+- Refresh the `ontario-math-curriculum` skill and create a `mathquest` skill.

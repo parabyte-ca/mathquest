@@ -44,6 +44,7 @@ export function Admin() {
     <>
       <h1 class="page">{t('admin.title')}</h1>
       <Updates />
+      <AiPanel />
       <section class="card">
         <h2>{t('admin.invite')}</h2>
         <form class="inline" onSubmit={invite}>
@@ -119,6 +120,115 @@ function Updates() {
         <details>
           <summary>{t('updates.log')}</summary>
           <pre class="log">{info.log.join('\n')}</pre>
+        </details>
+      )}
+    </section>
+  );
+}
+
+interface AiStatus { configured: boolean; model: string; capUsd: number; spentUsd: number; remainingUsd: number; counts: Record<string, number> }
+interface BankRow { id: number; skill: string; tier: number; compute: string; reports: number; item: { prompt: { en: string; fr: string }; answer: { value: number }; steps: { en: string }[] } }
+interface ReportRow { id: number; itemRef: string; bankId: number | null; reason: string; itemStatus: string | null }
+interface UsageDay { day: string; calls: number; costUsd: number; failures: number }
+
+function AiPanel() {
+  useLang();
+  const [status, setStatus] = useState<AiStatus | null>(null);
+  const [skills, setSkills] = useState<{ id: string; name: string }[]>([]);
+  const [items, setItems] = useState<BankRow[]>([]);
+  const [reports, setReports] = useState<ReportRow[]>([]);
+  const [usage, setUsage] = useState<UsageDay[]>([]);
+  const [skill, setSkill] = useState('');
+  const [tier, setTier] = useState(1);
+  const [count, setCount] = useState(5);
+  const [msg, setMsg] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  const load = async () => {
+    const [s, k, i, r, u] = await Promise.all([
+      api<AiStatus>('GET', '/admin/ai/status'),
+      api<{ skills: { id: string; name: string }[] }>('GET', '/admin/ai/skills'),
+      api<{ items: BankRow[] }>('GET', '/admin/ai/items?status=draft'),
+      api<{ reports: ReportRow[] }>('GET', '/admin/ai/reports'),
+      api<{ days: UsageDay[] }>('GET', '/admin/ai/usage'),
+    ]);
+    if (s.ok) setStatus(s.data);
+    if (k.ok) { setSkills(k.data.skills); setSkill((cur) => cur || k.data.skills[0]?.id || ''); }
+    if (i.ok) setItems(i.data.items);
+    if (r.ok) setReports(r.data.reports);
+    if (u.ok) setUsage(u.data.days);
+  };
+  useEffect(() => { void load(); }, []);
+
+  const generate = async (e: Event) => {
+    e.preventDefault();
+    setBusy(true);
+    const r = await api<{ created: number; rejected: Record<string, number> }>('POST', '/admin/ai/generate', { skill, tier, count });
+    setBusy(false);
+    if (r.ok) setMsg(t('ai.generated', { n: r.data.created }) + (Object.keys(r.data.rejected).length ? ' ' + t('ai.rejectedNote') : ''));
+    else setMsg(r.status === 402 ? t('ai.capReached') : r.status === 409 ? t('ai.notConfigured') : t('ai.apiError'));
+    void load();
+  };
+  const act = async (path: string) => { await api('POST', path, {}); void load(); };
+
+  if (!status) return null;
+  return (
+    <section class="card" aria-labelledby="ai-title">
+      <h2 id="ai-title">{t('ai.title')}</h2>
+      {!status.configured ? <p class="note">{t('ai.notConfigured')}</p> : (
+        <>
+          <p>{t('ai.spend', { spent: status.spentUsd.toFixed(2), cap: status.capUsd.toFixed(2), left: status.remainingUsd.toFixed(2) })}</p>
+          <form class="inline" onSubmit={generate}>
+            <label for="ai-skill">{t('ai.skill')}</label>
+            <select id="ai-skill" value={skill} onChange={(e) => setSkill((e.target as HTMLSelectElement).value)}>
+              {skills.map((s) => <option key={s.id} value={s.id}>{s.id} · {s.name}</option>)}
+            </select>
+            <label for="ai-tier">{t('ai.tier')}</label>
+            <select id="ai-tier" value={tier} onChange={(e) => setTier(Number((e.target as HTMLSelectElement).value))}>{[1, 2, 3].map((n) => <option key={n} value={n}>{n}</option>)}</select>
+            <label for="ai-count">{t('ai.count')}</label>
+            <input id="ai-count" type="number" min={1} max={10} value={count} onInput={(e) => setCount(Number((e.target as HTMLInputElement).value))} />
+            <button type="submit" disabled={busy}>{t('ai.generate')}</button>
+          </form>
+          <p role="status">{msg}</p>
+        </>
+      )}
+      <h3>{t('ai.queue')} ({items.length})</h3>
+      {items.length === 0 && <p class="muted">{t('ai.empty')}</p>}
+      <ul class="plain">
+        {items.map((b) => (
+          <li class="card inner" key={b.id}>
+            <p class="small muted">{b.skill} · {t('ai.tier')} {b.tier}</p>
+            <p>{b.item.prompt.en}</p>
+            <p lang="fr">{b.item.prompt.fr}</p>
+            <p><strong>{t('ai.answer')}:</strong> {b.item.answer.value} <span class="muted small">({b.compute})</span></p>
+            <div class="row-actions">
+              <button type="button" onClick={() => act(`/admin/ai/items/${b.id}/approve`)}>{t('ai.approve')}</button>
+              <button type="button" class="secondary" onClick={() => act(`/admin/ai/items/${b.id}/reject`)}>{t('ai.reject')}</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      {reports.length > 0 && (
+        <>
+          <h3>{t('ai.reports')} ({reports.length})</h3>
+          <ul class="plain small">
+            {reports.map((r) => (
+              <li class="row" key={r.id}>
+                <span>{r.itemRef} · {r.reason}{r.itemStatus ? ` · ${r.itemStatus}` : ''}</span>
+                <span class="row-actions">
+                  {r.bankId !== null && r.itemStatus === 'approved' && <button type="button" class="secondary small" onClick={() => act(`/admin/ai/items/${r.bankId}/retire`)}>{t('ai.retire')}</button>}
+                  <button type="button" class="link small" onClick={() => act(`/admin/ai/reports/${r.id}/resolve`)}>{t('ai.resolve')}</button>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+      {usage.length > 0 && (
+        <details>
+          <summary>{t('ai.usage')}</summary>
+          <ul class="plain small">{usage.map((d) => <li key={d.day}>{d.day} · {d.calls} · ${d.costUsd.toFixed(2)}{d.failures ? ` · ${d.failures} failed` : ''}</li>)}</ul>
+          <p class="muted small">{t('ai.priceNote')}</p>
         </details>
       )}
     </section>

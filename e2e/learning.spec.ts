@@ -194,8 +194,16 @@ test('accessibility: high contrast, dyslexia font and reduced motion apply; keyb
   await kid.getByRole('button', { name: 'Back' }).click();
 
   // keyboard only: choose a strand and start with Space/Enter, answer a choice or fraction without a mouse
-  await kid.getByRole('checkbox', { name: /^E\./ }).focus();
-  await kid.keyboard.press('Space');
+  // The home page resets its choices once when the course options finish loading, so tick E until it sticks.
+  // (With nothing ticked, practice draws from every strand and the first question need not be a plotting one.)
+  const strandE = kid.getByRole('checkbox', { name: /^E\./ });
+  await expect(async () => {
+    if (!(await strandE.isChecked())) {
+      await strandE.focus();
+      await kid.keyboard.press('Space');
+    }
+    await expect(strandE).toBeChecked({ timeout: 500 });
+  }).toPass({ timeout: 10_000 });
   await kid.getByRole('button', { name: 'Start practice' }).focus();
   await kid.keyboard.press('Enter');
   await expect(kid.locator('form.answer')).toBeVisible();
@@ -247,4 +255,16 @@ test('touch targets are at least 44 px on the question page', async ({ page, bro
   }
   expect(small).toEqual([]);
   await noHorizontalScroll(kid);
+});
+
+test('a student can report a question that looks off, once, and the admin queue sees it', async ({ page, browser, baseURL }, info) => {
+  const { kid, username } = await setup(browser, baseURL!, page, info, 'rp');
+  await startPractice(kid, 'B');
+  await kid.getByRole('button', { name: 'Report this question' }).click();
+  await expect(kid.getByRole('group', { name: 'What looks off?' })).toBeVisible();
+  await kid.getByRole('button', { name: 'I think the answer is wrong' }).click();
+  await expect(kid.getByText('Thank you. A grown-up will take a look.')).toBeVisible();
+  const rows = db().prepare("SELECT reason FROM item_report WHERE student_id = ?").all(studentId(username));
+  expect(rows).toEqual([{ reason: 'answer' }]);
+  expect(pageProblems.get(kid) ?? []).toEqual([]);
 });

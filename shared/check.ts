@@ -191,3 +191,14 @@ export function answerToGiven(a: Answer): Given {
     case 'point': return { kind: 'point', x: a.x, y: a.y };
   }
 }
+
+/** Evaluates a plain arithmetic expression (digits, + - * / ^ and brackets only). Used to re-compute answers independently. */
+export function evalArithmetic(expr: string): number | null {
+  if (!/^[0-9+\-*/^().\s]+$/.test(expr) || expr.length > 200) return null;
+  try {
+    const v = math.evaluate(expr) as unknown;
+    return typeof v === 'number' && Number.isFinite(v) ? v : null;
+  } catch {
+    return null;
+  }
+}
