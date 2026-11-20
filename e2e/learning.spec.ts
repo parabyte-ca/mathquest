@@ -194,8 +194,16 @@ test('accessibility: high contrast, dyslexia font and reduced motion apply; keyb
   await kid.getByRole('button', { name: 'Back' }).click();
 
   // keyboard only: choose a strand and start with Space/Enter, answer a choice or fraction without a mouse
-  await kid.getByRole('checkbox', { name: /^E\./ }).focus();
-  await kid.keyboard.press('Space');
+  // The home page resets its choices once when the course options finish loading, so tick E until it sticks.
+  // (With nothing ticked, practice draws from every strand and the first question need not be a plotting one.)
+  const strandE = kid.getByRole('checkbox', { name: /^E\./ });
+  await expect(async () => {
+    if (!(await strandE.isChecked())) {
+      await strandE.focus();
+      await kid.keyboard.press('Space');
+    }
+    await expect(strandE).toBeChecked({ timeout: 500 });
+  }).toPass({ timeout: 10_000 });
   await kid.getByRole('button', { name: 'Start practice' }).focus();
   await kid.keyboard.press('Enter');
   await expect(kid.locator('form.answer')).toBeVisible();
@@ -205,7 +213,6 @@ test('accessibility: high contrast, dyslexia font and reduced motion apply; keyb
     for (let i = 0; i < (item.answer as { index: number }).index; i++) await kid.keyboard.press('ArrowDown');
     await kid.keyboard.press('Space');
   } else {
-    await expect(kid.locator('#px'), `expected a point question; got format=${item.format} skill=${item.skill} tier=${item.tier}; screen: ${(await kid.locator('form.answer').innerText()).replace(/\s+/g, ' ').slice(0, 200)}`).toBeVisible({ timeout: 5000 });
     await kid.locator('#px').fill(String((item.answer as { x: number }).x));
     await kid.locator('#py').fill(String((item.answer as { y: number }).y));
   }
