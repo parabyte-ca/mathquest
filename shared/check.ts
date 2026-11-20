@@ -30,6 +30,27 @@ export function normalizeInput(raw: string): string | null {
   return s;
 }
 
+/**
+ * Every sensible reading of a typed number. "1 234" and "1,234" are digit groups in English but 1,234 is also a French
+ * decimal, so both readings are offered and either one can match.
+ */
+export function numberCandidates(raw: string): number[] {
+  const out: number[] = [];
+  const t = raw.trim().replace(/[\u00a0\u202f]/g, ' ');
+  if (/^[+-]?\d{1,3}( \d{3})+([.,]\d+)?$/.test(t)) {
+    const v = parseNumber(t.replace(/ /g, ''));
+    if (v !== null) out.push(v);
+    return out;
+  }
+  const v = parseNumber(t);
+  if (v !== null) out.push(v);
+  if (/^[+-]?\d{1,3}(,\d{3})+(\.\d+)?$/.test(t)) {
+    const g = parseNumber(t.replace(/,/g, ''));
+    if (g !== null) out.push(g);
+  }
+  return out;
+}
+
 /** Evaluates a numeric entry such as "3/4", "0.75", "2^3" or "sqrt(2)". Returns null if it is not a finite number. */
 export function parseNumber(raw: string): number | null {
   const s = normalizeInput(raw);
@@ -87,8 +108,7 @@ export function check(answer: Answer, given: Given, literal = false): boolean {
   switch (answer.kind) {
     case 'number': {
       if (given.kind !== 'number') return false;
-      const v = parseNumber(given.text);
-      return v !== null && close(v, answer.value, answer.tolerance ?? 1e-9);
+      return numberCandidates(given.text).some((v) => close(v, answer.value, answer.tolerance ?? 1e-9));
     }
     case 'expression':
       return given.kind === 'expression' && expressionsEquivalent(given.text, answer.expr, answer.vars);
