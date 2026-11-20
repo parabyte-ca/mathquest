@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:22-bookworm-slim AS build
+FROM node:26-bookworm-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -11,12 +11,12 @@ COPY scripts ./scripts
 COPY content ./content
 RUN npm run build
 
-FROM node:22-bookworm-slim AS deps
+FROM node:26-bookworm-slim AS deps
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
-FROM node:22-bookworm-slim
+FROM node:26-bookworm-slim
 ARG GIT_SHA=unknown
 LABEL org.opencontainers.image.source="https://github.com/parabyte-ca/mathquest" \
       org.opencontainers.image.revision="${GIT_SHA}" \
