@@ -69,7 +69,7 @@ chmod 700 "$ROOT_DIR/.state"
 # --- image: pull and verify, build locally only if the pull fails --------------
 REF="${IMAGE_REPO}:${VERSION}"
 if docker pull "$REF" >>"$LOG_FILE" 2>&1; then
-  git -C "$ROOT_DIR" fetch --tags --quiet 2>/dev/null || true
+  git_fetch_tags 2>/dev/null || true
   verify_image "$VERSION"
 else
   log "could not pull $REF; building a local image instead (signature check skipped)"

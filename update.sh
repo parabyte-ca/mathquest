@@ -8,8 +8,9 @@ set -euo pipefail
 source "$(dirname "${BASH_SOURCE[0]}")/scripts/lib.sh"
 
 STATE_DIR="$ROOT_DIR/.state"
-mkdir -p "$STATE_DIR" "$ROOT_DIR/data/backups"
+mkdir -p "$STATE_DIR"
 chmod 700 "$STATE_DIR"
+ensure_app_dir "$ROOT_DIR/data/backups"
 
 TARGET=""
 ROLLBACK=0
@@ -31,12 +32,17 @@ CURRENT="$(env_get MATHQUEST_VERSION)"
 backup_db() { # prints the backup path
   local out
   if compose ps --status running --services 2>/dev/null | grep -qx mathquest; then
-    out="$(compose exec -T mathquest node dist/server/cli.js backup)" || return 1
+    local raw
+    raw="$(compose exec -T mathquest node dist/server/cli.js backup 2>&1)" || { log "backup command failed: $raw"; return 1; }
+    out="$(printf '%s\n' "$raw" | tail -n1)"
     # CLI prints the in-container path; map /data -> ./data
     echo "$ROOT_DIR/data/${out#/data/}"
   else
     out="$ROOT_DIR/data/backups/mathquest-cold-$(date -u +%Y%m%dT%H%M%SZ).db"
-    [ -f "$ROOT_DIR/data/mathquest.db" ] && cp "$ROOT_DIR/data/mathquest.db" "$out"
+    if [ -f "$ROOT_DIR/data/mathquest.db" ]; then
+      cp "$ROOT_DIR/data/mathquest.db" "$out" || return 1
+      chown "$(env_get MATHQUEST_UID):$(env_get MATHQUEST_GID)" "$out" 2>/dev/null || true
+    fi
     echo "$out"
   fi
 }
@@ -75,7 +81,7 @@ if [ "$ROLLBACK" = "1" ]; then
 fi
 
 # --- choose the release to deploy ------------------------------------------------
-git -C "$ROOT_DIR" fetch --tags --quiet 2>/dev/null || log "WARNING: could not fetch tags (offline?)"
+git_fetch_tags 2>/dev/null || log "WARNING: could not fetch tags (offline, or the repository is private: see README \"Private repository\")"
 if [ -z "$TARGET" ]; then
   TARGET="$(git -C "$ROOT_DIR" tag --list 'v*' | sed 's/^v//' | grep -E "$SEMVER_RE" | sort -V | tail -n1)"
 fi
