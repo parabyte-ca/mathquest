@@ -1,10 +1,13 @@
 import { render } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import '@fontsource/opendyslexic/400.css';
+import '@fontsource/opendyslexic/700.css';
 import './style.css';
 import { loadMe, api, setCsrf, type Me } from './api';
 import { t, useLang, setLang, getLang } from './i18n';
 import { SignIn, Verify } from './pages/SignIn';
-import { StudentLogin, StudentHome } from './pages/Student';
+import { StudentLogin } from './pages/Student';
+import { StudentArea } from './pages/StudentArea';
 import { Caregiver } from './pages/Caregiver';
 import { Admin } from './pages/Admin';
 
@@ -42,10 +45,10 @@ function App() {
 
   if (path === '/app/verify') return <Shell me={me} signOut={signOut} go={go}><Verify onDone={async () => { await refresh(); go('/app'); }} go={go} /></Shell>;
   if (path === '/app/student') {
-    return <Shell me={me} signOut={signOut} go={go}>{me?.kind === 'student' ? <StudentHome me={me} /> : <StudentLogin onDone={refresh} go={go} />}</Shell>;
+    return <Shell me={me} signOut={signOut} go={go}>{me?.kind === 'student' ? <StudentArea me={me} path="/app/learn" go={go} /> : <StudentLogin onDone={refresh} go={go} />}</Shell>;
   }
   if (me === undefined) return <Shell me={me} signOut={signOut} go={go}><p role="status">{t('common.loading')}</p></Shell>;
-  if (me?.kind === 'student') return <Shell me={me} signOut={signOut} go={go}><StudentHome me={me} /></Shell>;
+  if (me?.kind === 'student') return <Shell me={me} signOut={signOut} go={go}><StudentArea me={me} path={path} go={go} /></Shell>;
   if (!me) return <Shell me={me} signOut={signOut} go={go}><SignIn go={go} /></Shell>;
   if (path === '/app/admin' && me.user.role === 'admin') return <Shell me={me} signOut={signOut} go={go}><Admin /></Shell>;
   return <Shell me={me} signOut={signOut} go={go}><Caregiver me={me} /></Shell>;

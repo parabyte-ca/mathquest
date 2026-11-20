@@ -1,0 +1,14 @@
+# Asset and licence record
+
+Every asset shipped with MathQuest, where it came from and its licence. Add a row for anything new.
+
+| Asset | Where | Source | Licence |
+|---|---|---|---|
+| Diagrams (fraction bars, area models, base-ten blocks, coordinate grids, number lines) | `web/src/visuals.tsx` | Drawn in code for MathQuest | Original, project licence |
+| OpenDyslexic font (400, 700; woff and woff2) | bundled by Vite from the `@fontsource/opendyslexic` package | Abelardo Gonzalez, packaged by Fontsource | SIL Open Font License 1.1 |
+| KaTeX (math rendering to MathML) | `katex` npm package, loaded on demand | KaTeX contributors | MIT |
+| math.js (answer checking) | `mathjs` npm package | Jos de Jong and contributors | Apache-2.0 |
+| Lessons, questions, hints and feedback text (English and French) | `shared/lessons`, `shared/generators`, `shared/feedback.ts` | Written for MathQuest | Original, project licence |
+
+No third-party game names, logos, characters, fonts, sounds or textures are used. The v1 prototype's game branding was not carried over.
+Themed art and cosmetics arrive in Phase 4; each piece will be added here with its licence.

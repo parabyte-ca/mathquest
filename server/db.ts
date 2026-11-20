@@ -167,6 +167,54 @@ const MIGRATIONS: { id: number; name: string; sql: string }[] = [
     );
     `,
   },
+  {
+    id: 2,
+    name: 'learning',
+    sql: `
+    ALTER TABLE attempt ADD COLUMN kind TEXT NOT NULL DEFAULT 'practice';
+
+    CREATE TABLE ladder_state (
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      target TEXT NOT NULL,
+      state_json TEXT NOT NULL,
+      updated_at INTEGER NOT NULL,
+      PRIMARY KEY (student_id, target)
+    );
+
+    CREATE TABLE practice_session (
+      id TEXT PRIMARY KEY,
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      params_json TEXT NOT NULL,
+      started_at INTEGER NOT NULL,
+      last_at INTEGER NOT NULL,
+      answered INTEGER NOT NULL DEFAULT 0,
+      correct INTEGER NOT NULL DEFAULT 0
+    );
+    CREATE INDEX idx_session_student ON practice_session(student_id, started_at);
+
+    -- Items waiting for an answer. The answer stays on the server until the student has answered.
+    CREATE TABLE pending_item (
+      id TEXT PRIMARY KEY,
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      session_id TEXT,
+      kind TEXT NOT NULL CHECK (kind IN ('practice','review','placement')),
+      target TEXT NOT NULL,
+      item_json TEXT NOT NULL,
+      hints INTEGER NOT NULL DEFAULT 0,
+      issued_at INTEGER NOT NULL
+    );
+    CREATE INDEX idx_pending_student ON pending_item(student_id);
+
+    CREATE TABLE placement (
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      grade INTEGER NOT NULL,
+      state_json TEXT NOT NULL,
+      done_at INTEGER,
+      result_json TEXT,
+      PRIMARY KEY (student_id, grade)
+    );
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

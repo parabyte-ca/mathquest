@@ -2,13 +2,13 @@
 
 > Adaptive Ontario math practice and rewards for Grades 5-12, self-hosted and invite-only.
 
-![Version](https://img.shields.io/badge/version-2.0.3-blue)
+![Version](https://img.shields.io/badge/version-2.1.0-blue)
 
 ## Overview
 
 MathQuest is a self-hosted practice app for Ontario students in Grades 5-12. Caregivers are invited by email, add their own students, and approve the devices students use. An explainable adaptive engine tracks mastery per skill and steps a student down to smaller skills when they struggle. It runs on TrueNAS and is published at `mathquest.moot.es` through a Cloudflare Tunnel.
 
-This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (Foundation) is released as 2.0.0**: accounts, curriculum model, engine core and deployment. Lessons, the question player, content, rewards and the caregiver dashboard arrive in the next phases.
+This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (Foundation)** shipped as 2.0.0: accounts, curriculum model, engine core and deployment. **Phase 2 (Learning experience)** is 2.1.0: lessons with visuals and optional voice, the question player, hints and feedback, skill map and placement, on a Grade 5-6 number, fractions, decimals and coordinates seed set. Content for the other grades, rewards, themes and the caregiver dashboard arrive in the next phases.
 
 ## Features
 
@@ -21,6 +21,12 @@ This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (
 - Adaptive engine core: Bayesian Knowledge Tracing, struggle detection, one-tier-at-a-time step-down and build-up, spaced review, session mix, adaptive placement
 - English and French interface (CI fails on a missing key)
 - Signed container releases, `setup.sh`, `update.sh` with backup and rollback, in-app upgrades through a host upgrade agent
+- Learn it first: short lessons with definitions, three worked examples that build, and a guided "try one with me", with animated SVG diagrams (fraction bars, area models, base-ten blocks, coordinate grids)
+- Question player: number, fraction, mixed-number and expression entry, multiple choice, multi-select, ordering, matching and tap-to-plot points; on-screen math keyboard, KaTeX rendering and a scratchpad
+- Seeded question generators in English and French, each with a three-rung hint ladder and a map from likely wrong answers to the misconception behind them
+- Encouraging feedback that names the misconception, shows the step where it changed, and offers a similar question
+- Adaptive practice: mastery per micro-skill, a struggle ladder (one tier down, then micro-skills, then a lesson on the weakest prerequisite, then back up), spaced review, an adaptive placement check and a skill map
+- Optional read-aloud (browser speech, off by default) with a math-to-speech converter, fr-CA voices and on-screen captions; high contrast, dyslexia-friendly font and reduced motion
 - Nightly SQLite backups (14 days by default)
 
 ## Requirements
@@ -134,7 +140,7 @@ sudo docker compose exec mathquest node dist/server/cli.js backup
 npm ci
 npm run dev            # API on :8086 (tsx watch); `npx vite --config web/vite.config.ts` for the UI on :5173
 npm run typecheck && npm run i18n:check && npm test
-npm run build && npm run e2e     # set PW_CHROMIUM_PATH to use a pre-installed Chromium
+npm run build && npm run e2e     # set PW_CHROMIUM_PATH to use a pre-installed Chromium (includes an axe WCAG 2.2 AA scan)
 npm run curriculum:build         # regenerate content/curriculum.json from content/source/ontario
 scripts/pin-actions.sh           # pin GitHub Actions to commit SHAs (needs internet)
 ```

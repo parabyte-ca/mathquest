@@ -1,0 +1,7 @@
+{
+  "_note": "Placement ladders: micro-skills ordered easiest to hardest, per grade. A student's placement test is a short adaptive search along this list.",
+  "ladders": {
+    "5": ["MS.G5.B1.3.a", "MS.G5.B1.5.a", "MS.G5.B1.3.b", "MS.G5.B1.4.a", "MS.G5.B2.5.a", "MS.G5.B1.3.c", "MS.G5.B1.4.b", "MS.G5.B2.5.b", "MS.G5.B1.5.b", "MS.G5.B1.7.a", "MS.G5.B1.7.b", "MS.G5.B2.5.c"],
+    "6": ["MS.G5.B1.3.b", "MS.G5.B1.4.b", "MS.G5.B2.5.a", "MS.G5.B2.5.c", "MS.G5.B1.7.b", "MS.G6.B2.5.a", "MS.G6.B2.5.b", "MS.G6.B2.5.c"]
+  }
+}

@@ -24,6 +24,14 @@ const walk = (d: string): string[] => readdirSync(d).flatMap((f) => (statSync(jo
 for (const file of walk(join(dir, '..')).filter((f) => /\.tsx?$/.test(f))) {
   for (const m of readFileSync(file, 'utf8').matchAll(/\bt\('([\w.]+)'/g)) if (!(m[1]! in en)) problems.push(`used but undefined: ${m[1]} (${file.split('/web/')[1]})`);
 }
+// Keys built at run time (t(`map.${state}`) and friends) cannot be found by scanning, so list their families.
+const families: Record<string, string[]> = {
+  map: ['mastered', 'in_progress', 'needs_review', 'new', 'locked', 'soon'],
+  phase: ['stepdown', 'micro', 'lesson', 'buildup'],
+  tier: ['1', '2', '3'],
+  event: ['advance', 'stepdown', 'micro', 'lesson', 'buildup', 'recovered', 'help'],
+};
+for (const [fam, names] of Object.entries(families)) for (const n of names) if (!(`${fam}.${n}` in en)) problems.push(`missing ${fam}.${n}`);
 for (const st of ['idle', 'queued', 'validating', 'running', 'succeeded', 'failed', 'rolled_back']) if (!(`state.${st}` in en)) problems.push(`missing state.${st}`);
 
 if (problems.length) {

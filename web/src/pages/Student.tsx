@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { api } from '../api';
-import type { Me } from '../api';
 import { t, useLang } from '../i18n';
 
 type DeviceState = 'unknown' | 'none' | 'pending' | 'approved' | 'expired';
@@ -88,16 +87,6 @@ export function StudentLogin({ onDone, go }: { onDone: () => void; go: (to: stri
         </form>
       )}
       <p><a href="/app" onClick={(e) => { e.preventDefault(); go('/app'); }}>{t('common.back')}</a></p>
-    </section>
-  );
-}
-
-export function StudentHome({ me }: { me: Extract<Me, { kind: 'student' }> }) {
-  useLang();
-  return (
-    <section class="card narrow">
-      <h1>{t('student.welcome', { name: me.student.displayName })}</h1>
-      <p>{t('student.soon')}</p>
     </section>
   );
 }

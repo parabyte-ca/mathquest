@@ -41,6 +41,8 @@ export interface Ctx {
   cfg: Config;
   mailer: Mailer;
   now: () => number;
+  /** Random source in [0,1); tests inject a seeded one. */
+  rand?: () => number;
   limits: {
     magicEmail: RateLimiter;
     magicIp: RateLimiter;

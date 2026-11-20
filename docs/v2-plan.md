@@ -80,6 +80,10 @@ Vitest: every generator × many seeds × all tiers (valid, correct answer, equiv
 
 1 Foundation → 2 Learning experience → 3 Content (grade order TBD) → 4 Motivation and caregivers → 5 Polish. Versions: 2.0.0 (Phase 1), 2.1.0, 2.2.0, 2.3.0, 2.4.0 (Phase 5); see decision 8.
 
+## 11b. Phase 2 delivery notes (2.1.0)
+
+Built on the Grade 5-6 seed set decided in section 13 (generators, lessons and micro-skills for number, fractions, decimals and coordinates). Item formats shipped: number, fraction, mixed number, expression, choice, multi-select, ordering, matching, point plotting. Deferred: sliders, draggable curves, protractor, simulators and code snippets. Voice uses the browser's Web Speech API; no audio leaves the device.
+
 ## 12. Risks
 
 - No v1 source or data in this repo (migration blind spot).

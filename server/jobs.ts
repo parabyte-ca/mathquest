@@ -23,6 +23,7 @@ export function purgeExpired(db: DB, now = Date.now()): void {
   db.prepare('DELETE FROM sessions WHERE expires_at < ?').run(now);
   db.prepare('DELETE FROM magic_tokens WHERE expires_at < ?').run(now - 86_400_000);
   db.prepare('DELETE FROM device_pairings WHERE expires_at < ?').run(now);
+  db.prepare('DELETE FROM pending_item WHERE issued_at < ?').run(now - 24 * 3_600_000);
 }
 
 /** Hourly housekeeping plus a nightly backup at about 03:15 local time. */

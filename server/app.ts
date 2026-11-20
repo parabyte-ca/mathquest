@@ -13,8 +13,10 @@ import { studentRoutes } from './routes/students.js';
 import { adminRoutes } from './routes/admin.js';
 import { updateRoutes } from './routes/updates.js';
 import { curriculumRoutes } from './routes/curriculum.js';
+import { learnRoutes } from './routes/learn.js';
 
 export interface AppDeps {
+  rand?: () => number;
   db: DB;
   cfg: Config;
   mailer: Mailer;
@@ -24,7 +26,7 @@ export interface AppDeps {
 
 export function createApp(deps: AppDeps): { app: Express; ctx: Ctx } {
   const now = deps.now ?? Date.now;
-  const ctx: Ctx = { db: deps.db, cfg: deps.cfg, mailer: deps.mailer, now, limits: makeLimits(now) };
+  const ctx: Ctx = { db: deps.db, cfg: deps.cfg, mailer: deps.mailer, now, rand: deps.rand, limits: makeLimits(now) };
   const app = express();
   app.disable('x-powered-by');
   app.set('trust proxy', 'loopback, linklocal, uniquelocal'); // Cloudflare Tunnel / reverse proxy on the host
@@ -73,6 +75,7 @@ export function createApp(deps: AppDeps): { app: Express; ctx: Ctx } {
   api.use(adminRoutes(ctx));
   api.use(updateRoutes(ctx));
   api.use(curriculumRoutes(ctx));
+  api.use(learnRoutes(ctx));
   api.use((_req, res) => void res.status(404).json({ error: 'not_found' }));
   app.use('/api', api);
 
