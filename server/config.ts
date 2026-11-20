@@ -48,7 +48,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     secure: bool(env.COOKIE_SECURE, false),
     resendApiKey: env.RESEND_API_KEY ?? '',
     resendApiBase: (env.RESEND_API_BASE ?? 'https://api.resend.com').replace(/\/$/, ''),
-    mailFrom: env.MAIL_FROM ?? 'MathQuest <mathquest@moot.es>',
+    mailFrom: env.MAIL_FROM ?? 'MathQuest <mathquest@mathquest.moot.es>',
     adminEmail: (env.ADMIN_EMAIL ?? '').toLowerCase(),
     anthropicApiKey: env.ANTHROPIC_API_KEY ?? '',
     anthropicModel: env.ANTHROPIC_MODEL ?? 'claude-sonnet-5-5',

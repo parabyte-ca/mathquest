@@ -2,7 +2,7 @@
 
 > Adaptive Ontario math practice and rewards for Grades 5-12, self-hosted and invite-only.
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue)
+![Version](https://img.shields.io/badge/version-2.0.1-blue)
 
 ## Overview
 
@@ -43,18 +43,33 @@ It checks the port is free, creates `.env` (mode 600) and prompts for the Resend
 
 Then add the Cloudflare Tunnel public hostname `mathquest.moot.es` -> `http://localhost:8086`.
 
-### Email DNS (sender on `moot.es`)
+### Email DNS (sender on `mathquest.moot.es`)
 
-Resend shows the exact values when you add the domain; publish them in Cloudflare DNS (set the records to "DNS only"):
+MathQuest sends from a **subdomain**, `mathquest.moot.es`, so `MAIL_FROM` must be `MathQuest <mathquest@mathquest.moot.es>` (an address on `moot.es` itself is not verified and Resend answers 403). Add the domain `mathquest.moot.es` in Resend; it shows the exact records. Publish them in Cloudflare DNS as **DNS only** (grey cloud):
 
-| Type | Name | Purpose |
+| Type | Name | Content (from Resend) |
 |---|---|---|
-| TXT | `send.moot.es` (SPF, from Resend) | Authorises Resend to send for the domain |
-| MX | `send.moot.es` (from Resend) | Bounce handling for the SPF subdomain |
-| TXT | `resend._domainkey.moot.es` (DKIM, from Resend) | Signs outgoing mail |
-| TXT | `_dmarc.moot.es` | Start with `v=DMARC1; p=none; rua=mailto:<your address>`, tighten to `quarantine` once reports look clean |
+| TXT | `resend._domainkey.mathquest` | DKIM public key (`p=MIGf...`) |
+| CNAME | `send.mathquest` | `send.<region>.rmta.net` (SPF / return path) |
+| CNAME | `rsend.mathquest` | `rsend.<region>.rmta.net` |
+| TXT | `_dmarc.moot.es` | `v=DMARC1; p=none; rua=mailto:<your address>`; subdomains inherit it. Tighten to `quarantine` once reports look clean |
 
-Keep any existing SPF record on the root domain unchanged; Resend uses its own subdomain for the return path.
+Then create an API key in Resend with **Sending access** limited to the domain `mathquest.moot.es`, and put it in `.env` as `RESEND_API_KEY`.
+
+Troubleshooting a sign-in email that never arrives: the app answers every sign-in request the same way on purpose, so check the logs.
+
+```bash
+sudo docker logs mathquest 2>&1 | grep '\[mail\]'
+```
+
+| Log line | Meaning |
+|---|---|
+| `Resend responded 403 ... not authorized to send emails from ...` | `MAIL_FROM` is on a domain the key or account does not cover; use the verified domain |
+| `Resend responded 401` | Wrong or revoked `RESEND_API_KEY` |
+| `Resend responded 422` | Malformed `MAIL_FROM` (use `Name <address@domain>`) |
+| `RESEND_API_KEY not set` | Add it to `.env`, then `sudo docker compose up -d` |
+
+After editing `.env`, recreate the container (`sudo docker compose up -d`); `docker compose restart` does not re-read it. Also check the spam folder, and that the address is an invited user.
 
 ## Update
 
