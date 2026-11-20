@@ -58,7 +58,7 @@ jobs:
       - run: npm run build
       - run: npm run e2e
       - if: failure()
-        uses: actions/upload-artifact@v4 # pin
+        uses: actions/upload-artifact@v7 # pin
         with:
           name: playwright-results
           path: test-results/
