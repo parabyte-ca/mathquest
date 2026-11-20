@@ -1,0 +1,3655 @@
+{
+ "version": "2026.11.1",
+ "expectations": [
+  {
+   "code": "MPM2D.A1",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Quadratic Relations",
+   "substrand": null,
+   "text": "collect data; parabola with constant second differences; vertex, axis of symmetry, zeros, max/min; compare y = x² with y = 2^x; zero and negative exponents"
+  },
+  {
+   "code": "MPM2D.A2",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Quadratic Relations",
+   "substrand": null,
+   "text": "roles of a, h, k in y = a(x − h)² + k; sketch by hand; find the equation from a graph"
+  },
+  {
+   "code": "MPM2D.A3",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Quadratic Relations",
+   "substrand": null,
+   "text": "expand; factor common factors, trinomials (including a ≠ 1) and differences of squares; link factors to zeros; interpret real and non-real roots; complete the square (no fractions); develop the quadratic formula; solve by factoring, formula or graphing"
+  },
+  {
+   "code": "MPM2D.A4",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Quadratic Relations",
+   "substrand": null,
+   "text": "max/min and projectile problems"
+  },
+  {
+   "code": "MPM2D.B1",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Analytic Geometry",
+   "substrand": null,
+   "text": "solve linear systems by substitution and elimination. 2022 addendum adds: slopes of parallel and perpendicular lines; develop m = (y₂ − y₁)/(x₂ − x₁); convert among y = mx + b, Ax + By + C = 0 and Ax + By = D"
+  },
+  {
+   "code": "MPM2D.B2",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Analytic Geometry",
+   "substrand": null,
+   "text": "midpoint and length formulas; circle x² + y² = r²; right bisector; distance from a point to a line"
+  },
+  {
+   "code": "MPM2D.B3",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Analytic Geometry",
+   "substrand": null,
+   "text": "verify properties of geometric figures (medians, midsegments, diagonals)"
+  },
+  {
+   "code": "MPM2D.C1",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Trigonometry",
+   "substrand": null,
+   "text": "similar triangles; similarity vs. congruence"
+  },
+  {
+   "code": "MPM2D.C2",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Trigonometry",
+   "substrand": null,
+   "text": "sine, cosine, tangent and the Pythagorean theorem"
+  },
+  {
+   "code": "MPM2D.C3",
+   "grade": 10,
+   "course": "MPM2D",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Trigonometry",
+   "substrand": null,
+   "text": "sine law and cosine law in acute triangles"
+  },
+  {
+   "code": "MFM2P.A1",
+   "grade": 10,
+   "course": "MFM2P",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Measurement and Trigonometry",
+   "substrand": null,
+   "text": "similar triangles by proportional reasoning"
+  },
+  {
+   "code": "MFM2P.A2",
+   "grade": 10,
+   "course": "MFM2P",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Measurement and Trigonometry",
+   "substrand": null,
+   "text": "primary trig ratios, plus trig in an occupation"
+  },
+  {
+   "code": "MFM2P.A3",
+   "grade": 10,
+   "course": "MFM2P",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Measurement and Trigonometry",
+   "substrand": null,
+   "text": "imperial system (lumber, carpet, concrete), imperial ↔ metric conversions, pyramid surface area, surface area and volume of composite solids, develop the sphere volume formula"
+  },
+  {
+   "code": "MFM2P.B1",
+   "grade": 10,
+   "course": "MFM2P",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Modelling Linear Relations",
+   "substrand": null,
+   "text": "first-degree equations including fractional coefficients; rearrange formulas; Ax + By + C = 0 → y = mx + b"
+  },
+  {
+   "code": "MFM2P.B2",
+   "grade": 10,
+   "course": "MFM2P",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Modelling Linear Relations",
+   "substrand": null,
+   "text": "slope as rise/run; meaning of m and b; special cases x = a, y = b; graph lines; find equations"
+  },
+  {
+   "code": "MFM2P.B3",
+   "grade": 10,
+   "course": "MFM2P",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Modelling Linear Relations",
+   "substrand": null,
+   "text": "point of intersection; systems with integer coefficients"
+  },
+  {
+   "code": "MFM2P.C1",
+   "grade": 10,
+   "course": "MFM2P",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Quadratic Relations",
+   "substrand": null,
+   "text": "expand binomial products; common factoring; factor only x² + bx + c and x² − a²"
+  },
+  {
+   "code": "MFM2P.C2",
+   "grade": 10,
+   "course": "MFM2P",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Quadratic Relations",
+   "substrand": null,
+   "text": "parabola features; standard form vs. factored form"
+  },
+  {
+   "code": "MFM2P.C3",
+   "grade": 10,
+   "course": "MFM2P",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Quadratic Relations",
+   "substrand": null,
+   "text": "interpret graphs, including technology-generated graphs"
+  },
+  {
+   "code": "MCR3U.A1",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Characteristics of Functions",
+   "substrand": null,
+   "text": "Function vs. relation (vertical-line test); function notation; domain and range for f(x) = x, x², √x, 1/x"
+  },
+  {
+   "code": "MCR3U.A2",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Characteristics of Functions",
+   "substrand": null,
+   "text": "Inverses: reflection in y = x; inverse domain and range; algebraic inverse"
+  },
+  {
+   "code": "MCR3U.A3",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Characteristics of Functions",
+   "substrand": null,
+   "text": "Transformations y = af(k(x − d)) + c"
+  },
+  {
+   "code": "MCR3U.A4",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Characteristics of Functions",
+   "substrand": null,
+   "text": "Number of zeros using the discriminant; max/min by completing the square; linear-quadratic intersections"
+  },
+  {
+   "code": "MCR3U.A5",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Characteristics of Functions",
+   "substrand": null,
+   "text": "Simplify polynomial, radical (√ab = √a√b) and rational expressions, stating restrictions; test equivalence"
+  },
+  {
+   "code": "MCR3U.B1",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Exponential Functions",
+   "substrand": null,
+   "text": "Rational exponents; simplify expressions with integer and rational exponents"
+  },
+  {
+   "code": "MCR3U.B2",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Exponential Functions",
+   "substrand": null,
+   "text": "Properties: asymptote, domain and range"
+  },
+  {
+   "code": "MCR3U.B3",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Exponential Functions",
+   "substrand": null,
+   "text": "Distinguish from linear and quadratic using constant ratios and finite differences"
+  },
+  {
+   "code": "MCR3U.B4",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Exponential Functions",
+   "substrand": null,
+   "text": "Transformations; change of base"
+  },
+  {
+   "code": "MCR3U.B5",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Exponential Functions",
+   "substrand": null,
+   "text": "Growth and decay models"
+  },
+  {
+   "code": "MCR3U.C1",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Discrete Functions",
+   "substrand": null,
+   "text": "Recursive sequences; Fibonacci; Pascal's triangle and binomial expansion"
+  },
+  {
+   "code": "MCR3U.C2",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Discrete Functions",
+   "substrand": null,
+   "text": "Arithmetic and geometric sequences and series: tₙ = a + (n − 1)d and tₙ = ar^(n−1), and their sums"
+  },
+  {
+   "code": "MCR3U.C3",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Discrete Functions",
+   "substrand": null,
+   "text": "Simple interest ↔ linear; compound interest ↔ exponential; A = P(1 + i)ⁿ; solving for n with a TVM solver"
+  },
+  {
+   "code": "MCR3U.C4",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Discrete Functions",
+   "substrand": null,
+   "text": "Ordinary simple annuities: future value, present value, payment"
+  },
+  {
+   "code": "MCR3U.D1",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "Exact values at 0°, 30°, 45°, 60°, 90°; angles up to 360°"
+  },
+  {
+   "code": "MCR3U.D2",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "Reciprocal ratios sec, csc, cot"
+  },
+  {
+   "code": "MCR3U.D3",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "Prove identities using sin²x + cos²x = 1 and tan x = sin x / cos x"
+  },
+  {
+   "code": "MCR3U.D4",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "Sine and cosine law, including the ambiguous case and 3-D problems"
+  },
+  {
+   "code": "MCR3U.D5",
+   "grade": 11,
+   "course": "MCR3U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "Sinusoidal functions y = a sin(k(x − d)) + c: amplitude, period, phase shift; Ferris wheel and tide models"
+  },
+  {
+   "code": "MCF3M.A1",
+   "grade": 11,
+   "course": "MCF3M",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Quadratic Functions",
+   "substrand": null,
+   "text": "Factor, including a ≠ 1, differences of squares and perfect squares"
+  },
+  {
+   "code": "MCF3M.A2",
+   "grade": 11,
+   "course": "MCF3M",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Quadratic Functions",
+   "substrand": null,
+   "text": "Quadratic formula (following the development, not reproducing it); discriminant and number of roots"
+  },
+  {
+   "code": "MCF3M.A3",
+   "grade": 11,
+   "course": "MCF3M",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Quadratic Functions",
+   "substrand": null,
+   "text": "Function notation, domain and range"
+  },
+  {
+   "code": "MCF3M.A4",
+   "grade": 11,
+   "course": "MCF3M",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Quadratic Functions",
+   "substrand": null,
+   "text": "a, h, k transformations; convert vertex ↔ standard form; complete the square with simple rational b/a; factored form"
+  },
+  {
+   "code": "MCF3M.A5",
+   "grade": 11,
+   "course": "MCF3M",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Quadratic Functions",
+   "substrand": null,
+   "text": "Curve of best fit"
+  },
+  {
+   "code": "MCF3M.B1",
+   "grade": 11,
+   "course": "MCF3M",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Exponential Functions",
+   "substrand": null,
+   "text": "Rational exponents numerically only; exponent rules on numeric expressions; exponential graph properties"
+  },
+  {
+   "code": "MCF3M.B2",
+   "grade": 11,
+   "course": "MCF3M",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Exponential Functions",
+   "substrand": null,
+   "text": "Simple vs. compound interest; A = P(1 + i)ⁿ; TVM solver for i and n; annuities"
+  },
+  {
+   "code": "MCF3M.C1",
+   "grade": 11,
+   "course": "MCF3M",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "Right-triangle and two-right-triangle problems; sine and cosine law in acute triangles only"
+  },
+  {
+   "code": "MCF3M.C2",
+   "grade": 11,
+   "course": "MCF3M",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "The sine function only, with a sin x, sin x + c and sin(x − d) transformations"
+  },
+  {
+   "code": "MBF3C.A1",
+   "grade": 11,
+   "course": "MBF3C",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Mathematical Models",
+   "substrand": null,
+   "text": "Quadratic tables and graphs; a, h, k in y = a(x − h)² + k; expand; factor ax² + bx + c only when a = 1 or a is a common factor; solve by factoring or graphing"
+  },
+  {
+   "code": "MBF3C.A2",
+   "grade": 11,
+   "course": "MBF3C",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Mathematical Models",
+   "substrand": null,
+   "text": "Zero and negative exponents; numeric exponent rules; graph y = 2^x; exponential applications such as a ball's bounce height h = 2(0.6)ⁿ"
+  },
+  {
+   "code": "MBF3C.B1",
+   "grade": 11,
+   "course": "MBF3C",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Personal Finance",
+   "substrand": null,
+   "text": "simple vs. compound interest; A = P(1 + i)ⁿ; I = A − P; TVM solver"
+  },
+  {
+   "code": "MBF3C.B2",
+   "grade": 11,
+   "course": "MBF3C",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Personal Finance",
+   "substrand": null,
+   "text": "compare financial-institution services; the cost of buying on credit"
+  },
+  {
+   "code": "MBF3C.B3",
+   "grade": 11,
+   "course": "MBF3C",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Personal Finance",
+   "substrand": null,
+   "text": "costs of owning and operating a vehicle"
+  },
+  {
+   "code": "MBF3C.C1",
+   "grade": 11,
+   "course": "MBF3C",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Geometry and Trigonometry",
+   "substrand": null,
+   "text": "represent 2-D shapes and 3-D figures from real-world applications; solve design problems"
+  },
+  {
+   "code": "MBF3C.C2",
+   "grade": 11,
+   "course": "MBF3C",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Geometry and Trigonometry",
+   "substrand": null,
+   "text": "sine and cosine law in acute triangles"
+  },
+  {
+   "code": "MBF3C.D1",
+   "grade": 11,
+   "course": "MBF3C",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Data Management",
+   "substrand": null,
+   "text": "one-variable data: collect, organize, analyse, evaluate"
+  },
+  {
+   "code": "MBF3C.D2",
+   "grade": 11,
+   "course": "MBF3C",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Data Management",
+   "substrand": null,
+   "text": "probability and its applications"
+  },
+  {
+   "code": "MEL3E.A1",
+   "grade": 11,
+   "course": "MEL3E",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Earning and Purchasing",
+   "substrand": null,
+   "text": "remuneration types (salary, commission, piecework, benefits, vacation pay)"
+  },
+  {
+   "code": "MEL3E.A2",
+   "grade": 11,
+   "course": "MEL3E",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Earning and Purchasing",
+   "substrand": null,
+   "text": "payroll deductions; gross vs. net pay; purchasing power"
+  },
+  {
+   "code": "MEL3E.A3",
+   "grade": 11,
+   "course": "MEL3E",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Earning and Purchasing",
+   "substrand": null,
+   "text": "discounts, sale prices, after-tax costs, making change, unit price / best buy"
+  },
+  {
+   "code": "MEL3E.B1",
+   "grade": 11,
+   "course": "MEL3E",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Saving, Investing, and Borrowing",
+   "substrand": null,
+   "text": "Savings options; simple interest; compound interest by repeated simple-interest calculation for no more than 6 periods"
+  },
+  {
+   "code": "MEL3E.B2",
+   "grade": 11,
+   "course": "MEL3E",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Saving, Investing, and Borrowing",
+   "substrand": null,
+   "text": "Credit and debit cards; loans; credit ratings"
+  },
+  {
+   "code": "MEL3E.C1",
+   "grade": 11,
+   "course": "MEL3E",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Transportation and Travel",
+   "substrand": null,
+   "text": "Vehicle fixed and variable costs; buying vs. leasing; insurance"
+  },
+  {
+   "code": "MEL3E.C2",
+   "grade": 11,
+   "course": "MEL3E",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Transportation and Travel",
+   "substrand": null,
+   "text": "Map scales; trip costs; comparing travel modes"
+  },
+  {
+   "code": "MHF4U.A1",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Exponential and Logarithmic Functions",
+   "substrand": null,
+   "text": "relationship between exponential and logarithmic expressions; evaluate logarithms; laws of logarithms to simplify numeric expressions"
+  },
+  {
+   "code": "MHF4U.A2",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Exponential and Logarithmic Functions",
+   "substrand": null,
+   "text": "key features of graphs of logarithmic functions; connect numeric, graphical and algebraic forms; solve related problems graphically; transformations of y = log x"
+  },
+  {
+   "code": "MHF4U.A3",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Exponential and Logarithmic Functions",
+   "substrand": null,
+   "text": "solve exponential and simple logarithmic equations in one variable algebraically, including real-world problems (pH, decibels, Richter scale, growth and decay)"
+  },
+  {
+   "code": "MHF4U.B1",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "meaning and application of radian measure; convert degrees and radians; exact values for special angles in radians"
+  },
+  {
+   "code": "MHF4U.B2",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "connect trig ratios to graphs and equations of sin, cos, tan and the reciprocal functions csc, sec, cot; sinusoidal models y = a sin(k(x − d)) + c in radians"
+  },
+  {
+   "code": "MHF4U.B3",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "solve trigonometric equations (linear and quadratic in a trig function, on a given interval); prove identities, including compound-angle and double-angle formulas"
+  },
+  {
+   "code": "MHF4U.C1",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Polynomial and Rational Functions",
+   "substrand": null,
+   "text": "key features of polynomial functions (degree, leading coefficient, end behaviour, zeros and their order, symmetry: even/odd); power functions; transformations; connect numeric, graphical and algebraic forms"
+  },
+  {
+   "code": "MHF4U.C2",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Polynomial and Rational Functions",
+   "substrand": null,
+   "text": "key features of rational functions (vertical and horizontal asymptotes, holes, domain, range, intervals of increase/decrease); reciprocals of linear and quadratic functions; ratio of two linear functions"
+  },
+  {
+   "code": "MHF4U.C3",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Polynomial and Rational Functions",
+   "substrand": null,
+   "text": "solve polynomial and simple rational equations graphically and algebraically; factor theorem, remainder theorem, long and synthetic division; families of polynomials"
+  },
+  {
+   "code": "MHF4U.C4",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Polynomial and Rational Functions",
+   "substrand": null,
+   "text": "solve polynomial and simple rational inequalities (factor tables, number lines, interval notation)"
+  },
+  {
+   "code": "MHF4U.D1",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Characteristics of Functions",
+   "substrand": null,
+   "text": "average rate of change over an interval and instantaneous rate of change at a point, numerically and graphically (secant to tangent)"
+  },
+  {
+   "code": "MHF4U.D2",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Characteristics of Functions",
+   "substrand": null,
+   "text": "combine functions by addition, subtraction, multiplication, division and composition; properties of the results; f(g(x)) and inverse checks"
+  },
+  {
+   "code": "MHF4U.D3",
+   "grade": 12,
+   "course": "MHF4U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Characteristics of Functions",
+   "substrand": null,
+   "text": "compare characteristics of function families; model and reason with functions, including problems not solvable by standard algebra (use graphing technology)"
+  },
+  {
+   "code": "MCV4U.A1",
+   "grade": 12,
+   "course": "MCV4U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Rate of Change",
+   "substrand": null,
+   "text": "average vs. instantaneous rate of change; slopes of secants and tangents; the concept of the limit; first principles"
+  },
+  {
+   "code": "MCV4U.A2",
+   "grade": 12,
+   "course": "MCV4U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Rate of Change",
+   "substrand": null,
+   "text": "graph derivatives of polynomial, sinusoidal and exponential functions; connect a function and its derivative numerically, graphically and algebraically; d/dx sin x = cos x, d/dx eˣ = eˣ"
+  },
+  {
+   "code": "MCV4U.A3",
+   "grade": 12,
+   "course": "MCV4U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Rate of Change",
+   "substrand": null,
+   "text": "verify and apply derivative rules (power, constant multiple, sum/difference, product, quotient, chain) to polynomial, sinusoidal, exponential, rational and radical functions and simple combinations"
+  },
+  {
+   "code": "MCV4U.B1",
+   "grade": 12,
+   "course": "MCV4U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Derivatives and Their Applications",
+   "substrand": null,
+   "text": "connect key features of a function to its first and second derivatives (increasing/decreasing, local max/min, concavity, points of inflection); curve sketching"
+  },
+  {
+   "code": "MCV4U.B2",
+   "grade": 12,
+   "course": "MCV4U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Derivatives and Their Applications",
+   "substrand": null,
+   "text": "solve problems, including optimization and rate-of-change problems from real-world contexts, including building the model"
+  },
+  {
+   "code": "MCV4U.C1",
+   "grade": 12,
+   "course": "MCV4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Geometry and Algebra of Vectors",
+   "substrand": null,
+   "text": "vectors in 2-space and 3-space, geometric and algebraic (Cartesian) forms; magnitude and direction"
+  },
+  {
+   "code": "MCV4U.C2",
+   "grade": 12,
+   "course": "MCV4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Geometry and Algebra of Vectors",
+   "substrand": null,
+   "text": "operations: addition, subtraction, scalar multiplication, dot product, cross product; properties; applications (force, velocity, work, torque, projections)"
+  },
+  {
+   "code": "MCV4U.C3",
+   "grade": 12,
+   "course": "MCV4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Geometry and Algebra of Vectors",
+   "substrand": null,
+   "text": "geometric meaning of a single linear equation and of systems in 2-space and 3-space; configurations of lines and planes"
+  },
+  {
+   "code": "MCV4U.C4",
+   "grade": 12,
+   "course": "MCV4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Geometry and Algebra of Vectors",
+   "substrand": null,
+   "text": "lines and planes as scalar, vector and parametric equations; distances and intersections (line-line, line-plane, plane-plane, three planes)"
+  },
+  {
+   "code": "MDM4U.A1",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Counting and Probability",
+   "substrand": null,
+   "text": "probability of an event or combination of events for discrete sample spaces; complement, mutually exclusive, independent and dependent events; conditional probability; Venn and tree diagrams"
+  },
+  {
+   "code": "MDM4U.A2",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Counting and Probability",
+   "substrand": null,
+   "text": "permutations and combinations (n!, nPr, nCr), including identical items; Pascal's triangle; apply to probability"
+  },
+  {
+   "code": "MDM4U.B1",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Probability Distributions",
+   "substrand": null,
+   "text": "discrete probability distributions; expected value; uniform, binomial and hypergeometric distributions, numerically, graphically and algebraically"
+  },
+  {
+   "code": "MDM4U.B2",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Probability Distributions",
+   "substrand": null,
+   "text": "continuous probability distributions; connect to discrete; standard deviation; normal distribution features; z-scores; normal approximation to the binomial"
+  },
+  {
+   "code": "MDM4U.C1",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Organization of Data for Analysis",
+   "substrand": null,
+   "text": "role of data in statistical studies; characteristics of well-designed studies, including randomization and sources of bias"
+  },
+  {
+   "code": "MDM4U.C2",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Organization of Data for Analysis",
+   "substrand": null,
+   "text": "characteristics of a good sample; sampling techniques (simple random, systematic, stratified, cluster, multi-stage); primary data collection; collect and organize data"
+  },
+  {
+   "code": "MDM4U.D1",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Statistical Analysis",
+   "substrand": null,
+   "text": "one-variable data: measures of central tendency and spread (range, quartiles, IQR, variance, standard deviation), percentiles, histograms, box plots, outliers"
+  },
+  {
+   "code": "MDM4U.D2",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Statistical Analysis",
+   "substrand": null,
+   "text": "two-variable data: scatter plots, correlation coefficient r, line of best fit by regression, residuals, causation vs. correlation, hidden and lurking variables"
+  },
+  {
+   "code": "MDM4U.D3",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Statistical Analysis",
+   "substrand": null,
+   "text": "data management in the media, advertising and occupations; evaluate statistical claims; margin of error and confidence statements"
+  },
+  {
+   "code": "MDM4U.E1",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "E",
+   "strandName": "Culminating Data Management Investigation",
+   "substrand": null,
+   "text": "design and carry out an investigation integrating the course"
+  },
+  {
+   "code": "MDM4U.E2",
+   "grade": 12,
+   "course": "MDM4U",
+   "schema": "course-strand",
+   "strand": "E",
+   "strandName": "Culminating Data Management Investigation",
+   "substrand": null,
+   "text": "communicate findings and critique others' investigations"
+  },
+  {
+   "code": "MCT4C.A1",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Exponential Functions",
+   "substrand": null,
+   "text": "solve exponential equations graphically, including real-world problems"
+  },
+  {
+   "code": "MCT4C.A2",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Exponential Functions",
+   "substrand": null,
+   "text": "solve exponential equations algebraically using common bases and logarithms"
+  },
+  {
+   "code": "MCT4C.B1",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Polynomial Functions",
+   "substrand": null,
+   "text": "recognize and evaluate polynomial functions; key features of graphs; solve problems with graphs"
+  },
+  {
+   "code": "MCT4C.B2",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Polynomial Functions",
+   "substrand": null,
+   "text": "connect numeric, graphical and algebraic representations"
+  },
+  {
+   "code": "MCT4C.B3",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Polynomial Functions",
+   "substrand": null,
+   "text": "solve polynomial equations by factoring; connect functions and formulas; rearrange formulas used in technology fields"
+  },
+  {
+   "code": "MCT4C.C1",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "trig ratios for angles less than 360°; primary trig ratios, sine law, cosine law"
+  },
+  {
+   "code": "MCT4C.C2",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "connect numeric, graphical and algebraic representations of sinusoidal functions"
+  },
+  {
+   "code": "MCT4C.C3",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Trigonometric Functions",
+   "substrand": null,
+   "text": "sinusoidal models of periodic phenomena, including real-world problems"
+  },
+  {
+   "code": "MCT4C.D1",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Applications of Geometry",
+   "substrand": null,
+   "text": "represent, add and subtract vectors; vector models (forces, navigation)"
+  },
+  {
+   "code": "MCT4C.D2",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Applications of Geometry",
+   "substrand": null,
+   "text": "problems with 2-D shapes and 3-D figures from real-world applications"
+  },
+  {
+   "code": "MCT4C.D3",
+   "grade": 12,
+   "course": "MCT4C",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Applications of Geometry",
+   "substrand": null,
+   "text": "circle properties (chords, tangents, arcs, sectors, inscribed angles) and related problems"
+  },
+  {
+   "code": "MAP4C.A1",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Mathematical Models",
+   "substrand": null,
+   "text": "powers with rational exponents; simplify expressions with exponents; solve exponential equations graphically and with common bases"
+  },
+  {
+   "code": "MAP4C.A2",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Mathematical Models",
+   "substrand": null,
+   "text": "describe trends from graphs; compare graphs using initial conditions and rates of change; model relationships graphically and algebraically"
+  },
+  {
+   "code": "MAP4C.A3",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Mathematical Models",
+   "substrand": null,
+   "text": "connect formulas with linear, quadratic and exponential relations; solve with formulas; modelling in occupations"
+  },
+  {
+   "code": "MAP4C.B1",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Personal Finance",
+   "substrand": null,
+   "text": "annuities, including mortgages; solve with technology (TVM solver, amortization tables)"
+  },
+  {
+   "code": "MAP4C.B2",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Personal Finance",
+   "substrand": null,
+   "text": "owning vs. renting accommodation; associated costs"
+  },
+  {
+   "code": "MAP4C.B3",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Personal Finance",
+   "substrand": null,
+   "text": "design, justify and adjust budgets for individuals and families from case studies"
+  },
+  {
+   "code": "MAP4C.C1",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Geometry and Trigonometry",
+   "substrand": null,
+   "text": "measurement and geometry problems from real-world applications"
+  },
+  {
+   "code": "MAP4C.C2",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Geometry and Trigonometry",
+   "substrand": null,
+   "text": "optimal dimensions of 2-D shapes and 3-D figures (maximum area or volume, minimum perimeter or surface area)"
+  },
+  {
+   "code": "MAP4C.C3",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Geometry and Trigonometry",
+   "substrand": null,
+   "text": "primary trig ratios of acute and obtuse angles, sine law, cosine law; trigonometry in occupations"
+  },
+  {
+   "code": "MAP4C.D1",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Data Management",
+   "substrand": null,
+   "text": "collect, analyse and summarize two-variable data; interpret and draw conclusions"
+  },
+  {
+   "code": "MAP4C.D2",
+   "grade": 12,
+   "course": "MAP4C",
+   "schema": "course-strand",
+   "strand": "D",
+   "strandName": "Data Management",
+   "substrand": null,
+   "text": "data management in the media, advertising and occupations"
+  },
+  {
+   "code": "MEL4E.A1",
+   "grade": 12,
+   "course": "MEL4E",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Reasoning with Data",
+   "substrand": null,
+   "text": "collect, organize, represent and make inferences from data; related applications"
+  },
+  {
+   "code": "MEL4E.A2",
+   "grade": 12,
+   "course": "MEL4E",
+   "schema": "course-strand",
+   "strand": "A",
+   "strandName": "Reasoning with Data",
+   "substrand": null,
+   "text": "determine and represent probability; interpret its applications (games, weather, insurance)"
+  },
+  {
+   "code": "MEL4E.B1",
+   "grade": 12,
+   "course": "MEL4E",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Personal Finance",
+   "substrand": null,
+   "text": "owning vs. renting accommodation and associated costs"
+  },
+  {
+   "code": "MEL4E.B2",
+   "grade": 12,
+   "course": "MEL4E",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Personal Finance",
+   "substrand": null,
+   "text": "interpret, design and adjust household budgets from case studies"
+  },
+  {
+   "code": "MEL4E.B3",
+   "grade": 12,
+   "course": "MEL4E",
+   "schema": "course-strand",
+   "strand": "B",
+   "strandName": "Personal Finance",
+   "substrand": null,
+   "text": "the process of filing a personal income tax return; applications of personal finance math"
+  },
+  {
+   "code": "MEL4E.C1",
+   "grade": 12,
+   "course": "MEL4E",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Applications of Measurement",
+   "substrand": null,
+   "text": "estimate and measure in metric and imperial; convert within and between systems"
+  },
+  {
+   "code": "MEL4E.C2",
+   "grade": 12,
+   "course": "MEL4E",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Applications of Measurement",
+   "substrand": null,
+   "text": "measurement and design problems; scale drawings and scale models; budget a household improvement"
+  },
+  {
+   "code": "MEL4E.C3",
+   "grade": 12,
+   "course": "MEL4E",
+   "schema": "course-strand",
+   "strand": "C",
+   "strandName": "Applications of Measurement",
+   "substrand": null,
+   "text": "proportional relationships; consequences of proportional-reasoning errors; work and everyday problems"
+  },
+  {
+   "code": "G5.B1.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "read, represent, compose and decompose whole numbers up to and including 100 000; describe everyday uses"
+  },
+  {
+   "code": "G5.B1.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "compare and order whole numbers up to 100 000"
+  },
+  {
+   "code": "G5.B1.3",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "represent equivalent fractions from halves to twelfths, including improper fractions and mixed numbers"
+  },
+  {
+   "code": "G5.B1.4",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "compare and order fractions from halves to twelfths, including improper fractions and mixed numbers"
+  },
+  {
+   "code": "G5.B1.5",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "read, represent, compare and order decimal numbers up to hundredths"
+  },
+  {
+   "code": "G5.B1.6",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "round decimal numbers to the nearest tenth"
+  },
+  {
+   "code": "G5.B1.7",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "relationships and equivalences among fractions, decimals up to hundredths, and whole-number percents"
+  },
+  {
+   "code": "G5.B2.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "properties of operations and relationships between operations; multi-step problems with whole numbers and decimals; check calculations"
+  },
+  {
+   "code": "G5.B2.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "recall multiplication facts 0 × 0 to 12 × 12 and related division facts"
+  },
+  {
+   "code": "G5.B2.3",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "mental math: multiply whole numbers by 0.1 and 0.01; estimate sums and differences of decimals to hundredths"
+  },
+  {
+   "code": "G5.B2.4",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "add and subtract whole numbers (sums to 100 000) and decimals to hundredths"
+  },
+  {
+   "code": "G5.B2.5",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "add and subtract fractions with like denominators"
+  },
+  {
+   "code": "G5.B2.6",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "two-digit × two-digit multiplication using the area model and algorithms, connecting the two"
+  },
+  {
+   "code": "G5.B2.7",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "three-digit ÷ two-digit division using the area model and algorithms; express remainders appropriately"
+  },
+  {
+   "code": "G5.B2.8",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "multiply and divide one-digit whole numbers by unit fractions"
+  },
+  {
+   "code": "G5.B2.9",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "represent and create equivalent ratios and rates"
+  },
+  {
+   "code": "G5.C1.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C1 Patterns and Relationships",
+   "text": "identify and describe repeating, growing and shrinking patterns, including real-life patterns"
+  },
+  {
+   "code": "G5.C1.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C1 Patterns and Relationships",
+   "text": "create and translate growing and shrinking patterns among representations, including tables of values and graphs"
+  },
+  {
+   "code": "G5.C1.3",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C1 Patterns and Relationships",
+   "text": "determine pattern rules; extend, predict and find missing elements"
+  },
+  {
+   "code": "G5.C1.4",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C1 Patterns and Relationships",
+   "text": "patterns showing relationships among whole numbers and decimal tenths and hundredths"
+  },
+  {
+   "code": "G5.C2.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C2 Equations and Inequalities",
+   "text": "translate among words, algebraic expressions and visual representations of equivalent relationships"
+  },
+  {
+   "code": "G5.C2.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C2 Equations and Inequalities",
+   "text": "evaluate algebraic expressions involving whole numbers"
+  },
+  {
+   "code": "G5.C2.3",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C2 Equations and Inequalities",
+   "text": "solve equations with whole numbers up to 100 and verify solutions"
+  },
+  {
+   "code": "G5.C2.4",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C2 Equations and Inequalities",
+   "text": "solve one-operation inequalities with whole numbers up to 50; verify and graph solutions"
+  },
+  {
+   "code": "G5.C3.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C3 Coding",
+   "text": "write and execute code, including conditional statements and other control structures"
+  },
+  {
+   "code": "G5.C3.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C3 Coding",
+   "text": "read and alter code with conditionals and control structures; describe how changes affect outcomes"
+  },
+  {
+   "code": "G5.D1.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": "D1 Data Literacy",
+   "text": "why sampling technique matters for a representative sample"
+  },
+  {
+   "code": "G5.D1.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": "D1 Data Literacy",
+   "text": "collect data with appropriate sampling; organize in relative-frequency tables"
+  },
+  {
+   "code": "G5.D1.3",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": "D1 Data Literacy",
+   "text": "choose graphs including stacked-bar graphs; proper sources, titles, labels and scales; justify choice"
+  },
+  {
+   "code": "G5.D1.4",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": "D1 Data Literacy",
+   "text": "create an infographic using relative-frequency tables and stacked-bar graphs"
+  },
+  {
+   "code": "G5.D1.5",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": "D1 Data Literacy",
+   "text": "mean, median and mode(s) for whole-number and decimal data sets; what each indicates"
+  },
+  {
+   "code": "G5.D1.6",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": "D1 Data Literacy",
+   "text": "analyse data, including stacked-bar and misleading graphs; draw conclusions and make arguments"
+  },
+  {
+   "code": "G5.D2.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": "D2 Probability",
+   "text": "express probability as fractions on a probability line; make predictions"
+  },
+  {
+   "code": "G5.D2.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": "D2 Probability",
+   "text": "determine and compare theoretical and experimental probability of an event"
+  },
+  {
+   "code": "G5.E1.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E1 Geometric and Spatial Reasoning",
+   "text": "geometric properties of triangles; construct triangles from side or angle measures"
+  },
+  {
+   "code": "G5.E1.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E1 Geometric and Spatial Reasoning",
+   "text": "identify and construct congruent triangles, rectangles and parallelograms"
+  },
+  {
+   "code": "G5.E1.3",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E1 Geometric and Spatial Reasoning",
+   "text": "draw top, front and side views; match drawings to objects"
+  },
+  {
+   "code": "G5.E1.4",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E1 Geometric and Spatial Reasoning",
+   "text": "plot and read coordinates in the first quadrant with various scales; describe translations between points"
+  },
+  {
+   "code": "G5.E1.5",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E1 Geometric and Spatial Reasoning",
+   "text": "translations, reflections and rotations up to 180° on a grid; predict results"
+  },
+  {
+   "code": "G5.E2.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E2 Measurement",
+   "text": "metric units to estimate and measure length, area, mass and capacity"
+  },
+  {
+   "code": "G5.E2.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E2 Measurement",
+   "text": "convert larger metric units into smaller ones; base-ten relationships"
+  },
+  {
+   "code": "G5.E2.3",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E2 Measurement",
+   "text": "compare angles by matching and with non-standard units"
+  },
+  {
+   "code": "G5.E2.4",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E2 Measurement",
+   "text": "how protractors work; measure and construct angles to 180°; benchmark angles"
+  },
+  {
+   "code": "G5.E2.5",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E2 Measurement",
+   "text": "develop area formulas for parallelograms and triangles from rectangles; solve problems"
+  },
+  {
+   "code": "G5.E2.6",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": "E2 Measurement",
+   "text": "same area, different perimeters"
+  },
+  {
+   "code": "G5.F1.1",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "ways money is transferred among individuals, organizations and businesses"
+  },
+  {
+   "code": "G5.F1.2",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "cost of transactions with multiple items, including sales tax"
+  },
+  {
+   "code": "G5.F1.3",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "design basic budgets for earning and spending scenarios"
+  },
+  {
+   "code": "G5.F1.4",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "credit and debt, and their effect on financial decisions"
+  },
+  {
+   "code": "G5.F1.5",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "unit rates; identify best value"
+  },
+  {
+   "code": "G5.F1.6",
+   "grade": 5,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "types of taxes collected by each level of government in Canada and how revenue funds services"
+  },
+  {
+   "code": "G6.B1.1",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "whole numbers up to 1,000,000"
+  },
+  {
+   "code": "G6.B1.2",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "read and represent integers on horizontal and vertical number lines"
+  },
+  {
+   "code": "G6.B1.3",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "compare and order integers, decimals and fractions, separately and in combination"
+  },
+  {
+   "code": "G6.B1.4",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "decimals to thousandths"
+  },
+  {
+   "code": "G6.B1.5",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "round terminating and repeating decimals to the nearest tenth, hundredth or whole number"
+  },
+  {
+   "code": "G6.B1.6",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B1 Number Sense",
+   "text": "equivalences between fractions and decimals up to thousandths"
+  },
+  {
+   "code": "G6.B2.1",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "properties of operations; multi-step problems with whole numbers, decimals, fractions, ratios, rates and whole-number percents"
+  },
+  {
+   "code": "G6.B2.2",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "divisibility rules for 2, 3, 4, 5, 6, 8, 9, 10"
+  },
+  {
+   "code": "G6.B2.3",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "mental math for 1%, 5%, 10%, 15%, 25%, 50%"
+  },
+  {
+   "code": "G6.B2.4",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "add and subtract whole numbers and decimals"
+  },
+  {
+   "code": "G6.B2.5",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "add and subtract fractions with like and unlike denominators"
+  },
+  {
+   "code": "G6.B2.6",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "prime factorization using factor trees"
+  },
+  {
+   "code": "G6.B2.7",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "three-digit whole number × decimal tenths"
+  },
+  {
+   "code": "G6.B2.8",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "three-digit whole number ÷ decimal tenths"
+  },
+  {
+   "code": "G6.B2.9",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "whole number × proper fraction"
+  },
+  {
+   "code": "G6.B2.10",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "whole number ÷ proper fraction"
+  },
+  {
+   "code": "G6.B2.11",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "decimals to thousandths ÷ whole numbers up to 10"
+  },
+  {
+   "code": "G6.B2.12",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": "B2 Operations",
+   "text": "ratios, percents and rates"
+  },
+  {
+   "code": "G6.C1.1",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C1 Patterns",
+   "text": "repeating, growing and shrinking patterns; identify which growing patterns are linear"
+  },
+  {
+   "code": "G6.C1.2",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C1 Patterns",
+   "text": "translate patterns among tables, graphs, and (for linear patterns) expressions/equations"
+  },
+  {
+   "code": "G6.C1.3",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C1 Patterns",
+   "text": "pattern rules, predictions, missing elements; solve for unknowns in linear patterns"
+  },
+  {
+   "code": "G6.C1.4",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C1 Patterns",
+   "text": "patterns among whole numbers and decimals"
+  },
+  {
+   "code": "G6.C2.1",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C2 Equations and Inequalities",
+   "text": "add monomials of degree 1 with whole numbers, using tools"
+  },
+  {
+   "code": "G6.C2.2",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C2 Equations and Inequalities",
+   "text": "evaluate expressions with whole numbers and decimal tenths"
+  },
+  {
+   "code": "G6.C2.3",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C2 Equations and Inequalities",
+   "text": "solve multi-term equations with whole numbers and verify solutions"
+  },
+  {
+   "code": "G6.C2.4",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C2 Equations and Inequalities",
+   "text": "inequalities"
+  },
+  {
+   "code": "G6.C3",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C2 Equations and Inequalities",
+   "text": "Coding: write and alter code, including code with conditional statements and other control structures"
+  },
+  {
+   "code": "G6.C4",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": "C3 Coding",
+   "text": "Mathematical Modelling: the modelling process, applied across strands"
+  },
+  {
+   "code": "G6.D1.1",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "discrete vs. continuous data"
+  },
+  {
+   "code": "G6.D1.2",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "collect and organize data, including using intervals"
+  },
+  {
+   "code": "G6.D1.3",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "choose graphs, including histograms and broken-line graphs"
+  },
+  {
+   "code": "G6.D1.4",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "infographics"
+  },
+  {
+   "code": "G6.D1.5",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "range and measures of central tendency"
+  },
+  {
+   "code": "G6.D1.6",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "analyse data, including misleading graphs"
+  },
+  {
+   "code": "G6.D2.1",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "express probability as fractions, decimals and percents on a probability line"
+  },
+  {
+   "code": "G6.D2.2",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "theoretical vs. experimental probability of two independent events"
+  },
+  {
+   "code": "G6.E1.1",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "properties of quadrilaterals, including diagonals and symmetry"
+  },
+  {
+   "code": "G6.E1.2",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "build 3-D objects from top, front and side views"
+  },
+  {
+   "code": "G6.E1.3",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "coordinates in all four quadrants"
+  },
+  {
+   "code": "G6.E1.4",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "combinations of translations, reflections and rotations up to 360°"
+  },
+  {
+   "code": "G6.E2.1",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "metric conversions"
+  },
+  {
+   "code": "G6.E2.2",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "protractor use up to 360°"
+  },
+  {
+   "code": "G6.E2.3",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "supplementary, complementary, opposite, interior and exterior angles"
+  },
+  {
+   "code": "G6.E2.4",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "area of trapezoids, rhombuses, kites and composite polygons"
+  },
+  {
+   "code": "G6.E2.5",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "nets"
+  },
+  {
+   "code": "G6.E2.6",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "surface area of prisms and pyramids"
+  },
+  {
+   "code": "G6.F1.1",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "payment methods"
+  },
+  {
+   "code": "G6.F1.2",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "financial goals"
+  },
+  {
+   "code": "G6.F1.3",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "factors that help or interfere with reaching goals"
+  },
+  {
+   "code": "G6.F1.4",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "interest rates and fees on accounts and loans"
+  },
+  {
+   "code": "G6.F1.5",
+   "grade": 6,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "trading, lending, borrowing, donating"
+  },
+  {
+   "code": "G7.B1.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "numbers up to one billion, including expanded form with powers of ten"
+  },
+  {
+   "code": "G7.B1.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "perfect squares and square roots"
+  },
+  {
+   "code": "G7.B1.3",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "rational numbers, including negative fractions and decimals"
+  },
+  {
+   "code": "G7.B1.4",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "simplify fractions"
+  },
+  {
+   "code": "G7.B1.5",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "generate fractions and decimals between any two quantities"
+  },
+  {
+   "code": "G7.B1.6",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "rounding"
+  },
+  {
+   "code": "G7.B1.7",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "convert among fractions, decimals and percents"
+  },
+  {
+   "code": "G7.B2.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "order of operations; multi-step problems"
+  },
+  {
+   "code": "G7.B2.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "recall common fraction-decimal-percent equivalents"
+  },
+  {
+   "code": "G7.B2.3",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "mental math to increase or decrease a number by 1%, 5%, 10%, 25%, 50%, 100%"
+  },
+  {
+   "code": "G7.B2.4",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "add and subtract integers with objects, diagrams and equations"
+  },
+  {
+   "code": "G7.B2.5",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "add and subtract fractions"
+  },
+  {
+   "code": "G7.B2.6",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "GCF (numbers up to 144) and LCM (two and three numbers)"
+  },
+  {
+   "code": "G7.B2.7",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "exponential notation"
+  },
+  {
+   "code": "G7.B2.8",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "multiply and divide fractions by fractions"
+  },
+  {
+   "code": "G7.B2.9",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "multiply and divide decimals by decimals"
+  },
+  {
+   "code": "G7.B2.10",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "proportional vs. non-proportional situations; proportional reasoning"
+  },
+  {
+   "code": "G7.C1.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "compare linear growing patterns by constant rate and initial value"
+  },
+  {
+   "code": "G7.C1.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "represent patterns with whole numbers and decimals, including expressions and equations"
+  },
+  {
+   "code": "G7.C1.3",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "pattern rules and solving for unknowns"
+  },
+  {
+   "code": "G7.C1.4",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "patterns among integers"
+  },
+  {
+   "code": "G7.C2.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "add and subtract monomials of degree 1"
+  },
+  {
+   "code": "G7.C2.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "evaluate expressions with whole numbers and decimals"
+  },
+  {
+   "code": "G7.C2.3",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "multi-term equations with whole numbers and decimals"
+  },
+  {
+   "code": "G7.C2.4",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "solve, verify and graph inequalities with whole numbers"
+  },
+  {
+   "code": "G7.C3.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "write, read and alter efficient code with defined counts and sub-programs"
+  },
+  {
+   "code": "G7.C3.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "write, read and alter efficient code with defined counts and sub-programs"
+  },
+  {
+   "code": "G7.D1.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "why percentages are used for distributions in large data sets"
+  },
+  {
+   "code": "G7.D1.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "organize data using percentages"
+  },
+  {
+   "code": "G7.D1.3",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "circle graphs"
+  },
+  {
+   "code": "G7.D1.4",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "infographics"
+  },
+  {
+   "code": "G7.D1.5",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "how adding or removing data changes central tendency"
+  },
+  {
+   "code": "G7.D1.6",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "analysis, including misleading graphs"
+  },
+  {
+   "code": "G7.D2.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "independent vs. dependent events"
+  },
+  {
+   "code": "G7.D2.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "theoretical vs. experimental probability for both"
+  },
+  {
+   "code": "G7.E1.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "classify cylinders, pyramids and prisms, including plane and rotational symmetry"
+  },
+  {
+   "code": "G7.E1.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "top, front, side and perspective views to scale"
+  },
+  {
+   "code": "G7.E1.3",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "dilations and similarity"
+  },
+  {
+   "code": "G7.E1.4",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "transformations on the Cartesian plane"
+  },
+  {
+   "code": "G7.E2.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "volume vs. capacity; 1 mL = 1 cm³"
+  },
+  {
+   "code": "G7.E2.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "unit conversions in perimeter, area and volume problems"
+  },
+  {
+   "code": "G7.E2.3",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "circumference"
+  },
+  {
+   "code": "G7.E2.4",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "construct circles"
+  },
+  {
+   "code": "G7.E2.5",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "area of a circle"
+  },
+  {
+   "code": "G7.E2.6",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "cylinder nets and surface area"
+  },
+  {
+   "code": "G7.E2.7",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "volume = area of base × height for prisms and cylinders"
+  },
+  {
+   "code": "G7.F1.1",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "exchange rates and currency conversion"
+  },
+  {
+   "code": "G7.F1.2",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "reliable information sources"
+  },
+  {
+   "code": "G7.F1.3",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "create, track and adjust budgets"
+  },
+  {
+   "code": "G7.F1.4",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "factors influencing decisions"
+  },
+  {
+   "code": "G7.F1.5",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "how interest affects savings and borrowing"
+  },
+  {
+   "code": "G7.F1.6",
+   "grade": 7,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "compare accounts and loans"
+  },
+  {
+   "code": "G8.B1.1",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "very large and very small numbers; scientific notation"
+  },
+  {
+   "code": "G8.B1.2",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "real numbers (rational and irrational)"
+  },
+  {
+   "code": "G8.B1.3",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "estimate and calculate square roots"
+  },
+  {
+   "code": "G8.B1.4",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "percents above 100% and below 1%"
+  },
+  {
+   "code": "G8.B2.1",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "order of operations with rational numbers"
+  },
+  {
+   "code": "G8.B2.2",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "recall common squares and square roots"
+  },
+  {
+   "code": "G8.B2.3",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "multiply and divide by powers of ten mentally"
+  },
+  {
+   "code": "G8.B2.4",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "add and subtract integers"
+  },
+  {
+   "code": "G8.B2.5",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "add and subtract fractions"
+  },
+  {
+   "code": "G8.B2.6",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "multiply and divide fractions by fractions, whole numbers and mixed numbers"
+  },
+  {
+   "code": "G8.B2.7",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "multiply and divide integers"
+  },
+  {
+   "code": "G8.B2.8",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "compare proportional situations and find unknown values"
+  },
+  {
+   "code": "G8.C1.1",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "compare linear growing AND shrinking patterns by rate and initial value"
+  },
+  {
+   "code": "G8.C1.2",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "represent patterns with rational numbers"
+  },
+  {
+   "code": "G8.C1.3",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "pattern rules and solving for unknowns"
+  },
+  {
+   "code": "G8.C1.4",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "patterns among rational numbers"
+  },
+  {
+   "code": "G8.C2.1",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "add and subtract monomials; add degree-1 binomials with integers"
+  },
+  {
+   "code": "G8.C2.2",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "evaluate expressions with rational numbers"
+  },
+  {
+   "code": "G8.C2.3",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "multi-term equations with integers and decimals"
+  },
+  {
+   "code": "G8.C2.4",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "solve, verify and graph inequalities with integers"
+  },
+  {
+   "code": "G8.D1.1",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "one-variable vs. two-variable data"
+  },
+  {
+   "code": "G8.D1.2",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "two-variable tables of values"
+  },
+  {
+   "code": "G8.D1.3",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "scatter plots"
+  },
+  {
+   "code": "G8.D1.4",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "infographics"
+  },
+  {
+   "code": "G8.D1.5",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "describe correlation as strong, weak, none, positive or negative, including outliers"
+  },
+  {
+   "code": "G8.D1.6",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "analysis"
+  },
+  {
+   "code": "G8.D2.1",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "probability using Venn and tree diagrams"
+  },
+  {
+   "code": "G8.D2.2",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data",
+   "substrand": null,
+   "text": "multiple independent and dependent events"
+  },
+  {
+   "code": "G8.E1.1",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "tessellations"
+  },
+  {
+   "code": "G8.E1.2",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "build models from views"
+  },
+  {
+   "code": "G8.E1.3",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "scale drawings"
+  },
+  {
+   "code": "G8.E1.4",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "all four transformations, including dilations, on the Cartesian plane"
+  },
+  {
+   "code": "G8.E2.1",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "mega/giga/tera and micro/nano/pico units in exponential notation"
+  },
+  {
+   "code": "G8.E2.2",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "angle properties of intersecting and parallel lines and polygons"
+  },
+  {
+   "code": "G8.E2.3",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "perimeter, area, volume and surface area of composite shapes"
+  },
+  {
+   "code": "G8.E2.4",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Spatial Sense",
+   "substrand": null,
+   "text": "Pythagorean theorem"
+  },
+  {
+   "code": "G8.F1.1",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "payment methods across currencies"
+  },
+  {
+   "code": "G8.F1.2",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "long-term financial plan including taxes"
+  },
+  {
+   "code": "G8.F1.3",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "balanced budgets"
+  },
+  {
+   "code": "G8.F1.4",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "growth of simple vs. compound interest using digital tools"
+  },
+  {
+   "code": "G8.F1.5",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "sales, loyalty and incentive programs"
+  },
+  {
+   "code": "G8.F1.6",
+   "grade": 8,
+   "course": null,
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "compare credit cards and consumer contracts"
+  },
+  {
+   "code": "MTH1W.B1.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "research a number concept's cultural history"
+  },
+  {
+   "code": "MTH1W.B1.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "subsets of the number system"
+  },
+  {
+   "code": "MTH1W.B1.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "density, infinity and limit"
+  },
+  {
+   "code": "MTH1W.B2.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "how the sign and size of an exponent affect a power; scientific notation"
+  },
+  {
+   "code": "MTH1W.B2.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "exponent laws to simplify numeric and algebraic expressions"
+  },
+  {
+   "code": "MTH1W.B3.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "integers for location, direction and change"
+  },
+  {
+   "code": "MTH1W.B3.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "unit fractions and measuring tools"
+  },
+  {
+   "code": "MTH1W.B3.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "how signs affect ratios, rates, fractions and decimals"
+  },
+  {
+   "code": "MTH1W.B3.4",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "operations with positive and negative fractions and mixed numbers"
+  },
+  {
+   "code": "MTH1W.B3.5",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "B",
+   "strandName": "Number",
+   "substrand": null,
+   "text": "rates, percentages and proportions"
+  },
+  {
+   "code": "MTH1W.C1.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "cultural history of an algebraic concept"
+  },
+  {
+   "code": "MTH1W.C1.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "create expressions that generalize relationships"
+  },
+  {
+   "code": "MTH1W.C1.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "identify equivalent expressions"
+  },
+  {
+   "code": "MTH1W.C1.4",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "simplify expressions"
+  },
+  {
+   "code": "MTH1W.C1.5",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "create and solve equations and verify solutions"
+  },
+  {
+   "code": "MTH1W.C2.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "code with variables, parameters, equations and inequalities"
+  },
+  {
+   "code": "MTH1W.C2.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "decompose situations into computational steps"
+  },
+  {
+   "code": "MTH1W.C2.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "read and alter code"
+  },
+  {
+   "code": "MTH1W.C3.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "linear vs. non-linear rates of change"
+  },
+  {
+   "code": "MTH1W.C3.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "represent linear relations; rate of change and initial value"
+  },
+  {
+   "code": "MTH1W.C3.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "compare two lines y = ax + b and interpret their intersection"
+  },
+  {
+   "code": "MTH1W.C4.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "characteristics of linear vs. non-linear relations"
+  },
+  {
+   "code": "MTH1W.C4.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "graph x = k, y = k, x + y = k, x − y = k, ax + by = k, xy = k and the related inequalities"
+  },
+  {
+   "code": "MTH1W.C4.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "translate, reflect and rotate y = ax"
+  },
+  {
+   "code": "MTH1W.C4.4",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "C",
+   "strandName": "Algebra",
+   "substrand": null,
+   "text": "equations of lines from graphs and tables (slope and y-intercept)"
+  },
+  {
+   "code": "MTH1W.D1.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data and Modelling",
+   "substrand": null,
+   "text": "implications of large data"
+  },
+  {
+   "code": "MTH1W.D1.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data and Modelling",
+   "substrand": null,
+   "text": "single-variable analysis with quartiles and box plots"
+  },
+  {
+   "code": "MTH1W.D1.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data and Modelling",
+   "substrand": null,
+   "text": "scatter plots and regression models using technology"
+  },
+  {
+   "code": "MTH1W.D2.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data and Modelling",
+   "substrand": null,
+   "text": "the full modelling cycle: question of interest, plan and assumptions, analysis, report on fit and limitations"
+  },
+  {
+   "code": "MTH1W.D2.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data and Modelling",
+   "substrand": null,
+   "text": "the full modelling cycle: question of interest, plan and assumptions, analysis, report on fit and limitations"
+  },
+  {
+   "code": "MTH1W.D2.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data and Modelling",
+   "substrand": null,
+   "text": "the full modelling cycle: question of interest, plan and assumptions, analysis, report on fit and limitations"
+  },
+  {
+   "code": "MTH1W.D2.4",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data and Modelling",
+   "substrand": null,
+   "text": "the full modelling cycle: question of interest, plan and assumptions, analysis, report on fit and limitations"
+  },
+  {
+   "code": "MTH1W.D2.5",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "D",
+   "strandName": "Data and Modelling",
+   "substrand": null,
+   "text": "the full modelling cycle: question of interest, plan and assumptions, analysis, report on fit and limitations"
+  },
+  {
+   "code": "MTH1W.E1.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Geometry and Measurement",
+   "substrand": null,
+   "text": "cultural history of a geometric concept or measurement system"
+  },
+  {
+   "code": "MTH1W.E1.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Geometry and Measurement",
+   "substrand": null,
+   "text": "designs using circle and triangle properties"
+  },
+  {
+   "code": "MTH1W.E1.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Geometry and Measurement",
+   "substrand": null,
+   "text": "unit conversions within and between measurement systems"
+  },
+  {
+   "code": "MTH1W.E1.4",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Geometry and Measurement",
+   "substrand": null,
+   "text": "how changing dimensions affects perimeter, area, surface area and volume"
+  },
+  {
+   "code": "MTH1W.E1.5",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Geometry and Measurement",
+   "substrand": null,
+   "text": "Pythagorean relationship in composite shapes"
+  },
+  {
+   "code": "MTH1W.E1.6",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "E",
+   "strandName": "Geometry and Measurement",
+   "substrand": null,
+   "text": "prism-pyramid and cylinder-cone volume relationships"
+  },
+  {
+   "code": "MTH1W.F1.1",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "past or current financial situations"
+  },
+  {
+   "code": "MTH1W.F1.2",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "appreciation and depreciation graphs"
+  },
+  {
+   "code": "MTH1W.F1.3",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "how interest rates, borrowing time, interest method and down payment affect cost"
+  },
+  {
+   "code": "MTH1W.F1.4",
+   "grade": 9,
+   "course": "MTH1W",
+   "schema": "strand-AF",
+   "strand": "F",
+   "strandName": "Financial Literacy",
+   "substrand": null,
+   "text": "modify budgets"
+  }
+ ]
+}

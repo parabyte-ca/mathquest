@@ -1,0 +1,37 @@
+{
+  "_note": "Ordered chains from the ontario-math-curriculum skill 'Progression logic'. Consecutive codes become prerequisite edges (earlier -> later). Senior-course links are recommendations, not blocks.",
+  "chains": {
+    "fractions": ["G5.B1.3", "G5.B1.4", "G5.B2.5", "G6.B2.5", "G6.B2.9", "G7.B2.8", "G8.B2.6", "MTH1W.B3.4"],
+    "decimals-percents": ["G5.B1.5", "G5.B1.7", "G6.B1.6", "G6.B2.12", "G7.B1.7", "G8.B1.4", "MTH1W.B3.5"],
+    "integers": ["G6.B1.2", "G7.B2.4", "G8.B2.7", "MTH1W.B3.3"],
+    "operations": ["G5.B2.2", "G5.B2.4", "G6.B2.4", "G7.B2.1", "G8.B2.1"],
+    "algebra-expressions": ["G5.C2.2", "G6.C2.1", "G7.C2.1", "G8.C2.1", "MTH1W.C1.4", "MPM2D.A3"],
+    "algebra-equations": ["G5.C2.3", "G6.C2.3", "G7.C2.3", "G8.C2.3", "MTH1W.C1.5"],
+    "algebra-inequalities": ["G5.C2.4", "G6.C2.4", "G7.C2.4", "G8.C2.4"],
+    "patterns-to-functions": ["G5.C1.2", "G6.C1.2", "G7.C1.1", "G8.C1.1", "MTH1W.C3.2", "MPM2D.B1"],
+    "exponents": ["G8.E2.1", "MTH1W.B2.2", "MPM2D.A1"],
+    "area": ["G5.E2.5", "G6.E2.4", "G7.E2.5", "MTH1W.E1.4"],
+    "angles": ["G5.E2.4", "G6.E2.2", "G6.E2.3", "G8.E2.2"],
+    "pythagoras-trig": ["G8.E2.4", "MTH1W.E1.5", "MPM2D.C2", "MPM2D.C3"],
+    "coordinates": ["G5.E1.4", "G6.E1.3", "G7.E1.4", "G8.E1.4"],
+    "central-tendency": ["G5.D1.5", "G6.D1.5", "G7.D1.5", "MTH1W.D1.2"],
+    "probability": ["G5.D2.1", "G6.D2.1", "G6.D2.2", "G7.D2.1", "G8.D2.1", "G8.D2.2"],
+    "data-graphs": ["G5.D1.3", "G6.D1.3", "G7.D1.3", "G8.D1.3", "MTH1W.D1.3"],
+    "finance": ["G5.F1.2", "G6.F1.4", "G7.F1.5", "G8.F1.5", "MTH1W.F1.3"]
+  },
+  "course_prerequisites": {
+    "_note": "Recommended, never blocking. 'any' means at least one of the listed courses (or Grade 9 for MEL3E).",
+    "MPM2D": { "recommended": ["MTH1W"] },
+    "MFM2P": { "recommended": ["MTH1W"] },
+    "MCR3U": { "recommended": ["MPM2D"] },
+    "MCF3M": { "recommended": ["MPM2D", "MFM2P"], "mode": "any" },
+    "MBF3C": { "recommended": ["MFM2P"] },
+    "MEL3E": { "recommended": ["MTH1W"] },
+    "MHF4U": { "recommended": ["MCR3U", "MCT4C"], "mode": "any" },
+    "MCV4U": { "recommended": ["MHF4U"], "note": "before or at the same time" },
+    "MDM4U": { "recommended": ["MCR3U", "MCF3M"], "mode": "any" },
+    "MCT4C": { "recommended": ["MCF3M", "MCR3U"], "mode": "any" },
+    "MAP4C": { "recommended": ["MBF3C"] },
+    "MEL4E": { "recommended": ["MEL3E"] }
+  }
+}

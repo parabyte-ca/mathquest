@@ -1,0 +1,12 @@
+node_modules/
+dist/
+data/
+.env
+*.log
+upgrade/*
+upgrade-status/*
+.state/
+test-results/
+playwright-report/
+!upgrade/.gitkeep
+!upgrade-status/.gitkeep

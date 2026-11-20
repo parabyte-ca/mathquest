@@ -1,0 +1,21 @@
+{
+  "_note": "Seed micro-skills (Phase 1 sample: Grade 5-6 number/fractions). Phase 3 extends this to every Grade 5-6 expectation. tiers = number of difficulty tiers (min 3). prereqs are micro-skill ids.",
+  "version": "2026.11.1",
+  "microskills": [
+    { "id": "MS.G5.B1.3.a", "expectation": "G5.B1.3", "name": "Name a fraction from a picture (halves to twelfths)", "tiers": 3, "prereqs": [] },
+    { "id": "MS.G5.B1.3.b", "expectation": "G5.B1.3", "name": "Find an equivalent fraction by multiplying numerator and denominator", "tiers": 3, "prereqs": ["MS.G5.B1.3.a"] },
+    { "id": "MS.G5.B1.3.c", "expectation": "G5.B1.3", "name": "Convert between improper fractions and mixed numbers", "tiers": 3, "prereqs": ["MS.G5.B1.3.b"] },
+    { "id": "MS.G5.B1.4.a", "expectation": "G5.B1.4", "name": "Compare fractions with the same denominator", "tiers": 3, "prereqs": ["MS.G5.B1.3.a"] },
+    { "id": "MS.G5.B1.4.b", "expectation": "G5.B1.4", "name": "Compare fractions using equivalent fractions", "tiers": 3, "prereqs": ["MS.G5.B1.4.a", "MS.G5.B1.3.b"] },
+    { "id": "MS.G5.B2.5.a", "expectation": "G5.B2.5", "name": "Add fractions with like denominators", "tiers": 3, "prereqs": ["MS.G5.B1.3.a"] },
+    { "id": "MS.G5.B2.5.b", "expectation": "G5.B2.5", "name": "Subtract fractions with like denominators", "tiers": 3, "prereqs": ["MS.G5.B2.5.a"] },
+    { "id": "MS.G5.B2.5.c", "expectation": "G5.B2.5", "name": "Add and subtract mixed numbers with like denominators", "tiers": 3, "prereqs": ["MS.G5.B2.5.b", "MS.G5.B1.3.c"] },
+    { "id": "MS.G6.B2.5.a", "expectation": "G6.B2.5", "name": "Find a common denominator", "tiers": 3, "prereqs": ["MS.G5.B1.3.b"] },
+    { "id": "MS.G6.B2.5.b", "expectation": "G6.B2.5", "name": "Add fractions with unlike denominators", "tiers": 3, "prereqs": ["MS.G6.B2.5.a", "MS.G5.B2.5.a"] },
+    { "id": "MS.G6.B2.5.c", "expectation": "G6.B2.5", "name": "Subtract fractions with unlike denominators", "tiers": 3, "prereqs": ["MS.G6.B2.5.b", "MS.G5.B2.5.b"] },
+    { "id": "MS.G5.B1.5.a", "expectation": "G5.B1.5", "name": "Read and write decimals to hundredths", "tiers": 3, "prereqs": [] },
+    { "id": "MS.G5.B1.5.b", "expectation": "G5.B1.5", "name": "Compare and order decimals to hundredths", "tiers": 3, "prereqs": ["MS.G5.B1.5.a"] },
+    { "id": "MS.G5.B1.7.a", "expectation": "G5.B1.7", "name": "Convert a fraction with denominator 10 or 100 to a decimal", "tiers": 3, "prereqs": ["MS.G5.B1.5.a", "MS.G5.B1.3.a"] },
+    { "id": "MS.G5.B1.7.b", "expectation": "G5.B1.7", "name": "Convert a decimal to a percent", "tiers": 3, "prereqs": ["MS.G5.B1.7.a"] }
+  ]
+}
