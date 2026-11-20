@@ -205,6 +205,7 @@ test('accessibility: high contrast, dyslexia font and reduced motion apply; keyb
     for (let i = 0; i < (item.answer as { index: number }).index; i++) await kid.keyboard.press('ArrowDown');
     await kid.keyboard.press('Space');
   } else {
+    await expect(kid.locator('#px'), `expected a point question; got format=${item.format} skill=${item.skill} tier=${item.tier}; screen: ${(await kid.locator('form.answer').innerText()).replace(/\s+/g, ' ').slice(0, 200)}`).toBeVisible({ timeout: 5000 });
     await kid.locator('#px').fill(String((item.answer as { x: number }).x));
     await kid.locator('#py').fill(String((item.answer as { y: number }).y));
   }
