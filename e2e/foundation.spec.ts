@@ -2,35 +2,13 @@ import { test, expect, type Page, type Browser } from '@playwright/test';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const MOCK = `http://127.0.0.1:${process.env.MOCK_PORT ?? 18788}`;
-type Mail = { to: string[]; subject: string; text: string };
+import { signInCaregiver as signInHelper, noHorizontalScroll as nhs, uniqueIp } from './helpers';
 
-async function waitForMail(to: string): Promise<Mail> {
-  for (let i = 0; i < 50; i++) {
-    const outbox = (await (await fetch(`${MOCK}/outbox`)).json()) as Mail[];
-    const m = outbox.filter((x) => x.to.includes(to)).at(-1);
-    if (m) return m;
-    await new Promise((r) => setTimeout(r, 100));
-  }
-  throw new Error(`no email for ${to}`);
-}
-
-/** Real sign-in: request the link, read it from the mocked Resend outbox, open it in the same browser. */
-async function signIn(page: Page, email: string): Promise<void> {
-  await fetch(`${MOCK}/outbox`, { method: 'DELETE' });
-  await page.goto('/app');
-  await page.getByLabel('Email address').fill(email);
-  await page.getByRole('button', { name: 'Send sign-in link' }).click();
-  await expect(page.getByText('a sign-in link is on its way')).toBeVisible();
-  const link = /(http:\/\/\S+\/app\/verify\?token=[\w-]+)/.exec((await waitForMail(email)).text)![1]!;
-  await page.goto(link);
-}
-
-const noHorizontalScroll = async (page: Page) =>
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+const signIn = signInHelper;
+const noHorizontalScroll = nhs;
 
 async function studentDevice(browser: Browser, baseURL: string): Promise<Page> {
-  const ctx = await browser.newContext({ baseURL });
+  const ctx = await browser.newContext({ baseURL, extraHTTPHeaders: { 'x-forwarded-for': uniqueIp() } });
   return ctx.newPage();
 }
 
@@ -80,10 +58,10 @@ test('the admin sees the Updates page and requests an upgrade through the reques
   await expect(page.getByText('Mock release notes')).toBeVisible();
   const request = join(process.cwd(), 'test-results', 'e2e', 'upgrade', 'request.json');
   if (existsSync(request)) return; // a previous viewport project already queued it; that is the behaviour under test
-  await page.getByRole('button', { name: 'Upgrade to 2.1.0' }).click();
+  await page.getByRole('button', { name: 'Upgrade to 99.0.0' }).click();
   await expect(page.getByText(/Upgrade requested/)).toBeVisible();
   const body = JSON.parse(readFileSync(request, 'utf8')) as { version: string; requestId: string };
-  expect(body.version).toBe('2.1.0');
+  expect(body.version).toBe('99.0.0');
   await noHorizontalScroll(page);
 });
 

@@ -1,6 +1,6 @@
 {
   "name": "mathquest",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "private": true,
   "description": "Adaptive Ontario math practice and rewards for Grades 5-12 (self-hosted, invite-only)",
   "type": "module",
@@ -11,22 +11,22 @@
     "dev": "tsx watch server/index.ts",
     "build": "tsc -p tsconfig.build.json && vite build --config web/vite.config.ts",
     "start": "node dist/server/index.js",
-    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p web/tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p web/tsconfig.json --noEmit && tsc -p e2e/tsconfig.json --noEmit",
     "test": "vitest run",
     "curriculum:build": "tsx scripts/build-curriculum.ts",
     "i18n:check": "tsx scripts/check-i18n.ts",
     "e2e": "playwright test --trace off"
   },
   "dependencies": {
-    "@fontsource/opendyslexic": "^5.3.0",
     "better-sqlite3": "^12.0.0",
     "express": "^4.21.2",
     "helmet": "^8.0.0",
-    "katex": "^0.19.1",
     "mathjs": "^15.2.0",
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@fontsource/opendyslexic": "^5.3.0",
     "@playwright/test": "^1.50.0",
     "@preact/preset-vite": "^2.10.0",
     "@types/better-sqlite3": "^7.6.12",
@@ -34,6 +34,7 @@
     "@types/katex": "^0.16.8",
     "@types/node": "^22.10.0",
     "@types/supertest": "^6.0.2",
+    "katex": "^0.19.1",
     "preact": "^10.25.0",
     "supertest": "^7.0.0",
     "tsx": "^4.19.0",

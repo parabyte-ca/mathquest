@@ -10,7 +10,16 @@
     "resolveJsonModule": true,
     "outDir": "dist",
     "rootDir": ".",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["server/**/*.ts", "shared/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts", "e2e/**/*.ts", "vitest.config.ts", "playwright.config.ts"]
+  "include": [
+    "server/**/*.ts",
+    "shared/**/*.ts",
+    "scripts/**/*.ts",
+    "tests/**/*.ts",
+    "vitest.config.ts",
+    "playwright.config.ts"
+  ]
 }

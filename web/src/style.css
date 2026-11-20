@@ -86,3 +86,129 @@ dd { margin: 0; }
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* ───────── Phase 2: learning experience ───────── */
+:root { --ink: #14213d; --seg: #dbe6fb; --segfill: #2f6df0; --segfill2: #7a4fd6; --good: #1b6e3c; --tip: #8a4b00; --soft: #eef3fd; }
+@media (prefers-color-scheme: dark) { :root { --ink: #eef2fa; --seg: #26324d; --segfill: #6ea2ff; --segfill2: #b79bff; --good: #6fdc9b; --tip: #ffc266; --soft: #1d2a45; } }
+html.hc { --bg: #000; --card: #000; --text: #fff; --ink: #fff; --muted: #fff; --brand: #ffe600; --brand-text: #000; --line: #fff; --seg: #222; --segfill: #ffe600; --segfill2: #00e5ff; --soft: #111; --good: #7dffa8; --tip: #ffe600; --focus: #00e5ff; }
+html.hc .card { border-width: 2px; }
+html.dys body, html.dys button, html.dys input, html.dys select { font-family: 'OpenDyslexic', system-ui, sans-serif; letter-spacing: 0.02em; line-height: 1.7; }
+html.rm *, html.rm *::before, html.rm *::after { animation: none !important; transition: none !important; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.small { font-size: 0.875rem; }
+.block { display: block; }
+.muted { color: var(--muted); }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8rem; color: var(--muted); margin: 0 0 0.25rem; }
+.lead { font-size: 1.1rem; }
+.grow-1 { flex: 1; }
+button.secondary { background: transparent; color: var(--brand); border: 2px solid var(--brand); }
+button.small { min-height: 44px; padding: 0.25rem 0.75rem; margin-top: 0; }
+button.icon { min-width: 44px; padding: 0; margin-top: 0; }
+.row-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.5rem; }
+.row-actions button { margin-top: 0; }
+
+.play { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 900px) { .play.with-scratch { grid-template-columns: 3fr 2fr; } main { max-width: 64rem; } }
+.qhead { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.qtools { display: flex; gap: 0.5rem; }
+.prompt { font-size: 1.25rem; line-height: 1.6; margin: 0.5rem 0 1rem; }
+.tex { font-size: 1.15em; }
+.tex-raw { font-family: ui-monospace, monospace; }
+math { font-size: 1.15em; }
+.preview { display: block; min-height: 2rem; padding: 0.25rem 0; }
+
+.answer { display: grid; gap: 0.75rem; }
+.entry-row { display: flex; gap: 0.5rem; align-items: stretch; }
+.entry-row input { flex: 1; font-size: 1.2rem; }
+.entry-row button { margin-top: 0; }
+.visual { max-width: 28rem; }
+.vis { width: 100%; height: auto; display: block; }
+.vis .seg { fill: var(--seg); stroke: var(--ink); stroke-width: 2; }
+.vis .seg.fill { fill: var(--segfill); }
+.vis .seg.fill2 { fill: var(--segfill2); }
+.vis .grid { stroke: var(--line); stroke-width: 1; }
+.vis .axis { stroke: var(--ink); stroke-width: 2; }
+.vis .tick, .vis .vlabel { fill: var(--ink); font-size: 12px; }
+.vis .vlabel { font-size: 14px; font-weight: 700; }
+.vis .pt { fill: var(--segfill2); stroke: var(--ink); stroke-width: 2; }
+.vis.plane { max-width: 22rem; touch-action: manipulation; cursor: crosshair; }
+.vis .grow { transform-box: fill-box; transform-origin: left center; animation: grow 0.6s ease-out both; }
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .vis .grow { animation: none; } }
+
+.fracin { display: inline-flex; flex-direction: column; align-items: center; gap: 0.25rem; width: 8rem; }
+.fracin.mixed { flex-direction: row; width: auto; gap: 0.75rem; }
+.fracin .stack { display: flex; flex-direction: column; align-items: center; gap: 0.25rem; width: 8rem; }
+.fld input { text-align: center; font-size: 1.2rem; }
+hr.bar { width: 100%; border: 0; border-top: 3px solid var(--ink); margin: 0; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+.choices { display: grid; gap: 0.5rem; }
+.choice { display: flex; align-items: center; gap: 0.75rem; min-height: 48px; padding: 0.5rem 0.75rem; border: 2px solid var(--line); border-radius: 10px; cursor: pointer; font-weight: 600; margin: 0; }
+.choice.on { border-color: var(--brand); background: var(--soft); }
+.choice input { width: 24px; height: 24px; flex: none; }
+
+.orderlist { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+.orderitem { display: flex; align-items: center; gap: 0.5rem; border: 2px solid var(--line); border-radius: 10px; padding: 0.25rem 0.5rem; background: var(--card); min-height: 52px; }
+.grip { color: var(--muted); cursor: grab; padding: 0 0.25rem; user-select: none; }
+.match { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.pill { width: 100%; min-height: 48px; margin-top: 0; background: var(--card); color: var(--text); border: 2px solid var(--line); font-weight: 600; justify-content: flex-start; gap: 0.5rem; flex-wrap: wrap; }
+.pill.on { border-color: var(--brand); background: var(--soft); }
+.pill.done { border-style: dashed; }
+.pairtag { color: var(--brand); }
+
+.mathkb { display: grid; gap: 0.35rem; padding: 0.5rem; background: var(--soft); border-radius: 12px; max-width: 26rem; }
+.kbrow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.35rem; }
+.key { min-height: 48px; min-width: 44px; margin: 0; padding: 0; font-size: 1.15rem; background: var(--card); color: var(--text); border: 2px solid var(--line); }
+.key.wide { grid-column: span 3; }
+
+.helpers { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-top: 0.5rem; }
+.hint { background: var(--soft); border-left: 4px solid var(--brand); padding: 0.5rem 0.75rem; border-radius: 6px; margin: 0.5rem 0; }
+.banner { background: var(--soft); border: 1px solid var(--line); padding: 0.5rem 0.75rem; border-radius: 8px; margin: 0.5rem 0; font-weight: 600; }
+.feedback { margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 12px; border: 2px solid var(--line); background: var(--soft); }
+.feedback.good { border-color: var(--good); }
+.feedback.tip { border-color: var(--tip); }
+.fmsg { font-size: 1.15rem; font-weight: 700; margin: 0 0 0.5rem; }
+.caption { position: fixed; left: 0.5rem; right: 0.5rem; bottom: 0.5rem; z-index: 20; background: var(--text); color: var(--bg); padding: 0.5rem 0.75rem; border-radius: 10px; font-size: 1rem; text-align: center; }
+.overlay { position: fixed; inset: 0; z-index: 30; background: var(--bg); overflow: auto; padding: 1rem; }
+.overlay .card { max-width: 52rem; margin: 0 auto; }
+
+.scratch-bar { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+.canvas { width: 100%; height: auto; aspect-ratio: 600 / 260; background: var(--card); border: 2px dashed var(--line); border-radius: 10px; touch-action: none; cursor: crosshair; }
+
+.lesson .progress { display: flex; gap: 6px; list-style: none; padding: 0; margin: 0.5rem 0 1rem; }
+.lesson .progress li { flex: 1; height: 8px; border-radius: 4px; background: var(--seg); }
+.lesson .progress li.done { background: var(--segfill); opacity: 0.6; }
+.lesson .progress li.on { background: var(--segfill); }
+.def, .exstep { margin: 0.75rem 0; }
+.def h2 { margin-bottom: 0.15rem; }
+.trybox { min-height: 2rem; }
+
+fieldset.strands { border: 1px solid var(--line); border-radius: 10px; margin: 1rem 0; padding: 0.5rem 0.75rem; }
+fieldset.strands legend { font-weight: 700; padding: 0 0.25rem; }
+label.switch { align-items: flex-start; gap: 0.75rem; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; list-style: none; padding: 0; margin: 0.5rem 0; font-size: 0.85rem; }
+.dot { display: inline-flex; width: 1.5rem; height: 1.5rem; border-radius: 6px; align-items: center; justify-content: center; border: 2px solid var(--ink); font-size: 0.85rem; }
+.skillmap { width: 100%; height: auto; margin: 0.5rem 0; }
+.skillmap .edge { stroke: var(--muted); stroke-width: 1.5; }
+.skillmap .node { cursor: pointer; }
+.skillmap .node rect { fill: var(--card); stroke: var(--ink); stroke-width: 2; }
+.skillmap .node.mastered rect, .dot.mastered { fill: var(--segfill); background: var(--segfill); color: var(--brand-text); }
+.skillmap .node.in_progress rect { fill: var(--soft); stroke-width: 3; }
+.skillmap .node.needs_review rect { stroke-dasharray: 5 3; stroke-width: 3; }
+.skillmap .node.locked rect, .skillmap .node.soon rect { stroke-dasharray: 2 3; opacity: 0.75; }
+.skillmap .node.other rect { stroke-width: 1; }
+.skillmap .node.sel rect { stroke: var(--brand); stroke-width: 4; }
+.skillmap .node:focus-visible rect { stroke: var(--focus); stroke-width: 4; }
+.skillmap .ncode { font-size: 11px; font-weight: 700; fill: var(--text); }
+.skillmap .ngrade { font-size: 9px; fill: var(--muted); }
+.skillmap .nicon { font-size: 13px; fill: var(--text); }
+.skillmap .node.mastered .ncode, .skillmap .node.mastered .nicon { fill: var(--brand-text); }
+.dot.in_progress { background: var(--soft); }
+.dot.needs_review { border-style: dashed; }
+.dot.locked, .dot.soon { border-style: dotted; }
+.detail { border-top: 1px solid var(--line); padding-top: 0.5rem; margin-top: 0.5rem; }
+.badge { white-space: nowrap; }

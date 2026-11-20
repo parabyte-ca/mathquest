@@ -23,7 +23,7 @@ export async function api<T = Record<string, unknown>>(method: string, path: str
 }
 
 export interface UserInfo { id: string; email: string; role: 'admin' | 'caregiver'; displayName: string; weeklyEmail: boolean; defaults: Record<string, number | boolean> }
-export interface StudentInfo { id: string; username: string; displayName: string; grade: number; language: 'en' | 'fr'; linkRole?: string }
+export interface StudentInfo { id: string; username: string; displayName: string; grade: number; language: 'en' | 'fr'; linkRole?: string; settings?: Record<string, unknown> }
 export type Me = { kind: 'user'; csrf: string; user: UserInfo; version: string } | { kind: 'student'; csrf: string; student: StudentInfo; version: string };
 
 export async function loadMe(): Promise<Me | null> {

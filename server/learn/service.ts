@@ -148,7 +148,7 @@ export function startSession(ctx: Ctx, student: StudentRow, input: { grade: numb
   return { sessionId: id, targetCount: targets.length };
 }
 
-function issue(ctx: Ctx, student: StudentRow, sessionId: string | null, kind: 'practice' | 'review' | 'placement', target: string, skill: string, tier: number): PublicItem {
+function issue(ctx: Ctx, student: StudentRow, sessionId: string | null, kind: 'practice' | 'review' | 'placement', target: string, skill: string, tier: number): PublicItem & { micro: string } {
   let micro = skill;
   if (!isMicro(skill)) {
     const ms = microsOf(ctx, skill);
@@ -161,8 +161,10 @@ function issue(ctx: Ctx, student: StudentRow, sessionId: string | null, kind: 'p
   const item = generate(micro, tier, seedFor(ctx));
   const pid = `${item.id}:${newId().slice(0, 8)}`; // the id the client sees; never reveals more than skill, tier and seed
   ctx.db.prepare('INSERT INTO pending_item (id, student_id, session_id, kind, target, item_json, hints, issued_at) VALUES (?,?,?,?,?,?,0,?)').run(pid, student.id, sessionId, kind, target, JSON.stringify(item), ctx.now());
-  return toPublic({ ...item, id: pid });
+  return { ...toPublic({ ...item, id: pid }), micro };
 }
+
+const pub = ({ micro: _micro, ...rest }: PublicItem & { micro: string }): PublicItem => rest;
 
 export type NextResult =
   | { type: 'item'; item: PublicItem; kind: string; target: string; phase: string; resumed?: boolean }
@@ -190,7 +192,7 @@ export function next(ctx: Ctx, student: StudentRow, sessionId: string, opts: { s
   if (opts.similar && data.last) {
     const l = data.last;
     const it = issue(ctx, student, sessionId, l.kind, l.target, l.skill, l.tier);
-    return { type: 'item', item: it, kind: l.kind, target: l.target, phase: loadLadder(ctx, student.id, l.target).phase };
+    return { type: 'item', item: pub(it), kind: l.kind, target: l.target, phase: loadLadder(ctx, student.id, l.target).phase };
   }
 
   for (let guard = 0; guard < 6; guard++) {
@@ -209,7 +211,7 @@ export function next(ctx: Ctx, student: StudentRow, sessionId: string, opts: { s
       const d = due[Math.floor(rand(ctx) * due.length)]!;
       const it = issue(ctx, student, sessionId, 'review', d.t, d.m, 2);
       setLast(ctx, sessionId, data, { target: d.t, skill: d.m, tier: 2, kind: 'review' });
-      return { type: 'item', item: it, kind: 'review', target: d.t, phase: 'normal' };
+      return { type: 'item', item: pub(it), kind: 'review', target: d.t, phase: 'normal' };
     } else if (unmastered.length > 0) {
       const ranked = unmastered.map((t) => ({ t, p: expectationP(ctx, student.id, t), r: rand(ctx) })).sort((a, b) => a.p - b.p || a.r - b.r);
       // Prefer targets whose recommended prerequisites are not clearly weak; never block.
@@ -230,8 +232,8 @@ export function next(ctx: Ctx, student: StudentRow, sessionId: string, opts: { s
       continue;
     }
     const it = issue(ctx, student, sessionId, 'practice', choice!.target, action.skill, action.tier);
-    setLast(ctx, sessionId, data, { target: choice!.target, skill: action.skill, tier: action.tier, kind: 'practice' });
-    return { type: 'item', item: it, kind: 'practice', target: choice!.target, phase: choice!.ladder.phase };
+    setLast(ctx, sessionId, data, { target: choice!.target, skill: it.micro, tier: action.tier, kind: 'practice' });
+    return { type: 'item', item: pub(it), kind: 'practice', target: choice!.target, phase: choice!.ladder.phase };
   }
   return { type: 'done', summary: summary(ctx, student, sessionId, targets) };
 }
@@ -353,7 +355,7 @@ export function placementStart(ctx: Ctx, student: StudentRow, grade: number): { 
   ctx.db.prepare('INSERT INTO placement (student_id, grade, state_json) VALUES (?,?,?) ON CONFLICT(student_id, grade) DO UPDATE SET state_json = excluded.state_json, done_at = NULL, result_json = NULL').run(student.id, grade, JSON.stringify(state));
   ctx.db.prepare('DELETE FROM pending_item WHERE student_id = ? AND kind = ?').run(student.id, 'placement');
   const it = issue(ctx, student, null, 'placement', `placement:${grade}`, ladder[nextProbe(state)]!, 2);
-  return { item: it, ladderSize: ladder.length };
+  return { item: pub(it), ladderSize: ladder.length };
 }
 
 function placementStep(ctx: Ctx, student: StudentRow, target: string, correct: boolean): NonNullable<AnswerResult['placement']> {
@@ -365,7 +367,7 @@ function placementStep(ctx: Ctx, student: StudentRow, target: string, correct: b
   if (!state.done) {
     ctx.db.prepare('UPDATE placement SET state_json = ? WHERE student_id = ? AND grade = ?').run(JSON.stringify(state), student.id, grade);
     const it = issue(ctx, student, null, 'placement', target, ladder[nextProbe(state)]!, 2);
-    return { done: false, next: it };
+    return { done: false, next: pub(it) };
   }
   // Finish: raise what the student plainly knows so practice starts at the right level (never lowers anything).
   const priors = placementPriors(ladder.length, state);
