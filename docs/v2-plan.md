@@ -1,6 +1,6 @@
 # MathQuest v2.0.0: Plan (for approval)
 
-Status: DRAFT. No implementation until approved.
+Status: DECISIONS RECEIVED 2026-11-20. Awaiting final go to start Phase 1.
 
 ## 1. Repo audit (what exists)
 
@@ -78,7 +78,18 @@ Vitest: every generator × many seeds × all tiers (valid, correct answer, equiv
 - Curriculum wording drawn from mirrors: verify before quoting as official.
 - Web Speech `fr-CA` voices vary by device; captions always shown.
 
-## 13. Decisions needed from you
+## 13. Decisions (resolved)
+
+1. No v1 was ever established; user holds a zip (contents unknown, to be inspected if provided). Greenfield build; migration deferred.
+2. Port **8086** (8085 stays flagged unknown). Registry and homelab skill updated (copies in `docs/skill-updates/`).
+3. Vite + Preact + TypeScript approved.
+4. Content first: **Grades 5 and 6**.
+5. Co-caregiver sharing: **yes**. Data model change: `student_caregivers(student_id, caregiver_id, role[owner|co], added_by)` replaces `students.caregiver_id`; either caregiver can manage and view, only the owner can delete the student or remove the co-caregiver; invite-by-email flow; audit-logged.
+6. Daily goal and session limit: per caregiver (defaults), overridable per student.
+7. Migrate nothing by default. If the zip is v1: never import sessions, tokens or logs; plaintext PINs are not imported (reset).
+8. A tag per phase: v2.0.0-phase1 ... through v2.0.0 at Phase 5 (CI-driven SemVer; exact scheme to confirm at Phase 1 CI).
+
+## 13b. Original questions (for reference)
 
 1. Where is v1 (repo, branch, TrueNAS path)? Provide schema or a DB copy.
 2. What owns port 8085 on TrueNAS?
