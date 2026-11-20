@@ -24,7 +24,11 @@ async function main(): Promise<void> {
       throw new Error('that email already belongs to a caregiver account');
     }
     await sendSignInLink(ctx, user, { invite: true });
-    console.log(`Admin ${email} is ready. A sign-in link was emailed (valid ${Math.round(cfg.magicLinkTtlMs / 60000)} minutes).`);
+    if (!cfg.resendApiKey) {
+      console.log(`Admin ${email} is created, but RESEND_API_KEY is not set so no email was sent. Set it in .env, restart, and sign in from the sign-in page.`);
+    } else {
+      console.log(`Admin ${email} is ready. A sign-in link was emailed (valid ${Math.round(cfg.magicLinkTtlMs / 60000)} minutes).`);
+    }
   } else if (cmd === 'backup') {
     const { runBackup } = await import('./jobs.js');
     console.log(await runBackup(db, cfg));

@@ -1,4 +1,4 @@
-import { Router, type Response } from 'express';
+import { Router } from 'express';
 import { z } from 'zod';
 import type { Ctx, StudentRow, UserRow } from '../context.js';
 import { clientIp } from '../context.js';
@@ -155,4 +155,3 @@ export const publicStudent = (s: StudentRow) => ({
   settings: JSON.parse(s.settings_json) as unknown, allowed: JSON.parse(s.allowed_json) as unknown,
 });
 
-export type { Response };

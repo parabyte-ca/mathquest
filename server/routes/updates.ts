@@ -1,4 +1,4 @@
-import { Router, type Request } from 'express';
+import { Router } from 'express';
 import { z } from 'zod';
 import { existsSync, readFileSync, renameSync, writeFileSync, mkdirSync, lstatSync } from 'node:fs';
 import { join } from 'node:path';
@@ -74,7 +74,7 @@ export function updateRoutes(ctx: Ctx): Router {
       try {
         const headers: Record<string, string> = { Accept: 'application/vnd.github+json', 'User-Agent': 'mathquest-updater' };
         if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-        const resp = await fetch('https://api.github.com/repos/parabyte-ca/mathquest/releases/latest', { headers, signal: AbortSignal.timeout(8000) });
+        const resp = await fetch(ctx.cfg.releasesUrl, { headers, signal: AbortSignal.timeout(8000) });
         if (!resp.ok) throw new Error(`GitHub responded ${resp.status}`);
         const j = (await resp.json()) as { tag_name?: string; body?: string; html_url?: string };
         const version = (j.tag_name ?? '').replace(/^v/, '');
@@ -117,4 +117,3 @@ export function updateRoutes(ctx: Ctx): Router {
   return r;
 }
 
-export type { Request };

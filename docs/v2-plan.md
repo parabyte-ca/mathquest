@@ -6,7 +6,7 @@ Status: DECISIONS RECEIVED 2026-11-20. Awaiting final go to start Phase 1.
 
 | Item | Finding |
 |---|---|
-| Code | **None.** `main` holds a one-line `README.md` ("# Repository") and `docs/wfx-audit.md` (a stub). 3 commits. |
+| Code | `main` held a one-line `README.md` and a stub `docs/wfx-audit.md`. The v1 prototype was supplied separately as a zip (see "v1 prototype audit" below). |
 | VERSION, CHANGELOG, Dockerfile, compose, setup.sh, update.sh, CI | Absent |
 | Data model, auth, caregiver portal | Absent in this repo |
 | Branches | `main`, `claude/new-session-pz23t0` (identical to main) |
@@ -14,6 +14,19 @@ Status: DECISIONS RECEIVED 2026-11-20. Awaiting final go to start Phase 1.
 **Conflict with the prompt:** it assumes a v1 in this repo. There is nothing to keep, replace or migrate here. v1 lives elsewhere (TrueNAS install, or another repo/branch). Therefore v2 is a greenfield build, and the migration is designed against an assumed v1 schema until I see real data.
 
 **Port conflict:** the `dev-sop` registry marks **8085 as occupied by an unidentified service** (flagged 2026-10-17). It may be v1 MathQuest itself. Must run `sudo ss -tlnp | grep 8085` and `sudo docker ps` on TrueNAS. If it is v1, v2 reuses 8085 after v1 is stopped by the migration. If not, pick from 8086-8089. Registry updated either way.
+
+### v1 prototype audit (zip supplied 2026-11-20)
+
+MathQuest 0.1.0: Express + better-sqlite3 + vanilla JS, about 1,900 lines, never deployed or run in Docker. Free-text player names (no accounts, no auth), 5 strands x 3 tiers, 15 `Math.random` generators, streak-based tiers, placement quiz, Web Audio tones, confetti. `data/` contains no database, only `.gitkeep`.
+
+| Aspect | Verdict |
+|---|---|
+| Data to migrate | None. No database ships with the zip, so there are no caregivers, students or progress to carry over. The v1 migration requirement is therefore satisfied by starting fresh. |
+| Stack | Kept (Express, better-sqlite3), adding TypeScript, Preact and Vite. |
+| Question types | `numeric`, `mc`, `fraction`, `numeric2` map onto the v2 item formats. Generator math is a useful reference for Phase 3 (Grades 5-6 first), but generators must be rewritten: seedable, tiered per micro-skill, with hint ladders and misconception maps. |
+| Branding | v1 text uses third-party game names (Fortnite, Minecraft, V-Bucks, Victory Royale). Not carried over; v2 uses original theme and art only. |
+| Port | v1 assumed 8085 from the registry's "available" range, but the registry marks 8085 as occupied. v2 uses 8086. |
+| Auth plan in v1 `CLAUDE.md` | Superseded by the v2 prompt (magic links for caregivers, PIN on approved devices). |
 
 ## 2. Architecture
 
@@ -65,7 +78,7 @@ Vitest: every generator × many seeds × all tiers (valid, correct answer, equiv
 
 ## 11. Phases (as in the prompt)
 
-1 Foundation → 2 Learning experience → 3 Content (grade order TBD) → 4 Motivation and caregivers → 5 Polish. Version path: 2.0.0-rc.1 through phase 4, 2.0.0 at phase 5 completion (PATCH/MINOR tags per phase if you prefer).
+1 Foundation → 2 Learning experience → 3 Content (grade order TBD) → 4 Motivation and caregivers → 5 Polish. Versions: 2.0.0 (Phase 1), 2.1.0, 2.2.0, 2.3.0, 2.4.0 (Phase 5); see decision 8.
 
 ## 12. Risks
 
@@ -80,14 +93,14 @@ Vitest: every generator × many seeds × all tiers (valid, correct answer, equiv
 
 ## 13. Decisions (resolved)
 
-1. No v1 was ever established; user holds a zip (contents unknown, to be inspected if provided). Greenfield build; migration deferred.
+1. v1 zip reviewed: a never-deployed 0.1.0 prototype with no data. Nothing to migrate; v2 starts fresh and reuses only ideas (question types, strand layout).
 2. Port **8086** (8085 stays flagged unknown). Registry and homelab skill updated (copies in `docs/skill-updates/`).
 3. Vite + Preact + TypeScript approved.
 4. Content first: **Grades 5 and 6**.
 5. Co-caregiver sharing: **yes**. Data model change: `student_caregivers(student_id, caregiver_id, role[owner|co], added_by)` replaces `students.caregiver_id`; either caregiver can manage and view, only the owner can delete the student or remove the co-caregiver; invite-by-email flow; audit-logged.
 6. Daily goal and session limit: per caregiver (defaults), overridable per student.
 7. Migrate nothing by default. If the zip is v1: never import sessions, tokens or logs; plaintext PINs are not imported (reset).
-8. A tag per phase: v2.0.0-phase1 ... through v2.0.0 at Phase 5 (CI-driven SemVer; exact scheme to confirm at Phase 1 CI).
+8. A release per phase. dev-sop CI requires VERSION to be strictly X.Y.Z (no pre-release suffix), so: Phase 1 = 2.0.0 (the MAJOR bump), Phase 2 = 2.1.0, Phase 3 = 2.2.0, Phase 4 = 2.3.0, Phase 5 = 2.4.0. Fixes in between are PATCH releases.
 
 ## 13b. Original questions (for reference)
 

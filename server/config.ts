@@ -19,6 +19,7 @@ export interface Config {
   backupRetentionDays: number;
   upgradeDir: string;
   upgradeStatusDir: string;
+  releasesUrl: string;
   version: string;
 }
 
@@ -56,6 +57,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     backupRetentionDays: int(env.BACKUP_RETENTION_DAYS, 14),
     upgradeDir: env.UPGRADE_DIR ?? join(process.cwd(), 'upgrade'),
     upgradeStatusDir: env.UPGRADE_STATUS_DIR ?? join(process.cwd(), 'upgrade-status'),
+    releasesUrl: env.RELEASES_URL ?? 'https://api.github.com/repos/parabyte-ca/mathquest/releases/latest',
     version: readVersion(),
   };
 }
