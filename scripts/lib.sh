@@ -72,6 +72,18 @@ wait_healthy() {
   return 1
 }
 
+# Prints the path of a usable cosign: one on PATH, else .state/bin/cosign. Installs it (checksum-verified,
+# into the root-only .state/ folder) the first time it is needed, so updates need no manual setup.
+ensure_cosign() {
+  local local_bin="$ROOT_DIR/.state/bin/cosign"
+  if command -v cosign >/dev/null 2>&1; then command -v cosign; return 0; fi
+  if [ ! -x "$local_bin" ]; then
+    log "cosign not found; installing it into .state/bin" >&2
+    "$ROOT_DIR/scripts/install-cosign.sh" >&2 || return 1
+  fi
+  [ -x "$local_bin" ] && echo "$local_bin"
+}
+
 # Verifies the cosign signature and that the image was built from the commit the tag points at.
 # verify_image VERSION   (set MATHQUEST_SKIP_VERIFY=1 only for local builds)
 verify_image() {
@@ -81,10 +93,11 @@ verify_image() {
     log "WARNING: signature verification skipped (MATHQUEST_SKIP_VERIFY=1)"
     return 0
   fi
-  command -v cosign >/dev/null 2>&1 || die "cosign is not installed; install it or set MATHQUEST_SKIP_VERIFY=1 for a local build"
-  cosign verify "$ref" \
+  local cosign_bin out
+  cosign_bin="$(ensure_cosign)" || die "cosign is not available and could not be installed (run scripts/install-cosign.sh, or set MATHQUEST_SKIP_VERIFY=1 for a local build)"
+  out="$("$cosign_bin" verify "$ref" \
     --certificate-identity-regexp "$COSIGN_IDENTITY_RE" \
-    --certificate-oidc-issuer "$COSIGN_ISSUER" >/dev/null 2>&1 || die "signature check failed for $ref"
+    --certificate-oidc-issuer "$COSIGN_ISSUER" 2>&1)" || die "signature check failed for $ref: $(printf '%s' "$out" | tail -n 3 | tr '\n' ' ')"
   commit="$(git -C "$ROOT_DIR" rev-list -n1 "v${version}" 2>/dev/null)" || die "tag v${version} not found (run git fetch --tags)"
   label="$(docker image inspect --format '{{ index .Config.Labels "org.opencontainers.image.revision" }}' "$ref")"
   [ -n "$commit" ] && [ "$commit" = "$label" ] || die "image revision label ($label) does not match tag v${version} ($commit)"
