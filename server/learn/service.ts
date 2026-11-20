@@ -148,6 +148,31 @@ export function startSession(ctx: Ctx, student: StudentRow, input: { grade: numb
   return { sessionId: id, targetCount: targets.length };
 }
 
+/** About one practice question in four comes from the admin-approved bank, when there is one for this skill and tier. */
+const BANK_SHARE = 0.25;
+function pickBank(ctx: Ctx, skill: string, tier: number): Item | null {
+  if (rand(ctx) >= BANK_SHARE) return null;
+  const rows = ctx.db.prepare("SELECT id, item_json FROM bank_item WHERE status = 'approved' AND skill = ? AND tier = ?").all(skill, tier) as { id: number; item_json: string }[];
+  if (rows.length === 0) return null;
+  const row = rows[Math.floor(rand(ctx) * rows.length) % rows.length]!;
+  ctx.db.prepare('UPDATE bank_item SET served = served + 1 WHERE id = ?').run(row.id);
+  return { ...(JSON.parse(row.item_json) as Item), id: `bank${row.id}` };
+}
+
+export function reportItem(ctx: Ctx, student: StudentRow, itemRef: string, reason: string): { ok: true } {
+  const ref = itemRef.split(':').slice(0, -1).join(':') || itemRef; // drop the per-issue random suffix
+  const bankId = /^bank(\d+)$/.exec(ref)?.[1];
+  const today = ctx.now() - 86_400_000;
+  const recent = (ctx.db.prepare('SELECT COUNT(*) AS n FROM item_report WHERE student_id = ? AND at > ?').get(student.id, today) as { n: number }).n;
+  if (recent >= 20) throw new LearnError('rate_limited', 429);
+  ctx.db.prepare('INSERT OR IGNORE INTO item_report (student_id, item_ref, bank_id, reason, at) VALUES (?,?,?,?,?)').run(student.id, ref, bankId ? Number(bankId) : null, reason, ctx.now());
+  if (bankId) {
+    const distinct = (ctx.db.prepare('SELECT COUNT(DISTINCT student_id) AS n FROM item_report WHERE bank_id = ? AND resolved = 0').get(Number(bankId)) as { n: number }).n;
+    if (distinct >= 2) ctx.db.prepare("UPDATE bank_item SET status = 'retired' WHERE id = ? AND status = 'approved'").run(Number(bankId));
+  }
+  return { ok: true };
+}
+
 function issue(ctx: Ctx, student: StudentRow, sessionId: string | null, kind: 'practice' | 'review' | 'placement', target: string, skill: string, tier: number): PublicItem & { micro: string } {
   let micro = skill;
   if (!isMicro(skill)) {
@@ -158,7 +183,8 @@ function issue(ctx: Ctx, student: StudentRow, sessionId: string | null, kind: 'p
     micro = ms[ms.length - 1]!;
     for (let i = 0; i < ms.length; i++) { r -= weights[i]!; if (r <= 0) { micro = ms[i]!; break; } }
   }
-  const item = generate(micro, tier, seedFor(ctx));
+  const banked = kind === 'practice' ? pickBank(ctx, micro, tier) : null;
+  const item = banked ?? generate(micro, tier, seedFor(ctx));
   const pid = `${item.id}:${newId().slice(0, 8)}`; // the id the client sees; never reveals more than skill, tier and seed
   ctx.db.prepare('INSERT INTO pending_item (id, student_id, session_id, kind, target, item_json, hints, issued_at) VALUES (?,?,?,?,?,?,0,?)').run(pid, student.id, sessionId, kind, target, JSON.stringify(item), ctx.now());
   return { ...toPublic({ ...item, id: pid }), micro };

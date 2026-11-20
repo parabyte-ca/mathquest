@@ -14,6 +14,12 @@ export interface Config {
   adminEmail: string;
   anthropicApiKey: string;
   anthropicModel: string;
+  anthropicApiBase: string;
+  /** Hard monthly spend cap in USD; generation stops when the next call could exceed it. */
+  aiMonthlyCapUsd: number;
+  /** Price assumptions in USD per million tokens, used only to estimate spend. Set to your model's current rates. */
+  aiPriceInPerMTok: number;
+  aiPriceOutPerMTok: number;
   magicLinkBind: 'strict' | 'off';
   magicLinkTtlMs: number;
   backupRetentionDays: number;
@@ -36,6 +42,7 @@ export function readVersion(): string {
 }
 
 const bool = (v: string | undefined, d: boolean) => (v === undefined ? d : /^(1|true|yes)$/i.test(v));
+const num = (v: string | undefined, d: number) => (v && Number.isFinite(Number(v)) && Number(v) >= 0 ? Number(v) : d);
 const int = (v: string | undefined, d: number) => (v && /^\d+$/.test(v) ? Number(v) : d);
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
@@ -52,6 +59,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     adminEmail: (env.ADMIN_EMAIL ?? '').toLowerCase(),
     anthropicApiKey: env.ANTHROPIC_API_KEY ?? '',
     anthropicModel: env.ANTHROPIC_MODEL ?? 'claude-sonnet-5-5',
+    anthropicApiBase: (env.ANTHROPIC_API_BASE ?? 'https://api.anthropic.com').replace(/\/$/, ''),
+    aiMonthlyCapUsd: num(env.AI_MONTHLY_CAP_USD, 5),
+    aiPriceInPerMTok: num(env.AI_PRICE_IN_PER_MTOK, 3),
+    aiPriceOutPerMTok: num(env.AI_PRICE_OUT_PER_MTOK, 15),
     magicLinkBind: env.MAGIC_LINK_BIND === 'off' ? 'off' : 'strict',
     magicLinkTtlMs: int(env.MAGIC_LINK_TTL_MINUTES, 15) * 60_000,
     backupRetentionDays: int(env.BACKUP_RETENTION_DAYS, 14),

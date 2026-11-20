@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.2.0] - 2026-11-20
+### Added
+- Phase 3 (Content) of the MathQuest v2 rewrite.
+- Grade 5-6 Number strand (B): 29 new seeded generators (place value, rounding and estimating, add and subtract, multiply and divide, properties and multi-step problems, fractions of a quantity, ratios and rates, percents, integers, decimals to thousandths, divisibility, primes and factor trees), each in English and Canadian French with three tiers, a three-rung hint ladder and a misconception map. Answers are independently re-computed in the tests.
+- 10 new lessons for those skills, with definitions, three worked examples and a guided try-it.
+- Claude question writer (Admin > Question writer): asks Claude for drafts for any micro-skill and tier, then re-computes every answer with math.js, rejects banned wording, links and broken maths markup, and drops duplicates. Nothing is served to a student until an admin approves it.
+- Admin review queue (approve, reject, retire), a student report list, and a usage view with a hard monthly spend cap (`AI_MONTHLY_CAP_USD`) and configurable price assumptions. No student data is ever sent to Claude.
+- Students can report a question that looks off ("Report this question"); two different students retire an AI-written item automatically. Approved items make up about one practice question in four.
+
+### Notes
+- Off by default: leave `ANTHROPIC_API_KEY` empty to keep the question writer disabled.
+- The placement quick check and prerequisite map do not yet include the new micro-skills (tracked in `docs/BACKLOG.md`).
+
 ## [2.1.0] - 2026-11-20
 ### Added
 - Phase 2 (Learning experience) of the MathQuest v2 rewrite.

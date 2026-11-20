@@ -80,6 +80,11 @@ Vitest: every generator × many seeds × all tiers (valid, correct answer, equiv
 
 1 Foundation → 2 Learning experience → 3 Content (grade order TBD) → 4 Motivation and caregivers → 5 Polish. Versions: 2.0.0 (Phase 1), 2.1.0, 2.2.0, 2.3.0, 2.4.0 (Phase 5); see decision 8.
 
+## 11c. Phase 3 delivery notes (2.2.0)
+- Content: Grade 5-6 Number (strand B) is complete at 45 micro-skills in all (29 new generators), with 10 new lessons. Strands C to F, the other grades, prerequisite edges and placement ladders for the new skills follow (see `docs/BACKLOG.md`).
+- Claude pipeline: migration 3 (`bank_item`, `ai_usage`, `item_report`). Drafts are number-answer items; every answer is re-computed with math.js, wording is filtered, duplicates are dropped, and an admin must approve each item. Hard monthly cap with worst-case pre-check, configurable price assumptions, no student data in prompts, off unless `ANTHROPIC_API_KEY` is set.
+- Serving: about one practice question in four comes from approved items; placement and review use generators only. Two distinct student reports retire an item.
+
 ## 11b. Phase 2 delivery notes (2.1.0)
 
 Built on the Grade 5-6 seed set decided in section 13 (generators, lessons and micro-skills for number, fractions, decimals and coordinates). Item formats shipped: number, fraction, mixed number, expression, choice, multi-select, ordering, matching, point plotting. Deferred: sliders, draggable curves, protractor, simulators and code snippets. Voice uses the browser's Web Speech API; no audio leaves the device.

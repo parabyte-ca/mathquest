@@ -2,13 +2,13 @@
 
 > Adaptive Ontario math practice and rewards for Grades 5-12, self-hosted and invite-only.
 
-![Version](https://img.shields.io/badge/version-2.1.0-blue)
+![Version](https://img.shields.io/badge/version-2.2.0-blue)
 
 ## Overview
 
 MathQuest is a self-hosted practice app for Ontario students in Grades 5-12. Caregivers are invited by email, add their own students, and approve the devices students use. An explainable adaptive engine tracks mastery per skill and steps a student down to smaller skills when they struggle. It runs on TrueNAS and is published at `mathquest.moot.es` through a Cloudflare Tunnel.
 
-This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (Foundation)** shipped as 2.0.0: accounts, curriculum model, engine core and deployment. **Phase 2 (Learning experience)** is 2.1.0: lessons with visuals and optional voice, the question player, hints and feedback, skill map and placement, on a Grade 5-6 number, fractions, decimals and coordinates seed set. Content for the other grades, rewards, themes and the caregiver dashboard arrive in the next phases.
+This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (Foundation)** shipped as 2.0.0: accounts, curriculum model, engine core and deployment. **Phase 2 (Learning experience)** shipped as 2.1.0: lessons with visuals and optional voice, the question player, hints and feedback, skill map and placement, on a Grade 5-6 number, fractions, decimals and coordinates seed set. **Phase 3 (Content)** is 2.2.0: the Grade 5-6 Number strand (45 micro-skills in all, 10 new lessons) and the Claude question-writer with an admin review queue and student reports. Grade 5-6 strands C to F, the other grades, rewards, themes and the caregiver dashboard arrive in the next releases.
 
 ## Features
 
@@ -83,7 +83,7 @@ See `update.sh`, run to deploy a release.
 
 ```bash
 sudo ./update.sh                    # latest release tag
-sudo ./update.sh --version 2.1.0    # a specific release
+sudo ./update.sh --version 2.2.0    # a specific release
 sudo ./update.sh --rollback         # previous tag + the database as it was before the last update
 ```
 
@@ -121,7 +121,10 @@ Set in `.env` (see `.env.example`).
 | `RESEND_API_KEY`, `MAIL_FROM`, `ADMIN_EMAIL` | empty | Email delivery and the first admin |
 | `MAGIC_LINK_TTL_MINUTES` | `15` | Link lifetime |
 | `MAGIC_LINK_BIND` | `strict` | `strict` requires opening the link in the browser that asked; `off` disables the check |
-| `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | empty, `claude-sonnet-5-5` | Used from Phase 3 |
+| `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL` | empty, `claude-sonnet-5-5` | Turns on the admin question writer (Admin > Question writer). Leave the key empty to keep it off |
+| `AI_MONTHLY_CAP_USD` | `5` | Hard monthly spend cap; generation stops before a call that could pass it |
+| `AI_PRICE_IN_PER_MTOK`, `AI_PRICE_OUT_PER_MTOK` | `3`, `15` | Price assumptions (USD per million tokens) used to estimate spend; set them to your model's current rates |
+| `ANTHROPIC_API_BASE` | `https://api.anthropic.com` | Only change for testing |
 | `BACKUP_RETENTION_DAYS` | `14` | Nightly backup retention |
 | `MATHQUEST_UID`, `MATHQUEST_GID` | `568` | Container user (the TrueNAS apps user) |
 

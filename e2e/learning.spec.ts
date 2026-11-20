@@ -248,3 +248,15 @@ test('touch targets are at least 44 px on the question page', async ({ page, bro
   expect(small).toEqual([]);
   await noHorizontalScroll(kid);
 });
+
+test('a student can report a question that looks off, once, and the admin queue sees it', async ({ page, browser, baseURL }, info) => {
+  const { kid, username } = await setup(browser, baseURL!, page, info, 'rp');
+  await startPractice(kid, 'B');
+  await kid.getByRole('button', { name: 'Report this question' }).click();
+  await expect(kid.getByRole('group', { name: 'What looks off?' })).toBeVisible();
+  await kid.getByRole('button', { name: 'I think the answer is wrong' }).click();
+  await expect(kid.getByText('Thank you. A grown-up will take a look.')).toBeVisible();
+  const rows = db().prepare("SELECT reason FROM item_report WHERE student_id = ?").all(studentId(username));
+  expect(rows).toEqual([{ reason: 'answer' }]);
+  expect(pageProblems.get(kid) ?? []).toEqual([]);
+});
