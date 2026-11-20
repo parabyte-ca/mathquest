@@ -25,6 +25,16 @@ When an admin invites a caregiver (and when a caregiver shares a student with a 
 - Decide whether to keep the note after sending (default: do not store it).
 - Tests: the note appears in the message, is length-limited, and cannot change the link or subject.
 
+### Walkthrough for students and caregivers
+Added 2026-11-20.
+
+A guided first-run tour so people know what to do without a manual. Student and caregiver versions (the user said "student and/or caregiver"; build both, caregiver first if only one fits).
+- Caregiver: short steps for adding a student, approving their device with the pairing code, setting grades and defaults, reading progress, sharing with a co-caregiver, and exporting or deleting data.
+- Student: a friendly tour of choosing a topic, learning first, hints, the scratchpad and math keyboard, the skill map, and the optional voice.
+- Skippable, replayable from a "Help" link, English and French, keyboard and screen-reader friendly (focus managed, not a modal trap), respects reduced motion.
+- Remember completion per person (server-side, so it follows them across devices); never block use of the app.
+- Tests: tour appears once, can be skipped and replayed, and passes the axe scan.
+
 ## Noted earlier in this project (not yet scheduled)
 
 - Pin GitHub Actions to commit SHAs (`scripts/pin-actions.sh`, needs internet access).

@@ -45,8 +45,8 @@ function fractionWords(n: number, d: number, lang: Lang): string {
 }
 
 const T = {
-  en: { plus: 'plus', minus: 'minus', neg: 'negative', times: 'times', div: 'divided by', eq: 'equals', lt: 'is less than', gt: 'is greater than', le: 'is less than or equal to', ge: 'is greater than or equal to', pct: 'percent', pi: 'pi', sqrt: 'the square root of', sq: 'squared', cube: 'cubed', pow: 'to the power of', point: 'point', and: 'and', quantity: 'the quantity', neq: 'is not equal to', degree: 'degrees' },
-  fr: { plus: 'plus', minus: 'moins', neg: 'négatif', times: 'fois', div: 'divisé par', eq: 'égale', lt: 'est plus petit que', gt: 'est plus grand que', le: 'est plus petit ou égal à', ge: 'est plus grand ou égal à', pct: 'pour cent', pi: 'pi', sqrt: 'la racine carrée de', sq: 'au carré', cube: 'au cube', pow: 'à la puissance', point: 'virgule', and: 'et', quantity: 'la quantité', neq: 'n\'est pas égal à', degree: 'degrés' },
+  en: { plus: 'plus', minus: 'minus', neg: 'negative', times: 'times', div: 'divided by', eq: 'equals', lt: 'is less than', gt: 'is greater than', le: 'is less than or equal to', ge: 'is greater than or equal to', pct: 'percent', pi: 'pi', sqrt: 'the square root of', sq: 'squared', cube: 'cubed', pow: 'to the power of', point: 'point', and: 'and', quantity: 'the quantity', neq: 'is not equal to', degree: 'degrees', blank: 'blank' },
+  fr: { plus: 'plus', minus: 'moins', neg: 'négatif', times: 'fois', div: 'divisé par', eq: 'égale', lt: 'est plus petit que', gt: 'est plus grand que', le: 'est plus petit ou égal à', ge: 'est plus grand ou égal à', pct: 'pour cent', pi: 'pi', sqrt: 'la racine carrée de', sq: 'au carré', cube: 'au cube', pow: 'à la puissance', point: 'virgule', and: 'et', quantity: 'la quantité', neq: 'n\'est pas égal à', degree: 'degrés', blank: 'case vide' },
 } as const;
 
 /** Reads the `{...}` group starting at s[i] (s[i] must be '{'); returns [inner, indexAfter]. */
@@ -62,7 +62,9 @@ function group(s: string, i: number): [string, number] {
 export function latexToSpeech(tex: string, lang: Lang): string {
   const t = T[lang];
   const out: string[] = [];
-  const s = tex.replace(/\\left|\\right|\\,|\\;|\\!|\\ /g, ' ').replace(/\\dfrac|\\tfrac/g, '\\frac').replace(/\\cdot/g, '\\times');
+  // Digit groups written 12\,345 (thin space) and French decimals written 3{,}5 must read as numbers, not separate pieces.
+  const joined = tex.replace(/(\d)\\,(?=\d{3})/g, '$1').replace(/(\d)\{,\}(\d)/g, '$1.$2');
+  const s = joined.replace(/\\left|\\right|\\,|\\;|\\!|\\ /g, ' ').replace(/\\dfrac|\\tfrac/g, '\\frac').replace(/\\cdot/g, '\\times');
   let i = 0;
   let atStart = true; // for "negative" versus "minus"
   const push = (w: string) => w && out.push(w);
@@ -83,6 +85,11 @@ export function latexToSpeech(tex: string, lang: Lang): string {
         push(`${latexToSpeech(a, lang)} ${lang === 'en' ? 'over' : 'sur'} ${latexToSpeech(b, lang)}`);
       }
       i = k; atStart = false; continue;
+    }
+    if (s.startsWith('\\text', i)) {
+      const [a, j] = group(s, i + 5);
+      push(a.trim());
+      i = j; continue;
     }
     if (s.startsWith('\\sqrt', i)) {
       const [a, j] = group(s, i + 5);
@@ -137,6 +144,7 @@ export function latexToSpeech(tex: string, lang: Lang): string {
       case ')': push(','); atStart = false; break;
       case ',': push(','); break;
       case ':': push(lang === 'en' ? 'to' : 'à'); atStart = true; break;
+      case '?': push(t.blank); atStart = false; break;
       case '°': push(t.degree); atStart = false; break;
       default: break;
     }

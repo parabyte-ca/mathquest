@@ -1,6 +1,6 @@
 {
  "_note": "Seed micro-skills (Phase 1 sample: Grade 5-6 number/fractions). Phase 3 extends this to every Grade 5-6 expectation. tiers = number of difficulty tiers (min 3). prereqs are micro-skill ids.",
- "version": "2026.11.2",
+ "version": "2026.11.3",
  "microskills": [
   {
    "id": "MS.G5.B1.3.a",
@@ -142,6 +142,209 @@
    "id": "MS.G5.E1.4.a",
    "expectation": "G5.E1.4",
    "name": "Plot and read points in the first quadrant",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B1.1.a",
+   "expectation": "G5.B1.1",
+   "name": "Compose and decompose whole numbers to 100 000",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B1.2.a",
+   "expectation": "G5.B1.2",
+   "name": "Compare and order whole numbers to 100 000",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B1.6.a",
+   "expectation": "G5.B1.6",
+   "name": "Round decimals to the nearest tenth",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B2.1.a",
+   "expectation": "G5.B2.1",
+   "name": "Solve multi-step problems with whole numbers and decimals",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B2.1.b",
+   "expectation": "G5.B2.1",
+   "name": "Use properties of operations",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B2.2.a",
+   "expectation": "G5.B2.2",
+   "name": "Recall multiplication facts to 12 \u00d7 12 and related division facts",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B2.3.a",
+   "expectation": "G5.B2.3",
+   "name": "Mental math with 0.1 and 0.01; estimate decimal sums",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B2.4.a",
+   "expectation": "G5.B2.4",
+   "name": "Add and subtract whole numbers and decimals",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B2.6.a",
+   "expectation": "G5.B2.6",
+   "name": "Multiply two-digit by two-digit numbers",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B2.7.a",
+   "expectation": "G5.B2.7",
+   "name": "Divide three-digit by two-digit numbers; treat remainders",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B2.8.a",
+   "expectation": "G5.B2.8",
+   "name": "Multiply and divide whole numbers by unit fractions",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.B2.9.a",
+   "expectation": "G5.B2.9",
+   "name": "Equivalent ratios and rates",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B1.1.a",
+   "expectation": "G6.B1.1",
+   "name": "Whole numbers to 1 000 000",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B1.2.a",
+   "expectation": "G6.B1.2",
+   "name": "Read and represent integers on number lines",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B1.3.a",
+   "expectation": "G6.B1.3",
+   "name": "Compare and order integers, decimals and fractions",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B1.4.a",
+   "expectation": "G6.B1.4",
+   "name": "Decimals to thousandths",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B1.5.a",
+   "expectation": "G6.B1.5",
+   "name": "Round terminating and repeating decimals",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B1.6.a",
+   "expectation": "G6.B1.6",
+   "name": "Fractions and decimals up to thousandths",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.1.a",
+   "expectation": "G6.B2.1",
+   "name": "Solve multi-step problems with decimals, fractions, ratios, rates and percents",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.2.a",
+   "expectation": "G6.B2.2",
+   "name": "Divisibility rules",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.3.a",
+   "expectation": "G6.B2.3",
+   "name": "Mental math for 1%, 5%, 10%, 15%, 25%, 50%",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.4.a",
+   "expectation": "G6.B2.4",
+   "name": "Add and subtract whole numbers and decimals",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.6.a",
+   "expectation": "G6.B2.6",
+   "name": "Prime factorization with factor trees",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.7.a",
+   "expectation": "G6.B2.7",
+   "name": "Multiply a three-digit number by tenths",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.8.a",
+   "expectation": "G6.B2.8",
+   "name": "Divide a three-digit number by tenths",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.9.a",
+   "expectation": "G6.B2.9",
+   "name": "Multiply a whole number by a proper fraction",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.10.a",
+   "expectation": "G6.B2.10",
+   "name": "Divide a whole number by a proper fraction",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.11.a",
+   "expectation": "G6.B2.11",
+   "name": "Divide decimals by whole numbers up to 10",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.B2.12.a",
+   "expectation": "G6.B2.12",
+   "name": "Ratios, percents and rates",
    "tiers": 3,
    "prereqs": []
   }
