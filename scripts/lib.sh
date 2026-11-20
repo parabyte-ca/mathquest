@@ -91,4 +91,23 @@ verify_image() {
   log "verified signature and revision for $ref"
 }
 
+# Fetches release tags without ever prompting (cron cannot answer a password prompt).
+# For a private repository, put a read-only token in .state/github_token (root-only, never mounted into the container).
+git_fetch_tags() {
+  local token_file="$ROOT_DIR/.state/github_token" auth=() token
+  if [ -s "$token_file" ]; then
+    token="$(tr -d '[:space:]' <"$token_file")"
+    auth=(-c "http.https://github.com/.extraheader=AUTHORIZATION: basic $(printf 'x-access-token:%s' "$token" | base64 -w0)")
+  fi
+  GIT_TERMINAL_PROMPT=0 git -C "$ROOT_DIR" "${auth[@]}" fetch --tags --quiet
+}
+
+# The app runs as MATHQUEST_UID:GID, so folders it writes into must belong to that user, not root.
+ensure_app_dir() { # ensure_app_dir PATH
+  local uid gid
+  mkdir -p "$1"
+  uid="$(env_get MATHQUEST_UID)"; gid="$(env_get MATHQUEST_GID)"
+  chown "${uid:-568}:${gid:-568}" "$1" 2>/dev/null || log "WARNING: could not chown $1 to ${uid:-568}:${gid:-568}"
+}
+
 compose() { docker compose --project-directory "$ROOT_DIR" "$@"; }

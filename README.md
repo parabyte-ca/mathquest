@@ -2,7 +2,7 @@
 
 > Adaptive Ontario math practice and rewards for Grades 5-12, self-hosted and invite-only.
 
-![Version](https://img.shields.io/badge/version-2.0.1-blue)
+![Version](https://img.shields.io/badge/version-2.0.2-blue)
 
 ## Overview
 
@@ -89,6 +89,18 @@ It backs up the database first, verifies the cosign signature and that the image
 sudo scripts/upgrade-agent.sh --install    # (setup.sh does this on TrueNAS)
 sudo scripts/upgrade-agent.sh --status
 ```
+
+### Private repository
+
+If `git fetch` asks for a username and password, or the in-app upgrade says the tag is not found, the repository is private and the host cannot read it unattended. Give the host a read-only credential that never enters the container:
+
+```bash
+# 1. GitHub -> Settings -> Developer settings -> Fine-grained token: this repository only, "Contents: Read-only"
+sudo sh -c 'umask 077; printf %s "<token>" > .state/github_token'   # root-only, never mounted
+# 2. If the image is private too, one-time:  sudo docker login ghcr.io -u <user>   (token with read:packages)
+```
+
+`update.sh` and the upgrade agent use that file for `git fetch` and never prompt. The admin Updates page checks the GitHub releases API from inside the container, so for a private repository it will show "could not check for new releases"; either make the repository public or run `sudo ./update.sh` from the host.
 
 ## Configuration
 
