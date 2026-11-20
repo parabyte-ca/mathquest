@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.0.1] - 2026-11-20
+### Fixed
+- Sign-in emails were sent from `mathquest@moot.es`, a domain that is not verified in Resend, so delivery failed with a 403. The default sender is now `mathquest@mathquest.moot.es`.
+- Email failures are now visible: the log shows Resend's error and a hint, and `create-admin` says plainly when the email was not delivered.
+
+### Changed
+- README "Email DNS" now documents the `mathquest.moot.es` subdomain records and a troubleshooting table.
+
 ## [2.0.0] - 2026-11-20
 ### Added
 - Phase 1 (Foundation) of the MathQuest v2 rewrite: invite-only accounts, curriculum model, adaptive engine core and deployment tooling.

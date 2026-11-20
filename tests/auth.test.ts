@@ -154,3 +154,28 @@ describe('roles', () => {
     expect(res.body.entries.map((e: { action: string }) => e.action)).toContain('caregiver.invite');
   });
 });
+
+describe('mail delivery failures are visible', () => {
+  it('ResendMailer returns false and logs Resend\'s reason (without the message body) on a 403', async () => {
+    const { ResendMailer } = await import('../server/mail.js');
+    const { vi } = await import('vitest');
+    const err = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const fetchMock = vi.spyOn(globalThis, 'fetch').mockResolvedValue(
+      new Response(JSON.stringify({ name: 'invalid_from_address', message: 'not authorized to send emails from moot.es' }), { status: 403 }),
+    );
+    const mailer = new ResendMailer({ resendApiKey: 're_x', resendApiBase: 'http://mock', mailFrom: 'MathQuest <mathquest@moot.es>' });
+    const ok = await mailer.send({ to: 'a@example.com', subject: 'Your MathQuest sign-in link', text: 'secret link token=abc123' });
+    expect(ok).toBe(false);
+    const logged = err.mock.calls.map((c) => c.join(' ')).join('\n');
+    expect(logged).toContain('403');
+    expect(logged).toContain('not authorized to send emails');
+    expect(logged).not.toContain('abc123');
+    fetchMock.mockRestore();
+    err.mockRestore();
+  });
+
+  it('defaults the sender to the verified subdomain', async () => {
+    const { loadConfig } = await import('../server/config.js');
+    expect(loadConfig({}).mailFrom).toBe('MathQuest <mathquest@mathquest.moot.es>');
+  });
+});

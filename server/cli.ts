@@ -23,9 +23,10 @@ async function main(): Promise<void> {
     } else if (user.role !== 'admin') {
       throw new Error('that email already belongs to a caregiver account');
     }
-    await sendSignInLink(ctx, user, { invite: true });
-    if (!cfg.resendApiKey) {
-      console.log(`Admin ${email} is created, but RESEND_API_KEY is not set so no email was sent. Set it in .env, restart, and sign in from the sign-in page.`);
+    const sent = await sendSignInLink(ctx, user, { invite: true });
+    if (!sent) {
+      console.log(`Admin ${email} is created, but the sign-in email was NOT delivered (see the [mail] line above). Fix .env (RESEND_API_KEY, MAIL_FROM), run 'sudo docker compose up -d', then request a link from the sign-in page.`);
+      process.exitCode = 1;
     } else {
       console.log(`Admin ${email} is ready. A sign-in link was emailed (valid ${Math.round(cfg.magicLinkTtlMs / 60000)} minutes).`);
     }

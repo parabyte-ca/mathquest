@@ -14,7 +14,7 @@ const emailSchema = z.string().trim().toLowerCase().email().max(254);
  * `nonce` binds the token to the browser that asked for it (omit for admin/co-caregiver invites,
  * where the invitee's browser is not yet known).
  */
-export async function sendSignInLink(ctx: Ctx, user: UserRow, opts: { nonce?: string; invite?: boolean } = {}): Promise<void> {
+export async function sendSignInLink(ctx: Ctx, user: UserRow, opts: { nonce?: string; invite?: boolean } = {}): Promise<boolean> {
   const token = randomToken(32);
   const t = ctx.now();
   ctx.db
@@ -22,7 +22,7 @@ export async function sendSignInLink(ctx: Ctx, user: UserRow, opts: { nonce?: st
     .run(sha256(token), user.id, opts.nonce ? sha256(opts.nonce) : null, t + ctx.cfg.magicLinkTtlMs, t);
   const link = `${ctx.cfg.baseUrl}/app/verify?token=${token}`;
   const minutes = Math.round(ctx.cfg.magicLinkTtlMs / 60_000);
-  await ctx.mailer.send({
+  return ctx.mailer.send({
     to: user.email,
     subject: opts.invite ? 'You are invited to MathQuest' : 'Your MathQuest sign-in link',
     text:
