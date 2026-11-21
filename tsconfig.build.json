@@ -1,4 +1,5 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": { "sourceMap": false, "inlineSourceMap": false, "declaration": false, "declarationMap": false },
   "include": ["server/**/*.ts", "shared/**/*.ts"]
 }

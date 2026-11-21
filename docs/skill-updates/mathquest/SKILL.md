@@ -76,6 +76,7 @@ CI runs shellcheck, checks, the Docker image build and e2e at phone, tablet and 
 - The home page resets strand choices once when options load; tests must wait for the tick to stick.
 - The shell classifier can refuse very large heredocs; write big files with the editor tools instead.
 - Do not pre-announce a release as published until the Release workflow has finished.
+- Credentials are server-side only (`docs/SECURITY.md`). Before a release run `npm run build && npm run audit:secrets -- --require-client`. Browser env variables must start with `MQ_PUBLIC_`; never name one KEY, SECRET, TOKEN or PASSWORD. New API routes must not return config values, and `tests/security-exposure.test.ts` lists the read-only routes it checks, so add new GET routes there.
 
 ## Working style for this user
 

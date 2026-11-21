@@ -38,6 +38,8 @@ export function Verify({ onDone, go }: { onDone: () => void; go: (to: string) =>
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     const token = new URLSearchParams(location.search).get('token') ?? '';
+    // Take the one-time token out of the address bar and the history straight away, so it cannot be copied, bookmarked or shared.
+    history.replaceState(null, '', location.pathname);
     // The link is opened by a person, then the token is POSTed. A mail scanner that only GETs the page cannot use it up.
     void api<{ csrf?: string }>('POST', '/auth/verify', { token }).then((r) => {
       if (r.ok) onDone();

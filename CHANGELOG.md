@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.16.1] - 2026-11-21
+### Security
+- A full audit of the source, the git history, the build, the production bundles and the running server found **no credentials, keys, tokens or connection strings in any browser code, bundle, source map or API response**. The two secrets the app uses (the Resend and Anthropic keys) were already only in the server's environment, used only for calls the server makes, and never sent to the browser. This release keeps it that way automatically.
+- New `npm run audit:secrets`: scans the tracked source, the whole git history, the browser bundle and the server build for credential shapes, hard-coded passwords, the real values of this machine's secret-like environment variables, source maps, `process.env`, server-only packages and build paths in browser code, and files that should never ship. CI runs it after every build and again on the built Docker image.
+- The browser build can only see variables that start with `MQ_PUBLIC_` (never the default `VITE_`), and refuses to build if such a variable is named like a key, secret, token or password. Source maps are explicitly off for the browser and the server.
+- API responses now carry `Cache-Control: no-store`, so no browser, proxy or CDN keeps session or personal data.
+- The one-time sign-in token is removed from the address bar and history as soon as the sign-in page reads it.
+- New `.dockerignore` keeps `.env`, `.git`, `data/`, key files and source maps out of the image build context.
+- New tests configure fake keys and try to make the running app reveal them (every read-only API route for an admin, a caregiver, a student and a visitor; error paths including a provider that echoes the key; mail failures; path traversal; the security headers), and prove the scanner catches each kind of secret.
+- New `docs/SECURITY.md` explains where each secret lives, how it is kept out of the browser, how to check, and what to do if a key is ever exposed.
+
+### Notes
+- Pinning the GitHub Actions to commit SHAs is still open (`scripts/pin-actions.sh`); it needs network access to resolve the SHAs.
+
 ## [2.16.0] - 2026-11-21
 ### Added
 - Grade 11, continued: MCR3U trigonometry and the whole MCF3M course. 23 new micro-skills and 4 lessons.

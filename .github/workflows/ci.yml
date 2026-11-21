@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # pin
+        with:
+          fetch-depth: 0 # the secret scan reads the whole history
       - uses: actions/setup-node@v4 # pin
         with:
           node-version: 22
@@ -32,6 +34,8 @@ jobs:
       - run: npm run i18n:check
       - run: npm test
       - run: npm run build
+      - name: No secrets in the source, the history or the production bundles (no source maps, no server code in the browser)
+        run: npm run audit:secrets -- --require-client
       - name: Curriculum seed is up to date
         run: |
           npm run curriculum:build
@@ -68,8 +72,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # pin
+      - uses: actions/setup-node@v4 # pin
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
       - name: Build the image
         run: docker build --build-arg GIT_SHA="$GITHUB_SHA" -t mathquest:ci .
+      - name: The image holds no secret files, source maps or credentials
+        run: |
+          set -euo pipefail
+          docker create --name mqscan mathquest:ci >/dev/null
+          mkdir -p image-scan
+          docker cp mqscan:/app/dist/web image-scan/web
+          docker cp mqscan:/app/dist/server image-scan/server
+          # Only the application's own files: the base image carries its own npm (with source maps) and the dependencies are third-party.
+          docker export mqscan | tar -t | grep '^app/' | grep -v '^app/node_modules/' > image-scan/files.txt
+          docker rm mqscan >/dev/null
+          if grep -E '(^|/)\.env($|\.)|\.map$|\.pem$|\.key$|\.p12$|\.db$|(^|/)\.git/' image-scan/files.txt; then echo "the image contains a file that must not ship"; exit 1; fi
+          npm run audit:secrets -- --no-source --no-history --require-client --client image-scan/web --server image-scan/server
       - name: Smoke test inside the built container (read-only fs, no capabilities)
         run: |
           set -euo pipefail

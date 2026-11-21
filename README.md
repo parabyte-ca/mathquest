@@ -2,7 +2,7 @@
 
 > Adaptive Ontario math practice and rewards for Grades 5-12, self-hosted and invite-only.
 
-![Version](https://img.shields.io/badge/version-2.16.0-blue)
+![Version](https://img.shields.io/badge/version-2.16.1-blue)
 
 ## Overview
 
@@ -17,6 +17,7 @@ This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (
 - Student sign-in with username and 4-digit PIN, only on devices a caregiver approved with a pairing code; lockout after 5 wrong PINs with an email to the caregiver
 - Minimal student data (display name, username, grade, language, settings); export or delete any student's data
 - CSRF protection, strict Content Security Policy, input validation on every endpoint, audit log
+- Every credential stays on the server; `npm run audit:secrets` (also run in CI, on the built image too) proves none is in the source, the history, the browser bundle or any API response. See `docs/SECURITY.md`
 - Ontario curriculum model for Grades 5-12 (365 expectations, both tagging schemas, prerequisite graph, 310 micro-skills across Grades 5 to 11)
 - Adaptive engine core: Bayesian Knowledge Tracing, struggle detection, one-tier-at-a-time step-down and build-up, spaced review, session mix, adaptive placement
 - English and French interface (CI fails on a missing key)
@@ -83,7 +84,7 @@ See `update.sh`, run to deploy a release.
 
 ```bash
 sudo ./update.sh                    # latest release tag
-sudo ./update.sh --version 2.16.0    # a specific release
+sudo ./update.sh --version 2.16.1    # a specific release
 sudo ./update.sh --rollback         # previous tag + the database as it was before the last update
 ```
 
