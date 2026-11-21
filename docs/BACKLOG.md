@@ -11,7 +11,6 @@ Items waiting for a phase or a slot. Newest first within each section. Move an i
 - Dependabot: switch to monthly with grouped minor and patch updates so it stops opening many PRs at once.
 - Admin Updates page cannot see releases of a private repository from inside the container; resolved while the repository is public. If it goes private again, have the host agent write the latest-release info into `upgrade-status/`.
 - Phase 3: content for Grades 5 and 6 first, then the next grades; the Claude-generated item pipeline and admin review queue; remaining item formats (sliders, draggable curves, protractor, simulators, code snippets).
-- Offline practice: answer questions without a connection and sync later (needs client-side generators, a signed queue the server can replay and verify, and a decision on showing answers offline).
 - Create a `mathquest` skill (architecture, ports, release flow) and refresh `ontario-math-curriculum` once Grade 5-6 content is real.
 
 ## Phase 3 follow-ups (from 2.2.0)
@@ -32,7 +31,7 @@ Items waiting for a phase or a slot. Newest first within each section. Move an i
 - Worksheets: choose several topics on one sheet; add a solution page with the worked steps.
 
 ## Phase 5 follow-ups (from 2.4.0)
-- Offline practice (see above), and an "Install the app" button inside the app.
+- Offline practice follow-ups: spaced-review items and lessons offline, pack size and refresh by topic, a clearer "expires soon" reminder, and a caregiver view of answers waiting on a device.
 - Split the lesson try-it code from the lesson text so a lesson loads less than 585 kB.
 - Walkthrough: a short "what is new" card after an upgrade; a tour for the admin pages.
 - Updates page: show the agent's cron schedule and a "check again" button.

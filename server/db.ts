@@ -325,6 +325,24 @@ const MIGRATIONS: { id: number; name: string; sql: string }[] = [
     );
     `,
   },
+  {
+    id: 6,
+    name: 'offline-practice',
+    sql: `
+    -- A pack of questions a student downloaded to practise without a connection. The server keeps the list (skill, tier and seed
+    -- of each question) so that when the answers come back it can rebuild every question itself and grade it; the device is never trusted.
+    CREATE TABLE offline_pack (
+      id TEXT PRIMARY KEY,
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      items_json TEXT NOT NULL,
+      done_json TEXT NOT NULL DEFAULT '[]',
+      issued_at INTEGER NOT NULL,
+      expires_at INTEGER NOT NULL,
+      synced_at INTEGER
+    );
+    CREATE INDEX idx_offline_pack_student ON offline_pack(student_id);
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

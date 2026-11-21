@@ -11,7 +11,8 @@ import { StudentArea } from './pages/StudentArea';
 import { Caregiver } from './pages/Caregiver';
 import { Lazy } from './lazy';
 import { startTour, TourHost } from './tour';
-import { OfflineBanner, registerServiceWorker } from './pwa';
+import { InstallButton, OfflineBanner, registerServiceWorker, useOnline } from './pwa';
+import { forgetStudent } from './offlineStore';
 
 const loadAdmin = () => import('./pages/Admin').then((m) => m.Admin);
 const loadProgress = () => import('./pages/Progress').then((m) => m.Progress);
@@ -42,8 +43,12 @@ function App() {
   }, []);
 
   const refresh = async () => setMe(await loadMe());
+  // A student whose app opened offline is checked again as soon as the connection is back.
+  const online = useOnline();
+  useEffect(() => { if (online && me?.kind === 'student' && me.offline) void refresh(); }, [online]);
   const signOut = async () => {
     await api('POST', '/auth/logout');
+    void forgetStudent();
     setCsrf('');
     setMe(null);
     go('/app');
@@ -71,6 +76,7 @@ function Shell(p: { path: string; me: Me | null | undefined; signOut: () => void
         <a class="brand" href="/app" onClick={(e) => { e.preventDefault(); p.go('/app'); }}>{t('app.name')}</a>
         <nav aria-label="Main">
           {isAdmin && <a href="/app/admin" onClick={(e) => { e.preventDefault(); p.go('/app/admin'); }}>{t('nav.admin')}</a>}
+          <InstallButton />
           {p.me && <button type="button" class="link" onClick={() => { p.go(p.me!.kind === 'student' ? '/app/learn' : '/app'); startTour(p.me!.kind === 'student' ? 'student' : 'caregiver'); }}>{t('nav.help')}</button>}
           <button type="button" class="link" onClick={() => setLang(getLang() === 'en' ? 'fr' : 'en')} lang={getLang() === 'en' ? 'fr' : 'en'}>{t('nav.language')}</button>
           {p.me && <button type="button" class="link" onClick={p.signOut}>{t('nav.signOut')}</button>}

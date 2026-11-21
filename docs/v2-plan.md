@@ -95,7 +95,7 @@ Vitest: every generator × many seeds × all tiers (valid, correct answer, equiv
 - Walkthroughs: migration 5 (`tour_seen`, per person, per tour). The tour is data (`web/src/tour.tsx`); text lives in the locale files.
 - PWA: `web/public/` holds the manifest, icons, offline page and `sw.js`. The worker is cache-versioned by the release (`/sw.js?v=<version>`), precaches the shell and every built script from `asset-manifest.json`, and ignores `/api/*`. The offline page uses no inline script or style because the Content Security Policy forbids them.
 - Updates page: the host agent writes `progress.json`, richer `status.json` and a `heartbeat`; the app reads them as untrusted input.
-- Deferred on purpose: offline practice. It needs the answers on the device and a replayable, verifiable sync, which deserves its own design.
+- Offline practice (2.6.0): the server issues a pack of (skill, tier, seed) items and stores it; the device builds the questions with the shared generators, keeps the student's answers in IndexedDB, and sends them back; the server rebuilds each question from its seed, grades it itself and applies mastery, ladder and rewards as for online practice. Each question counts once, packs expire, and nothing the device claims about correctness is trusted.
 
 ## 11b. Phase 2 delivery notes (2.1.0)
 
