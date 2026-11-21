@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import type { Given, Text } from '../../../shared/items/types';
-import { lessonById, lessonForSkill } from '../../../shared/lessons/index';
 import { applyReward, RewardNote, type RewardResult } from '../rewards';
 import { BADGES } from '../../../shared/rewards';
 import { api } from '../api';
@@ -10,7 +9,7 @@ import { Scratchpad } from '../Scratchpad';
 import { onCaption, speak, speechSupported, stopSpeaking } from '../speech';
 import { getLang, t } from '../i18n';
 import type { AnswerData, LadderEvent, Step, StudentSettings } from '../learnTypes';
-import { LessonView } from './LessonView';
+import { Lazy } from '../lazy';
 
 const EVENT_KEY: Partial<Record<LadderEvent, string>> = {
   advance: 'event.advance', stepdown: 'event.stepdown', micro: 'event.micro', lesson: 'event.lesson',
@@ -18,6 +17,7 @@ const EVENT_KEY: Partial<Record<LadderEvent, string>> = {
 };
 
 /** The question player: lesson, item, hints, feedback and the next step. Answers are graded on the server. */
+const loadLesson = () => import('./LessonById').then((m) => m.LessonById);
 const BADGE_NAMES: Record<string, Text> = Object.fromEntries(BADGES.map((b) => [b.id, b.name]));
 
 export function Practice({ settings, go }: { settings: StudentSettings; go: (to: string) => void }) {
@@ -97,12 +97,10 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
   if (!step) return <section class="card narrow"><p role="status">{t('common.loading')}</p></section>;
 
   if (step.type === 'lesson') {
-    const lesson = lessonById(step.lessonId)!;
     return (
       <>
         <p class="banner" role="status">{t('event.lesson')}</p>
-        <LessonView lesson={lesson} settings={settings} doneLabel={t('lesson.backToPractice')}
-          onDone={async () => { await api('POST', '/learn/lesson-done', { target: step.target }); await load(); }} />
+        <Lazy load={loadLesson} props={{ lessonId: step.lessonId, settings, doneLabel: t('lesson.backToPractice'), onDone: async () => { await api('POST', '/learn/lesson-done', { target: step.target }); await load(); } }} />
       </>
     );
   }
@@ -121,7 +119,7 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
   }
 
   const item = step.item;
-  const lesson = lessonForSkill(item.skill);
+  const lesson = step.lessonId ?? null;
   const f = result?.feedback;
   const evKey = result ? EVENT_KEY[result.event] : undefined;
 
@@ -170,7 +168,7 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
             </div>
           </div>
         )}
-        {showHow && lesson && <div class="overlay"><LessonView lesson={lesson} settings={settings} doneLabel={t('lesson.backToQuestion')} onDone={() => setShowHow(false)} /></div>}
+        {showHow && lesson && <div class="overlay"><Lazy load={loadLesson} props={{ lessonId: lesson, settings, doneLabel: t('lesson.backToQuestion'), onDone: () => setShowHow(false) }} /></div>}
       </section>
       <div class="report">
         {reported ? <p class="muted small" role="status">{t('report.thanks')}</p> : reporting ? (
