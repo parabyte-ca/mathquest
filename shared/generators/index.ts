@@ -12,6 +12,8 @@ import { comparePatterns7, equations7, evalDecimal7, inequalities7, integerPatte
 import { circleGraph7, experimental7, meanChange7, percentData7, twoEvents7 } from './data7.js';
 import { budget7, capacity7, circleArea7, circumference7, compareAccounts7, cylinderSA7, cylinderVolume7, dilation7, exchange7, interest7, prismVolume7, solids7, transform7, units7 } from './spatial7.js';
 import { addSubFrac8, integers8, mulDivFrac8, mulDivInt8, orderOps8, percents8, powersOfTen8, proportions8, realNumbers8, roots8, scientific8, squaresRecall8 } from './number8.js';
+import { binomials8, comparePatterns8, equations8, evalRational8, inequalities8, patternRules8, rationalPatterns8 } from './algebra8.js';
+import { correlation8, multiEvents8, tables8, venn8 } from './data8.js';
 import { angles6, area6, areaParTri5, bestValue5, fourQuadrants6, metricBoth6, metricDown5, quads6, salesTax5, samePerimeter5, simpleInterest6, surfaceArea6, triangles5 } from './spatial56.js';
 
 /** One generator per micro-skill. Each takes (tier, seed) and is deterministic, so every item can be rebuilt and re-checked. */
@@ -142,6 +144,17 @@ export const GENERATORS: Record<string, Generator> = {
   'MS.G8.B2.6.a': mulDivFrac8,
   'MS.G8.B2.7.a': mulDivInt8,
   'MS.G8.B2.8.a': proportions8,
+  'MS.G8.C1.1.a': comparePatterns8,
+  'MS.G8.C1.3.a': patternRules8,
+  'MS.G8.C1.4.a': rationalPatterns8,
+  'MS.G8.C2.1.a': binomials8,
+  'MS.G8.C2.2.a': evalRational8,
+  'MS.G8.C2.3.a': equations8,
+  'MS.G8.C2.4.a': inequalities8,
+  'MS.G8.D1.2.a': tables8,
+  'MS.G8.D1.5.a': correlation8,
+  'MS.G8.D2.1.a': venn8,
+  'MS.G8.D2.2.a': multiEvents8,
 };
 
 export const MAX_TIER = 3;

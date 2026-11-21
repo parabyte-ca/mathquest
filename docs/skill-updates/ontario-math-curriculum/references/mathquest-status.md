@@ -1,6 +1,6 @@
 # MathQuest content status
 
-Snapshot at release 2.7.0 (21 November 2026). To refresh the table, run `python scripts/content_status.py` from the MathQuest repository root (the `mathquest` skill bundles it) and paste the result below. The repository's `docs/BACKLOG.md` is the live to-do list.
+Snapshot at release 2.7.1 (21 November 2026). To refresh the table, run `python scripts/content_status.py` from the MathQuest repository root (the `mathquest` skill bundles it) and paste the result below. The repository's `docs/BACKLOG.md` is the live to-do list.
 
 ## Contents
 1. How ids and files line up
@@ -31,10 +31,10 @@ Micro-skills, and expectations that have at least one, by grade and strand (stra
 | 5 | 24 skills · 16 of 16 | 5 · 5 of 10 | 3 · 3 of 8 | 5 · 5 of 11 | 2 · 2 of 6 |
 | 6 | 20 · 18 of 18 | 4 · 4 of 10 | 3 · 3 of 8 | 6 · 6 of 10 | 1 · 1 of 5 |
 | 7 | 15 · 13 of 17 | 7 · 7 of 10 | 5 · 5 of 8 | 10 · 9 of 11 | 4 · 4 of 6 |
-| 8 | 12 · 12 of 12 | not yet | not yet | not yet | not yet |
+| 8 | 12 · 12 of 12 | 7 · 7 of 8 | 4 · 4 of 8 | not yet | not yet |
 | 9 to 12 | not yet | | | | |
 
-126 micro-skills in all. Placement ladders exist for Grades 5 to 8 (Number only). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practised through the C1.3 pattern-rule skill.
+137 micro-skills in all. Placement ladders exist for Grades 5 to 8 (Number only). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practised through the C1.3 pattern-rule skill.
 
 ## 3. What is deliberately deferred
 
@@ -58,4 +58,4 @@ These need item types or tools the question player does not have yet. Build the 
 - Link each new micro-skill to the previous grade's micro-skill on the same chain, and to the same-grade skill it depends on.
 - Prefer exact answers: choose numbers so results are whole or have at most six decimal places, and use 3.14 for pi when the prompt says so.
 - Include at least one common misconception per item and word it kindly ("It looks like..."); a student must never be told they are careless.
-- Next up: Grade 8 strands C to F, then Grade 9 (MTH1W).
+- Next up: Grade 8 strands E and F, then Grade 9 (MTH1W).

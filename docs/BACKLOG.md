@@ -10,7 +10,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 
 | Release | Scope | Size |
 |---|---|---|
-| 2.7.1 | Grade 8 algebra (C) and data (D): 11 skills, 3 lessons | M |
+| 2.7.1 | Grade 8 algebra (C) and data (D): 11 skills, 3 lessons (in progress, PR open) | M |
 | 2.7.2 | Grade 8 spatial sense (E) and financial literacy (F): about 15 skills | M |
 | 2.8.0 | Placement quick checks for strands C to F, Grades 5 to 8 | S |
 | 2.9.x | Grade 9 (MTH1W): 2.9.0 Number and Algebra, 2.9.1 Data, Geometry and Financial | M x 2 |

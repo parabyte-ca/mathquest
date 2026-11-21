@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.7.1] - 2026-11-21
+### Added
+- Grade 8 algebra (strand C, 7 skills) and data (strand D, 4 skills): 11 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer.
+  - Algebra: comparing growing and shrinking patterns, pattern rules and unknown terms with negatives and decimals, patterns among rational numbers (including halving), adding monomials and binomials, evaluating with rational numbers, multi-term equations with integers and decimals (including letters on both sides), and inequalities with integers where a negative coefficient reverses the sign.
+  - Data: two-variable tables of values, describing correlation in a scatter plot (strong, weak, none, positive, negative, and ignoring an outlier), Venn diagrams (at least one, both, and probability as a percent), and several independent or dependent events with exact fractions (three spins, three marbles, exactly one of two).
+- Three Grade 8 lessons ("Show me how"), so every Grade 8 micro-skill so far has a lesson.
+- Independent arithmetic tests for every new generator (substitution, brute force, exact fractions and Pearson's r; one was mutation-checked).
+
+### Notes
+- Grade 8 spatial sense and financial literacy are next (2.7.2). Items that need richer tools (infographics, analysis of graphs, coding) are still on the backlog.
+
 ## [2.7.0] - 2026-11-21
 ### Added
 - Grade 8 Number (strand B): 12 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer. Topics: scientific notation (big and small numbers), rational and irrational numbers, estimating and calculating square roots, percents above 100% and below 1%, order of operations with rational numbers, common squares and roots, multiplying and dividing by powers of ten, adding and subtracting integers, adding and subtracting fractions (unlike denominators, mixed numbers, three terms), multiplying and dividing fractions with whole and mixed numbers, multiplying and dividing integers, and comparing proportional situations.
