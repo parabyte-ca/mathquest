@@ -323,6 +323,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await expect(parent.getByRole('heading', { name: /progress/i, level: 1 })).toBeVisible();
   await expect(parent.getByText('questions this week', { exact: false })).toBeVisible();
   await expect(parent.getByRole('heading', { name: 'By topic' })).toBeVisible();
+  await noHorizontalScroll(parent); // tables and charts must never push the page wider than a phone
   await parent.getByLabel('Goal', { exact: true }).fill('Movie night');
   await parent.getByLabel('XP to earn').fill('50');
   await parent.getByRole('button', { name: 'Add goal' }).click();
@@ -334,6 +335,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await expect(kid.locator('.rewardnote')).toContainText('Goal reached: Movie night');
   await parent.reload();
   await expect(parent.getByText('Ready')).toBeVisible();
+  await noHorizontalScroll(parent);
   await scanOf(parent, 'caregiver progress');
   await parent.getByRole('button', { name: 'Mark as done' }).click();
   await expect(parent.getByText('Done').first()).toBeVisible();
@@ -341,7 +343,18 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   // a printable worksheet with an answer key
   await parent.getByLabel('Topic', { exact: true }).selectOption('G5.C2.3');
   await parent.getByLabel('Number of questions').fill('10');
-  await parent.getByRole('button', { name: 'Make worksheet' }).click();
+  try {
+    await parent.getByRole('button', { name: 'Make worksheet' }).click({ timeout: 10_000 });
+  } catch (e) {
+    // say what is on top of the button, so a failure on a slow runner can be understood from the log alone
+    const where = await parent.evaluate(() => {
+      const b = Array.from(document.querySelectorAll('button')).find((x) => x.textContent === 'Make worksheet')!;
+      const r = b.getBoundingClientRect();
+      const stack = document.elementsFromPoint(r.x + r.width / 2, r.y + r.height / 2).map((el) => `${el.tagName}.${el.className}#${el.id}`);
+      return JSON.stringify({ box: [r.x, r.y, r.width, r.height].map(Math.round), scroll: [scrollX, scrollY], viewport: [innerWidth, innerHeight, visualViewport?.scale, document.documentElement.scrollWidth], stack, disabled: b.disabled });
+    });
+    throw new Error(`"Make worksheet" could not be clicked: ${where}\n${(e as Error).message.slice(0, 300)}`);
+  }
   await expect(parent.getByRole('heading', { name: 'Your worksheet is ready' })).toBeVisible();
   await expect(parent.locator('.sheet ol.qs > li')).toHaveCount(10);
   await expect(parent.getByRole('heading', { name: 'Answer key' })).toBeVisible();

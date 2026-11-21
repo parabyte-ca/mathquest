@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.4.1] - 2026-11-21
+### Fixed
+- On a phone, the caregiver Progress page could be wider than the screen: the 14-day and by-topic tables did not shrink, so the page scrolled sideways and taps landed slightly off target. The tables now scroll inside their card and wrap long words, and the end-to-end tests check that this page never scrolls sideways.
+
 ## [2.4.0] - 2026-11-21
 ### Added
 - Phase 5 (Polish) of the MathQuest v2 rewrite.
