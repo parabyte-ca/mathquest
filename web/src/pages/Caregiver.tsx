@@ -162,11 +162,18 @@ function Defaults({ me }: { me: Extract<Me, { kind: 'user' }> }) {
   const [goal, setGoal] = useState(Number(me.user.defaults.dailyGoalMinutes ?? 15));
   const [limit, setLimit] = useState(Number(me.user.defaults.sessionLimitMinutes ?? 30));
   const [weekly, setWeekly] = useState(me.user.weeklyEmail);
+  const [weekday, setWeekday] = useState(Number(me.user.defaults.weeklyDay ?? 1));
   const [saved, setSaved] = useState(false);
+  const [testMsg, setTestMsg] = useState('');
   const save = async (e: Event) => {
     e.preventDefault();
-    const r = await api('PUT', '/me/defaults', { dailyGoalMinutes: goal, sessionLimitMinutes: limit, weeklyEmail: weekly });
+    const r = await api('PUT', '/me/defaults', { dailyGoalMinutes: goal, sessionLimitMinutes: limit, weeklyEmail: weekly, weeklyDay: weekday });
     setSaved(r.ok);
+  };
+  const sendTest = async () => {
+    setTestMsg('');
+    const r = await api<{ sent: boolean; reason?: string }>('POST', '/me/weekly-test', {});
+    setTestMsg(!r.ok ? (r.status === 429 ? t('caregiver.weeklyTestWait') : t('caregiver.weeklyTestFailed')) : r.data.reason === 'no_students' ? t('caregiver.weeklyTestNone') : r.data.sent ? t('caregiver.weeklyTestSent', { email: me.user.email }) : t('caregiver.weeklyTestFailed'));
   };
   return (
     <section class="card" data-tour="defaults">
@@ -177,9 +184,18 @@ function Defaults({ me }: { me: Extract<Me, { kind: 'user' }> }) {
         <label for="sl">{t('caregiver.sessionLimit')}</label>
         <input id="sl" type="number" min={0} max={240} value={limit} onInput={(e) => setLimit(Number((e.target as HTMLInputElement).value))} />
         <label class="check"><input type="checkbox" checked={weekly} onChange={(e) => setWeekly((e.target as HTMLInputElement).checked)} /> {t('caregiver.weeklyEmail')}</label>
+        <label for="wd">{t('caregiver.weeklyDay')}</label>
+        <select id="wd" value={weekday} onChange={(e) => setWeekday(Number((e.target as HTMLSelectElement).value))}>
+          {[1, 2, 3, 4, 5, 6, 0].map((d) => <option value={d} key={d}>{t(`caregiver.day.${d}`)}</option>)}
+        </select>
+        <p class="muted small">{t('caregiver.weeklyNote')}</p>
         <button type="submit">{t('common.save')}</button>
         <span role="status">{saved ? '✓' : ''}</span>
       </form>
+      <div class="actions row-actions">
+        <button type="button" class="secondary" onClick={() => void sendTest()}>{t('caregiver.weeklyTest')}</button>
+        <span role="status">{testMsg}</span>
+      </div>
     </section>
   );
 }

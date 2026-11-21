@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.10.0] - 2026-11-21
+### Added
+- Weekly email: a caregiver can now choose the day it arrives (it still comes at about 7:30 a.m., and Monday is the default), and can send themselves a test email from the caregiver page to see what it looks like. A test email never counts as the week's email, and can be sent once a minute.
+- This week against last week: the progress page shows how many more or fewer questions and how many points of accuracy this week has compared with the week before, with last week's totals under the chart, and the weekly email says the same in one line.
+
+### Notes
+- The day is stored with the caregiver's other settings, so nothing needs migrating. Caregivers who never choose a day keep getting the email on Monday.
+
 ## [2.9.1] - 2026-11-21
 ### Added
 - Grade 6 is now fully covered: every Grade 6 expectation in strands B to F has practice (7 new micro-skills, 212 in all), asked in words and numbers like Grade 5. Each has generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer.

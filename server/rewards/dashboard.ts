@@ -17,13 +17,14 @@ export function dashboard(ctx: Ctx, student: StudentRow) {
     const d = localDay(now - i * 86_400_000, tz);
     days.set(d, { day: d, answered: 0, correct: 0, minutes: 0 });
   }
-  const windows = { d7: { answered: 0, correct: 0, ms: 0 }, d30: { answered: 0, correct: 0, ms: 0 } };
+  const windows = { d7: { answered: 0, correct: 0, ms: 0 }, d30: { answered: 0, correct: 0, ms: 0 }, prev7: { answered: 0, correct: 0, ms: 0 } };
   for (const r of rows) {
     const d = localDay(r.at, tz);
     const st = days.get(d);
     if (st) { st.answered += 1; st.correct += r.correct; st.minutes += r.ms / 60_000; }
     const age = now - r.at;
     for (const [k, span] of [['d7', 7], ['d30', 30]] as const) if (age <= span * 86_400_000) { windows[k].answered += 1; windows[k].correct += r.correct; windows[k].ms += r.ms; }
+    if (age > 7 * 86_400_000 && age <= 14 * 86_400_000) { windows.prev7.answered += 1; windows.prev7.correct += r.correct; windows.prev7.ms += r.ms; }
   }
 
   const sk = ctx.db
@@ -57,6 +58,7 @@ export function dashboard(ctx: Ctx, student: StudentRow) {
     level: rewards.level, xp: rewards.xp, streak: rewards.streak, bestStreak: rewards.bestStreak, freezes: rewards.freezes,
     minutesToday: rewards.minutesToday, dailyGoalMinutes: rewards.dailyGoalMinutes,
     week: { answered: windows.d7.answered, accuracy: pct(windows.d7.correct, windows.d7.answered), minutes: Math.round(windows.d7.ms / 60_000) },
+    prevWeek: { answered: windows.prev7.answered, accuracy: pct(windows.prev7.correct, windows.prev7.answered), minutes: Math.round(windows.prev7.ms / 60_000) },
     month: { answered: windows.d30.answered, accuracy: pct(windows.d30.correct, windows.d30.answered), minutes: Math.round(windows.d30.ms / 60_000) },
     days: [...days.values()].map((d) => ({ ...d, minutes: Math.round(d.minutes) })),
     skillsMastered: sk.filter((s) => s.p >= MASTERED).length,
