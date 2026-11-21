@@ -6,6 +6,7 @@ import { hashPin } from '../crypto.js';
 import { audit } from '../audit.js';
 import { newId, nowIso } from '../db.js';
 import { publicStudent, sendSignInLink } from './auth.js';
+import { noteSchema } from '../note.js';
 
 const username = z.string().trim().regex(/^[a-z0-9_]{3,20}$/i, 'username');
 const pin = z.string().regex(/^\d{4}$/, 'pin');
@@ -97,8 +98,8 @@ export function studentRoutes(ctx: Ctx): Router {
 
   // Co-caregiver sharing (owner only). Unknown emails become invited caregivers and get a sign-in link.
   r.post('/students/:id/caregivers', async (req, res) => {
-    const parsed = z.object({ email: z.string().trim().toLowerCase().email().max(254) }).safeParse(req.body);
-    if (!parsed.success) return void res.status(400).json({ error: 'invalid_request' });
+    const parsed = z.object({ email: z.string().trim().toLowerCase().email().max(254), note: noteSchema }).safeParse(req.body);
+    if (!parsed.success) return void res.status(400).json({ error: parsed.error.issues.some((i) => i.message === 'has_link') ? 'note_has_link' : 'invalid_request' });
     const user = me(req);
     const a = access(ctx, user, req.params.id as string);
     if (!a || (a.role !== 'owner' && a.role !== 'admin')) return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
@@ -112,8 +113,8 @@ export function studentRoutes(ctx: Ctx): Router {
     }
     if (target.role !== 'caregiver') return void res.status(400).json({ error: 'not_a_caregiver' });
     ctx.db.prepare("INSERT OR IGNORE INTO student_caregivers (student_id, caregiver_id, role, added_by, added_at) VALUES (?,?,'co',?,?)").run(a.student.id, target.id, user.id, nowIso());
-    if (invited) await sendSignInLink(ctx, target, { invite: true });
-    audit(ctx.db, { kind: user.role, id: user.id }, 'student.share', a.student.id, { caregiver: target.id });
+    if (invited) await sendSignInLink(ctx, target, { invite: true, note: parsed.data.note || undefined, from: user.display_name || user.email });
+    audit(ctx.db, { kind: user.role, id: user.id }, 'student.share', a.student.id, { caregiver: target.id, noteAttached: invited && !!parsed.data.note });
     res.status(201).json({ ok: true, invited });
   });
 

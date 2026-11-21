@@ -39,12 +39,13 @@ export function Caregiver({ me, go }: { me: Extract<Me, { kind: 'user' }>; go: (
 
 function StudentRow({ s, onChange, go }: { s: StudentInfo; onChange: () => void; go: (to: string) => void }) {
   const [email, setEmail] = useState('');
+  const [personal, setPersonal] = useState('');
   const [note, setNote] = useState('');
   const share = async (e: Event) => {
     e.preventDefault();
-    const r = await api('POST', `/students/${s.id}/caregivers`, { email });
-    setNote(r.ok ? t('caregiver.shareDone') : t('common.error'));
-    if (r.ok) setEmail('');
+    const r = await api<{ error?: string }>('POST', `/students/${s.id}/caregivers`, { email, note: personal.trim() || undefined });
+    setNote(r.ok ? t('caregiver.shareDone') : r.data.error === 'note_has_link' ? t('invite.noteLink') : t('common.error'));
+    if (r.ok) { setEmail(''); setPersonal(''); }
   };
   const remove = async () => {
     if (confirm(t('caregiver.deleteConfirm'))) {
@@ -68,6 +69,9 @@ function StudentRow({ s, onChange, go }: { s: StudentInfo; onChange: () => void;
         <form class="inline" onSubmit={share}>
           <label for={`share-${s.id}`}>{t('caregiver.share')}</label>
           <input id={`share-${s.id}`} type="email" placeholder={t('caregiver.shareEmail')} required value={email} onInput={(e) => setEmail((e.target as HTMLInputElement).value)} />
+          <label for={`pnote-${s.id}`}>{t('invite.note')}</label>
+          <textarea id={`pnote-${s.id}`} rows={2} maxLength={500} value={personal} aria-describedby={`pnote-help-${s.id}`} onInput={(e) => setPersonal((e.target as HTMLTextAreaElement).value)} />
+          <p class="muted small" id={`pnote-help-${s.id}`}>{t('invite.noteHelp', { n: 500 - personal.length })}</p>
           <button type="submit">{t('caregiver.shareSend')}</button>
           <span role="status">{note}</span>
         </form>

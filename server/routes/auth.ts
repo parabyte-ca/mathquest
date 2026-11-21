@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { z } from 'zod';
+import { quoteNote } from '../note.js';
 import type { Ctx, StudentRow, UserRow } from '../context.js';
 import { clientIp } from '../context.js';
 import { dummyVerify, randomToken, sha256, verifyPin } from '../crypto.js';
@@ -14,7 +15,8 @@ const emailSchema = z.string().trim().toLowerCase().email().max(254);
  * `nonce` binds the token to the browser that asked for it (omit for admin/co-caregiver invites,
  * where the invitee's browser is not yet known).
  */
-export async function sendSignInLink(ctx: Ctx, user: UserRow, opts: { nonce?: string; invite?: boolean } = {}): Promise<boolean> {
+/** `note` is an optional personal message from `from`; it is quoted in the body and can never change the link or the subject. */
+export async function sendSignInLink(ctx: Ctx, user: UserRow, opts: { nonce?: string; invite?: boolean; note?: string; from?: string } = {}): Promise<boolean> {
   const token = randomToken(32);
   const t = ctx.now();
   ctx.db
@@ -27,6 +29,7 @@ export async function sendSignInLink(ctx: Ctx, user: UserRow, opts: { nonce?: st
     subject: opts.invite ? 'You are invited to MathQuest' : 'Your MathQuest sign-in link',
     text:
       `${opts.invite ? 'You have been invited to MathQuest.\n\n' : ''}` +
+      `${opts.invite && opts.note ? `${opts.from ? `A note from ${opts.from}` : 'A personal note'}:\n${quoteNote(opts.note)}\n\n` : ''}` +
       `Open this link to sign in. It works once and expires in ${minutes} minutes:\n\n${link}\n\n` +
       `If you did not ask for this, you can ignore this email.`,
   });

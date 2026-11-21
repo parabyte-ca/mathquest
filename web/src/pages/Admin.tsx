@@ -18,6 +18,7 @@ export function Admin() {
   const [users, setUsers] = useState<UserRow[]>([]);
   const [audit, setAudit] = useState<AuditRow[]>([]);
   const [email, setEmail] = useState('');
+  const [note, setNote] = useState('');
   const [msg, setMsg] = useState('');
 
   const load = async () => {
@@ -32,10 +33,11 @@ export function Admin() {
 
   const invite = async (e: Event) => {
     e.preventDefault();
-    const r = await api('POST', '/admin/caregivers', { email });
-    setMsg(r.ok ? t('admin.inviteSent') : t('common.error'));
+    const r = await api<{ error?: string }>('POST', '/admin/caregivers', { email, note: note.trim() || undefined });
+    setMsg(r.ok ? t('admin.inviteSent') : r.data.error === 'note_has_link' ? t('invite.noteLink') : t('common.error'));
     if (r.ok) {
       setEmail('');
+      setNote('');
       void load();
     }
   };
@@ -50,6 +52,9 @@ export function Admin() {
         <form class="inline" onSubmit={invite}>
           <label for="ie">{t('signin.email')}</label>
           <input id="ie" type="email" required value={email} onInput={(e) => setEmail((e.target as HTMLInputElement).value)} />
+          <label for="inote">{t('invite.note')}</label>
+          <textarea id="inote" rows={3} maxLength={500} value={note} aria-describedby="inote-help" onInput={(e) => setNote((e.target as HTMLTextAreaElement).value)} />
+          <p class="muted small" id="inote-help">{t('invite.noteHelp', { n: 500 - note.length })}</p>
           <button type="submit">{t('admin.invite')}</button>
           <span role="status">{msg}</span>
         </form>

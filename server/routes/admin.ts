@@ -5,6 +5,7 @@ import { requireUser } from '../context.js';
 import { audit } from '../audit.js';
 import { newId, nowIso } from '../db.js';
 import { sendSignInLink } from './auth.js';
+import { noteSchema } from '../note.js';
 
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 
@@ -35,9 +36,9 @@ export function adminRoutes(ctx: Ctx): Router {
 
   r.post('/admin/caregivers', async (req, res) => {
     const parsed = z
-      .object({ email: z.string().trim().toLowerCase().email().max(254), displayName: z.string().trim().max(60).default('') })
+      .object({ email: z.string().trim().toLowerCase().email().max(254), displayName: z.string().trim().max(60).default(''), note: noteSchema })
       .safeParse(req.body);
-    if (!parsed.success) return void res.status(400).json({ error: 'invalid_request' });
+    if (!parsed.success) return void res.status(400).json({ error: parsed.error.issues.some((i) => i.message === 'has_link') ? 'note_has_link' : 'invalid_request' });
     const admin = me(req);
     let user = ctx.db.prepare('SELECT * FROM users WHERE email = ?').get(parsed.data.email) as UserRow | undefined;
     if (!user) {
@@ -49,8 +50,8 @@ export function adminRoutes(ctx: Ctx): Router {
     } else if (user.status === 'disabled') {
       return void res.status(409).json({ error: 'user_disabled' });
     }
-    await sendSignInLink(ctx, user, { invite: user.status === 'invited' });
-    audit(ctx.db, { kind: 'admin', id: admin.id }, 'caregiver.invite', user.id);
+    await sendSignInLink(ctx, user, { invite: user.status === 'invited', note: parsed.data.note || undefined, from: admin.display_name || admin.email });
+    audit(ctx.db, { kind: 'admin', id: admin.id }, 'caregiver.invite', user.id, { noteAttached: !!parsed.data.note });
     res.status(201).json({ id: user.id });
   });
 
