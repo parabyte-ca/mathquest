@@ -17,7 +17,7 @@ Items waiting for a phase or a slot. Newest first within each section. Move an i
 - Grade 7 items that need richer tools: coding (C3), infographics and misleading graphs (D1.1, D1.4, D1.6), top, front, side and perspective views (E1.2), constructing circles (E2.4), reliable sources and decision factors (F1.2, F1.4).
 - Grade 5-6 strand items that need richer tools: coding (C3), modelling (C4), data collection and infographics (D1), nets and 3-D views (E1.2, E2.5), transformations (E1.5), taxes and budgets (F1).
 - Placement quick checks for strands C to F (the ladders cover Number only).
-- Grades 7 to 12 content, in grade order. Grade 7 Number shipped in 2.5.0 and Grade 7 strands C to F in 2.5.1; next is Grade 8, in strand order.
+- Grades 7 to 12 content, in grade order. Grade 7 Number shipped in 2.5.0 and Grade 7 strands C to F in 2.5.1; Grade 8 Number shipped in 2.7.0; next are Grade 8 strands C (algebra), D (data), E (spatial sense) and F (financial literacy), then Grade 9.
 - Admin usage view: translate the "failed" label; add a per-skill bank-size summary.
 - Let the question writer produce non-numeric formats (choice, fraction) once the verifier can re-compute them.
 - Refresh the `ontario-math-curriculum` skill and create a `mathquest` skill.
