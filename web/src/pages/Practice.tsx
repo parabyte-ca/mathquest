@@ -36,7 +36,8 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
     const grade = Number(params.get('grade'));
     const course = params.get('course') || null;
     const strands = (params.get('strands') ?? '').split(',').filter(Boolean);
-    void api<{ sessionId: string; step: Step }>('POST', '/learn/session', { grade, course, strands }).then((r) => {
+    const focus = params.get('focus') || null;
+    void api<{ sessionId: string; step: Step }>('POST', '/learn/session', { grade, course, strands, focus }).then((r) => {
       if (!r.ok) return setError(r.status === 404 ? t('play.noContent') : t('common.error'));
       setSessionId(r.data.sessionId);
       show(r.data.step);

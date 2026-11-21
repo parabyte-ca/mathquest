@@ -46,7 +46,7 @@ export function learnRoutes(ctx: Ctx): Router {
   r.get('/learn/options', handle((_req, res) => svc.options(ctx, student(res))));
 
   r.post('/learn/session', handle((req, res) => {
-    const body = z.object({ grade: z.number().int().min(5).max(12), course: z.string().regex(/^[A-Z0-9]{5}$/).nullable().optional(), strands: z.array(z.string().regex(/^[A-F]\d?$/)).max(10).optional() }).safeParse(req.body);
+    const body = z.object({ grade: z.number().int().min(5).max(12), course: z.string().regex(/^[A-Z0-9]{5}$/).nullable().optional(), strands: z.array(z.string().regex(/^[A-F]\d?$/)).max(10).optional(), focus: z.string().regex(/^[A-Z0-9]{2,6}\.[A-F][0-9.]{0,8}$/).nullable().optional() }).safeParse(req.body);
     if (!body.success) throw new svc.LearnError('invalid_request');
     const started = svc.startSession(ctx, student(res), body.data);
     return { ...started, step: svc.next(ctx, student(res), started.sessionId) };

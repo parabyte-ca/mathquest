@@ -5,9 +5,40 @@ import { compareDecimals, decimalToPercent, fractionToDecimal, readDecimals } fr
 import { plotPoints } from './coordinates.js';
 import { addSub5, compareWhole, composeWhole, divide3by2, facts5, mentalMath5, multiStep5, multiply2x2, properties5, ratios5, roundTenth, unitFractions5 } from './number5.js';
 import { addSub6, compareMixed, divideByTenths, divideDecimals, divisibility, fracDec6, integersLine, multiStep6, percentMental, primeFactors, ratiosPercents, roundDecimals, thousandths, timesTenths, wholeDivFraction, wholeTimesFraction, wholeToMillion } from './number6.js';
+import { decimalPattern, evalDecimal6, evalWhole, growingPatternRule, inequality5, inequality6, linearPattern6, solveEq5, solveEq6 } from './algebra56.js';
+import { centralTendency5, experimental5, probFraction5, probPercent6, range6, twoEvents6 } from './data56.js';
+import { angles6, area6, areaParTri5, bestValue5, fourQuadrants6, metricBoth6, metricDown5, quads6, salesTax5, samePerimeter5, simpleInterest6, surfaceArea6, triangles5 } from './spatial56.js';
 
 /** One generator per micro-skill. Each takes (tier, seed) and is deterministic, so every item can be rebuilt and re-checked. */
 export const GENERATORS: Record<string, Generator> = {
+  'MS.G5.E1.1.a': triangles5,
+  'MS.G6.E1.1.a': quads6,
+  'MS.G6.E1.3.a': fourQuadrants6,
+  'MS.G5.E2.2.a': metricDown5,
+  'MS.G6.E2.1.a': metricBoth6,
+  'MS.G5.E2.5.a': areaParTri5,
+  'MS.G5.E2.6.a': samePerimeter5,
+  'MS.G6.E2.3.a': angles6,
+  'MS.G6.E2.4.a': area6,
+  'MS.G6.E2.6.a': surfaceArea6,
+  'MS.G5.F1.2.a': salesTax5,
+  'MS.G5.F1.5.a': bestValue5,
+  'MS.G6.F1.4.a': simpleInterest6,
+  'MS.G5.D1.5.a': centralTendency5,
+  'MS.G6.D1.5.a': range6,
+  'MS.G5.D2.1.a': probFraction5,
+  'MS.G6.D2.1.a': probPercent6,
+  'MS.G5.D2.2.a': experimental5,
+  'MS.G6.D2.2.a': twoEvents6,
+  'MS.G5.C1.3.a': growingPatternRule,
+  'MS.G5.C1.4.a': decimalPattern,
+  'MS.G5.C2.2.a': evalWhole,
+  'MS.G5.C2.3.a': solveEq5,
+  'MS.G5.C2.4.a': inequality5,
+  'MS.G6.C1.3.a': linearPattern6,
+  'MS.G6.C2.2.a': evalDecimal6,
+  'MS.G6.C2.3.a': solveEq6,
+  'MS.G6.C2.4.a': inequality6,
   'MS.G5.B1.3.a': nameFraction,
   'MS.G5.B1.3.b': equivalentFraction,
   'MS.G5.B1.3.c': mixedNumbers,

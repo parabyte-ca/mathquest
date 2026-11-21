@@ -55,8 +55,20 @@ describe('options and sessions', () => {
     const strands = Object.fromEntries(g5.groups[0].strands.map((x: { strand: string; available: boolean }) => [x.strand, x.available]));
     expect(strands.B).toBe(true);
     expect(strands.E).toBe(true);
-    expect(strands.F).toBe(false); // no content yet
+    expect(strands.C).toBe(true);
+    expect(strands.D).toBe(true);
+    expect(strands.F).toBe(true);
+    const g7 = res.body.grades.find((g: { grade: number }) => g.grade === 7);
+    expect(g7.groups[0].strands.every((x: { available: boolean }) => !x.available)).toBe(true); // Grade 7 has no content yet: coming soon
     expect(res.body.grades.map((g: { grade: number }) => g.grade)).toEqual([5, 6, 7, 8, 9, 10, 11, 12]);
+  });
+
+  it('practises one expectation only when asked to focus on it', async () => {
+    const env = env0();
+    const s = await makeStudent(env);
+    const { step } = await start(s, { grade: 5, focus: 'G5.C2.3' });
+    expect(step.item!.id.startsWith('MS.G5.C2.3.a:')).toBe(true);
+    await post(s, '/session', { grade: 5, focus: 'not a code' }).expect(400);
   });
 
   it('serves an item without any answer data', async () => {
@@ -214,7 +226,7 @@ describe('answers, feedback and hints', () => {
 });
 
 describe('struggle and recover', () => {
-  /** Strand E has one micro-skill, which makes the ladder deterministic to walk. */
+  /** Expectation G5.E1.4 has one micro-skill, which makes the ladder deterministic to walk. */
   async function walk(env: TestEnv, s: S, sessionId: string, firstItemId: string, plan: ('right' | 'wrong')[]) {
     const events: string[] = [];
     const tiers: number[] = [];
@@ -239,7 +251,7 @@ describe('struggle and recover', () => {
     const s = await makeStudent(env);
     // a student who knows the skill well starts at the top tier
     env.db.prepare('INSERT INTO mastery (student_id, skill_id, p_known, tier, attempts, correct) VALUES (?,?,?,?,?,?)').run(s.studentId, 'MS.G5.E1.4.a', 0.8, 3, 6, 6);
-    const { sessionId, step } = await start(s, { grade: 5, strands: ['E'] });
+    const { sessionId, step } = await start(s, { grade: 5, focus: 'G5.E1.4' });
     expect(step.item!.id.startsWith('MS.G5.E1.4.a:3:')).toBe(true); // tier 3
     const plan: ('right' | 'wrong')[] = ['wrong', 'wrong', 'wrong', 'wrong', 'wrong', 'wrong', 'right', 'right', 'right', 'right', 'right', 'right', 'right', 'right', 'right', 'right'];
     const r = await walk(env, s, sessionId, step.item!.id, plan);
@@ -273,7 +285,7 @@ describe('struggle and recover', () => {
   it('serves the inserted lesson for the stuck skill and then continues', async () => {
     const env = env0(4);
     const s = await makeStudent(env);
-    const { sessionId, step } = await start(s, { grade: 5, strands: ['E'] }); // fresh student: tier 1, so straight to micro-skills
+    const { sessionId, step } = await start(s, { grade: 5, focus: 'G5.E1.4' }); // fresh student: tier 1, so straight to micro-skills
     const r = await walk(env, s, sessionId, step.item!.id, ['wrong', 'wrong', 'wrong', 'wrong']);
     expect(r.step.type).toBe('lesson');
     expect(r.step.lessonId).toBe('L.coordinates.plot');
@@ -285,7 +297,7 @@ describe('struggle and recover', () => {
   it('flags the ladder for the caregiver when the student stays stuck after the lesson', async () => {
     const env = env0(6);
     const s = await makeStudent(env);
-    const { sessionId, step } = await start(s, { grade: 5, strands: ['E'] });
+    const { sessionId, step } = await start(s, { grade: 5, focus: 'G5.E1.4' });
     const r = await walk(env, s, sessionId, step.item!.id, ['wrong', 'wrong', 'wrong', 'wrong', 'wrong', 'wrong', 'wrong']);
     expect(r.events).toContain('help');
     const ladder = JSON.parse((env.db.prepare('SELECT state_json FROM ladder_state WHERE student_id = ?').get(s.studentId) as { state_json: string }).state_json);
@@ -298,7 +310,7 @@ describe('mastery, spaced review and placement', () => {
     const env = env0(2);
     const s = await makeStudent(env);
     env.db.prepare('INSERT INTO mastery (student_id, skill_id, p_known, tier, attempts, correct) VALUES (?,?,?,?,?,?)').run(s.studentId, 'MS.G5.E1.4.a', 0.94, 3, 8, 8);
-    const { sessionId, step } = await start(s, { grade: 5, strands: ['E'] });
+    const { sessionId, step } = await start(s, { grade: 5, focus: 'G5.E1.4' });
     let id = step.item!.id;
     let mastered = false;
     for (let i = 0; i < 6 && !mastered; i++) {
@@ -319,7 +331,7 @@ describe('mastery, spaced review and placement', () => {
     const env = env0(1);
     const s = await makeStudent(env);
     env.db.prepare('INSERT INTO mastery (student_id, skill_id, p_known, tier, attempts, correct, next_review_at, review_step) VALUES (?,?,?,?,?,?,?,?)').run(s.studentId, 'MS.G5.E1.4.a', 0.97, 3, 9, 9, env.clock.t - 1000, 1);
-    const { step } = await start(s, { grade: 5, strands: ['E'] });
+    const { step } = await start(s, { grade: 5, focus: 'G5.E1.4' });
     expect(step.kind).toBe('review');
     const { body } = await answerItem(env, s, step.item!.id, false);
     expect(body.correct).toBe(false);
@@ -333,7 +345,7 @@ describe('mastery, spaced review and placement', () => {
     const env = env0(1);
     const s = await makeStudent(env);
     env.db.prepare('INSERT INTO mastery (student_id, skill_id, p_known, tier, attempts, correct, next_review_at, review_step) VALUES (?,?,?,?,?,?,?,?)').run(s.studentId, 'MS.G5.E1.4.a', 0.97, 3, 9, 9, env.clock.t - 1000, 0);
-    const { step } = await start(s, { grade: 5, strands: ['E'] });
+    const { step } = await start(s, { grade: 5, focus: 'G5.E1.4' });
     expect(step.kind).toBe('review');
     await answerItem(env, s, step.item!.id, true);
     const row = env.db.prepare('SELECT next_review_at, review_step FROM mastery WHERE student_id = ? AND skill_id = ?').get(s.studentId, 'MS.G5.E1.4.a') as { next_review_at: number; review_step: number };

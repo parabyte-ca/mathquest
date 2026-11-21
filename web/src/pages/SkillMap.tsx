@@ -89,7 +89,7 @@ export function SkillMap({ go }: { go: (to: string) => void }) {
           <p>{sel.text}</p>
           {sel.micro > 0 && <p class="muted small">{t('map.progress', { pct: Math.round(sel.p * 100) })}</p>}
           {sel.state === 'locked' && <p class="note">{t('map.recommendFirst', { codes: sel.unmet.join(', ') })}</p>}
-          {sel.micro > 0 && <button type="button" onClick={() => go(`/app/learn/practice?grade=${sel.grade}&strands=${sel.strand}`)}>{t('map.practice')}</button>}
+          {sel.micro > 0 && <button type="button" onClick={() => go(`/app/learn/practice?grade=${sel.grade}&focus=${encodeURIComponent(sel.code)}`)}>{t('map.practice')}</button>}
           {sel.state === 'soon' && <p class="muted">{t('learn.soon')}</p>}
         </div>
       ) : <p class="muted">{t('map.tap')}</p>}

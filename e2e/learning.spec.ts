@@ -90,7 +90,8 @@ test('struggle and recover: a student who keeps missing gets an easier question,
   const d = db();
   d.prepare('INSERT INTO mastery (student_id, skill_id, p_known, tier, attempts, correct) VALUES (?,?,?,?,?,?)').run(studentId(username), 'MS.G5.E1.4.a', 0.8, 3, 6, 6);
   d.close();
-  await startPractice(kid, 'E');
+  await kid.goto('/app/learn/practice?grade=5&focus=G5.E1.4'); // one expectation with one micro-skill keeps the ladder predictable
+  await expect(kid.locator('form.answer')).toBeVisible();
   expect(currentItem(username).item.tier).toBe(3);
 
   let sawStepDown = false, sawMicro = false, sawLesson = false;
@@ -212,9 +213,14 @@ test('accessibility: high contrast, dyslexia font and reduced motion apply; keyb
     await kid.locator('input[type=radio]').first().focus();
     for (let i = 0; i < (item.answer as { index: number }).index; i++) await kid.keyboard.press('ArrowDown');
     await kid.keyboard.press('Space');
-  } else {
+  } else if (item.format === 'point') {
     await kid.locator('#px').fill(String((item.answer as { x: number }).x));
     await kid.locator('#py').fill(String((item.answer as { y: number }).y));
+  } else {
+    // strand E now has number questions too: type the answer with the keyboard
+    expect(item.format).toBe('number');
+    await kid.locator('#ans').focus();
+    await kid.keyboard.type(String((item.answer as { value: number }).value));
   }
   await kid.getByRole('button', { name: 'Check' }).focus();
   await kid.keyboard.press('Enter');
@@ -257,7 +263,7 @@ test('touch targets are at least 44 px on the question page', async ({ page, bro
   await noHorizontalScroll(kid);
 });
 
-test('a student can report a question that looks off, once, and the admin queue sees it', async ({ page, browser, baseURL }, info) => {
+test('a student can report a question that looks off, and practise the algebra, data, measurement and money strands', async ({ page, browser, baseURL }, info) => {
   const { kid, username } = await setup(browser, baseURL!, page, info, 'rp');
   await startPractice(kid, 'B');
   await kid.getByRole('button', { name: 'Report this question' }).click();
@@ -266,5 +272,15 @@ test('a student can report a question that looks off, once, and the admin queue 
   await expect(kid.getByText('Thank you. A grown-up will take a look.')).toBeVisible();
   const rows = db().prepare("SELECT reason FROM item_report WHERE student_id = ?").all(studentId(username));
   expect(rows).toEqual([{ reason: 'answer' }]);
+
+  // the same student then practises one question in each of the algebra, data, measurement and money strands
+  // (one student for both parts: pairing many devices for one caregiver trips the pairing rate limit)
+  for (const code of ['G5.C2.3', 'G5.D1.5', 'G5.E2.5', 'G5.F1.2']) {
+    await kid.goto(`/app/learn/practice?grade=5&focus=${code}`);
+    await expect(kid.locator('form.answer')).toBeVisible();
+    const item = await answerCurrent(kid, username, true);
+    expect(item.skill.startsWith(`MS.${code}`)).toBe(true);
+    await expect(kid.locator('.feedback.good')).toBeVisible();
+  }
   expect(pageProblems.get(kid) ?? []).toEqual([]);
 });

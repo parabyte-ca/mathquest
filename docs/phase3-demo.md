@@ -2,6 +2,7 @@
 
 Time: about 15 minutes. You need an admin account, a caregiver with a Grade 5 or 6 student and an approved device.
 
+0. **Every Grade 5-6 strand now has content.** On the learning home, Grade 5 and Grade 6 show Number, Algebra, Data, Spatial Sense and Financial Literacy as available. Open the skill map and use "Practise this" on any node: it now practises just that expectation.
 1. **New Number content.** Sign in as the student, pick Grade 6, topic B (Number), and Start practice. Questions now cover place value, rounding, integers, percents, ratios, decimals to thousandths and primes. Open "Show me how" on any of them for the matching lesson.
 2. **Report a question.** Under any question press "Report this question" and choose a reason. You can report a question once; a grown-up reviews reports in Admin.
 3. **Turn on the question writer (admin).** Add `ANTHROPIC_API_KEY` to `.env`, optionally set `AI_MONTHLY_CAP_USD` and the two price lines, and restart. Open Admin > Question writer.

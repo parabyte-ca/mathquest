@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.2.2] - 2026-11-21
+### Added
+- Grade 5-6 strands C to F (Algebra, Data, Spatial Sense, Financial Literacy): 28 new seeded generators in English and Canadian French, each with three tiers, a three-rung hint ladder and a misconception map. Topics: growing and linear patterns, decimal patterns, evaluating expressions, equations and inequalities; mean, median, mode, range, probability as fractions, decimals and percents, experimental and independent events; triangle and quadrilateral angles, complementary, supplementary and exterior angles, four-quadrant coordinates with reflections and translations; metric conversions, areas of parallelograms, triangles, trapezoids, rhombuses and composite shapes, perimeter, surface area; sales tax, best value and simple interest.
+- 10 new lessons for those skills (patterns; expressions and equations; inequalities; mean, median and mode; probability; metric conversions; area, perimeter and surface area; angles; four quadrants; money).
+- The skill map's "Practise this" now practises that one expectation instead of its whole strand (sessions accept an optional `focus` such as `G5.C2.3`).
+- New tests recompute every answer independently from the prompt, and an end-to-end test practises one question in each new strand.
+
+### Notes
+- Not yet covered in these strands: coding, mathematical modelling, data collection and infographics, nets, 3-D views, transformations, taxes and budgeting (they need drawing, writing or open-ended tools that arrive in later phases).
+- Grade 5-6 content is now present in every strand; Grades 7 to 12 are still to come.
+
 ## [2.2.1] - 2026-11-21
 ### Fixed
 - The Grade 5-6 placement quick check and the prerequisite map now include the 29 Number micro-skills added in 2.2.0, so the struggle ladder can fall back to the right earlier skill and placement starts at a better level.
