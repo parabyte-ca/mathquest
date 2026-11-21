@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.16.0] - 2026-11-21
+### Added
+- Grade 11, continued: MCR3U trigonometry and the whole MCF3M course. 23 new micro-skills and 4 lessons.
+  - MCR3U Trigonometric Functions: exact values at special angles up to 360 degrees, reciprocal ratios, identities, the ambiguous case of the sine law, the sine and cosine laws with obtuse angles, and sinusoidal functions (amplitude, period, shifts and a Ferris wheel model).
+  - MCF3M Quadratic Functions: factoring (including perfect squares and a leading coefficient other than 1), the quadratic formula and discriminant, function notation, domain and range, and vertex form against standard form.
+  - MCF3M Exponential Functions: rational exponents, exponent rules on numbers, compound interest, annuities, and simple against compound interest.
+  - MCF3M Trigonometric Functions: problems with two right triangles, the sine and cosine laws in acute triangles, and the sine function with a sin x, sin x + c and sin(x − d).
+- Several MCF3M skills reuse the question generators written for MPM2D and MCR3U, so the same well-tested items serve both courses.
+- Every new answer is recomputed by an independent, mutation-tested check. Trigonometry answers are rounded to one decimal and accepted within 0.05.
+
+### Notes
+- Still to come for Grade 11: the other Grade 11 courses (MBF3C, MEL3E, MAP4C bridge items and so on) where they have content the player can handle, MCR3U B2 and B4 (graphs and transformations of exponentials) and C2 gaps, MCF3M curve of best fit (needs technology), and a Grade 11 quick check.
+
 ## [2.15.0] - 2026-11-21
 ### Added
 - Grade 11 begins with MCR3U (Functions, university preparation): 18 new micro-skills and 5 lessons, practised by choosing the course.

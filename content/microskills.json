@@ -2608,6 +2608,215 @@
     "MS.G11.MCR3U.C2.2.a",
     "MS.G11.MCR3U.C3.1.a"
    ]
+  },
+  {
+   "id": "MS.G11.MCR3U.D1.1.a",
+   "expectation": "MCR3U.D1",
+   "name": "Exact values of sine, cosine and tangent",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.D2.1.a",
+   "expectation": "MCR3U.D2",
+   "name": "Reciprocal ratios: secant, cosecant and cotangent",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.D3.1.a",
+   "expectation": "MCR3U.D3",
+   "name": "Trigonometric identities",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.D2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.D4.1.a",
+   "expectation": "MCR3U.D4",
+   "name": "The ambiguous case of the sine law",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.D4.2.a",
+   "expectation": "MCR3U.D4",
+   "name": "The sine and cosine laws with obtuse angles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.D4.1.a",
+    "MS.G10.MPM2D.C3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.D5.1.a",
+   "expectation": "MCR3U.D5",
+   "name": "Sinusoidal functions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.D1.1.a",
+    "MS.G11.MCR3U.A3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.A1.1.a",
+   "expectation": "MCF3M.A1",
+   "name": "Factoring trinomials with a leading coefficient other than 1",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.4.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.A1.2.a",
+   "expectation": "MCF3M.A1",
+   "name": "Factoring a difference of squares",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.5.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.A1.3.a",
+   "expectation": "MCF3M.A1",
+   "name": "Factoring perfect squares",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.3.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.A2.1.a",
+   "expectation": "MCF3M.A2",
+   "name": "The quadratic formula",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.7.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.A2.2.a",
+   "expectation": "MCF3M.A2",
+   "name": "The discriminant and the number of roots",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCF3M.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.A3.1.a",
+   "expectation": "MCF3M.A3",
+   "name": "Function notation",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.A3.2.a",
+   "expectation": "MCF3M.A3",
+   "name": "Domain and range of a quadratic function",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCF3M.A3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.A4.1.a",
+   "expectation": "MCF3M.A4",
+   "name": "Vertex form and standard form",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.9.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.B1.1.a",
+   "expectation": "MCF3M.B1",
+   "name": "Rational exponents",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.B1.2.a",
+   "expectation": "MCF3M.B1",
+   "name": "Exponent rules on numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCF3M.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.B2.1.a",
+   "expectation": "MCF3M.B2",
+   "name": "Compound interest",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B3.5.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.B2.2.a",
+   "expectation": "MCF3M.B2",
+   "name": "Annuities",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCF3M.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.B2.3.a",
+   "expectation": "MCF3M.B2",
+   "name": "Simple and compound interest compared",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCF3M.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.C1.1.a",
+   "expectation": "MCF3M.C1",
+   "name": "Problems with two right triangles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.C1.2.a",
+   "expectation": "MCF3M.C1",
+   "name": "The sine law in acute triangles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.C1.3.a",
+   "expectation": "MCF3M.C1",
+   "name": "The cosine law in acute triangles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCF3M.C2.1.a",
+   "expectation": "MCF3M.C2",
+   "name": "The sine function and its transformations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C2.1.a"
+   ]
   }
  ]
 }
