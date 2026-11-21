@@ -8,6 +8,7 @@ import { GRADE6_LESSONS } from './grade6.js';
 import { GRADE9_LESSONS } from './grade9.js';
 import { GRADE10_LESSONS } from './grade10.js';
 import { GAPS7_LESSONS } from './gaps7.js';
+import { GRADE9B_LESSONS } from './grade9b.js';
 import { GRADE11_LESSONS } from './grade11.js';
 import { GRADE11B_LESSONS } from './grade11b.js';
 import { NUMBER8_LESSONS } from './number8.js';
@@ -29,6 +30,7 @@ export const LESSONS: Lesson[] = [
   ...GRADE9_LESSONS,
   ...GRADE10_LESSONS,
   ...GAPS7_LESSONS,
+  ...GRADE9B_LESSONS,
   ...GRADE11_LESSONS,
   ...GRADE11B_LESSONS,
   {

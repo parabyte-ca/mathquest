@@ -25,7 +25,8 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 2.16.0 | Grade 11, part 2 (priority 4, shipped): MCR3U trigonometry and all of MCF3M: 23 skills, 4 lessons. | L |
 | 2.15.0 | Grade 11, part 1 (priority 4, shipped): MCR3U functions, exponentials, sequences and finance: 18 skills, 5 lessons. | L |
 | 2.12.x (in progress as 2.15.0 onward) | Grade 11 completion (priority 4): MCR3U, MCF3M, MBF3C and the other Grade 11 courses, every strand | L x 3 |
-| Later | Grade 9 Data, Geometry and Financial plus C4.1 and coding; Grade 8 completion; Grade 12 | M to L |
+| 2.17.0 | Grade 9 completion (shipped): coding, linear against non-linear, data and modelling, geometry and measurement, financial literacy: 21 skills, 4 lessons, quick checks | L |
+| Later | Grade 8 completion; Grade 12 | M to L |
 
 ### Richer item tools (each unlocks deferred expectations)
 

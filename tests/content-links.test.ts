@@ -52,6 +52,14 @@ describe('content links', () => {
     expect([...(ladders['9.C'] ?? [])].sort()).toEqual([...algebra].sort());
   });
 
+  it('the Grade 9 Data, Geometry and Financial ladders hold every skill of their strand from Grade 5 to Grade 9', () => {
+    const info = (id: string): { grade: number; strand: string } => { const m = /^MS\.G(\d+)\.(?:[A-Z0-9]{5}\.)?([A-F])/.exec(id)!; return { grade: Number(m[1]), strand: m[2]! }; };
+    for (const strand of ['D', 'E', 'F']) {
+      const all = micro.map((m) => m.id).filter((id) => info(id).strand === strand && info(id).grade <= 9);
+      expect([...(ladders[`9.${strand}`] ?? [])].sort(), strand).toEqual([...all].sort());
+    }
+  });
+
   it('prerequisites of micro-skills form no cycle', () => {
     const state = new Map<string, number>();
     const byId = new Map(micro.map((m) => [m.id, m]));
