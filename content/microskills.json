@@ -646,6 +646,42 @@
    ]
   },
   {
+   "id": "MS.G6.F1.1.a",
+   "expectation": "G6.F1.1",
+   "name": "Payment methods: cash change, debit balance and card fees",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.F1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G6.F1.2.a",
+   "expectation": "G6.F1.2",
+   "name": "Financial goals: weeks to save, with savings and extra income",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.F1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G6.F1.3.a",
+   "expectation": "G6.F1.3",
+   "name": "Factors that help or interfere with reaching a goal",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.F1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G6.F1.5.a",
+   "expectation": "G6.F1.5",
+   "name": "Trading, lending, borrowing and donating",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B2.9.a"
+   ]
+  },
+  {
    "id": "MS.G6.F1.4.a",
    "expectation": "G6.F1.4",
    "name": "Simple interest on accounts and loans",

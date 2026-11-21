@@ -170,4 +170,22 @@ export const STRAND_LESSONS: Lesson[] = [
     ],
     tryIt: { skill: 'MS.G5.F1.2.a', tier: 2, seed: 3 },
   },
+  {
+    id: 'L.finance6.goals',
+    skills: ['MS.G6.F1.1.a', 'MS.G6.F1.2.a', 'MS.G6.F1.3.a', 'MS.G6.F1.5.a'],
+    title: t('Paying, saving for goals, borrowing and giving', 'Payer, économiser pour un objectif, emprunter et donner'),
+    intro: t('Money choices have effects. How you pay, how fast you save, and what you spend, lend or give all change how soon you reach a goal.', 'Les choix d\'argent ont des effets. La façon de payer, la vitesse d\'épargne et ce que tu dépenses, prêtes ou donnes changent le temps qu\'il faut pour atteindre un objectif.'),
+    definitions: [
+      d(['Payment methods', 'Modes de paiement'], ['Cash gives change: bill minus price. A debit card takes money straight from your account. A credit card lends you money, and a fee or interest may be added. Compare the fees in dollars.', 'Le comptant donne de la monnaie : billet moins prix. Une carte de débit retire l\'argent directement de ton compte. Une carte de crédit te prête de l\'argent, et des frais ou de l\'intérêt peuvent s\'ajouter. Compare les frais en dollars.']),
+      d(['Financial goals', 'Objectifs financiers'], ['Weeks to a goal = (cost − what you already have) ÷ what you save each week.', 'Semaines pour atteindre un objectif = (coût − ce que tu as déjà) ÷ ce que tu économises chaque semaine.']),
+      d(['Factors that help or interfere', 'Facteurs qui aident ou nuisent'], ['Extra income helps: it raises the weekly saving. A new expense interferes: it lowers the weekly saving. Find the weeks before and after, then subtract.', 'Un revenu de plus aide : il augmente l\'économie hebdomadaire. Une nouvelle dépense nuit : elle diminue l\'économie hebdomadaire. Trouve les semaines avant et après, puis soustrais.']),
+      d(['Trading, lending, borrowing, donating', 'Échanger, prêter, emprunter, donner'], ['A fair trade swaps equal total values. When you lend or borrow, what is still owed is the amount minus what has been paid back. A donation of a percent is that percent of what you earn.', 'Un échange équitable échange des valeurs totales égales. Quand on prête ou emprunte, ce qui reste dû est le montant moins ce qui a été remboursé. Un don d\'un pourcentage est ce pourcentage de ce que tu gagnes.']),
+    ],
+    examples: [
+      ex(['Example 1: a goal', 'Exemple 1 : un objectif'], ['A game costs 60 dollars. You have 15 dollars and save 5 dollars a week. Still needed: 60 − 15 = 45 dollars.', 'Un jeu coûte 60 dollars. Tu as 15 dollars et tu économises 5 dollars par semaine. Il manque : 60 − 15 = 45 dollars.'], ['45 ÷ 5 = 9, so it takes 9 weeks.', '45 ÷ 5 = 9 : il faut 9 semaines.']),
+      ex(['Example 2: a factor', 'Exemple 2 : un facteur'], ['A 60 dollar goal at 10 dollars a week takes 6 weeks. A new expense of 5 dollars a week leaves 5 dollars a week.', 'Un objectif de 60 dollars à 10 dollars par semaine prend 6 semaines. Une nouvelle dépense de 5 dollars par semaine laisse 5 dollars par semaine.'], ['Now it takes 12 weeks, which is 6 more weeks.', 'Maintenant, il faut 12 semaines, soit 6 semaines de plus.']),
+      ex(['Example 3: a loan', 'Exemple 3 : un prêt'], ['You lend 80 dollars and are paid back 10 dollars a week. After 3 weeks you have been paid 3 × 10 = 30 dollars.', 'Tu prêtes 80 dollars et on te rembourse 10 dollars par semaine. Après 3 semaines, on t\'a remboursé 3 × 10 = 30 dollars.'], ['Still owed: 80 − 30 = 50 dollars.', 'Reste dû : 80 − 30 = 50 dollars.']),
+    ],
+    tryIt: { skill: 'MS.G6.F1.2.a', tier: 1, seed: 3 },
+  },
 ];

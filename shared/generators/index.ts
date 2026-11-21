@@ -15,6 +15,7 @@ import { addSubFrac8, integers8, mulDivFrac8, mulDivInt8, orderOps8, percents8, 
 import { binomials8, comparePatterns8, equations8, evalRational8, inequalities8, patternRules8, rationalPatterns8 } from './algebra8.js';
 import { correlation8, multiEvents8, tables8, venn8 } from './data8.js';
 import { compositeArea8, compositeVolume8, hypotenuse8, leg8, lineAngles8, polygonAngles8, scale8, tessellations8, transform8, unitsExp8 } from './spatial8.js';
+import { factors6, goals6, payments6, trade6 } from './finance6.js';
 import { budget8, credit8, growth8, offers8, payments8, plan8 } from './finance8.js';
 import { angles6, area6, areaParTri5, bestValue5, fourQuadrants6, metricBoth6, metricDown5, quads6, salesTax5, samePerimeter5, simpleInterest6, surfaceArea6, triangles5 } from './spatial56.js';
 
@@ -32,7 +33,11 @@ export const GENERATORS: Record<string, Generator> = {
   'MS.G6.E2.6.a': surfaceArea6,
   'MS.G5.F1.2.a': salesTax5,
   'MS.G5.F1.5.a': bestValue5,
+  'MS.G6.F1.1.a': payments6,
+  'MS.G6.F1.2.a': goals6,
+  'MS.G6.F1.3.a': factors6,
   'MS.G6.F1.4.a': simpleInterest6,
+  'MS.G6.F1.5.a': trade6,
   'MS.G5.D1.5.a': centralTendency5,
   'MS.G6.D1.5.a': range6,
   'MS.G5.D2.1.a': probFraction5,

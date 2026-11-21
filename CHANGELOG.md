@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.8.1] - 2026-11-21
+### Added
+- Grade 6 financial literacy is now complete (strand F, 5 of 5 expectations): four new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer.
+  - Payment methods: change from cash, the balance left after debit purchases, and a credit card percent fee compared with a flat transfer fee.
+  - Financial goals: weeks to save for a goal, with money already saved and with two sources of weekly money.
+  - Factors that help or interfere: weekly saving after spending, how many weeks sooner extra income gets a student to a goal, and how many weeks later a new expense does.
+  - Trading, lending, borrowing and donating: a percent donation, what is still owed on a loan or a loan to a friend, and a fair trade of cards with different values.
+- One Grade 6 lesson ("Show me how") covering the four skills, and the new skills added to the Financial Literacy quick-check ladders for Grades 6 to 8.
+- Independent arithmetic tests for every new generator (week counts by brute force; one was mutation-checked).
+
 ## [2.8.0] - 2026-11-21
 ### Added
 - Quick checks (placement) for every strand in Grades 5 to 8, not only Number. Tick one topic on the student home page and "Quick check (placement)" now checks that topic: a short adaptive check of at most eight questions along an easiest-to-hardest ladder of that topic's skills (including the same topic's earlier-grade skills), then practice on that topic starts at the right level. With no topic or several ticked, the check is the Number check, as before. Nothing is lowered; the check only raises what a student plainly knows.
