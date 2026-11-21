@@ -58,6 +58,9 @@ describe('options and sessions', () => {
     expect(strands.C).toBe(true);
     expect(strands.D).toBe(true);
     expect(strands.F).toBe(true);
+    const g6 = res.body.grades.find((g: { grade: number }) => g.grade === 6);
+    const s6 = Object.fromEntries(g6.groups[0].strands.map((x: { strand: string; available: boolean }) => [x.strand, x.available]));
+    expect(['B', 'C', 'D', 'E', 'F'].every((k) => s6[k])).toBe(true); // no Grade 6 strand is "coming soon"
     const g7 = res.body.grades.find((g: { grade: number }) => g.grade === 7);
     const s7 = Object.fromEntries(g7.groups[0].strands.map((x: { strand: string; available: boolean }) => [x.strand, x.available]));
     expect(['B', 'C', 'D', 'E', 'F'].every((k) => s7[k])).toBe(true); // Grade 7 strands B to F have content from 2.5.1

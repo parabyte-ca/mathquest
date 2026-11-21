@@ -1,5 +1,30 @@
 # Changelog
 
+## [2.8.3] - 2026-11-21
+### Added
+- Grade 5 is now fully covered: every Grade 5 expectation in strands B to F has practice. Six new micro-skills, each with generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer.
+  - Coding (C3): running short programs with loops and conditionals (including a loop with a test inside), and reading and changing programs to see how the result changes. The programs are written in plain steps, so every item is an ordinary number question.
+  - Infographics (D1.4): which part of an infographic is missing (title, axis labels, source), the percent for a headline number, and choosing an accurate headline.
+  - Spatial sense (E): congruent triangles, rectangles and parallelograms (matching sides and angles), top and front views of block structures (including taller stacks hiding shorter ones), and reading and drawing angles with a protractor and benchmark angles.
+- Two Grade 5 lessons ("Show me how"), the infographic ideas added to the Grade 5 data lesson, and the new skills added to the quick-check ladders for Grades 5 to 8.
+- Independent arithmetic tests for every new generator (programs are run by simulation).
+
+### Notes
+- The drawn and interactive versions of these topics (a code editor, dragging a protractor, building and rotating 3-D shapes, designing an infographic) still wait for the 3.x releases in `docs/BACKLOG.md`.
+
+## [2.8.2] - 2026-11-21
+### Added
+- Grade 5 gap fill: 14 new micro-skills for the Grade 5 expectations that were not built yet, each with generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer. Grade 5 financial literacy is now complete (6 of 6), algebra is 8 of 10, data 7 of 8 and spatial sense 8 of 11.
+  - Financial literacy (F): transferring money with fees, basic budgets, credit and debt (payments, purchases and interest), and the taxes each level of government collects and the services they pay for (including Ontario's HST split).
+  - Algebra (C): repeating, growing and shrinking patterns, tables of values, and words and algebraic expressions (including equivalent expressions).
+  - Data (D): why the sampling technique matters, relative-frequency tables, choosing graphs (including stacked-bar graphs) and analysing stacked-bar and misleading graphs.
+  - Spatial sense (E): translations, reflections and 180 degree rotations on a grid, metric units for estimating and measuring, and comparing angles with non-standard units.
+- Four Grade 5 lessons ("Show me how"), and the new skills added to the quick-check ladders for Grades 5 to 8.
+- Independent arithmetic tests for every new generator (week and month counts by walking through them; one was mutation-checked). They caught three generator bugs before release (a budget that could save a negative amount, a weekly saving that could be negative, and a percent of students that was not a whole number).
+
+### Notes
+- Still deferred in Grade 5 because they need drawn or interactive items: coding (C3), infographics (D1.4), congruent shapes (E1.2), top, front and side views (E1.3) and the protractor (E2.4). See `docs/BACKLOG.md`.
+
 ## [2.8.1] - 2026-11-21
 ### Added
 - Grade 6 gap fill: 13 new micro-skills for the Grade 6 expectations that were not built yet, each with generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer. Grade 6 financial literacy is now complete (5 of 5), algebra is 8 of 10, data 7 of 8 and spatial sense 7 of 10.

@@ -15,6 +15,12 @@ import { addSubFrac8, integers8, mulDivFrac8, mulDivInt8, orderOps8, percents8, 
 import { binomials8, comparePatterns8, equations8, evalRational8, inequalities8, patternRules8, rationalPatterns8 } from './algebra8.js';
 import { correlation8, multiEvents8, tables8, venn8 } from './data8.js';
 import { compositeArea8, compositeVolume8, hypotenuse8, leg8, lineAngles8, polygonAngles8, scale8, tessellations8, transform8, unitsExp8 } from './spatial8.js';
+import { alterCode5, code5 } from './code5.js';
+import { congruent5, infographic5, protractor5, views5 } from './shapes5.js';
+import { expressions5, patternKinds5, tablesOfValues5 } from './algebra5.js';
+import { analyse5, chooseGraph5, relFrequency5, sampling5 } from './data5.js';
+import { compareAngles5, metricUnits5, transformations5 } from './spatial5.js';
+import { budgets5, credit5, taxes5, transfers5 } from './finance5.js';
 import { decimalPatterns6, monomials6, patternKinds6, translatePatterns6 } from './algebra6.js';
 import { chooseGraph6, discreteContinuous6, intervals6, misleading6 } from './data6.js';
 import { combined6 } from './spatial6.js';
@@ -36,6 +42,26 @@ export const GENERATORS: Record<string, Generator> = {
   'MS.G6.E2.6.a': surfaceArea6,
   'MS.G5.F1.2.a': salesTax5,
   'MS.G5.F1.5.a': bestValue5,
+  'MS.G5.C1.1.a': patternKinds5,
+  'MS.G5.C1.2.a': tablesOfValues5,
+  'MS.G5.C2.1.a': expressions5,
+  'MS.G5.C3.1.a': code5,
+  'MS.G5.C3.2.a': alterCode5,
+  'MS.G5.D1.1.a': sampling5,
+  'MS.G5.D1.4.a': infographic5,
+  'MS.G5.E1.2.a': congruent5,
+  'MS.G5.E1.3.a': views5,
+  'MS.G5.E2.4.a': protractor5,
+  'MS.G5.D1.2.a': relFrequency5,
+  'MS.G5.D1.3.a': chooseGraph5,
+  'MS.G5.D1.6.a': analyse5,
+  'MS.G5.E1.5.a': transformations5,
+  'MS.G5.E2.1.a': metricUnits5,
+  'MS.G5.E2.3.a': compareAngles5,
+  'MS.G5.F1.1.a': transfers5,
+  'MS.G5.F1.3.a': budgets5,
+  'MS.G5.F1.4.a': credit5,
+  'MS.G5.F1.6.a': taxes5,
   'MS.G6.C1.1.a': patternKinds6,
   'MS.G6.C1.2.a': translatePatterns6,
   'MS.G6.C1.4.a': decimalPatterns6,

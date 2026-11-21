@@ -146,6 +146,15 @@
    "prereqs": []
   },
   {
+   "id": "MS.G5.E1.5.a",
+   "expectation": "G5.E1.5",
+   "name": "Translations, reflections and rotations on a grid",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E1.4.a"
+   ]
+  },
+  {
    "id": "MS.G5.B1.1.a",
    "expectation": "G5.B1.1",
    "name": "Compose and decompose whole numbers to 100 000",
@@ -416,6 +425,22 @@
    "prereqs": []
   },
   {
+   "id": "MS.G5.C1.1.a",
+   "expectation": "G5.C1.1",
+   "name": "Repeating, growing and shrinking patterns",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.C1.2.a",
+   "expectation": "G5.C1.2",
+   "name": "Tables of values for growing and shrinking patterns",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C1.1.a"
+   ]
+  },
+  {
    "id": "MS.G5.C1.4.a",
    "expectation": "G5.C1.4",
    "name": "Patterns with decimal tenths and hundredths",
@@ -428,6 +453,13 @@
    "id": "MS.G5.C2.2.a",
    "expectation": "G5.C2.2",
    "name": "Evaluate algebraic expressions with whole numbers",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.C2.1.a",
+   "expectation": "G5.C2.1",
+   "name": "Words and algebraic expressions",
    "tiers": 3,
    "prereqs": []
   },
@@ -447,6 +479,22 @@
    "tiers": 3,
    "prereqs": [
     "MS.G5.C2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G5.C3.1.a",
+   "expectation": "G5.C3.1",
+   "name": "Write and run short programs with loops and conditionals",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.C3.2.a",
+   "expectation": "G5.C3.2",
+   "name": "Read and change code; how a change affects the result",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C3.1.a"
    ]
   },
   {
@@ -529,6 +577,49 @@
    "name": "Mean, median and mode for whole-number data",
    "tiers": 3,
    "prereqs": []
+  },
+  {
+   "id": "MS.G5.D1.1.a",
+   "expectation": "G5.D1.1",
+   "name": "Sampling: why the technique matters",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.D1.2.a",
+   "expectation": "G5.D1.2",
+   "name": "Relative-frequency tables",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G5.D1.3.a",
+   "expectation": "G5.D1.3",
+   "name": "Choose a graph, including stacked-bar graphs",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G5.D1.6.a",
+   "expectation": "G5.D1.6",
+   "name": "Analyse graphs, including stacked-bar and misleading graphs",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.D1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G5.D1.4.a",
+   "expectation": "G5.D1.4",
+   "name": "Plan an infographic from tables and stacked-bar graphs",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.D1.3.a"
+   ]
   },
   {
    "id": "MS.G6.D1.5.a",
@@ -621,6 +712,20 @@
    "prereqs": []
   },
   {
+   "id": "MS.G5.E1.2.a",
+   "expectation": "G5.E1.2",
+   "name": "Congruent triangles, rectangles and parallelograms",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.E1.3.a",
+   "expectation": "G5.E1.3",
+   "name": "Top, front and side views of block structures",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
    "id": "MS.G6.E1.1.a",
    "expectation": "G6.E1.1",
    "name": "Properties of quadrilaterals: angles and sides",
@@ -654,6 +759,29 @@
    "name": "Convert larger metric units to smaller ones",
    "tiers": 3,
    "prereqs": []
+  },
+  {
+   "id": "MS.G5.E2.1.a",
+   "expectation": "G5.E2.1",
+   "name": "Metric units to estimate and measure",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.E2.3.a",
+   "expectation": "G5.E2.3",
+   "name": "Compare angles with non-standard units",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.E2.4.a",
+   "expectation": "G5.E2.4",
+   "name": "Protractor: measure and draw angles to 180 degrees",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E2.3.a"
+   ]
   },
   {
    "id": "MS.G6.E2.1.a",
@@ -716,6 +844,42 @@
    "tiers": 3,
    "prereqs": [
     "MS.G5.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G5.F1.1.a",
+   "expectation": "G5.F1.1",
+   "name": "Ways money is transferred, with fees",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G5.F1.3.a",
+   "expectation": "G5.F1.3",
+   "name": "Basic budgets for earning and spending",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G5.F1.4.a",
+   "expectation": "G5.F1.4",
+   "name": "Credit and debt",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.F1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G5.F1.6.a",
+   "expectation": "G5.F1.6",
+   "name": "Taxes by level of government and the services they fund",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.F1.2.a"
    ]
   },
   {
