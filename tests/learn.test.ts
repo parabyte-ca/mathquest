@@ -63,8 +63,7 @@ describe('options and sessions', () => {
     expect(['B', 'C', 'D', 'E', 'F'].every((k) => s7[k])).toBe(true); // Grade 7 strands B to F have content from 2.5.1
     const g8 = res.body.grades.find((g: { grade: number }) => g.grade === 8);
     const s8 = Object.fromEntries(g8.groups[0].strands.map((x: { strand: string; available: boolean }) => [x.strand, x.available]));
-        expect(['B', 'C', 'D'].every((k) => s8[k])).toBe(true); // Grade 8 algebra and data have content from 2.7.1
-    expect(['E', 'F'].every((k) => !s8[k])).toBe(true); // spatial sense and financial literacy are coming soon
+        expect(['B', 'C', 'D', 'E', 'F'].every((k) => s8[k])).toBe(true); // every Grade 8 strand has content from 2.7.2
     const g9 = res.body.grades.find((g: { grade: number }) => g.grade === 9);
     expect(g9.groups[0].strands.every((x: { available: boolean }) => !x.available)).toBe(true);
     expect(res.body.grades.map((g: { grade: number }) => g.grade)).toEqual([5, 6, 7, 8, 9, 10, 11, 12]);

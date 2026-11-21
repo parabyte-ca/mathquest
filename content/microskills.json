@@ -1259,6 +1259,157 @@
     "MS.G7.D2.1.a",
     "MS.G8.B2.6.a"
    ]
+  },
+  {
+   "id": "MS.G8.E1.1.a",
+   "expectation": "G8.E1.1",
+   "name": "Tessellations: angles of regular polygons around a point",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E1.3.a",
+   "expectation": "G8.E1.3",
+   "name": "Scale drawings: real and drawing lengths, and the scale",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.E1.3.a",
+    "MS.G8.B2.8.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E1.4.a",
+   "expectation": "G8.E1.4",
+   "name": "All four transformations, including dilations, on the plane",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.E1.4.a",
+    "MS.G8.B2.7.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E2.1.a",
+   "expectation": "G8.E2.1",
+   "name": "Mega, giga, tera, micro, nano and pico units in exponential notation",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E2.2.a",
+   "expectation": "G8.E2.2",
+   "name": "Angle properties of intersecting and parallel lines",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E2.2.b",
+   "expectation": "G8.E2.2",
+   "name": "Angle properties of polygons",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.E2.2.a",
+    "MS.G8.E1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E2.3.a",
+   "expectation": "G8.E2.3",
+   "name": "Area of composite shapes",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.E2.5.a",
+    "MS.G6.E2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E2.3.b",
+   "expectation": "G8.E2.3",
+   "name": "Volume and surface area of composite shapes",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.E2.7.a",
+    "MS.G7.E2.7.b",
+    "MS.G8.E2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E2.4.a",
+   "expectation": "G8.E2.4",
+   "name": "Pythagorean theorem: find the hypotenuse",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.B1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E2.4.b",
+   "expectation": "G8.E2.4",
+   "name": "Pythagorean theorem: find a leg",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.E2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G8.F1.1.a",
+   "expectation": "G8.F1.1",
+   "name": "Payment methods across currencies",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.F1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G8.F1.2.a",
+   "expectation": "G8.F1.2",
+   "name": "Long-term plan including taxes",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.F1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.F1.3.a",
+   "expectation": "G8.F1.3",
+   "name": "Balanced budgets",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.F1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.F1.4.a",
+   "expectation": "G8.F1.4",
+   "name": "Growth of simple versus compound interest",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.F1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G8.F1.5.a",
+   "expectation": "G8.F1.5",
+   "name": "Sales, loyalty and incentive programs",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.F1.6.a",
+   "expectation": "G8.F1.6",
+   "name": "Compare credit cards and consumer contracts",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.F1.6.a",
+    "MS.G8.F1.4.a"
+   ]
   }
  ]
 }

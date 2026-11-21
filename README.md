@@ -2,13 +2,13 @@
 
 > Adaptive Ontario math practice and rewards for Grades 5-12, self-hosted and invite-only.
 
-![Version](https://img.shields.io/badge/version-2.7.1-blue)
+![Version](https://img.shields.io/badge/version-2.7.2-blue)
 
 ## Overview
 
 MathQuest is a self-hosted practice app for Ontario students in Grades 5-12. Caregivers are invited by email, add their own students, and approve the devices students use. An explainable adaptive engine tracks mastery per skill and steps a student down to smaller skills when they struggle. It runs on TrueNAS and is published at `mathquest.moot.es` through a Cloudflare Tunnel.
 
-This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (Foundation)** shipped as 2.0.0: accounts, curriculum model, engine core and deployment. **Phase 2 (Learning experience)** shipped as 2.1.0: lessons with visuals and optional voice, the question player, hints and feedback, skill map and placement, on a Grade 5-6 number, fractions, decimals and coordinates seed set. **Phase 3 (Content)** is 2.2.0: the Grade 5-6 Number strand (45 micro-skills in all, 10 new lessons), Grade 5-6 strands C to F (algebra, data, spatial sense, financial literacy: 28 more skills and 10 more lessons, 2.2.2) and the Claude question-writer with an admin review queue and student reports. **Phase 4 (Motivation and caregivers)** is 2.3.0: XP, levels, streaks with freezes, badges, unlockable avatars and colour palettes, caregiver-set real-world goals, a caregiver progress dashboard, a weekly email and printable worksheets with answer keys. **Phase 5 (Polish)** is 2.4.0: first-run walkthroughs, an installable app that opens offline, a more informative admin Updates page, invitation notes and faster loading. **Phase 6 (Grades 7 to 12)** has begun: 2.5.0 added Grade 7 Number (15 micro-skills, 4 lessons) and 2.5.1 added the rest of Grade 7 (algebra, data, spatial sense, financial literacy: 26 more micro-skills, 8 more lessons), and 2.7.1 adds practice without internet (download a pack, answer offline, the server grades the answers when they are sent) and an "Install the app" button, 2.7.0 added Grade 8 Number (12 micro-skills, 4 lessons) and 2.7.1 adds Grade 8 algebra and data (11 more micro-skills, 3 more lessons). The rest of Grade 8, then Grades 9 to 12, are next.
+This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (Foundation)** shipped as 2.0.0: accounts, curriculum model, engine core and deployment. **Phase 2 (Learning experience)** shipped as 2.1.0: lessons with visuals and optional voice, the question player, hints and feedback, skill map and placement, on a Grade 5-6 number, fractions, decimals and coordinates seed set. **Phase 3 (Content)** is 2.2.0: the Grade 5-6 Number strand (45 micro-skills in all, 10 new lessons), Grade 5-6 strands C to F (algebra, data, spatial sense, financial literacy: 28 more skills and 10 more lessons, 2.2.2) and the Claude question-writer with an admin review queue and student reports. **Phase 4 (Motivation and caregivers)** is 2.3.0: XP, levels, streaks with freezes, badges, unlockable avatars and colour palettes, caregiver-set real-world goals, a caregiver progress dashboard, a weekly email and printable worksheets with answer keys. **Phase 5 (Polish)** is 2.4.0: first-run walkthroughs, an installable app that opens offline, a more informative admin Updates page, invitation notes and faster loading. **Phase 6 (Grades 7 to 12)** has begun: 2.5.0 added Grade 7 Number (15 micro-skills, 4 lessons) and 2.5.1 added the rest of Grade 7 (algebra, data, spatial sense, financial literacy: 26 more micro-skills, 8 more lessons), and 2.7.1 adds practice without internet (download a pack, answer offline, the server grades the answers when they are sent) and an "Install the app" button, 2.7.0 added Grade 8 Number (12 micro-skills, 4 lessons), 2.7.1 added Grade 8 algebra and data (11 micro-skills, 3 lessons), and 2.7.2 adds Grade 8 spatial sense and financial literacy (16 micro-skills, 5 lessons), which completes Grade 8. Grade 9 is next.
 
 ## Features
 
@@ -17,7 +17,7 @@ This is the v2 rewrite, delivered in phases (see `docs/v2-plan.md`). **Phase 1 (
 - Student sign-in with username and 4-digit PIN, only on devices a caregiver approved with a pairing code; lockout after 5 wrong PINs with an email to the caregiver
 - Minimal student data (display name, username, grade, language, settings); export or delete any student's data
 - CSRF protection, strict Content Security Policy, input validation on every endpoint, audit log
-- Ontario curriculum model for Grades 5-12 (365 expectations, both tagging schemas, prerequisite graph, 137 micro-skills across Grades 5 to 8)
+- Ontario curriculum model for Grades 5-12 (365 expectations, both tagging schemas, prerequisite graph, 153 micro-skills across Grades 5 to 8)
 - Adaptive engine core: Bayesian Knowledge Tracing, struggle detection, one-tier-at-a-time step-down and build-up, spaced review, session mix, adaptive placement
 - English and French interface (CI fails on a missing key)
 - Signed container releases, `setup.sh`, `update.sh` with backup and rollback, in-app upgrades through a host upgrade agent
@@ -83,7 +83,7 @@ See `update.sh`, run to deploy a release.
 
 ```bash
 sudo ./update.sh                    # latest release tag
-sudo ./update.sh --version 2.7.1    # a specific release
+sudo ./update.sh --version 2.7.2    # a specific release
 sudo ./update.sh --rollback         # previous tag + the database as it was before the last update
 ```
 

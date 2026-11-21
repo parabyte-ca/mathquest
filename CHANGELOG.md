@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.7.2] - 2026-11-21
+### Added
+- Grade 8 spatial sense (strand E, 10 skills) and financial literacy (strand F, 6 skills), which completes Grade 8: 16 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer.
+  - Spatial sense: tessellations (angles around a vertex, filling gaps with triangles), scale drawings (to real length, to drawing length, and finding the scale), all four transformations including dilations, mega/giga/tera and micro/nano/pico units in powers of ten, angles of intersecting and parallel lines and of triangles, angle sums and exterior angles of polygons, area of composite shapes (L shapes, a semicircle on a rectangle, a triangle on a rectangle), volume and surface area of composite solids, and the Pythagorean theorem (hypotenuse and leg, ladders, diagonals and distance on a grid). Circle work says "use 3.14 for pi".
+  - Financial literacy: paying across currencies with a card fee, a long-term plan with income tax, balanced budgets (missing amounts, missing percent, and the cut needed to balance), simple versus compound growth, sales with HST, loyalty points and two-store offers, and credit card interest, minimum payments and phone contracts.
+- Five Grade 8 lessons ("Show me how"), so every Grade 8 micro-skill has a lesson.
+- Independent arithmetic tests for every new generator (one was mutation-checked).
+
+### Changed
+- Grade 8 now shows every strand as available; Grade 9 is next.
+
 ## [2.7.1] - 2026-11-21
 ### Added
 - Grade 8 algebra (strand C, 7 skills) and data (strand D, 4 skills): 11 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer.
