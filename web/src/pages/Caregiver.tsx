@@ -27,7 +27,7 @@ export function Caregiver({ me, go }: { me: Extract<Me, { kind: 'user' }>; go: (
         {students === null && <p role="status">{t('common.loading')}</p>}
         {students?.length === 0 && <p>{t('caregiver.none')}</p>}
         <ul class="plain">
-          {students?.map((s) => <StudentRow key={s.id} s={s} onChange={load} go={go} />)}
+          {students?.map((s) => <StudentRow key={s.id} s={s} onChange={load} go={go} first={students?.[0]?.id === s.id} />)}
         </ul>
       </section>
       <AddStudent onAdded={load} />
@@ -37,7 +37,7 @@ export function Caregiver({ me, go }: { me: Extract<Me, { kind: 'user' }>; go: (
   );
 }
 
-function StudentRow({ s, onChange, go }: { s: StudentInfo; onChange: () => void; go: (to: string) => void }) {
+function StudentRow({ s, onChange, go, first }: { s: StudentInfo; onChange: () => void; go: (to: string) => void; first: boolean }) {
   const [email, setEmail] = useState('');
   const [personal, setPersonal] = useState('');
   const [note, setNote] = useState('');
@@ -61,12 +61,12 @@ function StudentRow({ s, onChange, go }: { s: StudentInfo; onChange: () => void;
         {!isOwner && <span class="badge">{t('caregiver.shared')}</span>}
       </div>
       <div class="actions">
-        <a class="btn" href={`/app/progress?student=${s.id}`} onClick={(e) => { e.preventDefault(); go(`/app/progress?student=${s.id}`); }}>{t('caregiver.progress')}</a>
+        <a class="btn" data-tour={first ? 'progress' : undefined} href={`/app/progress?student=${s.id}`} onClick={(e) => { e.preventDefault(); go(`/app/progress?student=${s.id}`); }}>{t('caregiver.progress')}</a>
         <a class="btn secondary" href={`/api/students/${s.id}/export`} download={`${s.username}.json`}>{t('caregiver.export')}</a>
         {isOwner && <button type="button" class="danger" onClick={remove}>{t('common.delete')}</button>}
       </div>
       {isOwner && (
-        <form class="inline" onSubmit={share}>
+        <form class="inline" data-tour={first ? 'share' : undefined} onSubmit={share}>
           <label for={`share-${s.id}`}>{t('caregiver.share')}</label>
           <input id={`share-${s.id}`} type="email" placeholder={t('caregiver.shareEmail')} required value={email} onInput={(e) => setEmail((e.target as HTMLInputElement).value)} />
           <label for={`pnote-${s.id}`}>{t('invite.note')}</label>
@@ -94,7 +94,7 @@ function AddStudent({ onAdded }: { onAdded: () => void }) {
     } else setMsg(r.status === 409 ? t('caregiver.usernameTaken') : t('caregiver.invalid'));
   };
   return (
-    <section class="card">
+    <section class="card" data-tour="add-student">
       <h2>{t('caregiver.add')}</h2>
       <form onSubmit={submit}>
         <label for="dn">{t('caregiver.displayName')}</label>
@@ -134,7 +134,7 @@ function Devices({ devices, onChange }: { devices: Device[]; onChange: () => voi
     }
   };
   return (
-    <section class="card">
+    <section class="card" data-tour="devices">
       <h2>{t('caregiver.devices')}</h2>
       <form onSubmit={approve}>
         <label for="dc">{t('caregiver.deviceCode')}</label>
@@ -169,7 +169,7 @@ function Defaults({ me }: { me: Extract<Me, { kind: 'user' }> }) {
     setSaved(r.ok);
   };
   return (
-    <section class="card">
+    <section class="card" data-tour="defaults">
       <h2>{t('caregiver.defaults')}</h2>
       <form onSubmit={save}>
         <label for="dg">{t('caregiver.dailyGoal')}</label>

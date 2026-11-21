@@ -274,3 +274,11 @@ ol.steps li.done { color: var(--ok); }
 ol.steps li.failed { color: var(--danger); font-weight: 700; }
 ol.steps li.pending { color: var(--muted); }
 .lastupgrade { border-top: 1px solid var(--line); padding-top: 0.5rem; margin-top: 0.5rem; }
+
+/* ── first-run tour ────────────────────────────────────────────────────────── */
+.tour { position: sticky; top: 0; z-index: 5; background: var(--card); border: 2px solid var(--brand); border-radius: 12px; padding: 0.75rem 1rem; margin: 0 0 1rem; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18); max-width: 42rem; }
+.tour h2 { margin: 0.25rem 0; font-size: 1.15rem; }
+.tour p { margin: 0.25rem 0; }
+.tour h2:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.tour-target { outline: 4px solid var(--focus); outline-offset: 4px; border-radius: 8px; }
+html.hc .tour { border-color: #fff; box-shadow: none; }

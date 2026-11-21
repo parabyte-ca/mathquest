@@ -154,6 +154,7 @@ export function studentRoutes(ctx: Ctx): Router {
     if (!a || (a.role !== 'owner' && a.role !== 'admin')) return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
     ctx.db.transaction(() => {
       ctx.db.prepare("DELETE FROM sessions WHERE kind = 'student' AND subject_id = ?").run(a.student.id);
+      ctx.db.prepare("DELETE FROM tour_seen WHERE subject_kind = 'student' AND subject_id = ?").run(a.student.id);
       ctx.db.prepare('DELETE FROM students WHERE id = ?').run(a.student.id); // cascades mastery, attempts, links
     })();
     audit(ctx.db, { kind: user.role, id: user.id }, 'student.delete', a.student.id);

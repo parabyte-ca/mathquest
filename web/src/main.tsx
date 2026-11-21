@@ -12,6 +12,7 @@ import { Caregiver } from './pages/Caregiver';
 import { Admin } from './pages/Admin';
 import { Progress } from './pages/Progress';
 import { Worksheet } from './pages/Worksheet';
+import { startTour, TourHost } from './tour';
 
 function usePath(): [string, (to: string) => void] {
   const [path, setPath] = useState(location.pathname);
@@ -45,20 +46,20 @@ function App() {
     go('/app');
   };
 
-  if (path === '/app/verify') return <Shell me={me} signOut={signOut} go={go}><Verify onDone={async () => { await refresh(); go('/app'); }} go={go} /></Shell>;
+  if (path === '/app/verify') return <Shell path={path} me={me} signOut={signOut} go={go}><Verify onDone={async () => { await refresh(); go('/app'); }} go={go} /></Shell>;
   if (path === '/app/student') {
-    return <Shell me={me} signOut={signOut} go={go}>{me?.kind === 'student' ? <StudentArea me={me} path="/app/learn" go={go} /> : <StudentLogin onDone={refresh} go={go} />}</Shell>;
+    return <Shell path={path} me={me} signOut={signOut} go={go}>{me?.kind === 'student' ? <StudentArea me={me} path="/app/learn" go={go} /> : <StudentLogin onDone={refresh} go={go} />}</Shell>;
   }
-  if (me === undefined) return <Shell me={me} signOut={signOut} go={go}><p role="status">{t('common.loading')}</p></Shell>;
-  if (me?.kind === 'student') return <Shell me={me} signOut={signOut} go={go}><StudentArea me={me} path={path} go={go} /></Shell>;
-  if (!me) return <Shell me={me} signOut={signOut} go={go}><SignIn go={go} /></Shell>;
-  if (path === '/app/admin' && me.user.role === 'admin') return <Shell me={me} signOut={signOut} go={go}><Admin /></Shell>;
-  if (path === '/app/progress') return <Shell me={me} signOut={signOut} go={go}><Progress go={go} /></Shell>;
-  if (path === '/app/worksheet') return <Shell me={me} signOut={signOut} go={go}><Worksheet go={go} /></Shell>;
-  return <Shell me={me} signOut={signOut} go={go}><Caregiver me={me} go={go} /></Shell>;
+  if (me === undefined) return <Shell path={path} me={me} signOut={signOut} go={go}><p role="status">{t('common.loading')}</p></Shell>;
+  if (me?.kind === 'student') return <Shell path={path} me={me} signOut={signOut} go={go}><StudentArea me={me} path={path} go={go} /></Shell>;
+  if (!me) return <Shell path={path} me={me} signOut={signOut} go={go}><SignIn go={go} /></Shell>;
+  if (path === '/app/admin' && me.user.role === 'admin') return <Shell path={path} me={me} signOut={signOut} go={go}><Admin /></Shell>;
+  if (path === '/app/progress') return <Shell path={path} me={me} signOut={signOut} go={go}><Progress go={go} /></Shell>;
+  if (path === '/app/worksheet') return <Shell path={path} me={me} signOut={signOut} go={go}><Worksheet go={go} /></Shell>;
+  return <Shell path={path} me={me} signOut={signOut} go={go}><Caregiver me={me} go={go} /></Shell>;
 }
 
-function Shell(p: { me: Me | null | undefined; signOut: () => void; go: (to: string) => void; children: preact.ComponentChildren }) {
+function Shell(p: { path: string; me: Me | null | undefined; signOut: () => void; go: (to: string) => void; children: preact.ComponentChildren }) {
   const isAdmin = p.me?.kind === 'user' && p.me.user.role === 'admin';
   return (
     <>
@@ -67,11 +68,12 @@ function Shell(p: { me: Me | null | undefined; signOut: () => void; go: (to: str
         <a class="brand" href="/app" onClick={(e) => { e.preventDefault(); p.go('/app'); }}>{t('app.name')}</a>
         <nav aria-label="Main">
           {isAdmin && <a href="/app/admin" onClick={(e) => { e.preventDefault(); p.go('/app/admin'); }}>{t('nav.admin')}</a>}
+          {p.me && <button type="button" class="link" onClick={() => { p.go(p.me!.kind === 'student' ? '/app/learn' : '/app'); startTour(p.me!.kind === 'student' ? 'student' : 'caregiver'); }}>{t('nav.help')}</button>}
           <button type="button" class="link" onClick={() => setLang(getLang() === 'en' ? 'fr' : 'en')} lang={getLang() === 'en' ? 'fr' : 'en'}>{t('nav.language')}</button>
           {p.me && <button type="button" class="link" onClick={p.signOut}>{t('nav.signOut')}</button>}
         </nav>
       </header>
-      <main id="main">{p.children}</main>
+      <main id="main"><TourHost me={p.me} path={p.path} />{p.children}</main>
     </>
   );
 }

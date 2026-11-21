@@ -36,13 +36,18 @@ export async function signInCaregiver(page: Page, email: string): Promise<void> 
 }
 
 /** Creates a student as the caregiver and signs them in on a fresh "device" (approved with a pairing code). */
-export async function studentOnNewDevice(browser: Browser, baseURL: string, parent: Page, opts: { username: string; grade: number; language?: 'en' | 'fr'; addInit?: () => void }): Promise<Page> {
+export async function studentOnNewDevice(browser: Browser, baseURL: string, parent: Page, opts: { username: string; grade: number; language?: 'en' | 'fr'; addInit?: () => void; tour?: boolean }): Promise<Page> {
   await parent.getByLabel('Display name').fill('Robin');
   await parent.getByLabel(/^Username/).fill(opts.username);
   await parent.getByLabel('4-digit PIN').fill('4821');
   await parent.getByLabel('Grade').selectOption(String(opts.grade));
   await parent.getByRole('button', { name: 'Create student' }).click();
   await expect(parent.getByText(`@${opts.username}`)).toBeVisible();
+  if (!opts.tour) { // the student's first-run tour would sit on top of the page under test; the tour spec asks for it
+    const d = db();
+    d.prepare("INSERT OR IGNORE INTO tour_seen (subject_kind, subject_id, tour, seen_at) VALUES ('student', ?, 'student', ?)").run(studentId(opts.username), Date.now());
+    d.close();
+  }
 
   const ctx = await browser.newContext({ baseURL, extraHTTPHeaders: { 'x-forwarded-for': uniqueIp() } });
   const kid = await ctx.newPage();
