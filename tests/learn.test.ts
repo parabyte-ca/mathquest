@@ -468,7 +468,9 @@ describe('skill map', () => {
     const node = (c: string) => map.nodes.find((n) => n.code === c)!;
     expect(node('G6.B2.5').state).toBe('locked'); // Grade 5 fractions come first (recommended, not required)
     expect(node('G6.B2.5').unmet).toContain('G5.B2.5');
-    expect(node('G6.E2.5').state).toBe('soon'); // no content yet
+    expect(map.nodes.every((n) => n.state !== 'soon')).toBe(true); // every Grade 6 expectation has practice from 2.9.1
+    const map9 = (await s.agent.get('/api/learn/skillmap?grade=9&course=MTH1W').expect(200)).body as typeof map;
+    expect(map9.nodes.find((n) => n.code === 'MTH1W.D1.1')!.state).toBe('soon'); // Grade 9 Data has no content yet
     expect(map.edges.some((e) => e.from === 'G5.B2.5' && e.to === 'G6.B2.5')).toBe(true);
 
     // practising never needs the prerequisite: sessions can still start on a locked skill
