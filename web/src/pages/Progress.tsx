@@ -4,7 +4,8 @@ import { api } from '../api';
 import { t, useLang } from '../i18n';
 import { tt } from '../MathText';
 
-interface Goal { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }
+interface Goal { id: string; title: string; note: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }
+interface Msg { id: string; from: string; body: string; createdAt: number; read: boolean }
 interface Dash {
   student: { id: string; displayName: string; grade: number; language: string };
   level: number; xp: number; streak: number; bestStreak: number; freezes: number; minutesToday: number; dailyGoalMinutes: number;
@@ -105,6 +106,7 @@ export function Progress({ go }: { go: (to: string) => void }) {
       </section>
 
       <Goals id={id} goals={d.goals} onChange={load} />
+      <Messages id={id} />
       <WorksheetBuilder id={id} grade={d.student.grade} go={go} />
     </>
   );
@@ -113,12 +115,20 @@ export function Progress({ go }: { go: (to: string) => void }) {
 function Goals({ id, goals, onChange }: { id: string; goals: Goal[]; onChange: () => void }) {
   const [title, setTitle] = useState('');
   const [xp, setXp] = useState(500);
+  const [note, setNote] = useState('');
   const [msg, setMsg] = useState('');
   const add = async (e: Event) => {
     e.preventDefault();
-    const r = await api('POST', `/students/${id}/goals`, { title, xpTarget: xp });
+    const r = await api('POST', `/students/${id}/goals`, { title, xpTarget: xp, ...(note.trim() ? { note } : {}) });
     setMsg(r.ok ? t('goals.added') : r.status === 409 ? t('goals.tooMany') : t('goals.invalid'));
-    if (r.ok) { setTitle(''); onChange(); }
+    if (r.ok) { setTitle(''); setNote(''); onChange(); }
+  };
+  const editNote = async (g: Goal) => {
+    const next = prompt(t('goals.note'), g.note);
+    if (next === null) return;
+    const r = await api('PATCH', `/students/${id}/goals/${g.id}`, { note: next });
+    setMsg(r.ok ? t('goals.noteSaved') : t('goals.invalid'));
+    if (r.ok) onChange();
   };
   const redeem = async (g: Goal) => { await api('POST', `/students/${id}/goals/${g.id}/redeem`, {}); onChange(); };
   const remove = async (g: Goal) => { if (confirm(t('goals.removeConfirm'))) { await api('DELETE', `/students/${id}/goals/${g.id}`); onChange(); } };
@@ -133,8 +143,10 @@ function Goals({ id, goals, onChange }: { id: string; goals: Goal[]; onChange: (
             {g.redeemed ? <span class="badge">✅ {t('goals.done')}</span> : g.reached ? <span class="badge">🎁 {t('goals.ready')}</span> : null}
             <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
             <span class="muted small">{g.progress} / {g.xpTarget} XP</span>
+            {g.note && <p class="muted small">📝 {g.note}</p>}
             <div class="row-actions">
               {g.reached && !g.redeemed && <button type="button" onClick={() => redeem(g)}>{t('goals.redeem')}</button>}
+              {!g.redeemed && <button type="button" class="secondary small" onClick={() => editNote(g)}>{t('goals.noteEdit')}</button>}
               {!g.redeemed && <button type="button" class="secondary small" onClick={() => remove(g)}>{t('goals.remove')}</button>}
             </div>
           </li>
@@ -145,9 +157,43 @@ function Goals({ id, goals, onChange }: { id: string; goals: Goal[]; onChange: (
         <input id="goal-title" required minLength={2} maxLength={80} placeholder={t('goals.example')} value={title} onInput={(e) => setTitle((e.target as HTMLInputElement).value)} />
         <label for="goal-xp">{t('goals.xp')}</label>
         <input id="goal-xp" type="number" required min={50} max={100000} step={50} value={xp} onInput={(e) => setXp(Number((e.target as HTMLInputElement).value))} />
+        <label for="goal-note">{t('goals.note')}</label>
+        <input id="goal-note" maxLength={160} placeholder={t('goals.noteExample')} value={note} onInput={(e) => setNote((e.target as HTMLInputElement).value)} />
         <button type="submit">{t('goals.add')}</button>
         <p role="status">{msg}</p>
       </form>
+    </section>
+  );
+}
+
+/** A short message to the student, with the recent history and whether each one was read. */
+function Messages({ id }: { id: string }) {
+  const [list, setList] = useState<Msg[]>([]);
+  const [body, setBody] = useState('');
+  const [msg, setMsg] = useState('');
+  const load = async () => { const r = await api<{ messages: Msg[] }>('GET', `/students/${id}/messages`); if (r.ok) setList(r.data.messages); };
+  useEffect(() => { void load(); }, [id]);
+  const send = async (e: Event) => {
+    e.preventDefault();
+    const r = await api('POST', `/students/${id}/messages`, { body });
+    setMsg(r.ok ? t('msg.sent') : r.status === 429 ? t('msg.tooMany') : t('msg.invalid'));
+    if (r.ok) { setBody(''); await load(); }
+  };
+  return (
+    <section class="card" aria-labelledby="msg-title">
+      <h2 id="msg-title">{t('msg.title')}</h2>
+      <p class="muted">{t('msg.help')}</p>
+      <form onSubmit={send}>
+        <label for="msg-body">{t('msg.label')}</label>
+        <input id="msg-body" required maxLength={200} value={body} onInput={(e) => setBody((e.target as HTMLInputElement).value)} />
+        <button type="submit">{t('msg.send')}</button>
+        <p role="status">{msg}</p>
+      </form>
+      {list.length === 0 ? <p class="muted">{t('msg.none')}</p> : (
+        <ul class="plain">
+          {list.map((m) => <li key={m.id}>{m.body} <span class="muted small">· {new Date(m.createdAt).toLocaleDateString()} · {m.read ? t('msg.seen') : t('msg.unseen')}</span></li>)}
+        </ul>
+      )}
     </section>
   );
 }

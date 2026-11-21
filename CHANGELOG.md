@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.18.0] - 2026-11-21
+### Added
+- Caregiver notes on goals: add a short note when you set a goal ("Pizza from Mario's on Friday"), or edit it later. The student sees it under the goal.
+- Messages from a caregiver: send a short message (up to 200 characters) from the Progress page. It shows on the student's home page until they dismiss it, and you can see which messages were read. Up to five a day per student.
+- Text from a caregiver is always shown as plain text.
+
+### Notes
+- Database migration 9 adds the goal note and the message table; existing data is untouched.
+
 ## [2.17.0] - 2026-11-21
 ### Added
 - Grade 9 is now complete for everything the question player can handle: 21 new micro-skills, 4 lessons and a quick check for each new strand (Algebra, Data and Modelling, Geometry and Measurement, Financial Literacy).

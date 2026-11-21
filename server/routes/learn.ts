@@ -46,6 +46,16 @@ export function learnRoutes(ctx: Ctx): Router {
 
   r.get('/learn/rewards', (_req, res) => void res.json(rewards.summary(ctx, student(res))));
   r.get('/learn/rewards/header', (_req, res) => void res.json(rewards.header(ctx, student(res))));
+  r.get('/learn/messages', (_req, res) => void res.json({ messages: rewards.unreadMessages(ctx, student(res).id) }));
+  r.post('/learn/messages/:id/read', (req, res) => {
+    try {
+      rewards.markMessageRead(ctx, student(res).id, req.params.id!);
+      res.json({ ok: true });
+    } catch (e) {
+      if (e instanceof rewards.RewardError) return void res.status(e.status).json({ error: e.code });
+      throw e;
+    }
+  });
   r.post('/learn/rewards/equip', (req, res) => {
     const body = z.object({ id: z.string().max(40) }).safeParse(req.body);
     if (!body.success) return void res.status(400).json({ error: 'invalid_request' });

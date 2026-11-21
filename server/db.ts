@@ -390,6 +390,25 @@ const MIGRATIONS: { id: number; name: string; sql: string }[] = [
     CREATE INDEX idx_family_goal_user ON family_goal(user_id);
     `,
   },
+  {
+    id: 9,
+    name: 'caregiver-notes-and-messages',
+    sql: `
+    -- A short note a caregiver attaches to a goal ("Pizza from Mario's, Friday"), shown to the student under the goal.
+    ALTER TABLE goal ADD COLUMN note TEXT;
+
+    -- A short message from a caregiver that the student sees on their home page until they dismiss it.
+    CREATE TABLE student_message (
+      id TEXT PRIMARY KEY,
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      from_user TEXT NOT NULL REFERENCES users(id),
+      body TEXT NOT NULL,
+      created_at INTEGER NOT NULL,
+      read_at INTEGER
+    );
+    CREATE INDEX idx_student_message_student ON student_message(student_id, created_at);
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

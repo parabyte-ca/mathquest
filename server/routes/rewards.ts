@@ -4,7 +4,7 @@ import type { Ctx, UserRow } from '../context.js';
 import { requireUser } from '../context.js';
 import { audit } from '../audit.js';
 import { access } from './students.js';
-import { archiveFamilyGoal, archiveGoal, createFamilyGoal, createGoal, listFamilyGoals, listGoals, localDay, redeemFamilyGoal, redeemGoal, RewardError, summary } from '../rewards/service.js';
+import { listMessages, markMessageRead, sendMessage, setGoalNote, archiveFamilyGoal, archiveGoal, createFamilyGoal, createGoal, listFamilyGoals, listGoals, localDay, redeemFamilyGoal, redeemGoal, RewardError, summary } from '../rewards/service.js';
 import { dashboard } from '../rewards/dashboard.js';
 import { buildWorksheet } from '../worksheet.js';
 
@@ -66,11 +66,11 @@ export function rewardRoutes(ctx: Ctx): Router {
   r.post('/students/:id/goals', (req, res) => {
     const a = access(ctx, me(req), req.params.id!);
     if (!a) return void res.status(404).json({ error: 'not_found' });
-    const body = z.object({ title: z.string().trim().min(2).max(80), xpTarget: z.number().int().min(50).max(100_000) }).safeParse(req.body);
+    const body = z.object({ title: z.string().trim().min(2).max(80), xpTarget: z.number().int().min(50).max(100_000), note: z.string().trim().max(160).optional() }).safeParse(req.body);
     if (!body.success) return void res.status(400).json({ error: 'invalid_request' });
     const count = (ctx.db.prepare('SELECT COUNT(*) AS n FROM goal WHERE student_id = ? AND archived = 0 AND redeemed_at IS NULL').get(a.student.id) as { n: number }).n;
     if (count >= 10) return void res.status(409).json({ error: 'too_many_goals' });
-    const id = createGoal(ctx, a.student.id, me(req).id, body.data.title, body.data.xpTarget);
+    const id = createGoal(ctx, a.student.id, me(req).id, body.data.title, body.data.xpTarget, body.data.note ?? '');
     audit(ctx.db, { kind: 'caregiver', id: me(req).id }, 'goal.create', a.student.id, { xpTarget: body.data.xpTarget });
     res.status(201).json({ id });
   });
@@ -88,6 +88,42 @@ export function rewardRoutes(ctx: Ctx): Router {
       throw e;
     }
   };
+  r.patch('/students/:id/goals/:goalId', (req, res) => {
+    const a = access(ctx, me(req), req.params.id!);
+    if (!a) return void res.status(404).json({ error: 'not_found' });
+    const body = z.object({ note: z.string().trim().max(160) }).safeParse(req.body);
+    if (!body.success) return void res.status(400).json({ error: 'invalid_request' });
+    try {
+      setGoalNote(ctx, a.student.id, req.params.goalId!, body.data.note);
+      audit(ctx.db, { kind: 'caregiver', id: me(req).id }, 'goal.note', a.student.id);
+      res.json({ ok: true });
+    } catch (e) {
+      if (e instanceof RewardError) return void res.status(e.status).json({ error: e.code });
+      throw e;
+    }
+  });
+
+  // Messages to the student: short text, shown on their home page until they dismiss it.
+  r.get('/students/:id/messages', (req, res) => {
+    const a = access(ctx, me(req), req.params.id!);
+    if (!a) return void res.status(404).json({ error: 'not_found' });
+    res.json({ messages: listMessages(ctx, a.student.id) });
+  });
+  r.post('/students/:id/messages', (req, res) => {
+    const a = access(ctx, me(req), req.params.id!);
+    if (!a) return void res.status(404).json({ error: 'not_found' });
+    const body = z.object({ body: z.string().trim().min(1).max(200) }).safeParse(req.body);
+    if (!body.success) return void res.status(400).json({ error: 'invalid_request' });
+    try {
+      const id = sendMessage(ctx, a.student.id, me(req).id, body.data.body);
+      audit(ctx.db, { kind: 'caregiver', id: me(req).id }, 'message.send', a.student.id);
+      res.status(201).json({ id });
+    } catch (e) {
+      if (e instanceof RewardError) return void res.status(e.status).json({ error: e.code });
+      throw e;
+    }
+  });
+
   r.post('/students/:id/goals/:goalId/redeem', act('redeem'));
   r.delete('/students/:id/goals/:goalId', act('archive'));
 

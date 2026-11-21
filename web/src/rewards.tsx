@@ -117,7 +117,7 @@ interface Summary {
   minutesToday: number; dailyGoalMinutes: number; avatar: string; palette: string;
   badges: { id: string; icon: string; name: Text; how: Text; earnedAt: number | null }[];
   cosmetics: { id: string; kind: 'avatar' | 'palette'; icon: string; name: Text; unlocked: boolean; unlock: { level: number } | { badge: string } }[];
-  goals: { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }[];
+  goals: { id: string; title: string; note?: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }[];
   challenges: { id: string; icon: string; name: Text; how: Text; target: number; xp: number; progress: number; done: boolean }[];
   teamGoals: { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }[];
 }
@@ -172,6 +172,7 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
                 <strong>{g.title}</strong> {g.redeemed ? <span class="badge">✅ {t('rewards.goalDone')}</span> : g.reached ? <span class="badge">🎁 {t('rewards.goalReadyShort')}</span> : null}
                 <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
                 <span class="muted small">{g.progress} / {g.xpTarget} XP</span>
+                {g.note && <p class="muted small">📝 {g.note}</p>}
               </li>
             ))}
           </ul>
