@@ -8,6 +8,9 @@
 - Five Grade 9 lessons ("Show me how"), quick-check ladders for Grade 9 Number and Algebra (they include the earlier-grade skills of each strand).
 - Independent arithmetic tests for every new generator (patterns, tables and lines are checked by recomputing them; one test caught an exponent question that could have a negative answer before release).
 
+### Fixed
+- Servers kept showing "coming soon" for strands that had practice (for example Grade 6 algebra, data, spatial sense and financial literacy), because the skill list was only reloaded when a version label in `content/microskills.json` changed, and that label had stayed the same since 2.2.1 while hundreds of skills were added. The skill list is now reloaded whenever any of the content files change (a fingerprint of their contents is stored with the version), so every release that changes the content takes effect on the next start. A test changes a file without touching its label and checks that the list reloads.
+
 ### Notes
 - Not yet in Grade 9: cultural-history research (not scored), the coding strand, characteristics of linear and non-linear relations (C4.1), and the Data, Geometry and Financial strands.
 
