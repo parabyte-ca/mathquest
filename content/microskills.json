@@ -1044,6 +1044,117 @@
    "prereqs": [
     "MS.G7.F1.5.a"
    ]
+  },
+  {
+   "id": "MS.G8.B1.1.a",
+   "expectation": "G8.B1.1",
+   "name": "Scientific notation for very large and very small numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.7.a",
+    "MS.G6.B2.7.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B1.2.a",
+   "expectation": "G8.B1.2",
+   "name": "Real numbers: rational and irrational",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B1.3.a",
+   "expectation": "G8.B1.3",
+   "name": "Estimate and calculate square roots",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B1.4.a",
+   "expectation": "G8.B1.4",
+   "name": "Percents greater than 100% and less than 1%",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B1.7.a",
+    "MS.G7.B2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B2.1.a",
+   "expectation": "G8.B2.1",
+   "name": "Order of operations with rational numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B2.2.a",
+   "expectation": "G8.B2.2",
+   "name": "Recall common squares and square roots",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B2.3.a",
+   "expectation": "G8.B2.3",
+   "name": "Multiply and divide by powers of ten",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.9.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B2.4.a",
+   "expectation": "G8.B2.4",
+   "name": "Add and subtract integers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B2.5.a",
+   "expectation": "G8.B2.5",
+   "name": "Add and subtract fractions, mixed numbers and three terms",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.5.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B2.6.a",
+   "expectation": "G8.B2.6",
+   "name": "Multiply and divide fractions, whole numbers and mixed numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.8.a",
+    "MS.G7.B2.8.b"
+   ]
+  },
+  {
+   "id": "MS.G8.B2.7.a",
+   "expectation": "G8.B2.7",
+   "name": "Multiply and divide integers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G8.B2.8.a",
+   "expectation": "G8.B2.8",
+   "name": "Compare proportional situations and find unknown values",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.10.a"
+   ]
   }
  ]
 }

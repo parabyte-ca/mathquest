@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.7.0] - 2026-11-21
+### Added
+- Grade 8 Number (strand B): 12 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer. Topics: scientific notation (big and small numbers), rational and irrational numbers, estimating and calculating square roots, percents above 100% and below 1%, order of operations with rational numbers, common squares and roots, multiplying and dividing by powers of ten, adding and subtracting integers, adding and subtracting fractions (unlike denominators, mixed numbers, three terms), multiplying and dividing fractions with whole and mixed numbers, multiplying and dividing integers, and comparing proportional situations.
+- Four Grade 8 lessons ("Show me how"), so every Grade 8 micro-skill has a lesson, and a Grade 8 placement ladder that revisits Grades 6 and 7 first.
+- Independent arithmetic tests for every new generator (each recomputes the answer from the prompt by a different method; one was mutation-checked).
+
+### Changed
+- Grade 8 now shows Number as available; its other strands still say "coming soon".
+
 ## [2.6.0] - 2026-11-21
 ### Added
 - Practise without internet. While online, a student downloads a pack of 20 questions for the topics they chose. The app can then be opened and the questions answered with no connection at all (hints and feedback included); the answers wait on the device and are sent automatically when the student is back online and signed in, or with a "Send my answers" button. The server rebuilds every question from its skill, tier and seed, grades it itself and updates mastery, the struggle ladder, XP and badges exactly as for online practice, so what the device says about correctness is never trusted. A pack lists only skill, tier and seed (never an answer key); each question counts once; packs are good for 7 days and answers are accepted for 7 days after that; a student holds at most five packs, and one student cannot use another's pack. XP and badges appear after the answers are sent.
