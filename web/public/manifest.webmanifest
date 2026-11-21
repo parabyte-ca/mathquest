@@ -1,0 +1,17 @@
+{
+  "name": "MathQuest",
+  "short_name": "MathQuest",
+  "description": "Adaptive Ontario math practice for Grades 5 to 12.",
+  "lang": "en-CA",
+  "start_url": "/app",
+  "scope": "/app",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f5f7fb",
+  "theme_color": "#1f5fd6",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

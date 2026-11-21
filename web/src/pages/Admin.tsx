@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'preact/hooks';
 import { api } from '../api';
-import { t, useLang } from '../i18n';
+import { getLang, t, useLang } from '../i18n';
+import { stepStates, type StepKey, type StepStatus } from '../upgradeSteps';
 
 interface UserRow { id: string; email: string; role: string; displayName: string; status: string; lastLoginAt: string | null }
 interface AuditRow { id: number; at: string; actorKind: string; action: string; target: string | null }
 interface UpdateInfo {
   current: string;
   latest: { version: string; notes: string } | null;
+  between: { version: string; notes: string }[];
   updateAvailable: boolean;
   releaseError: string | null;
-  status: { state: string; message: string; version: string | null; updatedAt: string | null };
+  agent: { seenAt: string | null; ok: boolean };
+  status: StepStatus & { message: string; version: string | null; previousVersion: string | null; updatedAt: string | null; stepNumber: number | null; stepCount: number | null; error: string | null; startedAt: string | null; finishedAt: string | null; backupFile: string | null };
   log: string[];
 }
 
@@ -18,6 +21,7 @@ export function Admin() {
   const [users, setUsers] = useState<UserRow[]>([]);
   const [audit, setAudit] = useState<AuditRow[]>([]);
   const [email, setEmail] = useState('');
+  const [note, setNote] = useState('');
   const [msg, setMsg] = useState('');
 
   const load = async () => {
@@ -32,10 +36,11 @@ export function Admin() {
 
   const invite = async (e: Event) => {
     e.preventDefault();
-    const r = await api('POST', '/admin/caregivers', { email });
-    setMsg(r.ok ? t('admin.inviteSent') : t('common.error'));
+    const r = await api<{ error?: string }>('POST', '/admin/caregivers', { email, note: note.trim() || undefined });
+    setMsg(r.ok ? t('admin.inviteSent') : r.data.error === 'note_has_link' ? t('invite.noteLink') : t('common.error'));
     if (r.ok) {
       setEmail('');
+      setNote('');
       void load();
     }
   };
@@ -50,6 +55,9 @@ export function Admin() {
         <form class="inline" onSubmit={invite}>
           <label for="ie">{t('signin.email')}</label>
           <input id="ie" type="email" required value={email} onInput={(e) => setEmail((e.target as HTMLInputElement).value)} />
+          <label for="inote">{t('invite.note')}</label>
+          <textarea id="inote" rows={3} maxLength={500} value={note} aria-describedby="inote-help" onInput={(e) => setNote((e.target as HTMLTextAreaElement).value)} />
+          <p class="muted small" id="inote-help">{t('invite.noteHelp', { n: 500 - note.length })}</p>
           <button type="submit">{t('admin.invite')}</button>
           <span role="status">{msg}</span>
         </form>
@@ -74,7 +82,10 @@ export function Admin() {
   );
 }
 
+const when = (iso: string | null): string => (iso ? new Date(iso).toLocaleString(getLang() === 'fr' ? 'fr-CA' : 'en-CA', { dateStyle: 'medium', timeStyle: 'short' }) : t('updates.whenUnknown'));
+
 function Updates() {
+  useLang();
   const [info, setInfo] = useState<UpdateInfo | null>(null);
   const [msg, setMsg] = useState('');
 
@@ -96,7 +107,12 @@ function Updates() {
   };
 
   if (!info) return <section class="card"><p role="status">{t('common.loading')}</p></section>;
-  const busy = ['queued', 'validating', 'running'].includes(info.status.state);
+  const st = info.status;
+  const busy = ['queued', 'validating', 'running'].includes(st.state);
+  const finished = ['succeeded', 'failed', 'rolled_back'].includes(st.state);
+  const steps = busy || finished ? stepStates(st) : [];
+  const stateLabel = (s: string): string => t(`updates.step${s === 'done' ? 'Done' : s === 'current' ? 'Current' : s === 'failed' ? 'Failed' : 'Pending'}`);
+  const icon = { done: '✓', current: '▶', failed: '✗', pending: '·' } as const;
   return (
     <section class="card" aria-labelledby="upd">
       <h2 id="upd">{t('updates.title')}</h2>
@@ -104,14 +120,54 @@ function Updates() {
         <dt>{t('updates.current')}</dt><dd>{info.current}</dd>
         <dt>{t('updates.latest')}</dt><dd>{info.latest?.version ?? '—'}</dd>
         <dt>{t('updates.status')}</dt>
-        <dd data-testid="upgrade-state">{t(`state.${info.status.state}`)}{info.status.message ? ` — ${info.status.message}` : ''}</dd>
+        <dd data-testid="upgrade-state">{t(`state.${st.state}`)}{st.message ? ` — ${st.message}` : ''}</dd>
       </dl>
-      {info.releaseError && <p class="note warn">{t('updates.releaseError')}</p>}
+
+      {info.agent.ok
+        ? <p class="muted small" data-testid="agent-state">{t('updates.agentOk', { when: when(info.agent.seenAt) })}</p>
+        : <p class="note warn" data-testid="agent-state">{info.agent.seenAt ? t('updates.agentStale', { when: when(info.agent.seenAt) }) : t('updates.agentNever')}</p>}
+      {info.releaseError && <p class="note warn" data-testid="release-error">{t('updates.releaseErrorWhy', { reason: info.releaseError })}</p>}
+      {!info.releaseError && !info.latest && <p class="note warn">{t('updates.noRelease')}</p>}
       {info.latest && !info.updateAvailable && <p class="note ok">{t('updates.upToDate')}</p>}
+
+      {steps.length > 0 && (
+        <>
+          <h3>{t('updates.steps')}</h3>
+          <ol class="steps" data-testid="upgrade-steps">
+            {steps.map((x) => (
+              <li key={x.key} class={`step ${x.state}`} aria-current={x.state === 'current' ? 'step' : undefined}>
+                <span aria-hidden="true">{icon[x.state]}</span> {t(`updates.step.${x.key}`)} <span class="muted small">({stateLabel(x.state)})</span>
+              </li>
+            ))}
+          </ol>
+        </>
+      )}
+
+      {finished && (
+        <div class="lastupgrade" data-testid="last-upgrade">
+          <h3>{t('updates.last')}</h3>
+          <p><strong>{t('updates.lastLine', { version: st.version ?? '?', result: t(`state.${st.state}`) })}</strong></p>
+          {st.previousVersion && <p>{t('updates.previous', { version: st.previousVersion })}</p>}
+          {st.startedAt && <p class="muted small">{t('updates.started', { when: when(st.startedAt) })}{st.finishedAt ? ` · ${t('updates.finished', { when: when(st.finishedAt) })}` : ''}</p>}
+          {st.error && st.state !== 'succeeded' && <p class="note warn">{t('updates.reason', { error: st.error })}</p>}
+          {st.state === 'failed' && ['backup', 'download', 'verify'].includes(st.step ?? '') && <p>{t('updates.unchanged')}</p>}
+          {st.state === 'rolled_back' && <p>{t('updates.restored')}</p>}
+          {st.state === 'failed' && !['backup', 'download', 'verify'].includes(st.step ?? '') && st.step !== null && <p class="note warn">{t('updates.manualRollback')}</p>}
+          {st.backupFile && <p class="muted small">{t('updates.backup', { file: st.backupFile })}</p>}
+          {st.state === 'succeeded' && <p class="muted small">{t('updates.rollbackHint')}</p>}
+        </div>
+      )}
+
       {info.updateAvailable && info.latest && (
         <>
           <p class="note">{t('updates.available')}</p>
-          <pre class="notes">{info.latest.notes}</pre>
+          <h3>{t('updates.between', { current: info.current })}</h3>
+          {(info.between.length ? info.between : [info.latest]).map((v, i) => (
+            <details key={v.version} open={i === 0}>
+              <summary>{t('updates.versionNotes', { version: v.version })}</summary>
+              <pre class="notes">{v.notes}</pre>
+            </details>
+          ))}
           <button type="button" disabled={busy} onClick={upgrade}>{t('updates.upgrade', { version: info.latest.version })}</button>
         </>
       )}

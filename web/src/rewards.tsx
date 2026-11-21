@@ -72,7 +72,7 @@ export function RewardBar({ highContrast, go }: { highContrast: boolean; go: (to
   if (!h) return null;
   const pct = Math.min(100, Math.round((h.into / h.need) * 100));
   return (
-    <a class="rewardbar" href="/app/learn/rewards" onClick={(e) => { e.preventDefault(); go('/app/learn/rewards'); }} aria-label={t('rewards.barLabel', { level: h.level, xp: h.xp, streak: h.streak })}>
+    <a class="rewardbar" data-tour="rewards" href="/app/learn/rewards" onClick={(e) => { e.preventDefault(); go('/app/learn/rewards'); }} aria-label={t('rewards.barLabel', { level: h.level, xp: h.xp, streak: h.streak })}>
       <span class="avatar" aria-hidden="true">{avatarIcon(h.avatar)}</span>
       <span class="lvl">{t('rewards.level', { n: h.level })}</span>
       <span class="xpmeter" role="progressbar" aria-valuemin={0} aria-valuemax={h.need} aria-valuenow={h.into} aria-label={t('rewards.toNext')}><span style={{ width: `${pct}%` }} /></span>

@@ -4,37 +4,6 @@ Items waiting for a phase or a slot. Newest first within each section. Move an i
 
 ## Requested
 
-### Admin: more informative update screens
-Added 2026-11-20.
-
-The admin Updates page shows the installed version, the latest release, a status word and a raw log tail. Make it say more:
-- Show what the upgrade is doing as steps (backup, download, signature check, deploy, health check) with the current one marked, not just "Updating".
-- On failure or rollback, say which step failed and why in plain words, and show the exact rollback command.
-- Show the previous version, when the last upgrade ran and its result, and where the pre-update backup is.
-- Show release notes for every version between the installed one and the latest, not only the latest.
-- Explain when no upgrade can be requested (agent not installed or not running, repository or image not reachable, release check failing) instead of a blank state.
-- Needs the upgrade agent to write richer status (`step`, `stepNumber`, `stepCount`, `error`) into `upgrade-status/status.json`; the app must keep treating that file as untrusted input (strict shape and length limits).
-
-### Notes to send with caregiver invitations
-Added 2026-11-20.
-
-When an admin invites a caregiver (and when a caregiver shares a student with a co-caregiver), allow an optional personal note that is included in the invitation email.
-- Optional short plain-text field on the invite forms (suggested limit 500 characters; English and French UI).
-- Included in the email body only; never placed in the sign-in link. Escape it as text (the email is plain text today); never allow links or HTML to be injected into the surrounding template.
-- Record in the audit log that a note was attached (not its content).
-- Decide whether to keep the note after sending (default: do not store it).
-- Tests: the note appears in the message, is length-limited, and cannot change the link or subject.
-
-### Walkthrough for students and caregivers
-Added 2026-11-20.
-
-A guided first-run tour so people know what to do without a manual. Student and caregiver versions (the user said "student and/or caregiver"; build both, caregiver first if only one fits).
-- Caregiver: short steps for adding a student, approving their device with the pairing code, setting grades and defaults, reading progress, sharing with a co-caregiver, and exporting or deleting data.
-- Student: a friendly tour of choosing a topic, learning first, hints, the scratchpad and math keyboard, the skill map, and the optional voice.
-- Skippable, replayable from a "Help" link, English and French, keyboard and screen-reader friendly (focus managed, not a modal trap), respects reduced motion.
-- Remember completion per person (server-side, so it follows them across devices); never block use of the app.
-- Tests: tour appears once, can be skipped and replayed, and passes the axe scan.
-
 ## Noted earlier in this project (not yet scheduled)
 
 - Pin GitHub Actions to commit SHAs (`scripts/pin-actions.sh`, needs internet access).
@@ -42,7 +11,7 @@ A guided first-run tour so people know what to do without a manual. Student and 
 - Dependabot: switch to monthly with grouped minor and patch updates so it stops opening many PRs at once.
 - Admin Updates page cannot see releases of a private repository from inside the container; resolved while the repository is public. If it goes private again, have the host agent write the latest-release info into `upgrade-status/`.
 - Phase 3: content for Grades 5 and 6 first, then the next grades; the Claude-generated item pipeline and admin review queue; remaining item formats (sliders, draggable curves, protractor, simulators, code snippets).
-- Phase 5: French review, PWA and offline practice, performance (lazy-load lesson and generator code).
+- Offline practice: answer questions without a connection and sync later (needs client-side generators, a signed queue the server can replay and verify, and a decision on showing answers offline).
 - Create a `mathquest` skill (architecture, ports, release flow) and refresh `ontario-math-curriculum` once Grade 5-6 content is real.
 
 ## Phase 3 follow-ups (from 2.2.0)
@@ -60,3 +29,9 @@ A guided first-run tour so people know what to do without a manual. Student and 
 - Weekly email: a "send me a test email" button and a choice of day.
 - Dashboard: compare against the previous week, and export progress as a PDF.
 - Worksheets: choose several topics on one sheet; add a solution page with the worked steps.
+
+## Phase 5 follow-ups (from 2.4.0)
+- Offline practice (see above), and an "Install the app" button inside the app.
+- Split the lesson try-it code from the lesson text so a lesson loads less than 585 kB.
+- Walkthrough: a short "what is new" card after an upgrade; a tour for the admin pages.
+- Updates page: show the agent's cron schedule and a "check again" button.

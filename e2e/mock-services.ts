@@ -22,5 +22,10 @@ createServer((req, res) => {
     json(200, { ok: true });
   } else if (req.method === 'GET' && req.url === '/releases/latest') {
     json(200, { tag_name: 'v99.0.0', body: 'Mock release notes', html_url: 'https://example.invalid/r' });
+  } else if (req.method === 'GET' && req.url?.startsWith('/releases?')) {
+    json(200, [
+      { tag_name: 'v99.0.0', body: 'Mock release notes', html_url: 'https://example.invalid/r' },
+      { tag_name: 'v98.0.0', body: 'Earlier mock release notes', html_url: 'https://example.invalid/r98' },
+    ]);
   } else json(404, {});
 }).listen(port, '127.0.0.1', () => console.log(`mock services on ${port}`));

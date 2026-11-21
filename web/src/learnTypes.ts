@@ -1,7 +1,7 @@
 import type { PublicItem, Text } from '../../shared/items/types';
 
 export type Step =
-  | { type: 'item'; item: PublicItem; kind: 'practice' | 'review' | 'placement'; target: string; phase: string; resumed?: boolean }
+  | { type: 'item'; item: PublicItem; kind: 'practice' | 'review' | 'placement'; target: string; phase: string; resumed?: boolean; lessonId?: string | null }
   | { type: 'lesson'; lessonId: string; skill: string; target: string; reason: 'stuck' }
   | { type: 'done'; reason?: 'limit'; summary: { answered: number; correct: number; masteredExpectations: string[] } };
 

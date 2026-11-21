@@ -311,6 +311,20 @@ const MIGRATIONS: { id: number; name: string; sql: string }[] = [
     CREATE INDEX idx_goal_student ON goal(student_id);
     `,
   },
+  {
+    id: 5,
+    name: 'tours',
+    sql: `
+    -- Which first-run walkthroughs a person has finished or skipped. Kept on the server so it follows them across devices.
+    CREATE TABLE tour_seen (
+      subject_kind TEXT NOT NULL CHECK (subject_kind IN ('user','student')),
+      subject_id TEXT NOT NULL,
+      tour TEXT NOT NULL,
+      seen_at INTEGER NOT NULL,
+      PRIMARY KEY (subject_kind, subject_id, tour)
+    );
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

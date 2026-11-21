@@ -57,9 +57,10 @@ restore_db() { # restore_db BACKUP_PATH
   chown "${uid:-568}:${gid:-568}" "$ROOT_DIR/data/mathquest.db" 2>/dev/null || true
 }
 
-start_version() { # start_version VERSION
+start_version() { # start_version VERSION [health]   (pass "health" to report the health-check stage)
   env_set MATHQUEST_VERSION "$1"
   compose up -d >>"$LOG_FILE" 2>&1
+  [ "${2:-}" = "health" ] && progress 5 5 health
   wait_healthy "$PORT" 90
 }
 
@@ -68,6 +69,7 @@ do_rollback() {
   prev="$(cat "$STATE_DIR/previous_version" 2>/dev/null || true)"
   backup="$(cat "$STATE_DIR/last_backup" 2>/dev/null || true)"
   is_semver "$prev" || die "no previous version recorded; nothing to roll back to"
+  progress 5 5 rollback
   log "rolling back to v$prev (restoring $backup)"
   restore_db "$backup" || log "WARNING: no database backup to restore; keeping current data"
   git -C "$ROOT_DIR" checkout --quiet "v$prev" 2>/dev/null || log "WARNING: could not check out tag v$prev (image will still be v$prev)"
@@ -90,6 +92,7 @@ is_semver "$TARGET" || die "no valid release version (use --version X.Y.Z)"
 log "updating v${CURRENT:-none} -> v$TARGET"
 
 # --- 1. back up before changing anything ------------------------------------------
+progress 1 5 backup
 BACKUP="$(backup_db)" || die "database backup failed; nothing changed"
 [ -n "$BACKUP" ] && [ -f "$BACKUP" ] || log "WARNING: no existing database to back up (first deploy?)"
 echo "$BACKUP" >"$STATE_DIR/last_backup"
@@ -97,12 +100,15 @@ echo "${CURRENT:-$TARGET}" >"$STATE_DIR/previous_version"
 log "backup: $BACKUP"
 
 # --- 2. fetch and verify the image BEFORE touching the checkout ---------------------
+progress 2 5 download
 docker pull "${IMAGE_REPO}:${TARGET}" >>"$LOG_FILE" 2>&1 || die "could not pull ${IMAGE_REPO}:${TARGET}"
+progress 3 5 verify
 verify_image "$TARGET"
 
 # --- 3. deploy ------------------------------------------------------------------------
+progress 4 5 deploy
 git -C "$ROOT_DIR" checkout --quiet "v$TARGET" || die "could not check out v$TARGET"
-if ! start_version "$TARGET"; then
+if ! start_version "$TARGET" health; then
   log "v$TARGET did not become healthy; rolling back"
   if do_rollback; then
     log "ROLLED BACK to v${CURRENT}. Logs: $LOG_FILE"
