@@ -5,6 +5,7 @@ import { frac, mixedTex, t, tex } from '../generators/kit.js';
 import { NUMBER_LESSONS } from './number.js';
 import { NUMBER7_LESSONS } from './number7.js';
 import { NUMBER8_LESSONS } from './number8.js';
+import { STRAND8_LESSONS } from './strands8.js';
 import { STRAND_LESSONS } from './strands56.js';
 import { STRAND7_LESSONS } from './strands7.js';
 
@@ -16,6 +17,7 @@ export const LESSONS: Lesson[] = [
   ...STRAND_LESSONS,
   ...NUMBER7_LESSONS,
   ...NUMBER8_LESSONS,
+  ...STRAND8_LESSONS,
   ...STRAND7_LESSONS,
   {
     id: 'L.fractions.naming',

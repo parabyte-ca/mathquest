@@ -79,4 +79,4 @@ CI runs shellcheck, checks, the Docker image build and e2e at phone, tablet and 
 
 ## Working style for this user
 
-Brief answers in Canadian English, polite, no commentary. Automate what can be automated, check twice before acting, and suggest skill or doc updates when something has gone stale. When the user says "next", continue the plan in `docs/BACKLOG.md` (Grade 8 strands C to F, then Grade 9) without asking again.
+Brief answers in Canadian English, polite, no commentary. Automate what can be automated, check twice before acting, and suggest skill or doc updates when something has gone stale. When the user says "next", continue the "Release plan" at the top of `docs/BACKLOG.md` (it lists the next release in order) without asking again.

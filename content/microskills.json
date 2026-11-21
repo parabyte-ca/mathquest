@@ -1155,6 +1155,110 @@
    "prereqs": [
     "MS.G7.B2.10.a"
    ]
+  },
+  {
+   "id": "MS.G8.C1.1.a",
+   "expectation": "G8.C1.1",
+   "name": "Compare linear growing and shrinking patterns",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G8.C1.3.a",
+   "expectation": "G8.C1.3",
+   "name": "Pattern rules and unknown terms with integers and decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.C1.4.a",
+   "expectation": "G8.C1.4",
+   "name": "Patterns among rational numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C1.4.a",
+    "MS.G8.B2.5.a"
+   ]
+  },
+  {
+   "id": "MS.G8.C2.1.a",
+   "expectation": "G8.C2.1",
+   "name": "Add and subtract monomials; add degree-1 binomials",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G8.C2.2.a",
+   "expectation": "G8.C2.2",
+   "name": "Evaluate expressions with rational numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C2.2.a",
+    "MS.G8.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G8.C2.3.a",
+   "expectation": "G8.C2.3",
+   "name": "Multi-term equations with integers and decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C2.3.a",
+    "MS.G8.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G8.C2.4.a",
+   "expectation": "G8.C2.4",
+   "name": "Solve inequalities with integers, including negative coefficients",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C2.4.a",
+    "MS.G8.B2.7.a"
+   ]
+  },
+  {
+   "id": "MS.G8.D1.2.a",
+   "expectation": "G8.D1.2",
+   "name": "Two-variable tables of values",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.D1.5.a",
+   "expectation": "G8.D1.5",
+   "name": "Describe correlation: strong, weak, none, positive, negative, outliers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G8.D2.1.a",
+   "expectation": "G8.D2.1",
+   "name": "Probability using Venn diagrams",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G8.D2.2.a",
+   "expectation": "G8.D2.2",
+   "name": "Multiple independent and dependent events",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.D2.1.a",
+    "MS.G8.B2.6.a"
+   ]
   }
  ]
 }
