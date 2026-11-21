@@ -2,13 +2,16 @@
 
 ## [2.8.1] - 2026-11-21
 ### Added
-- Grade 6 financial literacy is now complete (strand F, 5 of 5 expectations): four new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer.
-  - Payment methods: change from cash, the balance left after debit purchases, and a credit card percent fee compared with a flat transfer fee.
-  - Financial goals: weeks to save for a goal, with money already saved and with two sources of weekly money.
-  - Factors that help or interfere: weekly saving after spending, how many weeks sooner extra income gets a student to a goal, and how many weeks later a new expense does.
-  - Trading, lending, borrowing and donating: a percent donation, what is still owed on a loan or a loan to a friend, and a fair trade of cards with different values.
-- One Grade 6 lesson ("Show me how") covering the four skills, and the new skills added to the Financial Literacy quick-check ladders for Grades 6 to 8.
-- Independent arithmetic tests for every new generator (week counts by brute force; one was mutation-checked).
+- Grade 6 gap fill: 13 new micro-skills for the Grade 6 expectations that were not built yet, each with generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer. Grade 6 financial literacy is now complete (5 of 5), algebra is 8 of 10, data 7 of 8 and spatial sense 7 of 10.
+  - Financial literacy (F): payment methods (change from cash, debit balance, a credit card percent fee against a flat transfer fee), financial goals (weeks to save, with savings already made and two sources of weekly money), factors that help or interfere (net weekly saving, weeks sooner with extra income, weeks later with a new expense), and trading, lending, borrowing and donating (percent donation, what is still owed, fair card trade).
+  - Algebra (C): repeating, shrinking and linear growing patterns, translating among tables and rules, patterns with decimals, and adding monomials of degree 1.
+  - Data (D): discrete and continuous data, organizing data with intervals (counting, the number of intervals, percent of values), choosing a graph (bar, circle, histogram, broken-line) and analysing misleading graphs (an axis that does not start at zero, shown in words and numbers).
+  - Spatial sense (E): combinations of translations, reflections and rotations (up to 360 degrees) on a point.
+- Four Grade 6 lessons ("Show me how"), and the new skills added to the quick-check ladders for Grades 6 to 8.
+- Independent arithmetic tests for every new generator (week counts, brute-force walks through patterns and moves, mutation-checked on two).
+
+### Notes
+- Still deferred in Grade 6 because they need drawn or interactive items: coding (C3), modelling (C4), infographics (D1.4), 3-D views (E1.2), the protractor (E2.2) and nets (E2.5). See `docs/BACKLOG.md`.
 
 ## [2.8.0] - 2026-11-21
 ### Added

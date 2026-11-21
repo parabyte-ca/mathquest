@@ -459,9 +459,45 @@
    ]
   },
   {
+   "id": "MS.G6.C1.1.a",
+   "expectation": "G6.C1.1",
+   "name": "Repeating, shrinking and linear growing patterns",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G6.C1.2.a",
+   "expectation": "G6.C1.2",
+   "name": "Translate patterns between tables and rules",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G6.C1.4.a",
+   "expectation": "G6.C1.4",
+   "name": "Patterns with whole numbers and decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C1.4.a"
+   ]
+  },
+  {
    "id": "MS.G6.C2.2.a",
    "expectation": "G6.C2.2",
    "name": "Evaluate expressions with whole numbers and decimal tenths",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G6.C2.1.a",
+   "expectation": "G6.C2.1",
+   "name": "Add monomials of degree 1",
    "tiers": 3,
    "prereqs": [
     "MS.G5.C2.2.a"
@@ -501,6 +537,43 @@
    "tiers": 3,
    "prereqs": [
     "MS.G5.D1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G6.D1.1.a",
+   "expectation": "G6.D1.1",
+   "name": "Discrete and continuous data",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.D1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G6.D1.2.a",
+   "expectation": "G6.D1.2",
+   "name": "Organize data using intervals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G6.D1.3.a",
+   "expectation": "G6.D1.3",
+   "name": "Choose a graph: histogram, broken-line, bar and circle",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G6.D1.6.a",
+   "expectation": "G6.D1.6",
+   "name": "Analyse data and spot misleading graphs",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D1.3.a",
+    "MS.G6.D1.5.a"
    ]
   },
   {
@@ -564,6 +637,15 @@
    "prereqs": [
     "MS.G5.E1.4.a",
     "MS.G6.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G6.E1.4.a",
+   "expectation": "G6.E1.4",
+   "name": "Combinations of translations, reflections and rotations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E1.3.a"
    ]
   },
   {

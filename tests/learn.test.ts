@@ -449,7 +449,7 @@ describe('skill map', () => {
     const node = (c: string) => map.nodes.find((n) => n.code === c)!;
     expect(node('G6.B2.5').state).toBe('locked'); // Grade 5 fractions come first (recommended, not required)
     expect(node('G6.B2.5').unmet).toContain('G5.B2.5');
-    expect(node('G6.C2.1').state).toBe('soon'); // no content yet
+    expect(node('G6.E2.5').state).toBe('soon'); // no content yet
     expect(map.edges.some((e) => e.from === 'G5.B2.5' && e.to === 'G6.B2.5')).toBe(true);
 
     // practising never needs the prerequisite: sessions can still start on a locked skill

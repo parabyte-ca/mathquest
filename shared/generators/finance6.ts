@@ -1,17 +1,8 @@
 // Grade 6 Financial Literacy strand (F), the expectations that were not built before 2.8.1: payment methods, financial goals,
 // factors that help or interfere with reaching a goal, and trading, lending, borrowing and donating.
 import { pick, randInt } from '../rng.js';
-import type { Text } from '../items/types.js';
-import { bi, money, numGen, r6 } from './dsl.js';
+import { bi, keepWrong as wr, money, numGen, r6 } from './dsl.js';
 import { t } from './kit.js';
-
-type Wrong = [number, Text, number?][];
-
-/** Keeps only the mapped wrong answers that are finite, distinct and different from the right answer. */
-const wr = (answer: number, list: [number, Text, number?][]): Wrong => {
-  const seen = new Set<number>([r6(answer)]);
-  return list.filter(([v]) => Number.isFinite(v) && !seen.has(r6(v)) && (seen.add(r6(v)), true));
-};
 
 /** MS.G6.F1.1.a: payment methods (cash and change, debit balance, credit card fee against a transfer fee) */
 export const payments6 = numGen('MS.G6.F1.1.a', (tier, r) => {
