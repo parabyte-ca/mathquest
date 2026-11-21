@@ -287,3 +287,10 @@ html.hc .tour { border-color: #fff; box-shadow: none; }
 
 /* ── offline notice ────────────────────────────────────────────────────────── */
 .offlinebar { margin: 0; padding: 0.5rem 1rem; background: var(--soft); border-bottom: 2px solid var(--warn); color: var(--text); font-weight: 600; }
+
+/* install and offline practice */
+.bar { position: relative; }
+.install { position: static; display: inline-flex; }
+.installhelp { position: absolute; right: 1rem; top: 100%; z-index: 20; width: min(22rem, calc(100vw - 2rem)); margin-top: 0.25rem; padding: 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18); text-align: left; }
+.installhelp p { margin: 0 0 0.5rem; }
+.syncnote { margin: 0 0 1rem; }

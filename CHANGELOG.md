@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.6.0] - 2026-11-21
+### Added
+- Practise without internet. While online, a student downloads a pack of 20 questions for the topics they chose. The app can then be opened and the questions answered with no connection at all (hints and feedback included); the answers wait on the device and are sent automatically when the student is back online and signed in, or with a "Send my answers" button. The server rebuilds every question from its skill, tier and seed, grades it itself and updates mastery, the struggle ladder, XP and badges exactly as for online practice, so what the device says about correctness is never trusted. A pack lists only skill, tier and seed (never an answer key); each question counts once; packs are good for 7 days and answers are accepted for 7 days after that; a student holds at most five packs, and one student cannot use another's pack. XP and badges appear after the answers are sent.
+- An "Install the app" button in the header. Browsers that can install the app (Chrome, Edge and others) get a one-tap prompt; iPhones and iPads get a short note on using Share, then "Add to Home Screen". It hides once the app is installed.
+- Migration 6 (`offline_pack`); two student endpoints, `POST /api/learn/offline/pack` and `POST /api/learn/offline/sync`.
+- Tests: server tests for packs and sync (grading, replay, other students, expiry, caps), and end-to-end tests that download a pack, go offline, practise, reload, go back online and check the server's records, and that check the install button, all with axe scans.
+
+### Notes
+- Offline practice keeps the list of questions and the student's answers in the browser's own storage (IndexedDB) on that device, and a copy of their name and settings so the app can open offline. Signing out removes the copy of their name and settings; answers not yet sent stay until they are. The service worker still never stores any API data.
+- Because the questions are built on the device, a student could work out an answer outside the app; this is practice, and every answer still goes through the server's grading.
+
 ## [2.5.1] - 2026-11-21
 ### Added
 - Grade 7 strands C to F: 26 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer.

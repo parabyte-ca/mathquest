@@ -458,3 +458,102 @@ export function skillMap(ctx: Ctx, student: StudentRow, grade: number, course: s
   });
   return { grade, nodes, edges };
 }
+
+// ── offline practice ────────────────────────────────────────────────────────────────
+// A student can download a pack of questions while online, answer them without a connection, and send the answers back later.
+// The pack is just a list of (skill, tier, seed). When answers arrive the server rebuilds each question from its seed, grades it
+// itself and updates mastery and rewards exactly as if the student had been online. A question can be answered once.
+
+const PACK_SIZE = 20;
+const PACK_MS = 7 * 86_400_000;
+const PACK_GRACE_MS = 7 * 86_400_000;
+const MAX_OPEN_PACKS = 5;
+
+export interface OfflineRef { skill: string; tier: number; seed: number; target: string }
+export interface OfflinePack { packId: string; grade: number; issuedAt: number; expiresAt: number; items: OfflineRef[] }
+
+export function offlinePack(ctx: Ctx, student: StudentRow, input: { grade: number; course?: string | null; strands?: string[]; focus?: string | null }): OfflinePack {
+  if (!allowedGrades(student).includes(input.grade)) throw new LearnError('grade_not_allowed', 403);
+  const targets = targetsFor(ctx, { grade: input.grade, course: input.course ?? null, strands: input.strands ?? [], focus: input.focus ?? null });
+  if (targets.length === 0) throw new LearnError('no_content', 404);
+
+  const ranked = targets.map((t) => ({ t, p: expectationP(ctx, student.id, t), r: rand(ctx) })).sort((a, b) => a.p - b.p || a.r - b.r);
+  const open = ranked.filter((x) => !expectationMastered(ctx, student.id, x.t));
+  const pool = open.length > 0 ? open : ranked;
+  const items: OfflineRef[] = [];
+  const used = new Set<string>();
+  for (let n = 0; items.length < PACK_SIZE && n < PACK_SIZE * 4; n++) {
+    const x = pool[n % pool.length]!;
+    const micros = microsOf(ctx, x.t).filter(hasGenerator);
+    if (micros.length === 0) continue;
+    const weights = micros.map((m) => 1.1 - getMastery(ctx, student.id, m).p_known);
+    let r = rand(ctx) * weights.reduce((a, b) => a + b, 0);
+    let micro = micros[micros.length - 1]!;
+    for (let i = 0; i < micros.length; i++) { r -= weights[i]!; if (r <= 0) { micro = micros[i]!; break; } }
+    const m = getMastery(ctx, student.id, micro);
+    const tier = Math.min(MAX_TIER, Math.max(1, m.attempts === 0 ? 1 : m.tier));
+    const seed = seedFor(ctx);
+    const key = `${micro}:${tier}:${seed}`;
+    if (used.has(key)) continue;
+    used.add(key);
+    items.push({ skill: micro, tier, seed, target: x.t });
+  }
+  if (items.length === 0) throw new LearnError('no_content', 404);
+
+  const id = newId();
+  const now = ctx.now();
+  ctx.db.transaction(() => {
+    ctx.db.prepare('DELETE FROM offline_pack WHERE student_id = ? AND expires_at + ? < ?').run(student.id, PACK_GRACE_MS, now);
+    const keep = (ctx.db.prepare('SELECT id FROM offline_pack WHERE student_id = ? ORDER BY issued_at DESC, rowid DESC').all(student.id) as { id: string }[]).slice(0, MAX_OPEN_PACKS - 1).map((r) => r.id);
+    for (const r of ctx.db.prepare('SELECT id FROM offline_pack WHERE student_id = ?').all(student.id) as { id: string }[]) if (!keep.includes(r.id)) ctx.db.prepare('DELETE FROM offline_pack WHERE id = ?').run(r.id);
+    ctx.db.prepare('INSERT INTO offline_pack (id, student_id, items_json, issued_at, expires_at) VALUES (?,?,?,?,?)').run(id, student.id, JSON.stringify(items), now, now + PACK_MS);
+  })();
+  return { packId: id, grade: input.grade, issuedAt: now, expiresAt: now + PACK_MS, items };
+}
+
+export interface OfflineAnswer { i: number; given: unknown; hints?: number; ms?: number }
+export interface OfflineSyncResult {
+  results: { i: number; status: 'graded' | 'skipped'; correct?: boolean; xp?: number }[];
+  answered: number;
+  correct: number;
+  xp: number;
+  level: number | null;
+  leveledUp: boolean;
+  newBadges: string[];
+  remaining: number;
+}
+
+export function offlineSync(ctx: Ctx, student: StudentRow, packId: string, answers: OfflineAnswer[]): OfflineSyncResult {
+  const row = ctx.db.prepare('SELECT id, items_json, done_json, expires_at FROM offline_pack WHERE id = ? AND student_id = ?').get(packId, student.id) as
+    | { id: string; items_json: string; done_json: string; expires_at: number }
+    | undefined;
+  if (!row) throw new LearnError('pack_not_found', 404);
+  if (ctx.now() > row.expires_at + PACK_GRACE_MS) throw new LearnError('pack_expired', 410);
+  const items = JSON.parse(row.items_json) as OfflineRef[];
+  const done = new Set<number>(JSON.parse(row.done_json) as number[]);
+
+  const out: OfflineSyncResult = { results: [], answered: 0, correct: 0, xp: 0, level: null, leveledUp: false, newBadges: [], remaining: 0 };
+  const seen = new Set<number>();
+  ctx.db.transaction(() => {
+    for (const a of [...answers].sort((x, y) => x.i - y.i)) {
+      if (!Number.isInteger(a.i) || a.i < 0 || a.i >= items.length || done.has(a.i) || seen.has(a.i) || !isGiven(a.given)) { out.results.push({ i: a.i, status: 'skipped' }); continue; }
+      seen.add(a.i);
+      const ref = items[a.i]!;
+      let item: Item;
+      try { item = generate(ref.skill, ref.tier, ref.seed); } catch { out.results.push({ i: a.i, status: 'skipped' }); continue; }
+      const pid = `off:${row.id.slice(0, 12)}:${a.i}`;
+      const hints = Math.min(3, Math.max(0, Math.round(a.hints ?? 0)));
+      ctx.db.prepare('INSERT OR REPLACE INTO pending_item (id, student_id, session_id, kind, target, item_json, hints, issued_at) VALUES (?,?,NULL,?,?,?,?,?)').run(pid, student.id, 'practice', ref.target, JSON.stringify(item), hints, ctx.now());
+      const r = answer(ctx, student, pid, a.given, Math.max(0, Math.min(Math.round(a.ms ?? 0), 600_000)));
+      done.add(a.i);
+      out.answered += 1;
+      if (r.correct) out.correct += 1;
+      out.xp += r.reward?.xp ?? 0;
+      if (r.reward) { out.level = r.reward.level; out.leveledUp = out.leveledUp || r.reward.leveledUp; for (const b of r.reward.newBadges) if (!out.newBadges.includes(b)) out.newBadges.push(b); }
+      out.results.push({ i: a.i, status: 'graded', correct: r.correct, xp: r.reward?.xp ?? 0 });
+    }
+    ctx.db.prepare('UPDATE offline_pack SET done_json = ?, synced_at = ? WHERE id = ?').run(JSON.stringify([...done].sort((x, y) => x - y)), done.size >= items.length ? ctx.now() : null, row.id);
+  })();
+  out.remaining = items.length - done.size;
+  return out;
+}

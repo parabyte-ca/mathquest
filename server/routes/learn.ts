@@ -67,6 +67,22 @@ export function learnRoutes(ctx: Ctx): Router {
     return { ...started, step: svc.next(ctx, student(res), started.sessionId) };
   }));
 
+  // Practice without a connection: download a pack while online, send the answers back later. The server grades everything itself.
+  r.post('/learn/offline/pack', handle((req, res) => {
+    const body = z.object({ grade: z.number().int().min(5).max(12), course: z.string().regex(/^[A-Z0-9]{5}$/).nullable().optional(), strands: z.array(z.string().regex(/^[A-F]\d?$/)).max(10).optional(), focus: z.string().regex(/^[A-Z0-9]{2,6}\.[A-F][0-9.]{0,8}$/).nullable().optional() }).safeParse(req.body);
+    if (!body.success) throw new svc.LearnError('invalid_request');
+    return svc.offlinePack(ctx, student(res), body.data);
+  }));
+
+  r.post('/learn/offline/sync', handle((req, res) => {
+    const body = z.object({
+      packId: z.string().min(10).max(60),
+      answers: z.array(z.object({ i: z.number().int().min(0).max(99), given: z.unknown(), hints: z.number().int().min(0).max(3).optional(), ms: z.number().min(0).max(3_600_000).optional() })).max(40),
+    }).safeParse(req.body);
+    if (!body.success) throw new svc.LearnError('invalid_request');
+    return svc.offlineSync(ctx, student(res), body.data.packId, body.data.answers);
+  }));
+
   r.post('/learn/next', handle((req, res) => {
     const body = z.object({ sessionId: z.string().min(10).max(60), similar: z.boolean().optional() }).safeParse(req.body);
     if (!body.success) throw new svc.LearnError('invalid_request');
