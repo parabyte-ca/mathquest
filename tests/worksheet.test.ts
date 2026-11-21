@@ -81,7 +81,7 @@ describe('worksheets', () => {
     const codes = res.body.expectations.map((e: { code: string }) => e.code);
     expect(codes).toContain('G5.C2.3');
     expect(codes).toContain('G6.B2.12');
-    expect(codes).not.toContain('MHF4U.B1'); // nothing to practise yet
+    expect(codes).not.toContain('MHF4U.B1'); // nothing to practice yet
     expect(res.body.studentGrade).toBe(5);
   });
 });

@@ -5,7 +5,7 @@ description: Project skill for MathQuest v2 (parabyte-ca/mathquest), the self-ho
 
 # MathQuest
 
-Adaptive Ontario math practice (Grades 5-12) for a family's own students. Caregivers sign in by email link, add students, and approve each student's device. Students practise with an explainable adaptive engine, earn XP and badges, and can practise offline. Self-hosted on TrueNAS behind a Cloudflare Tunnel.
+Adaptive Ontario math practice (Grades 5-12) for a family's own students. Caregivers sign in by email link, add students, and approve each student's device. Students practice with an explainable adaptive engine, earn XP and badges, and can practice offline. Self-hosted on TrueNAS behind a Cloudflare Tunnel.
 
 Read `dev-sop` for README, versioning, Docker and CI conventions and `ontario-math-curriculum` for what a grade must cover. This skill holds what is specific to this repo.
 

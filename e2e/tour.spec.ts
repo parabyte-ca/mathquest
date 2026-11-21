@@ -52,7 +52,7 @@ test('the student tour appears on the first visit, is skippable, and is remember
   await expect(tour.locator('.eyebrow')).toContainText('Step 1 of 8');
   await scan(kid, 'student tour, first step');
   await tour.getByRole('button', { name: 'Next' }).click();
-  await expect(kid.locator('#tour-title')).toHaveText('Pick what to practise');
+  await expect(kid.locator('#tour-title')).toHaveText('Pick what to practice');
   await expect(kid.locator('[data-tour="topics"].tour-target')).toBeVisible();
   await noHorizontalScroll(kid);
   await kid.getByRole('button', { name: 'Skip the tour' }).click();

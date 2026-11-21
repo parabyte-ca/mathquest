@@ -36,7 +36,7 @@ Micro-skills, and expectations that have at least one, by grade and strand (stra
 | 10 (MPM2D, MFM2P) | MPM2D B1 · 3 skills, 1 of 3 (analytic geometry); MFM2P B1 to B3 · 7 skills, 3 of 3 (linear) | MPM2D A3 · 9 skills, 1 of 4; MFM2P C1 · 3 skills, 1 of 3 (quadratic) | | | |
 | 11 and 12 | not yet | | | | |
 
-233 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for Grade 9 Number and Algebra (Number, algebra, data, spatial sense, financial literacy). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practised through the C1.3 pattern-rule skill.
+233 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for Grade 9 Number and Algebra (Number, algebra, data, spatial sense, financial literacy). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practiced through the C1.3 pattern-rule skill.
 
 ## 3. What is deliberately deferred
 

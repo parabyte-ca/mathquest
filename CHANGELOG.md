@@ -2,12 +2,15 @@
 
 ## [2.12.0] - 2026-11-21
 ### Added
-- Grade 10 algebra, for both courses (21 new micro-skills, 7 lessons). Each course has its own skills, practised by choosing the course.
+- Grade 10 algebra, for both courses (21 new micro-skills, 7 lessons). Each course has its own skills, practiced by choosing the course.
   - MPM2D Quadratic Relations (A3): expanding binomials, taking out a common factor, factoring x² + bx + c and trinomials with a leading coefficient other than 1, differences of squares, solving by factoring, the quadratic formula, the discriminant and the number of real roots, and completing the square.
   - MPM2D Analytic Geometry (B1): systems of equations by substitution and by elimination, and word problems that give a system.
   - MFM2P Linear Relations (B1 to B3): equations with fractions, rearranging formulas, slope, what the slope and y-intercept mean, equations of lines from two points (including horizontal and vertical lines), and the point where two lines meet.
   - MFM2P Quadratic Relations (C1): expanding, common factors, and factoring x² + bx + c and x² − a².
 - Each skill has three levels, mapped wrong answers with kind explanations, and answers written in words and numbers. Checks recompute every answer a second way (evaluating at many points, scanning for roots, Cramer's rule) and were mutation-tested.
+
+### Changed
+- "Practice" is now spelled the same everywhere in the app and its documents, as both noun and verb (it was "practise" in some places and "practice" in others). Internal names follow: `practisedToday` is now `practicedToday`.
 
 ### Notes
 - Grade 10 skill ids carry the course (`MS.G10.MPM2D.A3.1.a`), because the two courses reuse strand letters.
@@ -33,7 +36,7 @@
 - Original avatars: the ten avatars (fox, panda, owl, octopus, butterfly, dolphin, unicorn, dragon, rocket and trophy) are now drawings made for MathQuest (simple flat SVG shapes, the same on every device, no emoji fonts), and each colour palette shows a small swatch of its own colours instead of an emoji.
 
 ### Notes
-- Challenges and family goals add two small tables (migration 8). Nothing existing changes, and students who have not practised this week simply see all three challenges at zero.
+- Challenges and family goals add two small tables (migration 8). Nothing existing changes, and students who have not practiced this week simply see all three challenges at zero.
 
 ## [2.10.0] - 2026-11-21
 ### Added
@@ -149,10 +152,10 @@
 
 ## [2.6.0] - 2026-11-21
 ### Added
-- Practise without internet. While online, a student downloads a pack of 20 questions for the topics they chose. The app can then be opened and the questions answered with no connection at all (hints and feedback included); the answers wait on the device and are sent automatically when the student is back online and signed in, or with a "Send my answers" button. The server rebuilds every question from its skill, tier and seed, grades it itself and updates mastery, the struggle ladder, XP and badges exactly as for online practice, so what the device says about correctness is never trusted. A pack lists only skill, tier and seed (never an answer key); each question counts once; packs are good for 7 days and answers are accepted for 7 days after that; a student holds at most five packs, and one student cannot use another's pack. XP and badges appear after the answers are sent.
+- Practice without internet. While online, a student downloads a pack of 20 questions for the topics they chose. The app can then be opened and the questions answered with no connection at all (hints and feedback included); the answers wait on the device and are sent automatically when the student is back online and signed in, or with a "Send my answers" button. The server rebuilds every question from its skill, tier and seed, grades it itself and updates mastery, the struggle ladder, XP and badges exactly as for online practice, so what the device says about correctness is never trusted. A pack lists only skill, tier and seed (never an answer key); each question counts once; packs are good for 7 days and answers are accepted for 7 days after that; a student holds at most five packs, and one student cannot use another's pack. XP and badges appear after the answers are sent.
 - An "Install the app" button in the header. Browsers that can install the app (Chrome, Edge and others) get a one-tap prompt; iPhones and iPads get a short note on using Share, then "Add to Home Screen". It hides once the app is installed.
 - Migration 6 (`offline_pack`); two student endpoints, `POST /api/learn/offline/pack` and `POST /api/learn/offline/sync`.
-- Tests: server tests for packs and sync (grading, replay, other students, expiry, caps), and end-to-end tests that download a pack, go offline, practise, reload, go back online and check the server's records, and that check the install button, all with axe scans.
+- Tests: server tests for packs and sync (grading, replay, other students, expiry, caps), and end-to-end tests that download a pack, go offline, practice, reload, go back online and check the server's records, and that check the install button, all with axe scans.
 
 ### Notes
 - Offline practice keeps the list of questions and the student's answers in the browser's own storage (IndexedDB) on that device, and a copy of their name and settings so the app can open offline. Signing out removes the copy of their name and settings; answers not yet sent stay until they are. The service worker still never stores any API data.
@@ -224,8 +227,8 @@
 ### Added
 - Grade 5-6 strands C to F (Algebra, Data, Spatial Sense, Financial Literacy): 28 new seeded generators in English and Canadian French, each with three tiers, a three-rung hint ladder and a misconception map. Topics: growing and linear patterns, decimal patterns, evaluating expressions, equations and inequalities; mean, median, mode, range, probability as fractions, decimals and percents, experimental and independent events; triangle and quadrilateral angles, complementary, supplementary and exterior angles, four-quadrant coordinates with reflections and translations; metric conversions, areas of parallelograms, triangles, trapezoids, rhombuses and composite shapes, perimeter, surface area; sales tax, best value and simple interest.
 - 10 new lessons for those skills (patterns; expressions and equations; inequalities; mean, median and mode; probability; metric conversions; area, perimeter and surface area; angles; four quadrants; money).
-- The skill map's "Practise this" now practises that one expectation instead of its whole strand (sessions accept an optional `focus` such as `G5.C2.3`).
-- New tests recompute every answer independently from the prompt, and an end-to-end test practises one question in each new strand.
+- The skill map's "Practice this" now practices that one expectation instead of its whole strand (sessions accept an optional `focus` such as `G5.C2.3`).
+- New tests recompute every answer independently from the prompt, and an end-to-end test practices one question in each new strand.
 
 ### Notes
 - Not yet covered in these strands: coding, mathematical modelling, data collection and infographics, nets, 3-D views, transformations, taxes and budgeting (they need drawing, writing or open-ended tools that arrive in later phases).

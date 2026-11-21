@@ -1,4 +1,4 @@
-// The learning loop: choose what to practise, serve items, grade answers, update mastery, run the struggle ladder,
+// The learning loop: choose what to practice, serve items, grade answers, update mastery, run the struggle ladder,
 // schedule spaced review, run placement and build the skill map. All answers are checked here, on the server.
 import { randomInt } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -27,7 +27,7 @@ export interface SessionParams {
   grade: number;
   course: string | null;
   strands: string[]; // empty = mix it up
-  /** Practise one expectation only, for example "G5.C2.3" (used by the skill map). */
+  /** Practice one expectation only, for example "G5.C2.3" (used by the skill map). */
   focus: string | null;
 }
 

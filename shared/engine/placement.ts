@@ -22,7 +22,7 @@ export function recordPlacement(s: PlacementState, correct: boolean, maxItems = 
   return { lo, hi, probes, answers: [...s.answers, correct], done: lo > hi || probes.length >= maxItems };
 }
 
-/** Index of the first skill the student should practise (everything below is assumed known). */
+/** Index of the first skill the student should practice (everything below is assumed known). */
 export const startingIndex = (s: PlacementState): number => Math.max(0, Math.min(s.lo, s.hi + 1));
 
 /** Prior P(known) for each ladder skill after placement. */

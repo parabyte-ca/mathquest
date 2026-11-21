@@ -20,7 +20,7 @@ async function setup(language: 'en' | 'fr' = 'en') {
   return { env, s, owner };
 }
 const dashboardFor = (env: Awaited<ReturnType<typeof setup>>['env'], sid: string) => dashboard(env.ctx, env.db.prepare('SELECT * FROM students WHERE id = ?').get(sid) as StudentRow);
-async function practise(env: Awaited<ReturnType<typeof setup>>['env'], s: Awaited<ReturnType<typeof setup>>['s'], n: number) {
+async function practice(env: Awaited<ReturnType<typeof setup>>['env'], s: Awaited<ReturnType<typeof setup>>['s'], n: number) {
   const start = await s.agent.post('/api/learn/session').set('x-csrf-token', s.csrf).send({ grade: 5, focus: 'G5.C2.3' }).expect(200);
   let step = start.body.step as { type: string; item?: { id: string } };
   for (let i = 0; i < n && step.type === 'item'; i++) {
@@ -41,7 +41,7 @@ describe('weekly email', () => {
 
   it('sends one summary per week to opted-in caregivers, from Monday 07:30, and not to others', async () => {
     const { env, s, owner } = await setup();
-    await practise(env, s, 3);
+    await practice(env, s, 3);
     const cfg = env.ctx.cfg;
     // not opted in
     expect(await sendWeeklyEmails(env.db, cfg, env.mailer, monday(9))).toBe(0);

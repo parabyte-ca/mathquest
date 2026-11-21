@@ -9,7 +9,7 @@ export type Phase = 'normal' | 'stepdown' | 'micro' | 'lesson' | 'buildup';
 
 export interface Ladder {
   phase: Phase;
-  skill: string; // the expectation (or skill) being practised
+  skill: string; // the expectation (or skill) being practiced
   tier: number; // tier currently being served for `skill`
   originalTier: number; // where the student was before the struggle began
   maxTier: number;

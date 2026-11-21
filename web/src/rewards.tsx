@@ -113,7 +113,7 @@ export function RewardNote({ r, badgeNames }: { r: RewardResult; badgeNames: Rec
 // ── the rewards page ───────────────────────────────────────────────────────────────
 
 interface Summary {
-  xp: number; level: number; into: number; need: number; streak: number; bestStreak: number; freezes: number; practisedToday: boolean;
+  xp: number; level: number; into: number; need: number; streak: number; bestStreak: number; freezes: number; practicedToday: boolean;
   minutesToday: number; dailyGoalMinutes: number; avatar: string; palette: string;
   badges: { id: string; icon: string; name: Text; how: Text; earnedAt: number | null }[];
   cosmetics: { id: string; kind: 'avatar' | 'palette'; icon: string; name: Text; unlocked: boolean; unlock: { level: number } | { badge: string } }[];

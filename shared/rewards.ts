@@ -56,7 +56,7 @@ const dayNumber = (d: string): number => Math.floor(Date.UTC(Number(d.slice(0, 4
 export const daysBetween = (a: string, b: string): number => dayNumber(b) - dayNumber(a);
 
 /**
- * The streak after practising on `today`. Practising twice in a day changes nothing. Missing exactly one day spends a
+ * The streak after practicing on `today`. Practicing twice in a day changes nothing. Missing exactly one day spends a
  * freeze if there is one; missing more resets the streak to 1. A freeze is earned at every 7th day of a streak (up to two held).
  */
 export function streakStep(s: StreakState, today: string): { state: StreakState; freezeUsed: boolean; freezeEarned: boolean; started: boolean } {
@@ -102,14 +102,14 @@ const ch = (id: string, icon: string, name: Text, how: Text, metric: ChallengeMe
 export const CHALLENGE_GROUPS: Challenge[][] = [
   [
     ch('answers-30', '✏️', t('Thirty questions', 'Trente questions'), t('Answer 30 questions this week.', 'Réponds à 30 questions cette semaine.'), 'answers', 30, 30),
-    ch('minutes-30', '⏱️', t('Half an hour', 'Une demi-heure'), t('Practise for 30 minutes in total this week.', 'Pratique 30 minutes en tout cette semaine.'), 'minutes', 30, 35),
+    ch('minutes-30', '⏱️', t('Half an hour', 'Une demi-heure'), t('Practice for 30 minutes in total this week.', 'Pratique 30 minutes en tout cette semaine.'), 'minutes', 30, 35),
     ch('answers-60', '📝', t('Sixty questions', 'Soixante questions'), t('Answer 60 questions this week.', 'Réponds à 60 questions cette semaine.'), 'answers', 60, 45),
-    ch('minutes-60', '⌛', t('One hour', 'Une heure'), t('Practise for 60 minutes in total this week.', 'Pratique 60 minutes en tout cette semaine.'), 'minutes', 60, 50),
+    ch('minutes-60', '⌛', t('One hour', 'Une heure'), t('Practice for 60 minutes in total this week.', 'Pratique 60 minutes en tout cette semaine.'), 'minutes', 60, 50),
   ],
   [
-    ch('days-3', '📅', t('Three days', 'Trois jours'), t('Practise on 3 different days this week.', 'Pratique 3 jours différents cette semaine.'), 'days', 3, 30),
-    ch('days-4', '🗓️', t('Four days', 'Quatre jours'), t('Practise on 4 different days this week.', 'Pratique 4 jours différents cette semaine.'), 'days', 4, 40),
-    ch('days-5', '🌈', t('Five days', 'Cinq jours'), t('Practise on 5 different days this week.', 'Pratique 5 jours différents cette semaine.'), 'days', 5, 50),
+    ch('days-3', '📅', t('Three days', 'Trois jours'), t('Practice on 3 different days this week.', 'Pratique 3 jours différents cette semaine.'), 'days', 3, 30),
+    ch('days-4', '🗓️', t('Four days', 'Quatre jours'), t('Practice on 4 different days this week.', 'Pratique 4 jours différents cette semaine.'), 'days', 4, 40),
+    ch('days-5', '🌈', t('Five days', 'Cinq jours'), t('Practice on 5 different days this week.', 'Pratique 5 jours différents cette semaine.'), 'days', 5, 50),
   ],
   [
     ch('correct-25', '🎯', t('Twenty-five right', 'Vingt-cinq réussites'), t('Get 25 questions right this week.', 'Réussis 25 questions cette semaine.'), 'correct', 25, 30),
@@ -154,9 +154,9 @@ export const BADGES: Badge[] = [
   { id: 'on-a-roll', icon: '🎯', name: t('On a roll', 'En grande forme'), how: t('Get 10 questions right.', 'Réussis 10 questions.'), earned: (s) => s.correct >= 10 },
   { id: 'century', icon: '💯', name: t('Century', 'Cent réussites'), how: t('Get 100 questions right.', 'Réussis 100 questions.'), earned: (s) => s.correct >= 100 },
   { id: 'marathon', icon: '🏃', name: t('Marathon', 'Marathon'), how: t('Get 500 questions right.', 'Réussis 500 questions.'), earned: (s) => s.correct >= 500 },
-  { id: 'streak-3', icon: '🔥', name: t('Three-day streak', 'Trois jours de suite'), how: t('Practise 3 days in a row.', 'Pratique 3 jours de suite.'), earned: (s) => s.streak >= 3 },
-  { id: 'streak-7', icon: '🌟', name: t('Week streak', 'Une semaine de suite'), how: t('Practise 7 days in a row.', 'Pratique 7 jours de suite.'), earned: (s) => s.streak >= 7 },
-  { id: 'streak-30', icon: '🏅', name: t('Month streak', 'Un mois de suite'), how: t('Practise 30 days in a row.', 'Pratique 30 jours de suite.'), earned: (s) => s.streak >= 30 },
+  { id: 'streak-3', icon: '🔥', name: t('Three-day streak', 'Trois jours de suite'), how: t('Practice 3 days in a row.', 'Pratique 3 jours de suite.'), earned: (s) => s.streak >= 3 },
+  { id: 'streak-7', icon: '🌟', name: t('Week streak', 'Une semaine de suite'), how: t('Practice 7 days in a row.', 'Pratique 7 jours de suite.'), earned: (s) => s.streak >= 7 },
+  { id: 'streak-30', icon: '🏅', name: t('Month streak', 'Un mois de suite'), how: t('Practice 30 days in a row.', 'Pratique 30 jours de suite.'), earned: (s) => s.streak >= 30 },
   { id: 'skill-master', icon: '🧠', name: t('Skill master', 'Maître d\'habileté'), how: t('Master your first skill.', 'Maîtrise ta première habileté.'), earned: (s) => s.skillsMastered >= 1 },
   { id: 'skill-collector', icon: '📚', name: t('Skill collector', 'Collectionneur d\'habiletés'), how: t('Master 10 skills.', 'Maîtrise 10 habiletés.'), earned: (s) => s.skillsMastered >= 10 },
   { id: 'topic-master', icon: '🏆', name: t('Topic master', 'Maître du sujet'), how: t('Master every skill in one topic.', 'Maîtrise toutes les habiletés d\'un sujet.'), earned: (s) => s.expectationsMastered >= 1 },

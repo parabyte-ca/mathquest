@@ -34,10 +34,10 @@ export function dashboard(ctx: Ctx, student: StudentRow) {
     )
     .all(student.id) as { skill: string; name: string; strand: string; strandName: string; expectation: string; p: number; attempts: number; correct: number; nextReview: number | null }[];
 
-  const strands = new Map<string, { strand: string; name: string; attempts: number; correct: number; mastered: number; practised: number }>();
+  const strands = new Map<string, { strand: string; name: string; attempts: number; correct: number; mastered: number; practiced: number }>();
   for (const s of sk) {
-    const e = strands.get(s.strand) ?? { strand: s.strand, name: s.strandName, attempts: 0, correct: 0, mastered: 0, practised: 0 };
-    e.attempts += s.attempts; e.correct += s.correct; e.practised += 1;
+    const e = strands.get(s.strand) ?? { strand: s.strand, name: s.strandName, attempts: 0, correct: 0, mastered: 0, practiced: 0 };
+    e.attempts += s.attempts; e.correct += s.correct; e.practiced += 1;
     if (s.p >= MASTERED) e.mastered += 1;
     strands.set(s.strand, e);
   }
@@ -62,7 +62,7 @@ export function dashboard(ctx: Ctx, student: StudentRow) {
     month: { answered: windows.d30.answered, accuracy: pct(windows.d30.correct, windows.d30.answered), minutes: Math.round(windows.d30.ms / 60_000) },
     days: [...days.values()].map((d) => ({ ...d, minutes: Math.round(d.minutes) })),
     skillsMastered: sk.filter((s) => s.p >= MASTERED).length,
-    skillsPractised: sk.length,
+    skillsPracticed: sk.length,
     strands: [...strands.values()].map((s) => ({ ...s, accuracy: pct(s.correct, s.attempts) })).sort((a, b) => a.strand.localeCompare(b.strand)),
     attention, dueReviews, recentBadges,
     goals: listGoals(ctx, student.id, true),
