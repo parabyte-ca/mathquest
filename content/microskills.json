@@ -1692,6 +1692,180 @@
     "MS.G7.F1.6.a",
     "MS.G8.F1.4.a"
    ]
+  },
+  {
+   "id": "MS.G9.B1.2.a",
+   "expectation": "MTH1W.B1.2",
+   "name": "Subsets of the number system",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G9.B1.3.a",
+   "expectation": "MTH1W.B1.3",
+   "name": "Density, infinity and limits",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G9.B2.1.a",
+   "expectation": "MTH1W.B2.1",
+   "name": "Negative exponents and scientific notation",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G9.B2.2.a",
+   "expectation": "MTH1W.B2.2",
+   "name": "Exponent laws",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G9.B3.1.a",
+   "expectation": "MTH1W.B3.1",
+   "name": "Integers for location, direction and change",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G9.B3.2.a",
+   "expectation": "MTH1W.B3.2",
+   "name": "Unit fractions and measuring tools",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.B2.5.a"
+   ]
+  },
+  {
+   "id": "MS.G9.B3.3.a",
+   "expectation": "MTH1W.B3.3",
+   "name": "Signs in rates, ratios and decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.B2.7.a"
+   ]
+  },
+  {
+   "id": "MS.G9.B3.4.a",
+   "expectation": "MTH1W.B3.4",
+   "name": "Positive and negative fractions and mixed numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.B2.6.a",
+    "MS.G9.B3.3.a"
+   ]
+  },
+  {
+   "id": "MS.G9.B3.5.a",
+   "expectation": "MTH1W.B3.5",
+   "name": "Rates, percentages and proportions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.B2.8.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C1.2.a",
+   "expectation": "MTH1W.C1.2",
+   "name": "Create expressions that generalize relationships",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C1.3.a",
+   "expectation": "MTH1W.C1.3",
+   "name": "Equivalent expressions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C1.4.a",
+   "expectation": "MTH1W.C1.4",
+   "name": "Simplify expressions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.C2.1.a",
+    "MS.G9.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C1.5.a",
+   "expectation": "MTH1W.C1.5",
+   "name": "Create and solve equations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.C2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C3.1.a",
+   "expectation": "MTH1W.C3.1",
+   "name": "Linear and non-linear rates of change",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C3.2.a",
+   "expectation": "MTH1W.C3.2",
+   "name": "Linear relations: rate of change and initial value",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C3.3.a",
+   "expectation": "MTH1W.C3.3",
+   "name": "Compare two lines and their intersection",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C3.2.a",
+    "MS.G9.C1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C4.2.a",
+   "expectation": "MTH1W.C4.2",
+   "name": "Lines x = k, y = k and ax + by = k",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C4.3.a",
+   "expectation": "MTH1W.C4.3",
+   "name": "Translate, reflect and rotate y = ax",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C4.2.a"
+   ]
+  },
+  {
+   "id": "MS.G9.C4.4.a",
+   "expectation": "MTH1W.C4.4",
+   "name": "Equations of lines from tables and points",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C3.2.a"
+   ]
   }
  ]
 }

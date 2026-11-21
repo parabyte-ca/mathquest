@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.9.0] - 2026-11-21
+### Added
+- Grade 9 (MTH1W) Number and Algebra: 19 new micro-skills, so Grade 9 now shows the Number and Algebra strands as available (Data, Geometry and Financial Literacy follow in 2.9.1). Each skill has generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer.
+  - Number (9 skills): subsets of the number system, density and limits, negative exponents and scientific notation, exponent laws, integers for location and change, unit fractions and measuring tools, signs in rates and decimals, positive and negative fractions and mixed numbers (exact fraction answers), and rates, percentages and proportions.
+  - Algebra (10 skills): creating expressions that generalize a relationship, equivalent expressions, simplifying, creating and solving equations (including letters on both sides), linear and non-linear relations, rate of change and initial value, comparing two lines, the lines x = k, y = k and ax + by = k, translating, reflecting and rotating y = ax, and equations of lines from tables and points.
+- Five Grade 9 lessons ("Show me how"), quick-check ladders for Grade 9 Number and Algebra (they include the earlier-grade skills of each strand).
+- Independent arithmetic tests for every new generator (patterns, tables and lines are checked by recomputing them; one test caught an exponent question that could have a negative answer before release).
+
+### Notes
+- Not yet in Grade 9: cultural-history research (not scored), the coding strand, characteristics of linear and non-linear relations (C4.1), and the Data, Geometry and Financial strands.
+
 ## [2.8.3] - 2026-11-21
 ### Added
 - Grade 5 is now fully covered: every Grade 5 expectation in strands B to F has practice. Six new micro-skills, each with generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer.

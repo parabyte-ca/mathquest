@@ -1,6 +1,6 @@
 # MathQuest content status
 
-Snapshot at release 2.8.3 (21 November 2026). To refresh the table, run `python scripts/content_status.py` from the MathQuest repository root (the `mathquest` skill bundles it) and paste the result below. The repository's `docs/BACKLOG.md` is the live to-do list.
+Snapshot at release 2.9.0 (21 November 2026). To refresh the table, run `python scripts/content_status.py` from the MathQuest repository root (the `mathquest` skill bundles it) and paste the result below. The repository's `docs/BACKLOG.md` is the live to-do list.
 
 ## Contents
 1. How ids and files line up
@@ -32,9 +32,10 @@ Micro-skills, and expectations that have at least one, by grade and strand (stra
 | 6 | 20 · 18 of 18 | 8 · 8 of 10 | 7 · 7 of 8 | 7 · 7 of 10 | 5 · 5 of 5 |
 | 7 | 15 · 13 of 17 | 7 · 7 of 10 | 5 · 5 of 8 | 10 · 9 of 11 | 4 · 4 of 6 |
 | 8 | 12 · 12 of 12 | 7 · 7 of 8 | 4 · 4 of 8 | 10 · 7 of 8 | 6 · 6 of 6 |
-| 9 to 12 | not yet | | | | |
+| 9 (MTH1W) | 9 · 9 of 10 | 10 · 10 of 15 | not yet | not yet | not yet |
+| 10 to 12 | not yet | | | | |
 
-186 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand (Number, algebra, data, spatial sense, financial literacy). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practised through the C1.3 pattern-rule skill.
+205 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for Grade 9 Number and Algebra (Number, algebra, data, spatial sense, financial literacy). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practised through the C1.3 pattern-rule skill.
 
 ## 3. What is deliberately deferred
 

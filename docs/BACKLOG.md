@@ -16,7 +16,8 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 2.8.1 | Grade 6 gap fill: financial literacy complete, plus algebra (C1.1, C1.2, C1.4, C2.1), data (D1.1, D1.2, D1.3, D1.6) and combined transformations (E1.4): 13 skills, 4 lessons. Grade 6 C3, C4, D1.4, E1.2, E2.2 and E2.5 wait for the item tools below | M |
 | 2.8.2 | Grade 5 gap fill: financial literacy complete, plus algebra (C1.1, C1.2, C2.1), data (D1.1, D1.2, D1.3, D1.6) and spatial sense (E1.5, E2.1, E2.3): 14 skills, 4 lessons. | M |
 | 2.8.3 | Grade 5 completion: coding (C3.1, C3.2), infographics (D1.4), congruent shapes (E1.2), views (E1.3) and the protractor (E2.4), asked in words and numbers: 6 skills, 2 lessons. Grade 5 is now fully covered; the drawn and interactive versions still wait for 3.0.0 to 3.3.0 | S |
-| 2.9.x | Grade 9 (MTH1W): 2.9.0 Number and Algebra, 2.9.1 Data, Geometry and Financial | M x 2 |
+| 2.9.0 | Grade 9 (MTH1W) Number and Algebra: 19 skills, 5 lessons (in progress, PR open) | L |
+| 2.9.1 | Grade 9 (MTH1W) Data, Geometry and Financial; also C4.1 and the coding strand C2 | M |
 | 2.10 to 2.12 | Grade 10 (MPM2D, MFM2P), Grade 11, Grade 12; each needs course pathways | L x 3 |
 
 ### Richer item tools (each unlocks deferred expectations)

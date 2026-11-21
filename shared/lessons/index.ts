@@ -4,6 +4,7 @@ import type { Lesson } from './types.js';
 import { frac, mixedTex, t, tex } from '../generators/kit.js';
 import { NUMBER_LESSONS } from './number.js';
 import { NUMBER7_LESSONS } from './number7.js';
+import { GRADE9_LESSONS } from './grade9.js';
 import { NUMBER8_LESSONS } from './number8.js';
 import { STRAND8_LESSONS } from './strands8.js';
 import { STRAND_LESSONS } from './strands56.js';
@@ -19,6 +20,7 @@ export const LESSONS: Lesson[] = [
   ...NUMBER8_LESSONS,
   ...STRAND8_LESSONS,
   ...STRAND7_LESSONS,
+  ...GRADE9_LESSONS,
   {
     id: 'L.fractions.naming',
     skills: ['MS.G5.B1.3.a', 'MS.G5.B1.3.b', 'MS.G5.B1.3.c'],
