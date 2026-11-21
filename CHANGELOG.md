@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.13.0] - 2026-11-21
+### Added
+- The rest of Grade 10 for both courses (22 new micro-skills, 5 lessons), so every strand of MPM2D and MFM2P that the question player can handle now has practice.
+  - MPM2D Quadratic Relations: constant second differences, the vertex from vertex form, direction and width, the equation from a vertex and a point, maximum and minimum values, and projectile problems.
+  - MPM2D Analytic Geometry: midpoint, distance, and circles centred at the origin.
+  - MPM2D Measurement and Trigonometry: similar triangles, sine, cosine and tangent for sides and angles, angles of elevation and depression, the sine law and the cosine law.
+  - MFM2P Measurement and Trigonometry: similar triangles, the primary trigonometric ratios for sides and angles, feet, inches and yards, and imperial to metric conversion.
+  - MFM2P Quadratic Relations: zeros and the axis of symmetry from factored form, and the y-intercept from each of the three forms.
+- Trigonometry answers are rounded to one decimal and accepted within 0.05; checks recompute every answer a second way, and were mutation-tested.
+
+### Notes
+- This release also carries the 2.12.0 changes below, because they were merged together.
+- Still to come for Grade 10: geometry proofs (MPM2D B3), reading technology-generated graphs (MFM2P C3), completing the square and solving by graphing in more depth, a Grade 10 quick check, and the Grade 10 pathway links between the two courses.
+
 ## [2.12.0] - 2026-11-21
 ### Added
 - Grade 10 algebra, for both courses (21 new micro-skills, 7 lessons). Each course has its own skills, practiced by choosing the course.

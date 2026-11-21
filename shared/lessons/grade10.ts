@@ -122,4 +122,87 @@ export const GRADE10_LESSONS: Lesson[] = [
     ],
     tryIt: { skill: 'MS.G10.MFM2P.B2.1.a', tier: 1, seed: 2 },
   },
+  {
+    id: 'L.g10.parabolas',
+    skills: ['MS.G10.MPM2D.A1.1.a', 'MS.G10.MPM2D.A2.1.a', 'MS.G10.MPM2D.A2.2.a', 'MS.G10.MPM2D.A2.3.a', 'MS.G10.MPM2D.A4.1.a', 'MS.G10.MPM2D.A4.2.a', 'MS.G10.MFM2P.C2.1.a', 'MS.G10.MFM2P.C2.2.a'],
+    title: t('Parabolas: vertex, zeros and maximum values', 'Paraboles : sommet, racines et valeurs maximales'),
+    intro: t('The graph of a quadratic relation is a parabola. Its equation can be written in different forms, and each form shows something different at a glance.', 'Le graphique d\'une relation quadratique est une parabole. Son équation peut s\'écrire sous différentes formes, et chaque forme montre quelque chose de différent au premier coup d\'œil.'),
+    definitions: [
+      d(['Second differences', 'Secondes différences'], ['In a table with equal steps in x, subtract neighbouring y-values to get the first differences, then subtract those. If the second differences are constant (and not 0), the relation is quadratic.', 'Dans un tableau où x avance par pas égaux, soustrais les valeurs de y voisines pour obtenir les premières différences, puis soustrais celles-ci. Si les secondes différences sont constantes (et non nulles), la relation est quadratique.']),
+      d(['Vertex form', 'Forme canonique'], ['y = a(x − h)² + k. The vertex is (h, k) and the axis of symmetry is x = h. If a > 0 the parabola opens up and k is the minimum; if a < 0 it opens down and k is the maximum. The larger |a| is, the narrower the parabola.', 'y = a(x − h)² + k. Le sommet est (h, k) et l\'axe de symétrie est x = h. Si a > 0, la parabole s\'ouvre vers le haut et k est le minimum ; si a < 0, elle s\'ouvre vers le bas et k est le maximum. Plus |a| est grand, plus la parabole est étroite.']),
+      d(['Factored form', 'Forme factorisée'], ['y = a(x − p)(x − q). The zeros are p and q, and the axis of symmetry is halfway between them: x = (p + q) ÷ 2. The y-intercept is the value at x = 0.', 'y = a(x − p)(x − q). Les racines sont p et q, et l\'axe de symétrie est à mi-chemin entre elles : x = (p + q) ÷ 2. L\'ordonnée à l\'origine est la valeur à x = 0.']),
+    ],
+    examples: [
+      ex(['Example 1: vertex form', 'Exemple 1 : forme canonique'], ['y = −2(x + 3)² + 5. The bracket is (x − (−3)), so h = −3 and k = 5.', 'y = −2(x + 3)² + 5. La parenthèse est (x − (−3)), donc h = −3 et k = 5.'], ['The vertex is (−3, 5). Since a = −2 is negative, it opens down and 5 is the maximum.', 'Le sommet est (−3, 5). Comme a = −2 est négatif, elle s\'ouvre vers le bas et 5 est le maximum.']),
+      ex(['Example 2: a projectile', 'Exemple 2 : un projectile'], ['A ball has height h = −5(t − 3)(t + 1). It lands when h = 0.', 'Une balle a pour hauteur h = −5(t − 3)(t + 1). Elle atterrit quand h = 0.'], ['t = 3 or t = −1. Time cannot be negative, so it lands after 3 seconds.', 't = 3 ou t = −1. Le temps ne peut pas être négatif : elle atterrit après 3 secondes.']),
+      ex(['Example 3: maximum from standard form', 'Exemple 3 : maximum en forme standard'], ['R = −2x² + 24x. The vertex is at x = −b ÷ 2a = −24 ÷ (−4) = 6.', 'R = −2x² + 24x. Le sommet est à x = −b ÷ 2a = −24 ÷ (−4) = 6.'], ['R(6) = −2(36) + 144 = 72, so the greatest revenue is 72.', 'R(6) = −2(36) + 144 = 72 : le plus grand revenu est 72.']),
+    ],
+    tryIt: { skill: 'MS.G10.MPM2D.A2.1.a', tier: 1, seed: 2 },
+  },
+  {
+    id: 'L.g10.analytic',
+    skills: ['MS.G10.MPM2D.B2.1.a', 'MS.G10.MPM2D.B2.2.a', 'MS.G10.MPM2D.B2.3.a'],
+    title: t('Midpoint, distance and circles', 'Milieu, distance et cercles'),
+    intro: t('Coordinates let you measure and locate with numbers: the middle of a segment, the length of a segment, and a circle as an equation.', 'Les coordonnées permettent de mesurer et de situer avec des nombres : le milieu d\'un segment, sa longueur, et un cercle sous forme d\'équation.'),
+    definitions: [
+      d(['Midpoint', 'Milieu'], ['Average the coordinates: M = ((x₁ + x₂) ÷ 2, (y₁ + y₂) ÷ 2).', 'Fais la moyenne des coordonnées : M = ((x₁ + x₂) ÷ 2, (y₁ + y₂) ÷ 2).']),
+      d(['Distance', 'Distance'], ['d = √((x₂ − x₁)² + (y₂ − y₁)²). It is the Pythagorean theorem on the horizontal and vertical changes.', 'd = √((x₂ − x₁)² + (y₂ − y₁)²). C\'est le théorème de Pythagore appliqué aux variations horizontale et verticale.']),
+      d(['Circle at the origin', 'Cercle centré à l\'origine'], ['x² + y² = r². Every point on the circle is the distance r from the origin.', 'x² + y² = r². Chaque point du cercle est à la distance r de l\'origine.']),
+    ],
+    examples: [
+      ex(['Example 1: midpoint', 'Exemple 1 : milieu'], ['The midpoint of (2, 7) and (10, 3): x = (2 + 10) ÷ 2 = 6 and y = (7 + 3) ÷ 2 = 5.', 'Le milieu de (2, 7) et (10, 3) : x = (2 + 10) ÷ 2 = 6 et y = (7 + 3) ÷ 2 = 5.'], ['The midpoint is (6, 5).', 'Le milieu est (6, 5).']),
+      ex(['Example 2: distance', 'Exemple 2 : distance'], ['From (1, 2) to (6, 14): the changes are 5 and 12.', 'De (1, 2) à (6, 14) : les variations sont 5 et 12.'], ['d = √(25 + 144) = √169 = 13 units.', 'd = √(25 + 144) = √169 = 13 unités.']),
+      ex(['Example 3: a circle', 'Exemple 3 : un cercle'], ['Is (3, 4) on x² + y² = 25? 9 + 16 = 25, so yes.', '(3, 4) est-il sur x² + y² = 25 ? 9 + 16 = 25, donc oui.']),
+    ],
+    tryIt: { skill: 'MS.G10.MPM2D.B2.2.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.g10.similar-trig',
+    skills: ['MS.G10.MPM2D.C1.1.a', 'MS.G10.MPM2D.C2.1.a', 'MS.G10.MPM2D.C2.2.a', 'MS.G10.MPM2D.C2.3.a', 'MS.G10.MFM2P.A1.1.a', 'MS.G10.MFM2P.A2.1.a', 'MS.G10.MFM2P.A2.2.a'],
+    title: t('Similar triangles and right-triangle trigonometry', 'Triangles semblables et trigonométrie du triangle rectangle'),
+    intro: t('Similar triangles have the same shape, so their matching sides are in proportion. In a right triangle the ratios of the sides depend only on the angle, which gives sine, cosine and tangent.', 'Des triangles semblables ont la même forme : leurs côtés correspondants sont proportionnels. Dans un triangle rectangle, les rapports des côtés ne dépendent que de l\'angle, ce qui donne le sinus, le cosinus et la tangente.'),
+    definitions: [
+      d(['Similar triangles', 'Triangles semblables'], ['Matching sides share one scale factor. Find it from a pair of matching sides, then use it on the others.', 'Les côtés correspondants ont un même facteur d\'échelle. Trouve-le avec une paire de côtés correspondants, puis applique-le aux autres.']),
+      d(['SOH CAH TOA', 'SOH CAH TOA'], ['sin θ = opposite ÷ hypotenuse, cos θ = adjacent ÷ hypotenuse, tan θ = opposite ÷ adjacent. Opposite and adjacent are named from the angle you are using.', 'sin θ = opposé ÷ hypoténuse, cos θ = adjacent ÷ hypoténuse, tan θ = opposé ÷ adjacent. L\'opposé et l\'adjacent se nomment à partir de l\'angle utilisé.']),
+      d(['Finding an angle', 'Trouver un angle'], ['Use the inverse button on your calculator: if sin A = 0.6, then A = sin⁻¹(0.6) ≈ 36.9°. Keep the calculator in degree mode.', 'Utilise la touche inverse de ta calculatrice : si sin A = 0,6, alors A = sin⁻¹(0,6) ≈ 36,9°. Garde la calculatrice en mode degrés.']),
+    ],
+    examples: [
+      ex(['Example 1: a side', 'Exemple 1 : un côté'], ['The hypotenuse is 10 cm and the angle is 30°. The opposite side: sin 30° = opp ÷ 10.', 'L\'hypoténuse mesure 10 cm et l\'angle est de 30°. Le côté opposé : sin 30° = opp ÷ 10.'], ['opp = 10 × sin 30° = 5 cm.', 'opposé = 10 × sin 30° = 5 cm.']),
+      ex(['Example 2: an angle', 'Exemple 2 : un angle'], ['The opposite side is 7 and the adjacent side is 10: tan A = 7 ÷ 10.', 'Le côté opposé mesure 7 et l\'adjacent 10 : tan A = 7 ÷ 10.'], ['A = tan⁻¹(0.7) ≈ 35.0°.', 'A = tan⁻¹(0,7) ≈ 35,0°.']),
+      ex(['Example 3: a height', 'Exemple 3 : une hauteur'], ['From 20 m away, the angle of elevation to a tower top is 40°. The ground distance is adjacent and the height is opposite: use tangent.', 'À 20 m de distance, l\'angle d\'élévation du sommet d\'une tour est de 40°. La distance au sol est l\'adjacent et la hauteur est l\'opposé : utilise la tangente.'], ['h = 20 × tan 40° ≈ 16.8 m.', 'h = 20 × tan 40° ≈ 16,8 m.']),
+    ],
+    tryIt: { skill: 'MS.G10.MPM2D.C2.1.a', tier: 1, seed: 2 },
+  },
+  {
+    id: 'L.g10.laws',
+    skills: ['MS.G10.MPM2D.C3.1.a', 'MS.G10.MPM2D.C3.2.a'],
+    title: t('The sine law and the cosine law', 'La loi des sinus et la loi des cosinus'),
+    intro: t('For triangles without a right angle, two laws connect the sides and angles. Name each side with the angle opposite it: a with A, b with B, c with C.', 'Pour les triangles sans angle droit, deux lois relient les côtés et les angles. Nomme chaque côté d\'après l\'angle qui lui est opposé : a avec A, b avec B, c avec C.'),
+    definitions: [
+      d(['The sine law', 'La loi des sinus'], ['a ÷ sin A = b ÷ sin B = c ÷ sin C. Use it when you know a side and its opposite angle, plus one more side or angle.', 'a ÷ sin A = b ÷ sin B = c ÷ sin C. Utilise-la quand tu connais un côté et son angle opposé, plus un autre côté ou un autre angle.']),
+      d(['The cosine law', 'La loi des cosinus'], ['c² = a² + b² − 2ab cos C. Use it for two sides and the angle between them, or for all three sides. For an angle: cos C = (a² + b² − c²) ÷ 2ab.', 'c² = a² + b² − 2ab cos C. Utilise-la pour deux côtés et l\'angle entre eux, ou pour les trois côtés. Pour un angle : cos C = (a² + b² − c²) ÷ 2ab.']),
+      d(['Angles of a triangle', 'Angles d\'un triangle'], ['The three angles add to 180°, so two angles give the third.', 'Les trois angles totalisent 180° : deux angles donnent le troisième.']),
+    ],
+    examples: [
+      ex(['Example 1: the sine law', 'Exemple 1 : la loi des sinus'], ['A = 40°, B = 60°, a = 8. Then b ÷ sin 60° = 8 ÷ sin 40°.', 'A = 40°, B = 60°, a = 8. Alors b ÷ sin 60° = 8 ÷ sin 40°.'], ['b = 8 × sin 60° ÷ sin 40° ≈ 10.8.', 'b = 8 × sin 60° ÷ sin 40° ≈ 10,8.']),
+      ex(['Example 2: the cosine law', 'Exemple 2 : la loi des cosinus'], ['a = 6, b = 9, C = 50°: c² = 36 + 81 − 2(6)(9)cos 50° ≈ 47.6.', 'a = 6, b = 9, C = 50° : c² = 36 + 81 − 2(6)(9)cos 50° ≈ 47,6.'], ['c ≈ 6.9.', 'c ≈ 6,9.']),
+    ],
+    tryIt: { skill: 'MS.G10.MPM2D.C3.1.a', tier: 1, seed: 2 },
+  },
+  {
+    id: 'L.g10.imperial',
+    skills: ['MS.G10.MFM2P.A3.1.a', 'MS.G10.MFM2P.A3.2.a'],
+    title: t('The imperial system and converting to metric', 'Le système impérial et la conversion en métrique'),
+    intro: t('Lumber, carpet and concrete are still sold in imperial units in Canada, so it helps to move between feet, inches and yards, and to convert to and from metric.', 'Le bois d\'œuvre, les tapis et le béton se vendent encore en unités impériales au Canada : il est utile de passer entre pieds, pouces et verges, et de convertir en métrique.'),
+    definitions: [
+      d(['Imperial lengths', 'Longueurs impériales'], ['1 foot = 12 inches and 1 yard = 3 feet. For volume, 1 cubic yard = 27 cubic feet, because 3 × 3 × 3 = 27.', '1 pied = 12 pouces et 1 verge = 3 pieds. Pour le volume, 1 verge cube = 27 pieds cubes, parce que 3 × 3 × 3 = 27.']),
+      d(['Imperial and metric', 'Impérial et métrique'], ['1 inch = 2.54 cm and 1 foot = 30.48 cm. To go to a smaller unit, multiply; to go to a larger unit, divide.', '1 pouce = 2,54 cm et 1 pied = 30,48 cm. Pour aller vers une plus petite unité, multiplie ; vers une plus grande, divise.']),
+    ],
+    examples: [
+      ex(['Example 1: feet and inches', 'Exemple 1 : pieds et pouces'], ['5 feet 3 inches in inches: 5 × 12 + 3 = 63.', '5 pieds 3 pouces en pouces : 5 × 12 + 3 = 63.']),
+      ex(['Example 2: to metric', 'Exemple 2 : en métrique'], ['A 24 inch board in centimetres: 24 × 2.54 = 60.96 cm.', 'Une planche de 24 pouces en centimètres : 24 × 2,54 = 60,96 cm.']),
+      ex(['Example 3: concrete', 'Exemple 3 : béton'], ['A slab 18 ft by 9 ft by 0.5 ft is 81 cubic feet.', 'Une dalle de 18 pi sur 9 pi sur 0,5 pi fait 81 pieds cubes.'], ['81 ÷ 27 = 3 cubic yards.', '81 ÷ 27 = 3 verges cubes.']),
+    ],
+    tryIt: { skill: 'MS.G10.MFM2P.A3.1.a', tier: 1, seed: 2 },
+  },
 ];

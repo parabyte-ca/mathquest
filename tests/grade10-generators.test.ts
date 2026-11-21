@@ -16,7 +16,7 @@ const each = (skill: string, tiers: number[], fn: (it: Item, tier: number) => vo
 };
 /** Evaluates TeX like "2x^{2} - 3x + 4" or "(x + 2)(3x - 1)" at x (and y). */
 const ev = (s: string, x: number, y = 0): number => {
-  const js = clean(s).replace(/\^\{2\}/g, '**2').replace(/(\d|\))\s*(x|y|\()/g, '$1*$2').replace(/(x|y)\s*\(/g, '$1*(').replace(/\)\s*\(/g, ')*(').replace(/(\d|x|y|\))\s+(?=[xy\d(])/g, '$1*');
+  const js = clean(s).replace(/(\([^()]*\)|[xy])\^\{2\}/g, 'Math.pow($1,2)').replace(/(\d|\))\s*(x|y|\(|M)/g, '$1*$2').replace(/(x|y)\s*\(/g, '$1*(').replace(/\)\s*\(/g, ')*(').replace(/(\d|x|y|\))\s+(?=[xyM\d(])/g, '$1*');
   return new Function('x', 'y', `return ${js};`)(x, y) as number;
 };
 const POINTS = [-4, -3, -1, 0, 2, 3, 5, 7];
@@ -206,5 +206,129 @@ describe('Grade 10 linear generators compute correct answers', () => {
       const ok = it.options!.map((o) => { const e = clean(o.en).split('=')[1]!; return ev(e, x1) === y1 && ev(e, x2) === y2; });
       expect(ok.filter(Boolean).length, it.id).toBe(1); expect(ok[idx(it)], it.id).toBe(true);
     });
+  });
+});
+
+// ── part 2: parabolas, analytic geometry, trigonometry, imperial units ─────────────────────────────────────────────────
+
+const rad = (d: number): number => (d * Math.PI) / 180;
+const r1 = (x: number): number => Math.round(x * 10) / 10;
+const near = (a: number, b: number, id: string): void => expect(Math.abs(a - b), id).toBeLessThanOrEqual(0.0501);
+const eqOf = (s: string): string => clean(s).replace(/.*?(y|h|R) = /, '').replace(/\.$/, '');
+
+describe('Grade 10 parabola generators compute correct answers', () => {
+  it('second differences', () => {
+    const id = 'MS.G10.MPM2D.A1.1.a';
+    each(id, [1], (it) => { const ys = nums(it.prompt.en.split('for')[0]!); const d1 = ys.slice(1).map((y, i) => y - ys[i]!); expect(val(it), it.id).toBe(d1[1]! - d1[0]!); });
+    each(id, [2], (it) => { const ys = nums(it.prompt.en.split('for')[0]!); const d1 = ys.slice(1).map((y, i) => y - ys[i]!); const sd = d1[1]! - d1[0]!; expect(d1.every((d, i) => i === 0 || d - d1[i - 1]! === sd), it.id).toBe(true); expect(val(it), it.id).toBe(ys[4]! + d1[3]! + sd); });
+    each(id, [3], (it) => {
+      const cells = clean(/: (.+)\. Find/.exec(it.prompt.en)![1]!).split(',').map((c) => c.trim());
+      const miss = cells.indexOf('?'); const ys = cells.map(Number);
+      // fit a quadratic through three known points and read the missing value
+      const known = ys.map((y, x) => [x, y] as const).filter(([x]) => x !== miss).slice(0, 3);
+      const lag = known.reduce((sum, [xi, yi]) => sum + yi * known.filter(([xj]) => xj !== xi).reduce((p, [xj]) => (p * (miss - xj)) / (xi - xj), 1), 0);
+      expect(val(it), it.id).toBeCloseTo(lag, 9);
+    });
+  });
+  it('the vertex from vertex form, and the equation from a vertex and a point', () => {
+    each('MS.G10.MPM2D.A2.1.a', [1, 2, 3], (it) => {
+      const m = /\(x ([+-]) (\d+)\)/.exec(clean(it.prompt.en))!;
+      expect(val(it), it.id).toBe(m[1] === '+' ? -Number(m[2]) : Number(m[2]));
+    });
+    each('MS.G10.MPM2D.A2.3.a', [1, 2, 3], (it) => {
+      const [h, k, p, q] = nums(it.prompt.en.split('Find')[0]!) as [number, number, number, number];
+      expect(val(it), it.id).toBe((q - k) / (p - h) ** 2);
+      expect(Number.isInteger(val(it)) && val(it) !== 0, it.id).toBe(true);
+    });
+  });
+  it('direction and width', () => {
+    each('MS.G10.MPM2D.A2.2.a', [1, 2, 3], (it) => {
+      const e = eqOf(exprs(it)[0]!);
+      const lead = /^(-?)(\d*(?:\.\d+)?)\(/.exec(e)!;
+      const a = (lead[1] ? -1 : 1) * (lead[2] ? Number(lead[2]) : 1);
+      const right = rightRaw(it);
+      expect(right.startsWith(a > 0 ? 'Opens up' : 'Opens down'), `${it.id} ${e} ${right}`).toBe(true);
+      expect(right.includes(Math.abs(a) > 1 ? 'narrower' : Math.abs(a) < 1 ? 'wider' : 'same'), `${it.id} ${e} ${right}`).toBe(true);
+    });
+  });
+  it('maximum values and projectiles', () => {
+    const grid = Array.from({ length: 61 }, (_, i) => i - 5);
+    each('MS.G10.MPM2D.A4.1.a', [1, 2], (it) => {
+      const e = eqOf(exprs(it)[0]!).replace(/t/g, 'x'); const ys = grid.map((x) => ev(e, x));
+      expect(val(it), it.id).toBe(it.prompt.en.includes('highest') ? grid[ys.indexOf(Math.max(...ys))] : Math.max(...ys));
+    });
+    each('MS.G10.MPM2D.A4.1.a', [3], (it) => { const e = eqOf(exprs(it)[0]!); expect(val(it), it.id).toBe(Math.max(...grid.map((x) => ev(e, x)))); });
+    each('MS.G10.MPM2D.A4.2.a', [1, 2, 3], (it) => {
+      const e = eqOf(exprs(it)[0]!).replace(/t/g, 'x'); const pos = grid.filter((x) => x > 0 && ev(e, x) === 0);
+      expect(pos.length, `${it.id} ${e}`).toBe(1); expect(val(it), it.id).toBe(pos[0]);
+    });
+  });
+  it('zeros, the axis, and the y-intercept', () => {
+    const grid = Array.from({ length: 41 }, (_, i) => i - 20);
+    each('MS.G10.MFM2P.C2.1.a', [1, 2], (it) => { const e = eqOf(exprs(it)[0]!); expect(val(it), it.id).toBe(Math.max(...grid.filter((x) => ev(e, x) === 0))); });
+    each('MS.G10.MFM2P.C2.1.a', [3], (it) => { const e = eqOf(exprs(it)[0]!); const z = grid.filter((x) => ev(e, x) === 0); expect(z.length).toBe(2); expect(val(it), it.id).toBe((z[0]! + z[1]!) / 2); });
+    each('MS.G10.MFM2P.C2.2.a', [1, 2, 3], (it) => { expect(val(it), it.id).toBe(ev(eqOf(exprs(it)[0]!), 0)); });
+  });
+});
+
+describe('Grade 10 geometry generators compute correct answers', () => {
+  it('midpoint, distance and circles', () => {
+    each('MS.G10.MPM2D.B2.1.a', [1, 2], (it) => { const [x1, , x2] = nums(it.prompt.en.split('?')[0]!) as [number, number, number]; expect(val(it), it.id).toBe((x1 + x2) / 2); });
+    each('MS.G10.MPM2D.B2.1.a', [3], (it) => { const [mx, , x1] = nums(it.prompt.en) as [number, number, number]; expect(val(it), it.id).toBe(2 * mx - x1); });
+    each('MS.G10.MPM2D.B2.2.a', [1, 2], (it) => { const [x1, y1, x2, y2] = nums(it.prompt.en) as [number, number, number, number]; expect(val(it), it.id).toBe(Math.hypot(x2 - x1, y2 - y1)); });
+    each('MS.G10.MPM2D.B2.2.a', [3], (it) => { const [b, c] = nums(clean(it.prompt.en).replace('(0, 0)', '').replace(/\(k, /, '(')) as [number, number]; expect(val(it) ** 2 + b * b, it.id).toBe(c * c); });
+    each('MS.G10.MPM2D.B2.3.a', [1], (it) => { expect(val(it) ** 2, it.id).toBe(nums(it.prompt.en.replace('x^{2} + y^{2}', ''))[0]); });
+    each('MS.G10.MPM2D.B2.3.a', [2], (it) => {
+      const r2 = Number(/= (\d+)/.exec(clean(it.prompt.en))![1]);
+      const ok = it.options!.map((o) => { const [x, y] = nums(o.en) as [number, number]; return x * x + y * y === r2; });
+      expect(ok.filter(Boolean).length, it.id).toBe(1); expect(ok[idx(it)]).toBe(true);
+    });
+    each('MS.G10.MPM2D.B2.3.a', [3], (it) => { const [x, r2] = [nums(it.prompt.en)[0]!, Number(/= (\d+)/.exec(clean(it.prompt.en))![1])]; expect(val(it) ** 2 + x * x, it.id).toBe(r2); expect(val(it)).toBeGreaterThan(0); });
+  });
+  it('similar triangles', () => {
+    for (const id of ['MS.G10.MPM2D.C1.1.a', 'MS.G10.MFM2P.A1.1.a']) {
+      each(id, [1, 2], (it) => { const n = nums(it.prompt.en); const [sa, sb, c1] = [n[0]!, n[1]!, n[3]!]; expect(val(it), it.id).toBeCloseTo((sb * c1) / sa, 9); });
+      each(id, [3], (it) => { const [p, sp, ts] = nums(it.prompt.en) as [number, number, number]; expect(val(it), it.id).toBeCloseTo((ts * p) / sp, 9); expect(Number.isInteger(val(it))).toBe(true); });
+    }
+  });
+  it('right-triangle trigonometry', () => {
+    for (const id of ['MS.G10.MPM2D.C2.1.a', 'MS.G10.MFM2P.A2.1.a']) {
+      each(id, [1, 2], (it) => {
+        const [th, given] = nums(it.prompt.en) as [number, number];
+        const known = /the (hypotenuse|adjacent) is/.exec(it.prompt.en)![1]!, ask = /length of the (\w+) side/.exec(it.prompt.en)![1]!;
+        const ratio = known === 'hypotenuse' ? (ask === 'opposite' ? Math.sin(rad(th)) : Math.cos(rad(th))) : Math.tan(rad(th));
+        near(val(it), given * ratio, it.id);
+      });
+      each(id, [3], (it) => { const [th, opp] = nums(it.prompt.en) as [number, number]; near(val(it), opp / Math.sin(rad(th)), it.id); });
+    }
+    for (const id of ['MS.G10.MPM2D.C2.2.a', 'MS.G10.MFM2P.A2.2.a']) {
+      each(id, [1, 2, 3], (it) => {
+        const [p, q] = nums(it.prompt.en) as [number, number];
+        const adj = /side adjacent/.test(it.prompt.en), hyp = /hypotenuse side/.test(it.prompt.en);
+        const a = adj && hyp ? Math.acos(p / q) : adj ? Math.atan(q / p) : hyp ? Math.asin(p / q) : Math.atan(p / q);
+        near(val(it), (a * 180) / Math.PI, it.id);
+      });
+    }
+    each('MS.G10.MPM2D.C2.3.a', [1, 2, 3], (it) => {
+      const [a, b] = nums(it.prompt.en) as [number, number];
+      const e = it.prompt.en;
+      const ans = /tree/.test(e) ? a * Math.tan(rad(b)) : /ladder/.test(e) ? a * Math.sin(rad(b)) : b / Math.tan(rad(nums(e)[1]!));
+      if (/cliff/.test(e)) near(val(it), nums(e)[0]! / Math.tan(rad(nums(e)[1]!)), it.id); else near(val(it), ans, it.id);
+    });
+  });
+  it('the sine and cosine laws', () => {
+    each('MS.G10.MPM2D.C3.1.a', [1], (it) => { const [A, B, a] = nums(it.prompt.en.replace(/triangle ABC/, '')) as [number, number, number]; near(val(it), (a * Math.sin(rad(B))) / Math.sin(rad(A)), it.id); });
+    each('MS.G10.MPM2D.C3.1.a', [2], (it) => { const [A, C, a] = nums(it.prompt.en.replace(/triangle ABC/, '').replace(/side b \(opposite B\)/, '')) as [number, number, number]; near(val(it), (a * Math.sin(rad(180 - A - C))) / Math.sin(rad(A)), it.id); });
+    each('MS.G10.MPM2D.C3.1.a', [3], (it) => { const [a, b, A] = nums(it.prompt.en) as [number, number, number]; near(val(it), (Math.asin((b * Math.sin(rad(A))) / a) * 180) / Math.PI, it.id); expect(val(it)).toBeLessThan(90); });
+    each('MS.G10.MPM2D.C3.2.a', [1, 2], (it) => { const [a, b, C] = nums(it.prompt.en.replace(/triangle ABC/, '')) as [number, number, number]; near(val(it), Math.sqrt(a * a + b * b - 2 * a * b * Math.cos(rad(C))), it.id); });
+    each('MS.G10.MPM2D.C3.2.a', [3], (it) => { const [a, b, c] = nums(it.prompt.en) as [number, number, number]; near(val(it), (Math.acos((a * a + b * b - c * c) / (2 * a * b)) * 180) / Math.PI, it.id); });
+  });
+  it('imperial and metric units', () => {
+    each('MS.G10.MFM2P.A3.1.a', [1], (it) => { const [ft, inch] = nums(it.prompt.en) as [number, number]; expect(val(it), it.id).toBe(ft * 12 + inch); });
+    each('MS.G10.MFM2P.A3.1.a', [2], (it) => { expect(val(it), it.id).toBe(nums(it.prompt.en)[0]! / 12); });
+    each('MS.G10.MFM2P.A3.1.a', [3], (it) => { const [L, W, D] = nums(it.prompt.en) as [number, number, number]; expect(val(it), it.id).toBeCloseTo((L * W * D) / 27, 9); });
+    each('MS.G10.MFM2P.A3.2.a', [1], (it) => { expect(val(it), it.id).toBeCloseTo(nums(it.prompt.en)[0]! * 2.54, 9); });
+    each('MS.G10.MFM2P.A3.2.a', [2], (it) => { expect(val(it), it.id).toBeCloseTo(nums(it.prompt.en)[0]! * 30.48, 9); });
+    each('MS.G10.MFM2P.A3.2.a', [3], (it) => { expect(val(it) * 2.54, it.id).toBeCloseTo(nums(it.prompt.en)[0]!, 6); });
   });
 });
