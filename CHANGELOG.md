@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.5.1] - 2026-11-21
+### Added
+- Grade 7 strands C to F: 26 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer.
+  - Algebra (7): comparing growing patterns, pattern rules and unknown terms, integer patterns, like terms, evaluating with decimals, multi-term equations (including letters on both sides) and inequalities.
+  - Data (5): percentages in data, circle graphs, how adding or removing data changes the mean, independent and dependent events (exact fractions), theoretical and experimental probability.
+  - Spatial sense (10): faces, vertices and edges, dilations and similar shapes, transformations on the plane, volume and capacity, area and volume unit conversions, circumference, area of a circle, cylinder surface area, and volume of prisms and cylinders. Circle work says "use 3.14 for pi".
+  - Financial literacy (4): exchange rates, budgets, simple and compound interest, comparing accounts and loans.
+- Eight Grade 7 lessons ("Show me how"), so every Grade 7 micro-skill has a lesson to fall back on.
+- Independent arithmetic tests for every new generator (each recomputes the answer from the prompt by a different method; one was mutation-checked).
+
+### Notes
+- Grade 7 items that need richer tools (coding, infographics, misleading graphs, top, front and side views, constructing circles, reliable sources and factors that influence decisions) are still to come; see `docs/BACKLOG.md`.
+- Placement quick checks for the new strands are not part of this release.
+
 ## [2.5.0] - 2026-11-21
 ### Added
 - Grade 7 Number (strand B), the first Grade 7 content: 15 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer. Topics: perfect squares and square roots, comparing negative fractions and decimals, simplest form, converting to percents, order of operations with brackets and exponents, mental percent change (1%, 5%, 10%, 25%, 50%, 100%), adding and subtracting integers, adding and subtracting fractions and mixed numbers, greatest common factor, least common multiple of two and three numbers, powers (including negative bases), multiplying and dividing fractions, multiplying and dividing decimals by decimals, and proportional reasoning with unit rates.

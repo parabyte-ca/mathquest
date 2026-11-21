@@ -26,6 +26,11 @@ describe('lessons', () => {
     expect(missing).toEqual([]);
   });
 
+  it('give every Grade 7 micro-skill a lesson to fall back on', () => {
+    const missing = micro.filter((m) => /^MS\.G7\./.test(m) && !lessonForSkill(m));
+    expect(missing).toEqual([]);
+  });
+
   it('follow the shape: definitions, two or three worked examples, a try-it that builds a real item', () => {
     for (const l of LESSONS) {
       expect(l.definitions.length, l.id).toBeGreaterThanOrEqual(1);
