@@ -5,7 +5,24 @@ import { circleGraph7, experimental7, meanChange7, percentData7, twoEvents7 } fr
 import { addSubFrac7, convert7, decimals7, divFrac7, exponent7, gcf7, intAddSub7, lcm7, mulFrac7, orderOps7, percentChange7, proportional7, rational7, simplify7, squares7 } from './number7.js';
 import { budget7, capacity7, circleArea7, circumference7, compareAccounts7, cylinderSA7, cylinderVolume7, dilation7, exchange7, interest7, prismVolume7, solids7, transform7, units7 } from './spatial7.js';
 
+import { alterCode7, between7, equivalents7, largeNumbers7, patterns7, rounding7, subprograms7 } from './gaps7.js';
+import { circles7, decisions7, infographic7, misleading7, percentWhy7, sources7, views7 } from './gaps7b.js';
+
 export const GENERATORS_G7: Record<string, Generator> = {
+  'MS.G7.B1.1.a': largeNumbers7,
+  'MS.G7.B1.5.a': between7,
+  'MS.G7.B1.6.a': rounding7,
+  'MS.G7.B2.2.a': equivalents7,
+  'MS.G7.C1.2.a': patterns7,
+  'MS.G7.C3.1.a': subprograms7,
+  'MS.G7.C3.2.a': alterCode7,
+  'MS.G7.D1.1.a': percentWhy7,
+  'MS.G7.D1.4.a': infographic7,
+  'MS.G7.D1.6.a': misleading7,
+  'MS.G7.E1.2.a': views7,
+  'MS.G7.E2.4.a': circles7,
+  'MS.G7.F1.2.a': sources7,
+  'MS.G7.F1.4.a': decisions7,
   'MS.G7.B1.2.a': squares7,
   'MS.G7.B1.3.a': rational7,
   'MS.G7.B1.4.a': simplify7,

@@ -30,13 +30,13 @@ Micro-skills, and expectations that have at least one, by grade and strand (stra
 |---|---|---|---|---|---|
 | 5 | 24 skills · 16 of 16 | 10 · 10 of 10 | 8 · 8 of 8 | 11 · 11 of 11 | 6 · 6 of 6 |
 | 6 | 20 · 18 of 18 | 11 · 10 of 10 | 8 · 8 of 8 | 10 · 10 of 10 | 5 · 5 of 5 |
-| 7 | 15 · 13 of 17 | 7 · 7 of 10 | 5 · 5 of 8 | 10 · 9 of 11 | 4 · 4 of 6 |
+| 7 | 19 · 17 of 17 | 10 · 10 of 10 | 8 · 8 of 8 | 12 · 11 of 11 | 6 · 6 of 6 |
 | 8 | 12 · 12 of 12 | 7 · 7 of 8 | 4 · 4 of 8 | 10 · 7 of 8 | 6 · 6 of 6 |
 | 9 (MTH1W) | 9 · 9 of 10 | 10 · 10 of 15 | not yet | not yet | not yet |
 | 10 (MPM2D, MFM2P) | MPM2D B (analytic geometry) · 6 skills, 2 of 3; MFM2P B (linear) · 7 skills, 3 of 3 | MPM2D A (quadratic) · 17 skills, 4 of 4; MFM2P C (quadratic) · 5 skills, 2 of 3 | | MPM2D C (trigonometry) · 8 skills, 3 of 3; MFM2P A (measurement) · 5 skills, 3 of 3 | |
 | 11 and 12 | not yet | | | | |
 
-255 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for Grade 9 Number and Algebra (Number, algebra, data, spatial sense, financial literacy). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practiced through the C1.3 pattern-rule skill.
+269 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for Grade 9 Number and Algebra (Number, algebra, data, spatial sense, financial literacy). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practiced through the C1.3 pattern-rule skill.
 
 ## 3. What is deliberately deferred
 
@@ -44,9 +44,8 @@ These need item types or tools the question player does not have yet. Build the 
 
 - Coding (C3 in Grades 5 to 9), modelling (Grade 5 and 6 C4).
 - Data collection, infographics, misleading graphs and "analysis" expectations (D1 in most grades).
-- Nets, top/front/side/perspective views, tessellations, constructions with a compass (E1.2, E2.4 at Grade 7, E1.1 at Grade 8).
-- Financial items about reliable sources, factors that influence a decision, or taxes and budgets as a project (F1.2, F1.4 at Grade 7 and similar).
-- Grade 7 Number expectations with no numeric core of their own: B1.1 (large numbers and expanded form), B1.5 (numbers between two quantities), B1.6 (rounding) and B2.2 (recalling equivalents).
+- Nets, top/front/side/perspective views, tessellations, constructions with a compass (Grade 7 E1.2 and E2.4 are covered in words and numbers; E1.1 at Grade 8 is not).
+- Financial items about taxes and budgets as a project (similar items at other grades). Grade 7 F1.2 and F1.4 are covered as choice and number questions.
 
 ## 4. Data-quality notes
 
@@ -60,4 +59,4 @@ These need item types or tools the question player does not have yet. Build the 
 - Link each new micro-skill to the previous grade's micro-skill on the same chain, and to the same-grade skill it depends on.
 - Prefer exact answers: choose numbers so results are whole or have at most six decimal places, and use 3.14 for pi when the prompt says so.
 - Include at least one common misconception per item and word it kindly ("It looks like..."); a student must never be told they are careless.
-- Next up: Grade 7 completion, then Grade 11, then a Grade 10 quick check and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then, Grade 11, then the richer-tools releases listed in the backlog.
+- Next up: Grade 11, then a Grade 10 quick check and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then, Grade 11, then the richer-tools releases listed in the backlog.
