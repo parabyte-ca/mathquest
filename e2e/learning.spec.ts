@@ -26,7 +26,7 @@ const SPEECH_STUB = () => {
   Object.defineProperty(window, 'speechSynthesis', { configurable: true, value: { speak(u: Utt) { spoken.push({ text: u.text, lang: u.lang }); u.onstart?.(); setTimeout(() => u.onend?.(), 4000); }, cancel() {}, getVoices() { return []; } } });
 };
 
-test('lesson to practice: a student reads a lesson, tries one with hints, then practises with feedback and a similar question', async ({ page, browser, baseURL }, info) => {
+test('lesson to practice: a student reads a lesson, tries one with hints, then practices with feedback and a similar question', async ({ page, browser, baseURL }, info) => {
   const { kid, username } = await setup(browser, baseURL!, page, info, 'lp');
   await noHorizontalScroll(kid);
 
@@ -173,8 +173,8 @@ test('skill map shows states, prerequisites that are recommended not required, a
   await noHorizontalScroll(kid);
   await kid.getByRole('button', { name: /G6\.B2\.5\. Recommended first/ }).click();
   await expect(kid.getByText('Recommended first: G5.B2.5')).toBeVisible();
-  await expect(kid.getByRole('button', { name: 'Practise this' })).toBeVisible();
-  await kid.getByRole('button', { name: 'Practise this' }).click();
+  await expect(kid.getByRole('button', { name: 'Practice this' })).toBeVisible();
+  await kid.getByRole('button', { name: 'Practice this' }).click();
   await expect(kid.locator('form.answer')).toBeVisible(); // not blocked by the recommendation
 });
 
@@ -304,7 +304,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await expect(kid.locator('.rewardnote')).toContainText('First steps');
   await expect(kid.locator('.rewardbar')).toContainText('Level 1');
 
-  // the same student then practises one question in each of the algebra, data, measurement and money strands
+  // the same student then practices one question in each of the algebra, data, measurement and money strands
   // (one student for all of this: approving many devices for one caregiver trips the approval rate limit)
   for (const code of ['G5.C2.3', 'G5.D1.5', 'G5.E2.5', 'G5.F1.2']) {
     await kid.goto(`/app/learn/practice?grade=5&focus=${code}`);

@@ -11,7 +11,7 @@ export function Placement({ go }: { go: (to: string) => void }) {
   const params = new URLSearchParams(location.search);
   const grade = Number(params.get('grade') ?? 5);
   const strand = /^[B-F]$/.test(params.get('strand') ?? '') ? params.get('strand')! : 'B';
-  const course = /^[A-Z0-9]{5}$/.test(params.get('course') ?? '') ? `&course=${params.get('course')}` : ''; // Grade 9 and up practise by course
+  const course = /^[A-Z0-9]{5}$/.test(params.get('course') ?? '') ? `&course=${params.get('course')}` : ''; // Grade 9 and up practice by course
   const [item, setItem] = useState<PublicItem | null>(null);
   const [count, setCount] = useState(0);
   const [done, setDone] = useState<{ startingSkill: string | null } | null>(null);

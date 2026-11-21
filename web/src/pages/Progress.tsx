@@ -12,8 +12,8 @@ interface Dash {
   prevWeek: { answered: number; accuracy: number | null; minutes: number };
   month: { answered: number; accuracy: number | null; minutes: number };
   days: { day: string; answered: number; correct: number; minutes: number }[];
-  skillsMastered: number; skillsPractised: number;
-  strands: { strand: string; name: string; attempts: number; accuracy: number | null; mastered: number; practised: number }[];
+  skillsMastered: number; skillsPracticed: number;
+  strands: { strand: string; name: string; attempts: number; accuracy: number | null; mastered: number; practiced: number }[];
   attention: { skill: string; name: string; expectation: string; accuracy: number; attempts: number }[];
   dueReviews: number;
   recentBadges: { id: string; at: number; name?: Text }[];
@@ -51,7 +51,7 @@ export function Progress({ go }: { go: (to: string) => void }) {
           <div class="stat"><span class="num">{d.minutesToday}</span>{t('progress.today', { goal: d.dailyGoalMinutes })}</div>
           <div class="stat"><span class="num">{d.week.answered}</span>{t('progress.weekQs', { min: d.week.minutes })}{d.prevWeek.answered > 0 && <span class="delta">{t('progress.vsQs', { delta: signed(d.week.answered - d.prevWeek.answered) })}</span>}</div>
           <div class="stat"><span class="num">{pct(d.week.accuracy)}</span>{t('progress.weekAcc')}{d.week.accuracy !== null && d.prevWeek.accuracy !== null && <span class="delta">{t('progress.vsAcc', { delta: signed(d.week.accuracy - d.prevWeek.accuracy) })}</span>}</div>
-          <div class="stat"><span class="num">{d.skillsMastered}</span>{t('progress.mastered', { n: d.skillsPractised })}</div>
+          <div class="stat"><span class="num">{d.skillsMastered}</span>{t('progress.mastered', { n: d.skillsPracticed })}</div>
         </div>
         <div class="actions row-actions"><button type="button" class="secondary" onClick={() => go('/app')}>{t('common.back')}</button></div>
       </section>
@@ -90,7 +90,7 @@ export function Progress({ go }: { go: (to: string) => void }) {
         {d.strands.length === 0 ? <p>{t('progress.none')}</p> : (
           <div class="tablewrap"><table class="data">
             <thead><tr><th scope="col">{t('progress.strand')}</th><th scope="col">{t('progress.questions')}</th><th scope="col">{t('progress.accuracy')}</th><th scope="col">{t('progress.skills')}</th></tr></thead>
-            <tbody>{d.strands.map((s) => <tr key={s.strand}><th scope="row">{s.strand}. {s.name}</th><td>{s.attempts}</td><td>{pct(s.accuracy)}</td><td>{s.mastered} / {s.practised}</td></tr>)}</tbody>
+            <tbody>{d.strands.map((s) => <tr key={s.strand}><th scope="row">{s.strand}. {s.name}</th><td>{s.attempts}</td><td>{pct(s.accuracy)}</td><td>{s.mastered} / {s.practiced}</td></tr>)}</tbody>
           </table></div>
         )}
       </section>

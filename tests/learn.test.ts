@@ -74,7 +74,7 @@ describe('options and sessions', () => {
     expect(res.body.grades.map((g: { grade: number }) => g.grade)).toEqual([5, 6, 7, 8, 9, 10, 11, 12]);
   });
 
-  it('practises one expectation only when asked to focus on it', async () => {
+  it('practices one expectation only when asked to focus on it', async () => {
     const env = env0();
     const s = await makeStudent(env);
     const { step } = await start(s, { grade: 5, focus: 'G5.C2.3' });
@@ -447,7 +447,7 @@ describe('quick checks by strand', () => {
 });
 
 describe('Grade 9 by course', () => {
-  it('practises Grade 9 Number and Algebra under the MTH1W course, and finds nothing without the course', async () => {
+  it('practices Grade 9 Number and Algebra under the MTH1W course, and finds nothing without the course', async () => {
     const env = env0();
     const s = await makeStudent(env, { grade: 9, allowed: { grades: [9], courses: [] } });
     for (const strand of ['B', 'C']) {
@@ -457,6 +457,23 @@ describe('Grade 9 by course', () => {
     await post(s, '/session', { grade: 9, strands: ['C'] }).expect(404); // without the course there is no Grade 9 content
     const opts = (await s.agent.get('/api/learn/options').expect(200)).body as { grades: { grade: number; groups: { course: string | null }[] }[] };
     expect(opts.grades.find((g) => g.grade === 9)!.groups.map((g) => g.course)).toEqual(['MTH1W']);
+  });
+});
+
+describe('Grade 10 by course', () => {
+  it('practices MPM2D Quadratic Relations and Analytic Geometry, and MFM2P Linear and Quadratic Relations, by course', async () => {
+    const env = env0();
+    const s = await makeStudent(env, { grade: 10, allowed: { grades: [10], courses: [] } });
+    for (const [course, strand] of [['MPM2D', 'A'], ['MPM2D', 'B'], ['MPM2D', 'C'], ['MFM2P', 'A'], ['MFM2P', 'B'], ['MFM2P', 'C']] as const) {
+      const r = await start(s, { grade: 10, course, strands: [strand] });
+      expect(r.step.item ?? r.step.lessonId ?? r.step.target, `${course} ${strand}`).toBeDefined();
+    }
+    await post(s, '/session', { grade: 10, strands: ['A'] }).expect(404); // without the course there is no Grade 10 content
+    const opts = (await s.agent.get('/api/learn/options').expect(200)).body as { grades: { grade: number; groups: { course: string | null; strands: { strand: string; available: boolean }[] }[] }[] };
+    const g10 = opts.grades.find((g) => g.grade === 10)!.groups;
+    expect(g10.map((g) => g.course).sort()).toEqual(['MFM2P', 'MPM2D']);
+    expect(g10.find((g) => g.course === 'MPM2D')!.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B', 'C']);
+    expect(g10.find((g) => g.course === 'MFM2P')!.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B', 'C']);
   });
 });
 
@@ -473,7 +490,7 @@ describe('skill map', () => {
     expect(map9.nodes.find((n) => n.code === 'MTH1W.D1.1')!.state).toBe('soon'); // Grade 9 Data has no content yet
     expect(map.edges.some((e) => e.from === 'G5.B2.5' && e.to === 'G6.B2.5')).toBe(true);
 
-    // practising never needs the prerequisite: sessions can still start on a locked skill
+    // practicing never needs the prerequisite: sessions can still start on a locked skill
     await post(s, '/session', { grade: 6, strands: ['B'] }).expect(200);
 
     for (const m of ['MS.G5.B2.5.a', 'MS.G5.B2.5.b', 'MS.G5.B2.5.c']) env.db.prepare('INSERT INTO mastery (student_id, skill_id, p_known, tier, attempts, correct) VALUES (?,?,?,?,?,?)').run(s.studentId, m, 0.97, 3, 8, 8);

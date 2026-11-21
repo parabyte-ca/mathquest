@@ -317,7 +317,7 @@ export function summary(ctx: Ctx, student: StudentRow) {
     streak: streakToShow({ streak: row.streak, best: row.best_streak, lastDay: row.last_day, freezes: row.freezes }, today),
     bestStreak: row.best_streak,
     freezes: row.freezes,
-    practisedToday: row.last_day === today,
+    practicedToday: row.last_day === today,
     minutesToday: Math.floor(msToday(ctx, student.id) / 60_000),
     dailyGoalMinutes: settings.dailyGoalMinutes,
     avatar: row.avatar,

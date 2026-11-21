@@ -5,7 +5,7 @@ description: Project skill for MathQuest v2 (parabyte-ca/mathquest), the self-ho
 
 # MathQuest
 
-Adaptive Ontario math practice (Grades 5-12) for a family's own students. Caregivers sign in by email link, add students, and approve each student's device. Students practise with an explainable adaptive engine, earn XP and badges, and can practise offline. Self-hosted on TrueNAS behind a Cloudflare Tunnel.
+Adaptive Ontario math practice (Grades 5-12) for a family's own students. Caregivers sign in by email link, add students, and approve each student's device. Students practice with an explainable adaptive engine, earn XP and badges, and can practice offline. Self-hosted on TrueNAS behind a Cloudflare Tunnel.
 
 Read `dev-sop` for README, versioning, Docker and CI conventions and `ontario-math-curriculum` for what a grade must cover. This skill holds what is specific to this repo.
 
@@ -35,7 +35,7 @@ More detail on modules, tables and design decisions is in `references/architectu
 
 Do the grades in order, one strand group per release, and look up what the grade requires in `ontario-math-curriculum`. For each expectation that can be asked as a number, fraction or choice:
 
-1. **Generator** in `shared/generators/` (registered in that grade's `gradeN.ts` map; `index.ts` gathers the maps and the web app loads one grade at a time) using the DSL in `dsl.ts` (`numGen`, `choiceGen`, `bi`, `mc`, `r6`, `money`) or `build()` from `kit.ts` for fraction answers. Three tiers, steps (worked example), a nudge, and `wrong` entries for common misconceptions. Register it in `shared/generators/index.ts` under `MS.G{grade}.{strand}{n}.{n}.{letter}`.
+1. **Generator** in `shared/generators/` (registered in that grade's `gradeN.ts` map; `index.ts` gathers the maps and the web app loads one grade at a time) using the DSL in `dsl.ts` (`numGen`, `choiceGen`, `bi`, `mc`, `r6`, `money`) or `build()` from `kit.ts` for fraction answers. Three tiers, steps (worked example), a nudge, and `wrong` entries for common misconceptions. Register it in `shared/generators/index.ts` under `MS.G{grade}.{strand}{n}.{n}.{letter}`. Senior-course skills (Grade 10 and up) carry the course in the id, `MS.G10.{COURSE}.{strand}{n}.{n}.{letter}`, because courses reuse strand letters; their `expectation` is the course code (for example `MPM2D.A3`).
 2. **Micro-skill** entry in `content/microskills.json` with `expectation`, `name`, `tiers: 3` and `prereqs` (earlier micro-skill ids; the graph must have no cycles).
 3. **Placement**: add the skill to its ladder in `content/placement.json`, ordered easiest to hardest and never before one of its own prerequisites. Number uses the plain grade as its key (`7`); strands C to F use `grade.strand` (`7.C`) and hold that strand's earlier-grade skills too. A test fails if a strand skill is missing from its ladder.
 4. **Lessons** in `shared/lessons/` (definitions, two or three worked examples, a `tryIt`), registered in `shared/lessons/index.ts`. Every micro-skill needs a lesson that lists it. EN and FR must differ for any string with words.

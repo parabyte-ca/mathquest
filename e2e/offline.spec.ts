@@ -56,7 +56,7 @@ test('the app can be installed, keeps its shell offline, says so politely, and n
   expect(problems).toEqual([]);
 });
 
-test('offline practice: download a pack, practise with no connection, and the answers count once back online', async ({ page, browser, baseURL }, info) => {
+test('offline practice: download a pack, practice with no connection, and the answers count once back online', async ({ page, browser, baseURL }, info) => {
   await signInCaregiver(page, `offline-${info.project.name}@e2e.test`);
   const username = `off_${info.project.name}_${Math.floor(Date.now() / 1000).toString(36)}`;
   const kid = await studentOnNewDevice(browser, baseURL!, page, { username, grade: 7 });
@@ -71,16 +71,16 @@ test('offline practice: download a pack, practise with no connection, and the an
 
   // while online: choose Algebra and download a pack
   await kid.getByLabel(/^C\. Algebra/).check();
-  await kid.getByRole('button', { name: 'Practise without internet' }).click();
-  await expect(kid.getByRole('heading', { name: 'Practise without internet' })).toBeVisible();
+  await kid.getByRole('button', { name: 'Practice without internet' }).click();
+  await expect(kid.getByRole('heading', { name: 'Practice without internet' })).toBeVisible();
   await kid.getByRole('button', { name: 'Download questions' }).click();
   await expect(kid.getByText('20 of 20 questions left')).toBeVisible();
 
   // the app opens with no connection, straight to the downloaded questions
   await kid.context().setOffline(true);
   await kid.goto('/app/learn/offline');
-  await expect(kid.getByRole('heading', { name: 'Practise without internet' })).toBeVisible();
-  await expect(kid.getByText('You are practising offline')).toBeVisible();
+  await expect(kid.getByRole('heading', { name: 'Practice without internet' })).toBeVisible();
+  await expect(kid.getByText('You are practicing offline')).toBeVisible();
   await expect(kid.getByText('20 of 20 questions left')).toBeVisible();
   await expect(kid.getByRole('button', { name: 'Download questions' })).toHaveCount(0);
 
@@ -98,7 +98,7 @@ test('offline practice: download a pack, practise with no connection, and the an
   expect(items.length).toBe(20);
   expect(items.every((it) => it.skill.startsWith('MS.G7.C'))).toBe(true);
 
-  await kid.getByRole('button', { name: 'Start practising' }).click();
+  await kid.getByRole('button', { name: 'Start practicing' }).click();
   for (let i = 0; i < 4; i++) {
     const item = generate(items[i]!.skill, items[i]!.tier, items[i]!.seed);
     await expect(kid.getByText(`Question ${i + 1} of 20`)).toBeVisible();

@@ -1929,6 +1929,395 @@
    "prereqs": [
     "MS.G9.C3.2.a"
    ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A3.1.a",
+   "expectation": "MPM2D.A3",
+   "name": "Expand products of binomials",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A3.2.a",
+   "expectation": "MPM2D.A3",
+   "name": "Factor out a common factor",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A3.3.a",
+   "expectation": "MPM2D.A3",
+   "name": "Factor trinomials x² + bx + c",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A3.4.a",
+   "expectation": "MPM2D.A3",
+   "name": "Factor trinomials with a leading coefficient other than 1",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.3.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A3.5.a",
+   "expectation": "MPM2D.A3",
+   "name": "Factor a difference of squares",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A3.6.a",
+   "expectation": "MPM2D.A3",
+   "name": "Solve quadratic equations by factoring",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.3.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A3.7.a",
+   "expectation": "MPM2D.A3",
+   "name": "Solve quadratic equations with the quadratic formula",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.6.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A3.8.a",
+   "expectation": "MPM2D.A3",
+   "name": "The discriminant and the number of real roots",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.7.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A3.9.a",
+   "expectation": "MPM2D.A3",
+   "name": "Complete the square",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.B1.1.a",
+   "expectation": "MPM2D.B1",
+   "name": "Solve systems of equations by substitution",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.B1.2.a",
+   "expectation": "MPM2D.B1",
+   "name": "Solve systems of equations by elimination",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.B1.3.a",
+   "expectation": "MPM2D.B1",
+   "name": "Solve problems with a system of equations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.B1.1.a",
+   "expectation": "MFM2P.B1",
+   "name": "Solve equations with fractions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.B1.2.a",
+   "expectation": "MFM2P.B1",
+   "name": "Rearrange formulas and use them",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.B2.1.a",
+   "expectation": "MFM2P.B2",
+   "name": "Slope as rise over run",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.B2.2.a",
+   "expectation": "MFM2P.B2",
+   "name": "What the slope and y-intercept mean",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.B2.3.a",
+   "expectation": "MFM2P.B2",
+   "name": "Equations of lines from two points",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.B3.1.a",
+   "expectation": "MFM2P.B3",
+   "name": "Point of intersection of two lines",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.B2.3.a",
+    "MS.G10.MFM2P.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.C1.1.a",
+   "expectation": "MFM2P.C1",
+   "name": "Expand products of binomials",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.C1.2.a",
+   "expectation": "MFM2P.C1",
+   "name": "Factor out a common factor",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.C1.3.a",
+   "expectation": "MFM2P.C1",
+   "name": "Factor x² + bx + c and x² − a²",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.C1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A1.1.a",
+   "expectation": "MPM2D.A1",
+   "name": "Constant second differences in quadratic relations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A2.1.a",
+   "expectation": "MPM2D.A2",
+   "name": "The vertex from vertex form",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A2.2.a",
+   "expectation": "MPM2D.A2",
+   "name": "Direction and width of a parabola",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A2.3.a",
+   "expectation": "MPM2D.A2",
+   "name": "The equation of a parabola from its vertex and a point",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A4.1.a",
+   "expectation": "MPM2D.A4",
+   "name": "Maximum and minimum values",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.A4.2.a",
+   "expectation": "MPM2D.A4",
+   "name": "Projectile problems",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A4.1.a",
+    "MS.G10.MPM2D.A3.6.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.B2.1.a",
+   "expectation": "MPM2D.B2",
+   "name": "Midpoint of a segment",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.B2.2.a",
+   "expectation": "MPM2D.B2",
+   "name": "Distance between two points",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.B2.3.a",
+   "expectation": "MPM2D.B2",
+   "name": "Circles centred at the origin",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.B2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.C1.1.a",
+   "expectation": "MPM2D.C1",
+   "name": "Similar triangles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B3.5.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.C2.1.a",
+   "expectation": "MPM2D.C2",
+   "name": "Finding a side with sine, cosine and tangent",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.C2.2.a",
+   "expectation": "MPM2D.C2",
+   "name": "Finding an angle with inverse trigonometric ratios",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.C2.3.a",
+   "expectation": "MPM2D.C2",
+   "name": "Right-triangle problems with angles of elevation and depression",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.C3.1.a",
+   "expectation": "MPM2D.C3",
+   "name": "The sine law",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.C3.2.a",
+   "expectation": "MPM2D.C3",
+   "name": "The cosine law",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.A1.1.a",
+   "expectation": "MFM2P.A1",
+   "name": "Similar triangles by proportional reasoning",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B3.5.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.A2.1.a",
+   "expectation": "MFM2P.A2",
+   "name": "Finding a side with the primary trigonometric ratios",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.A2.2.a",
+   "expectation": "MFM2P.A2",
+   "name": "Finding an angle with the primary trigonometric ratios",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.A3.1.a",
+   "expectation": "MFM2P.A3",
+   "name": "Feet, inches and yards",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B3.5.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.A3.2.a",
+   "expectation": "MFM2P.A3",
+   "name": "Converting between imperial and metric units",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.A3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.C2.1.a",
+   "expectation": "MFM2P.C2",
+   "name": "Zeros and the axis of symmetry from factored form",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.C2.2.a",
+   "expectation": "MFM2P.C2",
+   "name": "The y-intercept of a parabola",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.C2.1.a"
+   ]
   }
  ]
 }

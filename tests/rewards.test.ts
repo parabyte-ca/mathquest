@@ -127,7 +127,7 @@ describe('rewards through the learning flow', () => {
     expect(again[0]!.streak).toBe(1);
   });
 
-  it('adds the daily-goal bonus once, when the minutes are practised', async () => {
+  it('adds the daily-goal bonus once, when the minutes are practiced', async () => {
     const env = mk(4);
     const s = await makeStudent(env);
     env.db.prepare('UPDATE students SET settings_json = ? WHERE id = ?').run(JSON.stringify({ dailyGoalMinutes: 1 }), s.studentId);

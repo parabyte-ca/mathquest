@@ -18,7 +18,8 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 2.8.3 | Grade 5 completion: coding (C3.1, C3.2), infographics (D1.4), congruent shapes (E1.2), views (E1.3) and the protractor (E2.4), asked in words and numbers: 6 skills, 2 lessons. Grade 5 is now fully covered; the drawn and interactive versions still wait for 3.0.0 to 3.3.0 | S |
 | 2.9.0 | Grade 9 (MTH1W) Number and Algebra: 19 skills, 5 lessons (in progress, PR open) | L |
 | 2.9.1 | Grade 6 completion (priority 1, shipped): coding (C3, 2 skills), modelling (C4), infographics (D1.4), views (E1.2), protractor to 360 degrees (E2.2) and nets (E2.5), asked in words and numbers: 7 skills, 2 lessons. Every Grade 6 expectation now has practice | M |
-| 2.10.x | Grade 10 completion (priority 2): MPM2D and MFM2P, every strand, with course pathways | L x 2 |
+| 2.12.0 | Grade 10 algebra, both courses (priority 2, part 1, shipped): MPM2D A3 (9 skills) and B1 (3), MFM2P B1 to B3 (6) and C1 (3); 21 skills, 7 lessons | L |
+| 2.13.0 | Grade 10 part 2 (priority 2, shipped): MPM2D parabolas, projectiles, midpoint, distance, circles, similar triangles, trigonometry and the sine and cosine laws; MFM2P similar triangles, trigonometry, imperial units and parabola features: 22 skills, 5 lessons. Still open for Grade 10: B3 geometry proofs, MFM2P C3 graph reading, a Grade 10 quick check | L |
 | 2.11.x | Grade 7 completion (priority 3): the unbuilt Number (B), algebra, data, spatial sense and financial expectations, plus the same words-and-numbers versions of coding, infographics, views and the protractor | M x 2 |
 | 2.12.x | Grade 11 completion (priority 4): MCR3U, MCF3M, MBF3C and the other Grade 11 courses, every strand | L x 3 |
 | Later | Grade 9 Data, Geometry and Financial plus C4.1 and coding; Grade 8 completion; Grade 12 | M to L |
