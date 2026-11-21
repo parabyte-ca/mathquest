@@ -17,7 +17,9 @@ ladders = json.loads((root / 'content/placement.json').read_text())['ladders']
 covered: dict = collections.defaultdict(set)
 count: collections.Counter = collections.Counter()
 for s in skills:
-    grade, strand = s['expectation'].split('.')[0], s['expectation'].split('.')[1][0]
+    head = s['expectation'].split('.')[0]
+    grade = 'G9' if head == 'MTH1W' else head  # Grade 9 expectations are coded by course (MTH1W)
+    strand = s['expectation'].split('.')[1][0]
     covered[(grade, strand)].add(s['expectation'])
     count[(grade, strand)] += 1
 

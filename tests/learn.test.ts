@@ -68,7 +68,9 @@ describe('options and sessions', () => {
     const s8 = Object.fromEntries(g8.groups[0].strands.map((x: { strand: string; available: boolean }) => [x.strand, x.available]));
         expect(['B', 'C', 'D', 'E', 'F'].every((k) => s8[k])).toBe(true); // every Grade 8 strand has content from 2.7.2
     const g9 = res.body.grades.find((g: { grade: number }) => g.grade === 9);
-    expect(g9.groups[0].strands.every((x: { available: boolean }) => !x.available)).toBe(true);
+    const s9 = Object.fromEntries(g9.groups[0].strands.map((x: { strand: string; available: boolean }) => [x.strand, x.available]));
+    expect(s9.B && s9.C).toBe(true); // Grade 9 Number and Algebra have content from 2.9.0
+    expect(['D', 'E', 'F'].every((k) => !s9[k])).toBe(true); // Data, Geometry and Financial come in 2.9.1
     expect(res.body.grades.map((g: { grade: number }) => g.grade)).toEqual([5, 6, 7, 8, 9, 10, 11, 12]);
   });
 
@@ -440,7 +442,21 @@ describe('quick checks by strand', () => {
     const env = env0();
     const s = await makeStudent(env, { grade: 9, allowed: { grades: [5, 9], courses: [] } });
     await post(s, '/placement/start', { grade: 5, strand: 'Z' }).expect(400);
-    await post(s, '/placement/start', { grade: 9, strand: 'C' }).expect(404);
+    await post(s, '/placement/start', { grade: 9, strand: 'D' }).expect(404); // Grade 9 Data has no check until 2.9.1
+  });
+});
+
+describe('Grade 9 by course', () => {
+  it('practises Grade 9 Number and Algebra under the MTH1W course, and finds nothing without the course', async () => {
+    const env = env0();
+    const s = await makeStudent(env, { grade: 9, allowed: { grades: [9], courses: [] } });
+    for (const strand of ['B', 'C']) {
+      const r = await start(s, { grade: 9, course: 'MTH1W', strands: [strand] });
+      expect(r.step.item ?? r.step.lessonId ?? r.step.target, strand).toBeDefined();
+    }
+    await post(s, '/session', { grade: 9, strands: ['C'] }).expect(404); // without the course there is no Grade 9 content
+    const opts = (await s.agent.get('/api/learn/options').expect(200)).body as { grades: { grade: number; groups: { course: string | null }[] }[] };
+    expect(opts.grades.find((g) => g.grade === 9)!.groups.map((g) => g.course)).toEqual(['MTH1W']);
   });
 });
 

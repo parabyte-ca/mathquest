@@ -16,8 +16,12 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 2.8.1 | Grade 6 gap fill: financial literacy complete, plus algebra (C1.1, C1.2, C1.4, C2.1), data (D1.1, D1.2, D1.3, D1.6) and combined transformations (E1.4): 13 skills, 4 lessons. Grade 6 C3, C4, D1.4, E1.2, E2.2 and E2.5 wait for the item tools below | M |
 | 2.8.2 | Grade 5 gap fill: financial literacy complete, plus algebra (C1.1, C1.2, C2.1), data (D1.1, D1.2, D1.3, D1.6) and spatial sense (E1.5, E2.1, E2.3): 14 skills, 4 lessons. | M |
 | 2.8.3 | Grade 5 completion: coding (C3.1, C3.2), infographics (D1.4), congruent shapes (E1.2), views (E1.3) and the protractor (E2.4), asked in words and numbers: 6 skills, 2 lessons. Grade 5 is now fully covered; the drawn and interactive versions still wait for 3.0.0 to 3.3.0 | S |
-| 2.9.x | Grade 9 (MTH1W): 2.9.0 Number and Algebra, 2.9.1 Data, Geometry and Financial | M x 2 |
-| 2.10 to 2.12 | Grade 10 (MPM2D, MFM2P), Grade 11, Grade 12; each needs course pathways | L x 3 |
+| 2.9.0 | Grade 9 (MTH1W) Number and Algebra: 19 skills, 5 lessons (in progress, PR open) | L |
+| 2.9.1 | Grade 6 completion (priority 1): coding (C3), modelling (C4), infographics (D1.4), congruence (E1.2), protractor (E2.2) and nets (E2.5), asked in words and numbers, like Grade 5 in 2.8.3 | M |
+| 2.10.x | Grade 10 completion (priority 2): MPM2D and MFM2P, every strand, with course pathways | L x 2 |
+| 2.11.x | Grade 7 completion (priority 3): the unbuilt Number (B), algebra, data, spatial sense and financial expectations, plus the same words-and-numbers versions of coding, infographics, views and the protractor | M x 2 |
+| 2.12.x | Grade 11 completion (priority 4): MCR3U, MCF3M, MBF3C and the other Grade 11 courses, every strand | L x 3 |
+| Later | Grade 9 Data, Geometry and Financial plus C4.1 and coding; Grade 8 completion; Grade 12 | M to L |
 
 ### Richer item tools (each unlocks deferred expectations)
 
@@ -48,6 +52,8 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 3.4.0 | Question writer for choice and fraction items; spaced review and lessons offline | M |
 
 ### Suggested order
+
+Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completely, in that order. Grade 9 Number and Algebra (2.9.0) was already in progress and ships first.
 
 2.7.1 and 2.7.2 finish Grade 8, then 2.8.0 so placement covers every strand, then 3.0.0 (it opens the most deferred content), then Grade 9. Caregiver items (2.8.4, 2.8.5) fit between content releases.
 

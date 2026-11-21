@@ -274,7 +274,8 @@ test('touch targets are at least 44 px on the question page', async ({ page, bro
   const { kid } = await setup(browser, baseURL!, page, info, 'tt');
   await startPractice(kid, 'E');
   const small: string[] = [];
-  for (const el of await kid.locator('main button, main input:not([type=hidden]), main select, main label.choice').all()) {
+  // A radio or checkbox sits inside its label, and the label is the tap target (checked through label.choice below).
+  for (const el of await kid.locator('main button, main input:not([type=hidden]):not([type=radio]):not([type=checkbox]), main select, main label.choice').all()) {
     const b = await el.boundingBox();
     if (b && (b.height < 43.5 || b.width < 43.5)) small.push(`${await el.evaluate((e: Element) => e.outerHTML.slice(0, 60))} ${Math.round(b.width)}x${Math.round(b.height)}`);
   }

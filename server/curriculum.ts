@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { DB } from './db.js';
@@ -10,6 +11,12 @@ interface ChainsFile { chains: Record<string, string[]>; course_prerequisites: R
 interface MicroFile { version: string; microskills: { id: string; expectation: string; name: string; tiers: number; prereqs: string[] }[] }
 
 const readJson = <T>(p: string): T => JSON.parse(readFileSync(p, 'utf8')) as T;
+/** A short fingerprint of the seed files, so any change to their contents is noticed even if nobody bumps a version label. */
+const fingerprint = (dir: string): string => {
+  const h = createHash('sha256');
+  for (const f of ['curriculum.json', 'prereq-chains.json', 'microskills.json']) h.update(readFileSync(join(dir, f)));
+  return h.digest('hex').slice(0, 12);
+};
 
 /** Returns edges (earlier -> later) from the ordered chains. */
 export function chainEdges(chains: Record<string, string[]>): { from: string; to: string; chain: string }[] {
@@ -43,7 +50,8 @@ export function loadCurriculum(db: DB, contentDir = join(process.cwd(), 'content
   const cur = readJson<CurriculumFile>(join(contentDir, 'curriculum.json'));
   const chains = readJson<ChainsFile>(join(contentDir, 'prereq-chains.json'));
   const micro = readJson<MicroFile>(join(contentDir, 'microskills.json'));
-  const version = `${cur.version}+${micro.version}`;
+  // The version label alone is not enough: it stayed the same while hundreds of micro-skills were added, so servers kept an old list.
+  const version = `${cur.version}+${micro.version}+${fingerprint(contentDir)}`;
   const stored = db.prepare("SELECT value FROM kv WHERE key = 'content_version'").get() as { value: string } | undefined;
   if (stored?.value === version) return { loaded: false, version };
 

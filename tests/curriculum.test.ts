@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { readFileSync } from 'node:fs';
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { openDb } from '../server/db.js';
 import { loadCurriculum, chainEdges, hasCycle } from '../server/curriculum.js';
 import { buildCurriculum } from '../scripts/build-curriculum.js';
@@ -46,6 +48,25 @@ describe('prerequisite graph and loading', () => {
     const edges = db.prepare('SELECT from_code AS "from", to_code AS "to" FROM prereq_edge').all() as { from: string; to: string }[];
     const nodes = (db.prepare('SELECT code FROM curriculum_expectation').all() as { code: string }[]).map((r) => r.code);
     expect(hasCycle(nodes, edges)).toBe(false);
+  });
+
+  it('reloads when the seed files change even if their version labels stay the same', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'mq-content-'));
+    try {
+      cpSync('content', dir, { recursive: true });
+      const db = openDb(':memory:');
+      expect(loadCurriculum(db, dir).loaded).toBe(true);
+      expect(loadCurriculum(db, dir).loaded).toBe(false);
+      const file = join(dir, 'microskills.json');
+      const data = JSON.parse(readFileSync(file, 'utf8')) as { version: string; microskills: { id: string; expectation: string; name: string; tiers: number; prereqs: string[] }[] };
+      const first = data.microskills[0]!;
+      data.microskills.push({ id: 'MS.G5.B1.1.z', expectation: first.expectation, name: 'A skill added without a version bump', tiers: 3, prereqs: [] });
+      writeFileSync(file, JSON.stringify(data));
+      expect(loadCurriculum(db, dir).loaded).toBe(true);
+      expect((db.prepare("SELECT COUNT(*) AS n FROM microskill WHERE id = 'MS.G5.B1.1.z'").get() as { n: number }).n).toBe(1);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
   });
 
   it('recommends (never requires) prerequisite courses', () => {

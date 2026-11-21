@@ -15,6 +15,8 @@ import { addSubFrac8, integers8, mulDivFrac8, mulDivInt8, orderOps8, percents8, 
 import { binomials8, comparePatterns8, equations8, evalRational8, inequalities8, patternRules8, rationalPatterns8 } from './algebra8.js';
 import { correlation8, multiEvents8, tables8, venn8 } from './data8.js';
 import { compositeArea8, compositeVolume8, hypotenuse8, leg8, lineAngles8, polygonAngles8, scale8, tessellations8, transform8, unitsExp8 } from './spatial8.js';
+import { createExpr9, compareLines9, equivalent9, graphEquations9, lineEquations9, linearRelations9, linearVs9, simplify9, solveEq9, transformLines9 } from './algebra9.js';
+import { density9, expLaws9, exponents9, integers9, ratesPercents9, signedFractions9, signs9, subsets9, unitFractions9 } from './number9.js';
 import { alterCode5, code5 } from './code5.js';
 import { congruent5, infographic5, protractor5, views5 } from './shapes5.js';
 import { expressions5, patternKinds5, tablesOfValues5 } from './algebra5.js';
@@ -45,6 +47,25 @@ export const GENERATORS: Record<string, Generator> = {
   'MS.G5.C1.1.a': patternKinds5,
   'MS.G5.C1.2.a': tablesOfValues5,
   'MS.G5.C2.1.a': expressions5,
+  'MS.G9.B1.2.a': subsets9,
+  'MS.G9.B1.3.a': density9,
+  'MS.G9.B2.1.a': exponents9,
+  'MS.G9.B2.2.a': expLaws9,
+  'MS.G9.B3.1.a': integers9,
+  'MS.G9.B3.2.a': unitFractions9,
+  'MS.G9.B3.3.a': signs9,
+  'MS.G9.B3.4.a': signedFractions9,
+  'MS.G9.B3.5.a': ratesPercents9,
+  'MS.G9.C1.2.a': createExpr9,
+  'MS.G9.C1.3.a': equivalent9,
+  'MS.G9.C1.4.a': simplify9,
+  'MS.G9.C1.5.a': solveEq9,
+  'MS.G9.C3.1.a': linearVs9,
+  'MS.G9.C3.2.a': linearRelations9,
+  'MS.G9.C3.3.a': compareLines9,
+  'MS.G9.C4.2.a': graphEquations9,
+  'MS.G9.C4.3.a': transformLines9,
+  'MS.G9.C4.4.a': lineEquations9,
   'MS.G5.C3.1.a': code5,
   'MS.G5.C3.2.a': alterCode5,
   'MS.G5.D1.1.a': sampling5,
