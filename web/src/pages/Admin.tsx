@@ -185,7 +185,42 @@ function Updates() {
 interface AiStatus { configured: boolean; model: string; capUsd: number; spentUsd: number; remainingUsd: number; counts: Record<string, number> }
 interface BankRow { id: number; skill: string; tier: number; compute: string; reports: number; item: { prompt: { en: string; fr: string }; answer: { value: number }; steps: { en: string }[] } }
 interface ReportRow { id: number; itemRef: string; bankId: number | null; reason: string; itemStatus: string | null }
+interface BankSize { id: string; name: string; expectation: string; generator: boolean; variety: number[]; thin: boolean; approved: number; drafts: number; served: number; openReports: number }
 interface UsageDay { day: string; calls: number; costUsd: number; failures: number }
+
+/** How many different questions each skill can give, and what the Claude bank holds for it. Loaded only when opened. */
+function BankSizes() {
+  useLang();
+  const [rows, setRows] = useState<BankSize[] | null>(null);
+  const [thinOnly, setThinOnly] = useState(true);
+  const load = async () => { if (rows) return; const r = await api<{ skills: BankSize[] }>('GET', '/admin/ai/bank'); if (r.ok) setRows(r.data.skills); };
+  const thin = rows?.filter((r) => r.thin).length ?? 0;
+  const shown = (rows ?? []).filter((r) => !thinOnly || r.thin || !r.generator);
+  return (
+    <details onToggle={(e) => { if ((e.target as HTMLDetailsElement).open) void load(); }}>
+      <summary>{t('bank.title')}</summary>
+      <p class="muted small">{t('bank.help')}</p>
+      {!rows ? <p role="status">{t('common.loading')}</p> : (
+        <>
+          <p role="status">{t('bank.summary', { thin, total: rows.length })}</p>
+          <label class="check"><input type="checkbox" checked={thinOnly} onChange={() => setThinOnly(!thinOnly)} /> {t('bank.thinOnly')}</label>
+          
+            <table class="data small">
+              <thead><tr><th scope="col">{t('bank.skill')}</th><th scope="col">{t('bank.variety')}</th><th scope="col">{t('bank.approved')}</th><th scope="col">{t('bank.drafts')}</th><th scope="col">{t('bank.served')}</th><th scope="col">{t('bank.reports')}</th></tr></thead>
+              <tbody>
+                {shown.map((r) => (
+                  <tr key={r.id}>
+                    <th scope="row">{r.id} <span class="muted">{r.name}</span> {r.thin && <span class="badge">{t('bank.thin')}</span>}</th>
+                    <td>{r.generator ? r.variety.join(' / ') : t('bank.none')}</td><td>{r.approved}</td><td>{r.drafts}</td><td>{r.served}</td><td>{r.openReports}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+        </>
+      )}
+    </details>
+  );
+}
 
 function AiPanel() {
   useLang();
@@ -280,6 +315,7 @@ function AiPanel() {
           </ul>
         </>
       )}
+      <BankSizes />
       {usage.length > 0 && (
         <details>
           <summary>{t('ai.usage')}</summary>

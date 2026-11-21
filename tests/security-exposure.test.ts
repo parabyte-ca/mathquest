@@ -23,7 +23,7 @@ const SECRET_ENV = { RESEND_API_KEY: FAKE_RESEND, ANTHROPIC_API_KEY: FAKE_ANTHRO
 const leaks = (text: string): string[] => FAKES.filter((s) => text.includes(s));
 const noLeak = (label: string, text: string): void => expect(leaks(text), `${label} must not contain a credential`).toEqual([]);
 
-const READ_ONLY_PATHS = ['/api/me', '/api/health', '/api/admin/ai/status', '/api/admin/ai/usage', '/api/admin/ai/items', '/api/admin/ai/reports', '/api/admin/ai/skills', '/api/admin/audit', '/api/admin/updates', '/api/admin/users', '/api/students', '/api/devices', '/api/me/family-goals', '/api/tours', '/api/curriculum/expectations', '/api/curriculum/graph', '/api/learn/options', '/api/learn/messages'];
+const READ_ONLY_PATHS = ['/api/me', '/api/health', '/api/admin/ai/status', '/api/admin/ai/usage', '/api/admin/ai/items', '/api/admin/ai/reports', '/api/admin/ai/skills', '/api/admin/ai/bank', '/api/admin/audit', '/api/admin/updates', '/api/admin/users', '/api/students', '/api/devices', '/api/me/family-goals', '/api/tours', '/api/curriculum/expectations', '/api/curriculum/graph', '/api/learn/options', '/api/learn/messages'];
 
 describe('API responses never carry a credential', () => {
   it('for an admin, a caregiver, a student and a visitor on every read-only route', async () => {

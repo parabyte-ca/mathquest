@@ -6,6 +6,7 @@ import { audit } from '../audit.js';
 import { AiError, capMicro, spentThisMonth } from '../ai/anthropic.js';
 import { generateDrafts } from '../ai/pipeline.js';
 import { allMicros, microById } from '../ai/pipeline.js';
+import { bankSummary } from '../ai/bank.js';
 
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 const usd = (micro: number): number => Math.round(micro / 10_000) / 100;
@@ -27,6 +28,9 @@ export function aiRoutes(ctx: Ctx): Router {
   });
 
   r.get('/admin/ai/skills', (_req, res) => void res.json({ skills: allMicros().map((m) => ({ id: m.id, name: m.name })) }));
+
+  // How many different questions each skill can give, and what the Claude bank holds for it.
+  r.get('/admin/ai/bank', (_req, res) => void res.json({ skills: bankSummary(ctx) }));
 
   r.get('/admin/ai/usage', (_req, res) => {
     const from = Date.UTC(new Date(ctx.now()).getUTCFullYear(), new Date(ctx.now()).getUTCMonth(), 1);
