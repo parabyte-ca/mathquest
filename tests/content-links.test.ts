@@ -34,7 +34,7 @@ describe('content links', () => {
   });
 
   it('every Grade 5 to 8 skill in strands C to F is on its strand\'s quick-check ladder, and only that strand\'s skills are', () => {
-    const info = (id: string): { grade: number; strand: string } => { const m = /^MS\.G(\d+)\.([A-F])/.exec(id)!; return { grade: Number(m[1]), strand: m[2]! }; };
+    const info = (id: string): { grade: number; strand: string } => { const m = /^MS\.G(\d+)\.(?:[A-Z0-9]{5}\.)?([A-F])/.exec(id)!; return { grade: Number(m[1]), strand: m[2]! }; };
     for (const grade of [5, 6, 7, 8]) {
       for (const strand of ['C', 'D', 'E', 'F']) {
         const ladder = ladders[`${grade}.${strand}`] ?? [];
@@ -45,7 +45,7 @@ describe('content links', () => {
   });
 
   it('the Grade 9 Number and Algebra ladders hold every Grade 9 skill of their strand (and Algebra holds every earlier one too)', () => {
-    const info = (id: string): { grade: number; strand: string } => { const m = /^MS\.G(\d+)\.([A-F])/.exec(id)!; return { grade: Number(m[1]), strand: m[2]! }; };
+    const info = (id: string): { grade: number; strand: string } => { const m = /^MS\.G(\d+)\.(?:[A-Z0-9]{5}\.)?([A-F])/.exec(id)!; return { grade: Number(m[1]), strand: m[2]! }; };
     const g9 = (strand: string): string[] => micro.map((m) => m.id).filter((id) => info(id).strand === strand && info(id).grade === 9);
     for (const id of g9('B')) expect(ladders['9'], id).toContain(id);
     const algebra = micro.map((m) => m.id).filter((id) => info(id).strand === 'C' && info(id).grade <= 9);

@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.12.0] - 2026-11-21
+### Added
+- Grade 10 algebra, for both courses (21 new micro-skills, 7 lessons). Each course has its own skills, practised by choosing the course.
+  - MPM2D Quadratic Relations (A3): expanding binomials, taking out a common factor, factoring x² + bx + c and trinomials with a leading coefficient other than 1, differences of squares, solving by factoring, the quadratic formula, the discriminant and the number of real roots, and completing the square.
+  - MPM2D Analytic Geometry (B1): systems of equations by substitution and by elimination, and word problems that give a system.
+  - MFM2P Linear Relations (B1 to B3): equations with fractions, rearranging formulas, slope, what the slope and y-intercept mean, equations of lines from two points (including horizontal and vertical lines), and the point where two lines meet.
+  - MFM2P Quadratic Relations (C1): expanding, common factors, and factoring x² + bx + c and x² − a².
+- Each skill has three levels, mapped wrong answers with kind explanations, and answers written in words and numbers. Checks recompute every answer a second way (evaluating at many points, scanning for roots, Cramer's rule) and were mutation-tested.
+
+### Notes
+- Grade 10 skill ids carry the course (`MS.G10.MPM2D.A3.1.a`), because the two courses reuse strand letters.
+- Still to come for Grade 10: MPM2D parabolas and projectile problems (A1, A2, A4), distance and midpoint, circles and proofs (B2, B3), similar triangles and trigonometry (C), and MFM2P similar triangles, trigonometry, the imperial system and parabola graphs. There is no quick check for Grade 10 yet.
+
 ## [2.11.1] - 2026-11-21
 ### Changed
 - Faster on a phone: the question generators (most of the app's code, about 1 MB) are now loaded one grade at a time, and only when they are needed: by a lesson's "try one with me", or by an offline pack. Opening a lesson used to fetch about 1.2 MB of code (about 330 kB compressed); it now fetches about 0.7 MB for a Grade 6 lesson (about 215 kB compressed). Practice, the home page and the caregiver pages never needed the generators, so the first screen is unchanged (about 127 kB of code, 41 kB compressed). A lesson shows "Loading" for a moment while its grade loads, and a clear message if the connection drops.

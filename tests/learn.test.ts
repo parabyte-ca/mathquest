@@ -460,6 +460,22 @@ describe('Grade 9 by course', () => {
   });
 });
 
+describe('Grade 10 by course', () => {
+  it('practises MPM2D Quadratic Relations and Analytic Geometry, and MFM2P Linear and Quadratic Relations, by course', async () => {
+    const env = env0();
+    const s = await makeStudent(env, { grade: 10, allowed: { grades: [10], courses: [] } });
+    for (const [course, strand] of [['MPM2D', 'A'], ['MPM2D', 'B'], ['MFM2P', 'B'], ['MFM2P', 'C']] as const) {
+      const r = await start(s, { grade: 10, course, strands: [strand] });
+      expect(r.step.item ?? r.step.lessonId ?? r.step.target, `${course} ${strand}`).toBeDefined();
+    }
+    await post(s, '/session', { grade: 10, course: 'MPM2D', strands: ['C'] }).expect(404); // MPM2D Measurement and Trigonometry has no content yet
+    const opts = (await s.agent.get('/api/learn/options').expect(200)).body as { grades: { grade: number; groups: { course: string | null; strands: { strand: string; available: boolean }[] }[] }[] };
+    const g10 = opts.grades.find((g) => g.grade === 10)!.groups;
+    expect(g10.map((g) => g.course).sort()).toEqual(['MFM2P', 'MPM2D']);
+    expect(g10.find((g) => g.course === 'MPM2D')!.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B']);
+  });
+});
+
 describe('skill map', () => {
   it('shows soon, locked, new, in progress and mastered states, with prerequisites', async () => {
     const env = env0();

@@ -33,9 +33,10 @@ Micro-skills, and expectations that have at least one, by grade and strand (stra
 | 7 | 15 · 13 of 17 | 7 · 7 of 10 | 5 · 5 of 8 | 10 · 9 of 11 | 4 · 4 of 6 |
 | 8 | 12 · 12 of 12 | 7 · 7 of 8 | 4 · 4 of 8 | 10 · 7 of 8 | 6 · 6 of 6 |
 | 9 (MTH1W) | 9 · 9 of 10 | 10 · 10 of 15 | not yet | not yet | not yet |
-| 10 to 12 | not yet | | | | |
+| 10 (MPM2D, MFM2P) | MPM2D B1 · 3 skills, 1 of 3 (analytic geometry); MFM2P B1 to B3 · 7 skills, 3 of 3 (linear) | MPM2D A3 · 9 skills, 1 of 4; MFM2P C1 · 3 skills, 1 of 3 (quadratic) | | | |
+| 11 and 12 | not yet | | | | |
 
-212 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for Grade 9 Number and Algebra (Number, algebra, data, spatial sense, financial literacy). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practised through the C1.3 pattern-rule skill.
+233 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for Grade 9 Number and Algebra (Number, algebra, data, spatial sense, financial literacy). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practised through the C1.3 pattern-rule skill.
 
 ## 3. What is deliberately deferred
 
@@ -59,4 +60,4 @@ These need item types or tools the question player does not have yet. Build the 
 - Link each new micro-skill to the previous grade's micro-skill on the same chain, and to the same-grade skill it depends on.
 - Prefer exact answers: choose numbers so results are whole or have at most six decimal places, and use 3.14 for pi when the prompt says so.
 - Include at least one common misconception per item and word it kindly ("It looks like..."); a student must never be told they are careless.
-- Next up: Grade 9 (MTH1W), then the richer-tools releases listed in the backlog.
+- Next up: the rest of Grade 10 (trigonometry, parabolas, analytic geometry), then Grade 7, Grade 11, then the richer-tools releases listed in the backlog.
