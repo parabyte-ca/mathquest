@@ -10,8 +10,8 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 
 | Release | Scope | Size |
 |---|---|---|
-| 2.7.1 | Grade 8 algebra (C) and data (D): 11 skills, 3 lessons (in progress, PR open) | M |
-| 2.7.2 | Grade 8 spatial sense (E) and financial literacy (F): about 15 skills | M |
+| 2.7.1 | Grade 8 algebra (C) and data (D): 11 skills, 3 lessons (shipped) | M |
+| 2.7.2 | Grade 8 spatial sense (E) and financial literacy (F): 16 skills, 5 lessons (in progress, PR open) | M |
 | 2.8.0 | Placement quick checks for strands C to F, Grades 5 to 8 | S |
 | 2.9.x | Grade 9 (MTH1W): 2.9.0 Number and Algebra, 2.9.1 Data, Geometry and Financial | M x 2 |
 | 2.10 to 2.12 | Grade 10 (MPM2D, MFM2P), Grade 11, Grade 12; each needs course pathways | L x 3 |
@@ -71,7 +71,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 - Grade 7 items that need richer tools: coding (C3), infographics and misleading graphs (D1.1, D1.4, D1.6), top, front, side and perspective views (E1.2), constructing circles (E2.4), reliable sources and decision factors (F1.2, F1.4).
 - Grade 5-6 strand items that need richer tools: coding (C3), modelling (C4), data collection and infographics (D1), nets and 3-D views (E1.2, E2.5), transformations (E1.5), taxes and budgets (F1).
 - Placement quick checks for strands C to F (the ladders cover Number only).
-- Grades 7 to 12 content, in grade order. Grade 7 Number shipped in 2.5.0 and Grade 7 strands C to F in 2.5.1; Grade 8 Number shipped in 2.7.0; next are Grade 8 strands C (algebra), D (data), E (spatial sense) and F (financial literacy), then Grade 9.
+- Grades 7 to 12 content, in grade order. Grade 7 Number shipped in 2.5.0 and Grade 7 strands C to F in 2.5.1; Grade 8 shipped in 2.7.0 (Number), 2.7.1 (C and D) and 2.7.2 (E and F); next is Grade 9 (MTH1W).
 - Admin usage view: translate the "failed" label; add a per-skill bank-size summary.
 - Let the question writer produce non-numeric formats (choice, fraction) once the verifier can re-compute them.
 - Refresh the `ontario-math-curriculum` skill and create a `mathquest` skill.
