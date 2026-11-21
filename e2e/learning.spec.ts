@@ -346,7 +346,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   } catch (e) {
     // say what is on top of the button, so a failure on a slow runner can be understood from the log alone
     const where = await parent.evaluate(() => {
-      const b = [...document.querySelectorAll('button')].find((x) => x.textContent === 'Make worksheet')!;
+      const b = Array.from(document.querySelectorAll('button')).find((x) => x.textContent === 'Make worksheet')!;
       const r = b.getBoundingClientRect();
       const stack = document.elementsFromPoint(r.x + r.width / 2, r.y + r.height / 2).map((el) => `${el.tagName}.${el.className}#${el.id}`);
       return JSON.stringify({ box: [r.x, r.y, r.width, r.height].map(Math.round), scroll: [scrollX, scrollY], viewport: [innerWidth, innerHeight, visualViewport?.scale, document.documentElement.scrollWidth], stack, disabled: b.disabled });
