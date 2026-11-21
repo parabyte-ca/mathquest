@@ -1,6 +1,12 @@
 {
   "_note": "Ordered chains from the ontario-math-curriculum skill 'Progression logic'. Consecutive codes become prerequisite edges (earlier -> later). Senior-course links are recommendations, not blocks.",
   "chains": {
+    "place-value": ["G5.B1.1", "G5.B1.2", "G6.B1.1"],
+    "rounding": ["G5.B1.6", "G6.B1.5"],
+    "multiplication": ["G5.B2.2", "G5.B2.6", "G5.B2.7"],
+    "unit-fractions": ["G5.B2.8", "G6.B2.9", "G6.B2.10"],
+    "ratios": ["G5.B2.9", "G6.B2.12"],
+    "factors": ["G6.B2.2", "G6.B2.6"],
     "fractions": ["G5.B1.3", "G5.B1.4", "G5.B2.5", "G6.B2.5", "G6.B2.9", "G7.B2.8", "G8.B2.6", "MTH1W.B3.4"],
     "decimals-percents": ["G5.B1.5", "G5.B1.7", "G6.B1.6", "G6.B2.12", "G7.B1.7", "G8.B1.4", "MTH1W.B3.5"],
     "integers": ["G6.B1.2", "G7.B2.4", "G8.B2.7", "MTH1W.B3.3"],
