@@ -26,6 +26,8 @@ export interface SessionParams {
   grade: number;
   course: string | null;
   strands: string[]; // empty = mix it up
+  /** Practise one expectation only, for example "G5.C2.3" (used by the skill map). */
+  focus: string | null;
 }
 
 interface MasteryRow {
@@ -75,7 +77,7 @@ function targetsFor(ctx: Ctx, p: SessionParams): string[] {
   const rows = ctx.db
     .prepare('SELECT code, strand FROM curriculum_expectation WHERE grade = ? AND course IS ? ORDER BY code')
     .all(p.grade, p.course) as { code: string; strand: string }[];
-  return rows.filter((r) => (p.strands.length === 0 || p.strands.includes(r.strand)) && microsOf(ctx, r.code).length > 0).map((r) => r.code);
+  return rows.filter((r) => (p.focus ? r.code === p.focus : p.strands.length === 0 || p.strands.includes(r.strand)) && microsOf(ctx, r.code).length > 0).map((r) => r.code);
 }
 
 // ── mastery ──────────────────────────────────────────────────────────────────────
@@ -138,9 +140,9 @@ function loadSession(ctx: Ctx, student: StudentRow, id: string): { row: SessionR
   return { row, data: JSON.parse(row.params_json) as Stored };
 }
 
-export function startSession(ctx: Ctx, student: StudentRow, input: { grade: number; course?: string | null; strands?: string[] }) {
+export function startSession(ctx: Ctx, student: StudentRow, input: { grade: number; course?: string | null; strands?: string[]; focus?: string | null }) {
   if (!allowedGrades(student).includes(input.grade)) throw new LearnError('grade_not_allowed', 403);
-  const params: SessionParams = { grade: input.grade, course: input.course ?? null, strands: input.strands ?? [] };
+  const params: SessionParams = { grade: input.grade, course: input.course ?? null, strands: input.strands ?? [], focus: input.focus ?? null };
   const targets = targetsFor(ctx, params);
   if (targets.length === 0) throw new LearnError('no_content', 404);
   const id = newId();

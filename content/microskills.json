@@ -407,6 +407,252 @@
     "MS.G5.B2.9.a",
     "MS.G6.B2.3.a"
    ]
+  },
+  {
+   "id": "MS.G5.C1.3.a",
+   "expectation": "G5.C1.3",
+   "name": "Find pattern rules; extend and find missing terms in growing patterns",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.C1.4.a",
+   "expectation": "G5.C1.4",
+   "name": "Patterns with decimal tenths and hundredths",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G5.C2.2.a",
+   "expectation": "G5.C2.2",
+   "name": "Evaluate algebraic expressions with whole numbers",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G5.C2.3.a",
+   "expectation": "G5.C2.3",
+   "name": "Solve equations with whole numbers and verify",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G5.C2.4.a",
+   "expectation": "G5.C2.4",
+   "name": "Solve one-operation inequalities with whole numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G6.C1.3.a",
+   "expectation": "G6.C1.3",
+   "name": "Linear patterns: rules, predictions and unknowns",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G6.C2.2.a",
+   "expectation": "G6.C2.2",
+   "name": "Evaluate expressions with whole numbers and decimal tenths",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G6.C2.3.a",
+   "expectation": "G6.C2.3",
+   "name": "Solve multi-term equations with whole numbers and verify",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C2.3.a",
+    "MS.G6.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G6.C2.4.a",
+   "expectation": "G6.C2.4",
+   "name": "Inequalities: test values and find solutions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C2.4.a",
+    "MS.G6.C2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G5.D1.5.a",
+   "expectation": "G5.D1.5",
+   "name": "Mean, median and mode for whole-number data",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.D1.5.a",
+   "expectation": "G6.D1.5",
+   "name": "Range and measures of central tendency with decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.D1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G5.D2.1.a",
+   "expectation": "G5.D2.1",
+   "name": "Probability as a fraction",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G6.D2.1.a",
+   "expectation": "G6.D2.1",
+   "name": "Probability as fractions, decimals and percents",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.D2.1.a",
+    "MS.G5.B1.7.a"
+   ]
+  },
+  {
+   "id": "MS.G5.D2.2.a",
+   "expectation": "G5.D2.2",
+   "name": "Theoretical and experimental probability",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.D2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G6.D2.2.a",
+   "expectation": "G6.D2.2",
+   "name": "Probability of two independent events",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G5.E1.1.a",
+   "expectation": "G5.E1.1",
+   "name": "Properties of triangles: angle sum and equal sides",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.E1.1.a",
+   "expectation": "G6.E1.1",
+   "name": "Properties of quadrilaterals: angles and sides",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G6.E1.3.a",
+   "expectation": "G6.E1.3",
+   "name": "Coordinates in all four quadrants: quadrants, reflections, translations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E1.4.a",
+    "MS.G6.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G5.E2.2.a",
+   "expectation": "G5.E2.2",
+   "name": "Convert larger metric units to smaller ones",
+   "tiers": 3,
+   "prereqs": []
+  },
+  {
+   "id": "MS.G6.E2.1.a",
+   "expectation": "G6.E2.1",
+   "name": "Metric conversions in both directions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G5.E2.5.a",
+   "expectation": "G5.E2.5",
+   "name": "Area of parallelograms and triangles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B2.6.a"
+   ]
+  },
+  {
+   "id": "MS.G5.E2.6.a",
+   "expectation": "G5.E2.6",
+   "name": "Same area, different perimeters",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G6.E2.3.a",
+   "expectation": "G6.E2.3",
+   "name": "Complementary, supplementary and exterior angles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G6.E2.4.a",
+   "expectation": "G6.E2.4",
+   "name": "Area of trapezoids, rhombuses and composite shapes",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E2.5.a"
+   ]
+  },
+  {
+   "id": "MS.G6.E2.6.a",
+   "expectation": "G6.E2.6",
+   "name": "Surface area of rectangular prisms",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E2.6.a"
+   ]
+  },
+  {
+   "id": "MS.G5.F1.2.a",
+   "expectation": "G5.F1.2",
+   "name": "Cost of purchases with several items and sales tax",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G5.F1.5.a",
+   "expectation": "G5.F1.5",
+   "name": "Unit rates and best value",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B2.9.a"
+   ]
+  },
+  {
+   "id": "MS.G6.F1.4.a",
+   "expectation": "G6.F1.4",
+   "name": "Simple interest on accounts and loans",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B2.3.a"
+   ]
   }
  ]
 }

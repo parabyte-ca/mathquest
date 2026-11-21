@@ -47,7 +47,9 @@ A guided first-run tour so people know what to do without a manual. Student and 
 - Create a `mathquest` skill (architecture, ports, release flow) and refresh `ontario-math-curriculum` once Grade 5-6 content is real.
 
 ## Phase 3 follow-ups (from 2.2.0)
-- Lessons and generators for Grade 5-6 strands C to F (algebra, data, geometry, financial literacy).
+- Grade 5-6 strand items that need richer tools: coding (C3), modelling (C4), data collection and infographics (D1), nets and 3-D views (E1.2, E2.5), transformations (E1.5), taxes and budgets (F1).
+- Placement quick checks for strands C to F (the ladders cover Number only).
+- Grades 7 to 12 content, in grade order.
 - Admin usage view: translate the "failed" label; add a per-skill bank-size summary.
 - Let the question writer produce non-numeric formats (choice, fraction) once the verifier can re-compute them.
 - Refresh the `ontario-math-curriculum` skill and create a `mathquest` skill.

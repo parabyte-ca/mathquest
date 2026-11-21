@@ -3,12 +3,14 @@ import type { Text } from '../items/types.js';
 import type { Lesson } from './types.js';
 import { frac, mixedTex, t, tex } from '../generators/kit.js';
 import { NUMBER_LESSONS } from './number.js';
+import { STRAND_LESSONS } from './strands56.js';
 
 const f = (n: number, d: number): string => tex(frac(n, d));
 const T = (en: string, fr: string): Text => t(en, fr);
 
 export const LESSONS: Lesson[] = [
   ...NUMBER_LESSONS,
+  ...STRAND_LESSONS,
   {
     id: 'L.fractions.naming',
     skills: ['MS.G5.B1.3.a', 'MS.G5.B1.3.b', 'MS.G5.B1.3.c'],
