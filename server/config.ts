@@ -26,6 +26,8 @@ export interface Config {
   upgradeDir: string;
   upgradeStatusDir: string;
   releasesUrl: string;
+  /** IANA time zone for streak days, daily goals and the weekly email. */
+  timezone: string;
   version: string;
 }
 
@@ -69,6 +71,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     upgradeDir: env.UPGRADE_DIR ?? join(process.cwd(), 'upgrade'),
     upgradeStatusDir: env.UPGRADE_STATUS_DIR ?? join(process.cwd(), 'upgrade-status'),
     releasesUrl: env.RELEASES_URL ?? 'https://api.github.com/repos/parabyte-ca/mathquest/releases/latest',
+    timezone: env.MATHQUEST_TZ ?? 'America/Toronto',
     version: readVersion(),
   };
 }

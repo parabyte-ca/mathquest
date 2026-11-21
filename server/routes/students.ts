@@ -27,7 +27,7 @@ const allowed = z.object({ grades: z.array(z.number().int().min(5).max(12)).max(
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 
 /** Caregivers reach only students they are linked to. Admins reach all. */
-function access(ctx: Ctx, user: UserRow, studentId: string): { student: StudentRow; role: 'owner' | 'co' | 'admin' } | null {
+export function access(ctx: Ctx, user: UserRow, studentId: string): { student: StudentRow; role: 'owner' | 'co' | 'admin' } | null {
   const student = ctx.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as StudentRow | undefined;
   if (!student) return null;
   if (user.role === 'admin') return { student, role: 'admin' };
@@ -138,6 +138,12 @@ export function studentRoutes(ctx: Ctx): Router {
       student: publicStudent(a.student),
       mastery: ctx.db.prepare('SELECT skill_id, p_known, tier, attempts, correct, last_seen_at, next_review_at FROM mastery WHERE student_id = ?').all(id),
       attempts: ctx.db.prepare('SELECT skill_id, tier, correct, hints, tries, ms, at FROM attempt WHERE student_id = ? ORDER BY at').all(id),
+      rewards: {
+        state: ctx.db.prepare('SELECT xp, streak, best_streak, last_day, freezes, avatar, palette FROM reward_state WHERE student_id = ?').get(id) ?? null,
+        events: ctx.db.prepare('SELECT at, kind, xp FROM reward_event WHERE student_id = ? ORDER BY at').all(id),
+        badges: ctx.db.prepare('SELECT badge_id, at FROM badge_earned WHERE student_id = ? ORDER BY at').all(id),
+        goals: ctx.db.prepare('SELECT title, xp_target, created_at, reached_at, redeemed_at FROM goal WHERE student_id = ? ORDER BY created_at').all(id),
+      },
     });
   });
 

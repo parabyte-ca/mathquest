@@ -260,6 +260,57 @@ const MIGRATIONS: { id: number; name: string; sql: string }[] = [
     );
     `,
   },
+  {
+    id: 4,
+    name: 'rewards',
+    sql: `
+    CREATE TABLE reward_state (
+      student_id TEXT PRIMARY KEY REFERENCES students(id) ON DELETE CASCADE,
+      xp INTEGER NOT NULL DEFAULT 0,
+      streak INTEGER NOT NULL DEFAULT 0,
+      best_streak INTEGER NOT NULL DEFAULT 0,
+      last_day TEXT,
+      freezes INTEGER NOT NULL DEFAULT 0,
+      avatar TEXT NOT NULL DEFAULT 'avatar-fox',
+      palette TEXT NOT NULL DEFAULT 'palette-classic',
+      daily_goal_day TEXT,
+      updated_at INTEGER NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE reward_event (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      at INTEGER NOT NULL,
+      kind TEXT NOT NULL,
+      xp INTEGER NOT NULL DEFAULT 0,
+      meta_json TEXT NOT NULL DEFAULT '{}'
+    );
+    CREATE INDEX idx_reward_event ON reward_event(student_id, at);
+
+    CREATE TABLE badge_earned (
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      badge_id TEXT NOT NULL,
+      at INTEGER NOT NULL,
+      PRIMARY KEY (student_id, badge_id)
+    );
+
+    -- A caregiver's real-world goal for a student, such as "movie night after 500 XP". Progress counts XP earned since the goal was set.
+    CREATE TABLE goal (
+      id TEXT PRIMARY KEY,
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      created_by TEXT NOT NULL REFERENCES users(id),
+      title TEXT NOT NULL,
+      xp_target INTEGER NOT NULL,
+      baseline_xp INTEGER NOT NULL,
+      created_at INTEGER NOT NULL,
+      reached_at INTEGER,
+      redeemed_at INTEGER,
+      redeemed_by TEXT REFERENCES users(id),
+      archived INTEGER NOT NULL DEFAULT 0
+    );
+    CREATE INDEX idx_goal_student ON goal(student_id);
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

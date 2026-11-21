@@ -8,7 +8,7 @@ async function setup(browser: import('@playwright/test').Browser, baseURL: strin
   const username = `${tag}_${info.project.name}_${Math.floor(Date.now() / 1000).toString(36)}`; // unique per run, so repeats do not share history
   const parent = await parentPage(browser, baseURL, `parent-${info.project.name}@e2e.test`);
   const kid = await studentOnNewDevice(browser, baseURL, parent, { username, grade: 5, addInit: init });
-  return { kid, username };
+  return { kid, username, parent };
 }
 
 async function startPractice(kid: Page, strand: string) {
@@ -263,18 +263,29 @@ test('touch targets are at least 44 px on the question page', async ({ page, bro
   await noHorizontalScroll(kid);
 });
 
-test('a student can report a question that looks off, and practise the algebra, data, measurement and money strands', async ({ page, browser, baseURL }, info) => {
-  const { kid, username } = await setup(browser, baseURL!, page, info, 'rp');
+test('rewards, caregiver progress and goals, printable worksheets, and the new strands', async ({ page, browser, baseURL }, info) => {
+  const { kid, username, parent } = await setup(browser, baseURL!, page, info, 'rp');
+  const scanOf = async (p: Page, label: string) => {
+    const r = await new AxeBuilder({ page: p }).withTags(AXE_TAGS).analyze();
+    expect(r.violations.map((v) => `${label}: ${v.id} (${v.nodes.length}) ${v.help} :: ${v.nodes[0]?.html.slice(0, 160)}`), label).toEqual([]);
+  };
+
+  // a student reports a question that looks off
   await startPractice(kid, 'B');
   await kid.getByRole('button', { name: 'Report this question' }).click();
   await expect(kid.getByRole('group', { name: 'What looks off?' })).toBeVisible();
   await kid.getByRole('button', { name: 'I think the answer is wrong' }).click();
   await expect(kid.getByText('Thank you. A grown-up will take a look.')).toBeVisible();
-  const rows = db().prepare("SELECT reason FROM item_report WHERE student_id = ?").all(studentId(username));
-  expect(rows).toEqual([{ reason: 'answer' }]);
+  expect(db().prepare('SELECT reason FROM item_report WHERE student_id = ?').all(studentId(username))).toEqual([{ reason: 'answer' }]);
+
+  // answering earns XP, shown right after the answer and in the header
+  await answerCurrent(kid, username, true);
+  await expect(kid.locator('.rewardnote')).toContainText(/\+\d+ XP/);
+  await expect(kid.locator('.rewardnote')).toContainText('First steps');
+  await expect(kid.locator('.rewardbar')).toContainText('Level 1');
 
   // the same student then practises one question in each of the algebra, data, measurement and money strands
-  // (one student for both parts: pairing many devices for one caregiver trips the pairing rate limit)
+  // (one student for all of this: approving many devices for one caregiver trips the approval rate limit)
   for (const code of ['G5.C2.3', 'G5.D1.5', 'G5.E2.5', 'G5.F1.2']) {
     await kid.goto(`/app/learn/practice?grade=5&focus=${code}`);
     await expect(kid.locator('form.answer')).toBeVisible();
@@ -282,5 +293,63 @@ test('a student can report a question that looks off, and practise the algebra, 
     expect(item.skill.startsWith(`MS.${code}`)).toBe(true);
     await expect(kid.locator('.feedback.good')).toBeVisible();
   }
+
+  // the rewards page: level, badges and cosmetics, with unlocks by level
+  await kid.goto('/app/learn');
+  await kid.getByRole('button', { name: 'My rewards' }).click();
+  await expect(kid.getByRole('heading', { name: /My rewards/ })).toBeVisible();
+  await expect(kid.getByRole('list').filter({ hasText: 'First steps' }).getByText('Earned').first()).toBeAttached();
+  await expect(kid.getByRole('button', { name: /Dragon/ })).toBeDisabled();
+  await scanOf(kid, 'rewards page');
+  await kid.getByRole('button', { name: /Panda/ }).click();
+  await expect(kid.getByRole('status').filter({ hasText: 'Saved.' })).toBeVisible();
+
+  // with enough XP the colour palettes unlock, and each one stays readable (axe checks the contrast)
+  const boost = (xp: number) => { const d = db(); d.prepare('UPDATE reward_state SET xp = xp + ? WHERE student_id = ?').run(xp, studentId(username)); d.close(); };
+  boost(5000);
+  await kid.goto('/app/learn/rewards');
+  for (const name of ['Twilight', 'Candy', 'Forest']) {
+    await kid.getByRole('button', { name: new RegExp(name) }).click();
+    await expect(kid.locator('html')).toHaveAttribute('data-palette', `palette-${name.toLowerCase()}`);
+    await scanOf(kid, `palette ${name}`);
+  }
+  await kid.getByRole('button', { name: /Classic/ }).click();
+  await expect(kid.locator('html')).not.toHaveAttribute('data-palette', /.+/);
   expect(pageProblems.get(kid) ?? []).toEqual([]);
+
+  // the caregiver reads progress, sets a goal, and marks it done once the student has earned it
+  await parent.goto('/app');
+  await parent.locator('li.row', { hasText: `@${username}` }).getByRole('link', { name: 'Progress and goals' }).click(); // the caregiver has one row per student made in earlier tests
+  await expect(parent.getByRole('heading', { name: /progress/i, level: 1 })).toBeVisible();
+  await expect(parent.getByText('questions this week', { exact: false })).toBeVisible();
+  await expect(parent.getByRole('heading', { name: 'By topic' })).toBeVisible();
+  await parent.getByLabel('Goal', { exact: true }).fill('Movie night');
+  await parent.getByLabel('XP to earn').fill('50');
+  await parent.getByRole('button', { name: 'Add goal' }).click();
+  await expect(parent.getByText('Goal added.')).toBeVisible();
+  boost(80);
+  await kid.goto('/app/learn/practice?grade=5&focus=G5.C2.3');
+  await expect(kid.locator('form.answer')).toBeVisible();
+  await answerCurrent(kid, username, true);
+  await expect(kid.locator('.rewardnote')).toContainText('Goal reached: Movie night');
+  await parent.reload();
+  await expect(parent.getByText('Ready')).toBeVisible();
+  await scanOf(parent, 'caregiver progress');
+  await parent.getByRole('button', { name: 'Mark as done' }).click();
+  await expect(parent.getByText('Done').first()).toBeVisible();
+
+  // a printable worksheet with an answer key
+  await parent.getByLabel('Topic', { exact: true }).selectOption('G5.C2.3');
+  await parent.getByLabel('Number of questions').fill('10');
+  await parent.getByRole('button', { name: 'Make worksheet' }).click();
+  await expect(parent.getByRole('heading', { name: 'Your worksheet is ready' })).toBeVisible();
+  await expect(parent.locator('.sheet ol.qs > li')).toHaveCount(10);
+  await expect(parent.getByRole('heading', { name: 'Answer key' })).toBeVisible();
+  await scanOf(parent, 'worksheet');
+  await parent.emulateMedia({ media: 'print' });
+  await expect(parent.getByRole('button', { name: 'Print' })).toBeHidden();
+  await expect(parent.getByRole('heading', { name: 'Answer key' })).toBeVisible();
+  await parent.emulateMedia({ media: 'screen' });
+  await parent.getByLabel('Include the answer key').uncheck();
+  await expect(parent.getByRole('heading', { name: 'Answer key' })).toHaveCount(0);
 });

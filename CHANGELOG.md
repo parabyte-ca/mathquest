@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.3.0] - 2026-11-21
+### Added
+- Phase 4 (Motivation and caregivers) of the MathQuest v2 rewrite.
+- Rewards: XP for every answer (more for harder questions, a little less per hint, a small "good try" reward for a miss, bonuses for first practice of the day, the daily goal, mastering a skill or topic, and bouncing back from a tricky skill); levels; a day streak with streak freezes (one earned every seventh day, up to two held, one missed day covered); 16 badges.
+- Unlockable cosmetics: 10 avatars and 5 colour palettes, unlocked by level or badge. Palettes are original, and every colour pair is tested against WCAG 2.2 AA.
+- A rewards strip on every student page and a "My rewards" page; after each answer the student sees what they earned.
+- Caregiver goals: set a real-world reward (for example "Movie night") for a number of XP earned from now on; the student sees progress; the caregiver marks it done once given.
+- Caregiver progress page for each student: time and questions per day, accuracy, progress by topic, where a little help could count, reviews due, recent badges, goals.
+- Printable worksheets with an answer key on its own page, for any topic with practice content, in either language; the same seed reprints the same sheet.
+- Weekly email summary (Mondays from 07:30 family time, once a week, catching up if the server was down), in English or French, for caregivers who opt in.
+- The caregiver's daily goal and session limit now work: a session pauses with a friendly break message after the limit, and a new one waits 20 minutes.
+- Rewards are included in the data export and are deleted with the student.
+- New setting `MATHQUEST_TZ` (default `America/Toronto`) for streak days, the daily goal and the weekly email.
+
+### Notes
+- Rewards never take XP away, and placement answers earn nothing.
+- Next: Grades 7 to 12 content, and Phase 5 (PWA, offline practice and polish).
+
 ## [2.2.2] - 2026-11-21
 ### Added
 - Grade 5-6 strands C to F (Algebra, Data, Spatial Sense, Financial Literacy): 28 new seeded generators in English and Canadian French, each with three tiers, a three-rung hint ladder and a misconception map. Topics: growing and linear patterns, decimal patterns, evaluating expressions, equations and inequalities; mean, median, mode, range, probability as fractions, decimals and percents, experimental and independent events; triangle and quadrilateral angles, complementary, supplementary and exterior angles, four-quadrant coordinates with reflections and translations; metric conversions, areas of parallelograms, triangles, trapezoids, rhombuses and composite shapes, perimeter, surface area; sales tax, best value and simple interest.

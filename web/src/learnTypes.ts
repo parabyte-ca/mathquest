@@ -3,7 +3,7 @@ import type { PublicItem, Text } from '../../shared/items/types';
 export type Step =
   | { type: 'item'; item: PublicItem; kind: 'practice' | 'review' | 'placement'; target: string; phase: string; resumed?: boolean }
   | { type: 'lesson'; lessonId: string; skill: string; target: string; reason: 'stuck' }
-  | { type: 'done'; summary: { answered: number; correct: number; masteredExpectations: string[] } };
+  | { type: 'done'; reason?: 'limit'; summary: { answered: number; correct: number; masteredExpectations: string[] } };
 
 export interface FeedbackData {
   correct: boolean;
@@ -28,6 +28,7 @@ export interface AnswerData {
   state: string;
   masteredSkill: boolean;
   masteredExpectation: boolean;
+  reward?: import('./rewards').RewardResult | null;
   placement?: { done: boolean; next?: PublicItem; result?: { startingSkill: string | null; ladder: string[]; startingIndex: number } };
 }
 

@@ -8,6 +8,7 @@ import { Placement } from './Placement';
 import { Settings } from './StudentSettings';
 import { lessonById } from '../../../shared/lessons/index';
 import { LessonView } from './LessonView';
+import { RewardBar, Rewards } from '../rewards';
 
 /** Everything a signed-in student sees. Their display settings apply to the whole page. */
 export function StudentArea({ me, path, go }: { me: Extract<Me, { kind: 'student' }>; path: string; go: (to: string) => void }) {
@@ -21,13 +22,18 @@ export function StudentArea({ me, path, go }: { me: Extract<Me, { kind: 'student
     return () => { el.classList.remove('hc', 'dys', 'rm'); };
   }, [settings.highContrast, settings.dyslexiaFont, settings.reducedMotion]);
 
-  if (path === '/app/learn/practice') return <Practice settings={settings} go={go} />;
-  if (path === '/app/learn/map') return <SkillMap go={go} />;
-  if (path === '/app/learn/placement') return <Placement go={go} />;
-  if (path === '/app/learn/settings') return <Settings settings={settings} onChange={setSettings} go={go} />;
-  if (path === '/app/learn/lesson') {
-    const lesson = lessonById(new URLSearchParams(location.search).get('id') ?? '');
-    if (lesson) return <LessonView lesson={lesson} settings={settings} onDone={() => go('/app/learn')} />;
-  }
-  return <LearnHome me={me} go={go} />;
+  const hc = !!settings.highContrast;
+  const page = (() => {
+    if (path === '/app/learn/practice') return <Practice settings={settings} go={go} />;
+    if (path === '/app/learn/map') return <SkillMap go={go} />;
+    if (path === '/app/learn/placement') return <Placement go={go} />;
+    if (path === '/app/learn/settings') return <Settings settings={settings} onChange={setSettings} go={go} />;
+    if (path === '/app/learn/rewards') return <Rewards go={go} highContrast={hc} />;
+    if (path === '/app/learn/lesson') {
+      const lesson = lessonById(new URLSearchParams(location.search).get('id') ?? '');
+      if (lesson) return <LessonView lesson={lesson} settings={settings} onDone={() => go('/app/learn')} />;
+    }
+    return <LearnHome me={me} go={go} />;
+  })();
+  return <><RewardBar highContrast={hc} go={go} />{page}</>;
 }

@@ -42,7 +42,6 @@ A guided first-run tour so people know what to do without a manual. Student and 
 - Dependabot: switch to monthly with grouped minor and patch updates so it stops opening many PRs at once.
 - Admin Updates page cannot see releases of a private repository from inside the container; resolved while the repository is public. If it goes private again, have the host agent write the latest-release info into `upgrade-status/`.
 - Phase 3: content for Grades 5 and 6 first, then the next grades; the Claude-generated item pipeline and admin review queue; remaining item formats (sliders, draggable curves, protractor, simulators, code snippets).
-- Phase 4: rewards, themes, caregiver dashboard, weekly email, printable worksheets.
 - Phase 5: French review, PWA and offline practice, performance (lazy-load lesson and generator code).
 - Create a `mathquest` skill (architecture, ports, release flow) and refresh `ontario-math-curriculum` once Grade 5-6 content is real.
 
@@ -53,3 +52,11 @@ A guided first-run tour so people know what to do without a manual. Student and 
 - Admin usage view: translate the "failed" label; add a per-skill bank-size summary.
 - Let the question writer produce non-numeric formats (choice, fraction) once the verifier can re-compute them.
 - Refresh the `ontario-math-curriculum` skill and create a `mathquest` skill.
+
+## Phase 4 follow-ups (from 2.3.0)
+- Theme art beyond emoji avatars and colour palettes (original SVG avatars and backgrounds).
+- Reward ideas: weekly challenges, a team goal for siblings, a printable certificate.
+- Caregiver notes on a goal, and a message from the caregiver that the student sees.
+- Weekly email: a "send me a test email" button and a choice of day.
+- Dashboard: compare against the previous week, and export progress as a PDF.
+- Worksheets: choose several topics on one sheet; add a solution page with the worked steps.

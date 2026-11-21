@@ -212,3 +212,54 @@ label.switch { align-items: flex-start; gap: 0.75rem; }
 .dot.locked, .dot.soon { border-style: dotted; }
 .detail { border-top: 1px solid var(--line); padding-top: 0.5rem; margin-top: 0.5rem; }
 .badge { white-space: nowrap; }
+
+/* ── rewards ─────────────────────────────────────────────────────────────────── */
+.rewardbar { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; padding: 0.4rem 1rem; background: var(--soft); border-bottom: 1px solid var(--line); color: var(--text); text-decoration: none; min-height: 44px; }
+.rewardbar .avatar { font-size: 1.5rem; line-height: 1; }
+.rewardbar .lvl { font-weight: 800; }
+.rewardbar .xpnum, .rewardbar .streak { font-size: 0.9rem; font-weight: 600; }
+.xpmeter { display: inline-block; width: 8rem; max-width: 40vw; height: 0.75rem; border-radius: 99px; background: var(--seg); border: 1px solid var(--line); overflow: hidden; vertical-align: middle; }
+.xpmeter.wide { display: block; width: 100%; max-width: 30rem; margin: 0.4rem 0; }
+.xpmeter > span { display: block; height: 100%; background: var(--segfill); border-radius: 99px; transition: width 0.4s ease; }
+html.hc .xpmeter { border-color: #fff; }
+.rewardnote { margin-top: 0.75rem; padding-top: 0.5rem; border-top: 1px dashed var(--line); }
+.rewardnote .gain { margin: 0 0 0.25rem; font-size: 1.1rem; }
+ul.cosmetics { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0; margin: 0.5rem 0 1rem; list-style: none; }
+.cosmetic { display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0; }
+.cosmetic.on { outline: 3px solid var(--brand); outline-offset: 2px; }
+.cosmetic:disabled { opacity: 0.7; cursor: not-allowed; }
+.big { font-size: 1.6rem; line-height: 1; }
+ul.badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 0.5rem; padding: 0; list-style: none; }
+ul.badges li { display: flex; gap: 0.6rem; align-items: center; padding: 0.5rem 0.75rem; border: 1px solid var(--line); border-radius: 10px; }
+ul.badges li.locked { border-style: dashed; background: var(--soft); }
+li.goal { padding: 0.5rem 0; border-top: 1px solid var(--line); }
+@media (prefers-reduced-motion: reduce) { .xpmeter > span { transition: none; } }
+
+/* ── caregiver progress ─────────────────────────────────────────────────────── */
+.statgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: 0.75rem; margin: 0.5rem 0 1rem; }
+.stat { border: 1px solid var(--line); border-radius: 10px; padding: 0.5rem 0.75rem; background: var(--soft); }
+.stat .num { font-size: 1.6rem; font-weight: 800; display: block; }
+table.data { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+table.data th, table.data td { text-align: left; padding: 0.4rem 0.5rem; border-top: 1px solid var(--line); }
+.bars { display: flex; align-items: flex-end; gap: 4px; height: 5rem; margin: 0.5rem 0; }
+.bars .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; min-width: 0; }
+.bars .bar { width: 100%; background: var(--segfill); border-radius: 4px 4px 0 0; min-height: 2px; }
+.bars .lab { font-size: 0.65rem; color: var(--muted); }
+
+/* ── printable worksheet ───────────────────────────────────────────────────── */
+.sheet { background: #fff; color: #000; padding: 1rem 1.25rem; border-radius: 8px; border: 1px solid var(--line); }
+.sheet h1, .sheet h2 { color: #000; }
+.sheet ol.qs { padding-left: 1.5rem; }
+.sheet ol.qs > li { margin: 0 0 1.25rem; break-inside: avoid; }
+.sheet .answerline { border-bottom: 1px solid #000; height: 2rem; margin-top: 0.5rem; max-width: 20rem; }
+.sheet .opts { list-style: upper-alpha; margin: 0.25rem 0 0; }
+.sheet .key { break-before: page; }
+.sheet .key li { margin: 0.25rem 0; }
+.noprint { }
+@media print {
+  body { background: #fff; }
+  .bar, .rewardbar, .skip, .noprint { display: none !important; }
+  main { padding: 0 !important; max-width: none !important; }
+  .sheet { border: 0; padding: 0; }
+  .sheet svg { max-width: 12rem; }
+}

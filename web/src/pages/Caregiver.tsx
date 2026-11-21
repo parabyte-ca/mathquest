@@ -5,7 +5,7 @@ import { t, useLang } from '../i18n';
 
 interface Device { id: string; label: string; lastSeenAt: number }
 
-export function Caregiver({ me }: { me: Extract<Me, { kind: 'user' }> }) {
+export function Caregiver({ me, go }: { me: Extract<Me, { kind: 'user' }>; go: (to: string) => void }) {
   useLang();
   const [students, setStudents] = useState<StudentInfo[] | null>(null);
   const [devices, setDevices] = useState<Device[]>([]);
@@ -27,7 +27,7 @@ export function Caregiver({ me }: { me: Extract<Me, { kind: 'user' }> }) {
         {students === null && <p role="status">{t('common.loading')}</p>}
         {students?.length === 0 && <p>{t('caregiver.none')}</p>}
         <ul class="plain">
-          {students?.map((s) => <StudentRow key={s.id} s={s} onChange={load} />)}
+          {students?.map((s) => <StudentRow key={s.id} s={s} onChange={load} go={go} />)}
         </ul>
       </section>
       <AddStudent onAdded={load} />
@@ -37,7 +37,7 @@ export function Caregiver({ me }: { me: Extract<Me, { kind: 'user' }> }) {
   );
 }
 
-function StudentRow({ s, onChange }: { s: StudentInfo; onChange: () => void }) {
+function StudentRow({ s, onChange, go }: { s: StudentInfo; onChange: () => void; go: (to: string) => void }) {
   const [email, setEmail] = useState('');
   const [note, setNote] = useState('');
   const share = async (e: Event) => {
@@ -60,6 +60,7 @@ function StudentRow({ s, onChange }: { s: StudentInfo; onChange: () => void }) {
         {!isOwner && <span class="badge">{t('caregiver.shared')}</span>}
       </div>
       <div class="actions">
+        <a class="btn" href={`/app/progress?student=${s.id}`} onClick={(e) => { e.preventDefault(); go(`/app/progress?student=${s.id}`); }}>{t('caregiver.progress')}</a>
         <a class="btn secondary" href={`/api/students/${s.id}/export`} download={`${s.username}.json`}>{t('caregiver.export')}</a>
         {isOwner && <button type="button" class="danger" onClick={remove}>{t('common.delete')}</button>}
       </div>
