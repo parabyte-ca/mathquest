@@ -240,6 +240,8 @@ li.goal { padding: 0.5rem 0; border-top: 1px solid var(--line); }
 .stat { border: 1px solid var(--line); border-radius: 10px; padding: 0.5rem 0.75rem; background: var(--soft); }
 .stat .num { font-size: 1.6rem; font-weight: 800; display: block; }
 table.data { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.tablewrap { max-width: 100%; overflow-x: auto; }
+table.data th, table.data td { overflow-wrap: anywhere; }
 table.data th, table.data td { text-align: left; padding: 0.4rem 0.5rem; border-top: 1px solid var(--line); }
 .bars { display: flex; align-items: flex-end; gap: 4px; height: 5rem; margin: 0.5rem 0; }
 .bars .col { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; min-width: 0; }

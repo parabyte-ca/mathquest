@@ -2,7 +2,7 @@
 
 > Adaptive Ontario math practice and rewards for Grades 5-12, self-hosted and invite-only.
 
-![Version](https://img.shields.io/badge/version-2.4.0-blue)
+![Version](https://img.shields.io/badge/version-2.4.1-blue)
 
 ## Overview
 
@@ -83,7 +83,7 @@ See `update.sh`, run to deploy a release.
 
 ```bash
 sudo ./update.sh                    # latest release tag
-sudo ./update.sh --version 2.4.0    # a specific release
+sudo ./update.sh --version 2.4.1    # a specific release
 sudo ./update.sh --rollback         # previous tag + the database as it was before the last update
 ```
 

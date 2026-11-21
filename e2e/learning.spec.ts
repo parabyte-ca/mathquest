@@ -323,6 +323,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await expect(parent.getByRole('heading', { name: /progress/i, level: 1 })).toBeVisible();
   await expect(parent.getByText('questions this week', { exact: false })).toBeVisible();
   await expect(parent.getByRole('heading', { name: 'By topic' })).toBeVisible();
+  await noHorizontalScroll(parent); // tables and charts must never push the page wider than a phone
   await parent.getByLabel('Goal', { exact: true }).fill('Movie night');
   await parent.getByLabel('XP to earn').fill('50');
   await parent.getByRole('button', { name: 'Add goal' }).click();
@@ -334,6 +335,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await expect(kid.locator('.rewardnote')).toContainText('Goal reached: Movie night');
   await parent.reload();
   await expect(parent.getByText('Ready')).toBeVisible();
+  await noHorizontalScroll(parent);
   await scanOf(parent, 'caregiver progress');
   await parent.getByRole('button', { name: 'Mark as done' }).click();
   await expect(parent.getByText('Done').first()).toBeVisible();

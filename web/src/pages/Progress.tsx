@@ -63,10 +63,10 @@ export function Progress({ go }: { go: (to: string) => void }) {
         </div>
         <details>
           <summary>{t('progress.asTable')}</summary>
-          <table class="data">
+          <div class="tablewrap"><table class="data">
             <thead><tr><th scope="col">{t('progress.day')}</th><th scope="col">{t('progress.questions')}</th><th scope="col">{t('progress.right')}</th><th scope="col">{t('progress.minutes')}</th></tr></thead>
             <tbody>{d.days.map((x) => <tr key={x.day}><th scope="row">{x.day}</th><td>{x.answered}</td><td>{x.correct}</td><td>{x.minutes}</td></tr>)}</tbody>
-          </table>
+          </table></div>
         </details>
         <p class="muted small">{t('progress.month', { n: d.month.answered, acc: pct(d.month.accuracy), min: d.month.minutes })}</p>
       </section>
@@ -74,10 +74,10 @@ export function Progress({ go }: { go: (to: string) => void }) {
       <section class="card" aria-labelledby="strands-title">
         <h2 id="strands-title">{t('progress.strands')}</h2>
         {d.strands.length === 0 ? <p>{t('progress.none')}</p> : (
-          <table class="data">
+          <div class="tablewrap"><table class="data">
             <thead><tr><th scope="col">{t('progress.strand')}</th><th scope="col">{t('progress.questions')}</th><th scope="col">{t('progress.accuracy')}</th><th scope="col">{t('progress.skills')}</th></tr></thead>
             <tbody>{d.strands.map((s) => <tr key={s.strand}><th scope="row">{s.strand}. {s.name}</th><td>{s.attempts}</td><td>{pct(s.accuracy)}</td><td>{s.mastered} / {s.practised}</td></tr>)}</tbody>
-          </table>
+          </table></div>
         )}
       </section>
 
