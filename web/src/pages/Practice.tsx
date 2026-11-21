@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import type { Given, Text } from '../../../shared/items/types';
 import { lessonById, lessonForSkill } from '../../../shared/lessons/index';
+import { applyReward, RewardNote, type RewardResult } from '../rewards';
+import { BADGES } from '../../../shared/rewards';
 import { api } from '../api';
 import { ItemInput } from '../ItemInput';
 import { T2, tt } from '../MathText';
@@ -16,6 +18,8 @@ const EVENT_KEY: Partial<Record<LadderEvent, string>> = {
 };
 
 /** The question player: lesson, item, hints, feedback and the next step. Answers are graded on the server. */
+const BADGE_NAMES: Record<string, Text> = Object.fromEntries(BADGES.map((b) => [b.id, b.name]));
+
 export function Practice({ settings, go }: { settings: StudentSettings; go: (to: string) => void }) {
   const params = new URLSearchParams(location.search);
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -38,7 +42,7 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
     const strands = (params.get('strands') ?? '').split(',').filter(Boolean);
     const focus = params.get('focus') || null;
     void api<{ sessionId: string; step: Step }>('POST', '/learn/session', { grade, course, strands, focus }).then((r) => {
-      if (!r.ok) return setError(r.status === 404 ? t('play.noContent') : t('common.error'));
+      if (!r.ok) return setError(r.status === 404 ? t('play.noContent') : r.status === 429 ? t('play.takeBreak') : t('common.error'));
       setSessionId(r.data.sessionId);
       show(r.data.step);
     });
@@ -66,6 +70,7 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
     setBusy(false);
     if (!r.ok) return setError(t('common.error'));
     setResult(r.data);
+    if (r.data.reward) applyReward(r.data.reward);
     const f = r.data.feedback;
     if (settings.autoRead) say([tt(f.message), f.why ? tt(f.why) : '', f.correct ? '' : tt(f.correctAnswer ?? { en: '', fr: '' })].filter(Boolean).join(' '));
   };
@@ -106,7 +111,8 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
     const s = step.summary;
     return (
       <section class="card narrow" aria-labelledby="done-title">
-        <h1 id="done-title">{t('play.doneTitle')}</h1>
+        <h1 id="done-title">{step.reason === 'limit' ? t('play.limitTitle') : t('play.doneTitle')}</h1>
+        {step.reason === 'limit' && <p class="note">{t('play.limitBody')}</p>}
         <p>{t('play.doneBody', { correct: s.correct, answered: s.answered })}</p>
         {s.masteredExpectations.length > 0 && <p class="note ok">⭐ {t('play.mastered', { n: s.masteredExpectations.length })}</p>}
         <div class="actions row-actions"><button type="button" onClick={() => go('/app/learn/map?grade=' + params.get('grade'))}>{t('learn.skillMap')}</button><button type="button" class="secondary" onClick={() => go('/app/learn')}>{t('nav.home')}</button></div>
@@ -153,6 +159,7 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
             {!f.correct && f.step && <p><strong>{t('play.stepNote', { n: f.stepNumber ?? 1 })}</strong> <T2 x={f.step} /></p>}
             {!f.correct && f.correctAnswer && <p><strong>{t('play.correctAnswer')}</strong> <T2 x={f.correctAnswer} /></p>}
             {result.masteredSkill && <p class="note ok">⭐ {t('play.skillMastered')}</p>}
+            {result.reward && <RewardNote r={result.reward} badgeNames={BADGE_NAMES} />}
             {evKey && <p class="banner small">{t(evKey)}</p>}
             {f.usedHints > 0 && f.correct && <p class="muted small">{t('play.hintCredit')}</p>}
             <div class="actions row-actions">

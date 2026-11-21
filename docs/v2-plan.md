@@ -85,6 +85,12 @@ Vitest: every generator × many seeds × all tiers (valid, correct answer, equiv
 - Claude pipeline: migration 3 (`bank_item`, `ai_usage`, `item_report`). Drafts are number-answer items; every answer is re-computed with math.js, wording is filtered, duplicates are dropped, and an admin must approve each item. Hard monthly cap with worst-case pre-check, configurable price assumptions, no student data in prompts, off unless `ANTHROPIC_API_KEY` is set.
 - Serving: about one practice question in four comes from approved items; placement and review use generators only. Two distinct student reports retire an item.
 
+## 11d. Phase 4 delivery notes (2.3.0)
+- Rewards live in migration 4 (`reward_state`, `reward_event`, `badge_earned`, `goal`). XP, levels, streaks, badges and cosmetics are pure functions in `shared/rewards.ts`; the server applies them after each answer. Cosmetics are derived from level and badges, never bought. Rewards cascade-delete with the student and are part of the export.
+- Streak days use the family time zone (`MATHQUEST_TZ`). A freeze covers exactly one missed day.
+- The caregiver's daily goal and session limit resolve as: the student's own setting, else the owner caregiver's default, else 15 minutes and no limit.
+- The weekly email, caregiver dashboard and worksheets share one data layer (`server/rewards/dashboard.ts`, `server/weekly.ts`, `server/worksheet.ts`). Worksheets and dashboards are caregiver-only.
+
 ## 11b. Phase 2 delivery notes (2.1.0)
 
 Built on the Grade 5-6 seed set decided in section 13 (generators, lessons and micro-skills for number, fractions, decimals and coordinates). Item formats shipped: number, fraction, mixed number, expression, choice, multi-select, ordering, matching, point plotting. Deferred: sliders, draggable curves, protractor, simulators and code snippets. Voice uses the browser's Web Speech API; no audio leaves the device.

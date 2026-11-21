@@ -72,6 +72,7 @@ export function LearnHome({ me, go }: { me: Extract<Me, { kind: 'student' }>; go
           <button type="button" disabled={!anyContent || (!mix && strands.length === 0)} onClick={() => go(`/app/learn/practice?${q}`)}>{t('learn.start')}</button>
           <button type="button" class="secondary" disabled={!anyContent} onClick={() => go(`/app/learn/placement?grade=${grade}`)}>{t('learn.placement')}</button>
           <button type="button" class="secondary" onClick={() => go(`/app/learn/map?grade=${grade}${course ? `&course=${course}` : ''}`)}>{t('learn.skillMap')}</button>
+          <button type="button" class="secondary" onClick={() => go('/app/learn/rewards')}>{t('learn.rewards')}</button>
           <button type="button" class="secondary" onClick={() => go('/app/learn/settings')}>{t('learn.settings')}</button>
         </div>
       </section>

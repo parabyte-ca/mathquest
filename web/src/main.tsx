@@ -10,6 +10,8 @@ import { StudentLogin } from './pages/Student';
 import { StudentArea } from './pages/StudentArea';
 import { Caregiver } from './pages/Caregiver';
 import { Admin } from './pages/Admin';
+import { Progress } from './pages/Progress';
+import { Worksheet } from './pages/Worksheet';
 
 function usePath(): [string, (to: string) => void] {
   const [path, setPath] = useState(location.pathname);
@@ -51,7 +53,9 @@ function App() {
   if (me?.kind === 'student') return <Shell me={me} signOut={signOut} go={go}><StudentArea me={me} path={path} go={go} /></Shell>;
   if (!me) return <Shell me={me} signOut={signOut} go={go}><SignIn go={go} /></Shell>;
   if (path === '/app/admin' && me.user.role === 'admin') return <Shell me={me} signOut={signOut} go={go}><Admin /></Shell>;
-  return <Shell me={me} signOut={signOut} go={go}><Caregiver me={me} /></Shell>;
+  if (path === '/app/progress') return <Shell me={me} signOut={signOut} go={go}><Progress go={go} /></Shell>;
+  if (path === '/app/worksheet') return <Shell me={me} signOut={signOut} go={go}><Worksheet go={go} /></Shell>;
+  return <Shell me={me} signOut={signOut} go={go}><Caregiver me={me} go={go} /></Shell>;
 }
 
 function Shell(p: { me: Me | null | undefined; signOut: () => void; go: (to: string) => void; children: preact.ComponentChildren }) {
