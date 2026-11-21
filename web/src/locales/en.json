@@ -136,6 +136,7 @@
   "nav.home": "Home",
   "nav.language": "Français",
   "nav.signOut": "Sign out",
+  "offline.banner": "You are offline. You can look around, but signing in and practising need a connection. We will carry on when it comes back.",
   "phase.buildup": "Building back up.",
   "phase.lesson": "Here is a quick lesson.",
   "phase.micro": "Let's break it into smaller steps.",

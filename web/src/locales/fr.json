@@ -136,6 +136,7 @@
   "nav.home": "Accueil",
   "nav.language": "English",
   "nav.signOut": "Se déconnecter",
+  "offline.banner": "Vous êtes hors ligne. Vous pouvez jeter un coup d'œil, mais la connexion et la pratique exigent Internet. Nous reprendrons au retour de la connexion.",
   "phase.buildup": "On reprend de l'élan.",
   "phase.lesson": "Voici une courte leçon.",
   "phase.micro": "Décomposons en petites étapes.",

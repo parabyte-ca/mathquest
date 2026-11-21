@@ -282,3 +282,6 @@ ol.steps li.pending { color: var(--muted); }
 .tour h2:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
 .tour-target { outline: 4px solid var(--focus); outline-offset: 4px; border-radius: 8px; }
 html.hc .tour { border-color: #fff; box-shadow: none; }
+
+/* ── offline notice ────────────────────────────────────────────────────────── */
+.offlinebar { margin: 0; padding: 0.5rem 1rem; background: var(--soft); border-bottom: 2px solid var(--warn); color: var(--text); font-weight: 600; }

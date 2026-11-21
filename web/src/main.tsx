@@ -11,6 +11,7 @@ import { StudentArea } from './pages/StudentArea';
 import { Caregiver } from './pages/Caregiver';
 import { Lazy } from './lazy';
 import { startTour, TourHost } from './tour';
+import { OfflineBanner, registerServiceWorker } from './pwa';
 
 const loadAdmin = () => import('./pages/Admin').then((m) => m.Admin);
 const loadProgress = () => import('./pages/Progress').then((m) => m.Progress);
@@ -75,9 +76,11 @@ function Shell(p: { path: string; me: Me | null | undefined; signOut: () => void
           {p.me && <button type="button" class="link" onClick={p.signOut}>{t('nav.signOut')}</button>}
         </nav>
       </header>
+      <OfflineBanner />
       <main id="main"><TourHost me={p.me} path={p.path} />{p.children}</main>
     </>
   );
 }
 
 render(<App />, document.getElementById('app')!);
+registerServiceWorker();

@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.4.0] - 2026-11-21
+### Added
+- Phase 5 (Polish) of the MathQuest v2 rewrite.
+- First-run walkthroughs for caregivers (7 steps: add a student, approve a device, goals and limits, progress, sharing, your data) and students (8 steps: topics, lessons, hints, scratchpad and keyboard, skill map, read aloud, XP). Skippable, replayable from the Help link, English and French, keyboard and screen-reader friendly (focus moves only when you ask for the tour, Escape closes it, it respects reduced motion), and remembered per person on the server so it follows them across devices.
+- Installable app (PWA): a manifest, icons (including a maskable one), and a service worker that keeps the app shell and every built script offline. When the connection drops the app still opens, says so politely, and the plain offline page covers everything else. The service worker never intercepts or stores API data.
+- More informative admin Updates page: the upgrade as steps (back up, download, check signature, start, health check) with the current one marked, the stage and plain reason when it fails, the previous version, when it started and finished, the backup file name, a rollback hint, release notes for every version between yours and the latest, and a clear explanation when upgrades cannot be requested (the host helper has not checked in, or the release check is failing).
+- Optional personal note on invitations: admins inviting a caregiver, and caregivers sharing a student with a new person, can add a short plain-text note (500 characters, no links). It is quoted in the email, cannot change the link or the subject, is not stored, and the audit log only records that one was attached.
+- Automated French-quality checks for the locale files (same keys, same placeholders, no untranslated strings).
+
+### Changed
+- The first screen now loads 97 kB of script instead of 728 kB: pages (practice, lessons, skill map, admin, progress, worksheets) load when first opened. Lessons and their try-it code load only when a lesson is opened.
+- The upgrade helper writes richer status (`step`, `stepNumber`, `stepCount`, `error`, times, backup file name) and a heartbeat; `update.sh` reports each stage. The app treats all of it as untrusted input.
+
+### Notes
+- Offline practice (answering questions without a connection and syncing later) is not part of this release; see `docs/BACKLOG.md`.
+- A manual screen-reader pass (VoiceOver and NVDA) is still to be done by a person; automated axe scans cover every page.
+
 ## [2.3.0] - 2026-11-21
 ### Added
 - Phase 4 (Motivation and caregivers) of the MathQuest v2 rewrite.

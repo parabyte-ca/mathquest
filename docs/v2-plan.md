@@ -91,6 +91,12 @@ Vitest: every generator × many seeds × all tiers (valid, correct answer, equiv
 - The caregiver's daily goal and session limit resolve as: the student's own setting, else the owner caregiver's default, else 15 minutes and no limit.
 - The weekly email, caregiver dashboard and worksheets share one data layer (`server/rewards/dashboard.ts`, `server/weekly.ts`, `server/worksheet.ts`). Worksheets and dashboards are caregiver-only.
 
+## 11e. Phase 5 delivery notes (2.4.0)
+- Walkthroughs: migration 5 (`tour_seen`, per person, per tour). The tour is data (`web/src/tour.tsx`); text lives in the locale files.
+- PWA: `web/public/` holds the manifest, icons, offline page and `sw.js`. The worker is cache-versioned by the release (`/sw.js?v=<version>`), precaches the shell and every built script from `asset-manifest.json`, and ignores `/api/*`. The offline page uses no inline script or style because the Content Security Policy forbids them.
+- Updates page: the host agent writes `progress.json`, richer `status.json` and a `heartbeat`; the app reads them as untrusted input.
+- Deferred on purpose: offline practice. It needs the answers on the device and a replayable, verifiable sync, which deserves its own design.
+
 ## 11b. Phase 2 delivery notes (2.1.0)
 
 Built on the Grade 5-6 seed set decided in section 13 (generators, lessons and micro-skills for number, fractions, decimals and coordinates). Item formats shipped: number, fraction, mixed number, expression, choice, multi-select, ordering, matching, point plotting. Deferred: sliders, draggable curves, protractor, simulators and code snippets. Voice uses the browser's Web Speech API; no audio leaves the device.

@@ -1,7 +1,7 @@
 import express, { type Express } from 'express';
 import helmet from 'helmet';
 import { existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, sep } from 'node:path';
 import type { Config } from './config.js';
 import { makeLimits, type Ctx } from './context.js';
 import type { DB } from './db.js';
@@ -88,7 +88,17 @@ export function createApp(deps: AppDeps): { app: Express; ctx: Ctx } {
   // Built SPA. Client routes live under /app/* so they can never collide with /api/*.
   const webRoot = deps.webRoot ?? join(process.cwd(), 'dist', 'web');
   if (existsSync(webRoot)) {
-    app.use(express.static(webRoot, { index: false, maxAge: '1h' }));
+    // Built assets have hashed names and can be kept; the service worker and the files that name the current build must always be re-checked.
+    const REVALIDATE = new Set(['/sw.js', '/asset-manifest.json', '/manifest.webmanifest', '/offline.html', '/offline.css', '/favicon.svg']);
+    app.use(express.static(webRoot, {
+      index: false,
+      maxAge: '1h',
+      setHeaders: (res, file) => {
+        const name = `/${file.slice(webRoot.length + 1).split(sep).join('/')}`;
+        if (REVALIDATE.has(name)) res.setHeader('Cache-Control', 'no-cache');
+        if (name === '/sw.js') res.setHeader('Service-Worker-Allowed', '/');
+      },
+    }));
     app.get(/^\/(app(\/.*)?)?$/, (_req, res) => res.sendFile(join(webRoot, 'index.html')));
   }
 
