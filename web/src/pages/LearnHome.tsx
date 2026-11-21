@@ -22,8 +22,10 @@ export function LearnHome({ me, go }: { me: Extract<Me, { kind: 'student' }>; go
 
   const g = opts?.grades.find((x) => x.grade === grade);
   const group = g?.groups.find((x) => x.course === course) ?? g?.groups[0];
-  useEffect(() => { setCourse(g?.groups[0]?.course ?? null); setStrands([]); setMix(true); }, [grade, opts]);
-  useEffect(() => { setStrands([]); setMix(true); }, [course]);
+  // The choices reset only when the student changes the grade or course, never when the options finish loading,
+  // so a strand ticked right after the page appears is not lost.
+  const resetChoices = () => { setStrands([]); setMix(true); };
+  useEffect(() => { setCourse((c) => (g?.groups.some((x) => x.course === c) ? c : g?.groups[0]?.course ?? null)); }, [grade, opts]);
 
   const anyContent = group?.strands.some((s) => s.available) ?? false;
   const q = new URLSearchParams({ grade: String(grade) });
@@ -37,14 +39,14 @@ export function LearnHome({ me, go }: { me: Extract<Me, { kind: 'student' }>; go
         <p class="muted">{t('learn.intro')}</p>
 
         <label for="grade">{t('caregiver.grade')}</label>
-        <select id="grade" value={grade} onChange={(e) => setGrade(Number((e.target as HTMLSelectElement).value))}>
+        <select id="grade" value={grade} onChange={(e) => { setGrade(Number((e.target as HTMLSelectElement).value)); setCourse(null); resetChoices(); }}>
           {opts?.grades.map((x) => <option value={x.grade} key={x.grade}>{x.grade}</option>)}
         </select>
 
         {g && g.groups.length > 1 && (
           <>
             <label for="course">{t('learn.course')}</label>
-            <select id="course" value={course ?? ''} onChange={(e) => setCourse((e.target as HTMLSelectElement).value || null)}>
+            <select id="course" value={course ?? ''} onChange={(e) => { setCourse((e.target as HTMLSelectElement).value || null); resetChoices(); }}>
               {g.groups.map((x) => <option value={x.course ?? ''} key={x.course ?? 'none'}>{x.course}</option>)}
             </select>
             {grade >= 10 && <p class="muted small">{t('learn.recommended')}</p>}

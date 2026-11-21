@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.1] - 2026-11-21
+### Fixed
+- The Grade 5-6 placement quick check and the prerequisite map now include the 29 Number micro-skills added in 2.2.0, so the struggle ladder can fall back to the right earlier skill and placement starts at a better level.
+- On the learning home, a strand ticked just as the page appeared could be cleared when the course options finished loading; choices now reset only when the grade or course is changed.
+
+### Changed
+- New tests check that every placement ladder entry has a generator, that no skill comes before its own prerequisite, and that prerequisites have no cycle.
+
 ## [2.2.0] - 2026-11-20
 ### Added
 - Phase 3 (Content) of the MathQuest v2 rewrite.
