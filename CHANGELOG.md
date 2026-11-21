@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.9.1] - 2026-11-21
+### Added
+- Grade 6 is now fully covered: every Grade 6 expectation in strands B to F has practice (7 new micro-skills, 212 in all), asked in words and numbers like Grade 5. Each has generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer.
+  - Coding (C3, two skills): running programs with variables that change inside a loop, a test inside a loop and a "while" loop (counting how many times it runs); reading and changing programs, such as a new amount, a new test, or how many repeats reach a goal.
+  - Modelling (C4): the modelling process on everyday questions: calculate and round sensibly (pizzas for a class, a tank with a leak) and see how the answer changes when an assumption changes.
+  - Infographics (D1.4): which part is missing (title, labelled axes with units, source), the percent for a headline number from a table, and choosing an accurate headline.
+  - Spatial sense (E): building from top, front and side views of block structures (total cubes, front view, side view), the protractor up to 360 degrees (readings, reflex angles, drawing a large angle) and nets (faces of prisms and pyramids, area of a net).
+- Two Grade 6 lessons ("Show me how"), the infographic ideas added to the Grade 6 data lesson, and the new skills added to the quick-check ladders for Grades 6 to 9.
+- Independent arithmetic tests for every new generator (programs, loops and models are run by simulation; one test was mutation-checked).
+
+### Notes
+- The drawn and interactive versions of these topics (a code editor, a draggable protractor, building and rotating 3-D shapes, folding nets) still wait for the 3.x releases in `docs/BACKLOG.md`.
+
 ## [2.9.0] - 2026-11-21
 ### Added
 - Grade 9 (MTH1W) Number and Algebra: 19 new micro-skills, so Grade 9 now shows the Number and Algebra strands as available (Data, Geometry and Financial Literacy follow in 2.9.1). Each skill has generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer.

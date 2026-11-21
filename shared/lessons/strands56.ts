@@ -207,13 +207,14 @@ export const STRAND_LESSONS: Lesson[] = [
   },
   {
     id: 'L.data6.kinds-intervals-graphs',
-    skills: ['MS.G6.D1.1.a', 'MS.G6.D1.2.a', 'MS.G6.D1.3.a', 'MS.G6.D1.6.a'],
+    skills: ['MS.G6.D1.1.a', 'MS.G6.D1.2.a', 'MS.G6.D1.3.a', 'MS.G6.D1.4.a', 'MS.G6.D1.6.a'],
     title: t('Kinds of data, intervals, choosing a graph and misleading graphs', 'Types de données, intervalles, choix d\'un graphique et graphiques trompeurs'),
     intro: t('The kind of data tells you how to organize it, and the purpose tells you which graph to draw. A graph can also give the wrong idea if it is drawn in a tricky way.', 'Le type de données te dit comment les organiser, et le but te dit quel graphique tracer. Un graphique peut aussi donner une fausse idée s\'il est tracé de façon trompeuse.'),
     definitions: [
       d(['Discrete and continuous', 'Discret et continu'], ['Discrete data is counted in whole steps, like goals or pets. Continuous data is measured and can be any value in a range, like height or time.', 'Les données discrètes se comptent par pas entiers, comme des buts ou des animaux. Les données continues se mesurent et peuvent prendre n\'importe quelle valeur dans un intervalle, comme la taille ou le temps.']),
       d(['Intervals', 'Intervalles'], ['Intervals group data into equal steps, like 40 to 49, 50 to 59, and so on. Every value belongs to exactly one interval, and both ends count.', 'Les intervalles regroupent des données en pas égaux, comme 40 à 49, 50 à 59, et ainsi de suite. Chaque valeur appartient à un seul intervalle, et les deux extrémités comptent.']),
       d(['Choosing a graph', 'Choisir un graphique'], ['Bar graph: compare categories. Circle graph: parts of a whole. Histogram: how measurements spread across equal intervals. Broken-line graph: change over time.', 'Diagramme à bandes : comparer des catégories. Diagramme circulaire : parties d\'un tout. Histogramme : répartition de mesures dans des intervalles égaux. Graphique à ligne brisée : changement dans le temps.']),
+      d(['Infographics', 'Infographies'], ['An infographic combines graphs, a table and a short headline. It needs a title, labelled axes with units and the source of the data, and its headline must match the data without exaggerating.', 'Une infographie combine des graphiques, un tableau et un court grand titre. Elle a besoin d\'un titre, d\'axes étiquetés avec des unités et de la source des données, et son grand titre doit correspondre aux données sans exagérer.']),
       d(['Misleading graphs', 'Graphiques trompeurs'], ['If a bar graph\'s axis does not start at zero, small differences look big. Compare the real values, not just the heights.', 'Si l\'axe d\'un diagramme à bandes ne commence pas à zéro, de petits écarts paraissent grands. Compare les vraies valeurs, pas seulement les hauteurs.']),
     ],
     examples: [

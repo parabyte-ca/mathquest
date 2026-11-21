@@ -572,6 +572,33 @@
    ]
   },
   {
+   "id": "MS.G6.C3.a",
+   "expectation": "G6.C3",
+   "name": "Run programs with variables, loops and conditionals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.C3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G6.C3.b",
+   "expectation": "G6.C3",
+   "name": "Read and change programs; how a change affects the result",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C3.a"
+   ]
+  },
+  {
+   "id": "MS.G6.C4.a",
+   "expectation": "G6.C4",
+   "name": "The modelling process: plan, calculate, check and change assumptions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C1.3.a"
+   ]
+  },
+  {
    "id": "MS.G5.D1.5.a",
    "expectation": "G5.D1.5",
    "name": "Mean, median and mode for whole-number data",
@@ -668,6 +695,15 @@
    ]
   },
   {
+   "id": "MS.G6.D1.4.a",
+   "expectation": "G6.D1.4",
+   "name": "Plan an infographic: parts, the right graph and an accurate headline",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D1.3.a"
+   ]
+  },
+  {
    "id": "MS.G5.D2.1.a",
    "expectation": "G5.D2.1",
    "name": "Probability as a fraction",
@@ -735,6 +771,15 @@
    ]
   },
   {
+   "id": "MS.G6.E1.2.a",
+   "expectation": "G6.E1.2",
+   "name": "Build 3-D objects from top, front and side views",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E1.3.a"
+   ]
+  },
+  {
    "id": "MS.G6.E1.3.a",
    "expectation": "G6.E1.3",
    "name": "Coordinates in all four quadrants: quadrants, reflections, translations",
@@ -793,6 +838,15 @@
    ]
   },
   {
+   "id": "MS.G6.E2.2.a",
+   "expectation": "G6.E2.2",
+   "name": "Protractor up to 360 degrees",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E2.4.a"
+   ]
+  },
+  {
    "id": "MS.G5.E2.5.a",
    "expectation": "G5.E2.5",
    "name": "Area of parallelograms and triangles",
@@ -835,6 +889,15 @@
    "tiers": 3,
    "prereqs": [
     "MS.G5.E2.6.a"
+   ]
+  },
+  {
+   "id": "MS.G6.E2.5.a",
+   "expectation": "G6.E2.5",
+   "name": "Nets: faces and total area",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E2.6.a"
    ]
   },
   {

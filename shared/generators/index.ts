@@ -17,6 +17,8 @@ import { correlation8, multiEvents8, tables8, venn8 } from './data8.js';
 import { compositeArea8, compositeVolume8, hypotenuse8, leg8, lineAngles8, polygonAngles8, scale8, tessellations8, transform8, unitsExp8 } from './spatial8.js';
 import { createExpr9, compareLines9, equivalent9, graphEquations9, lineEquations9, linearRelations9, linearVs9, simplify9, solveEq9, transformLines9 } from './algebra9.js';
 import { density9, expLaws9, exponents9, integers9, ratesPercents9, signedFractions9, signs9, subsets9, unitFractions9 } from './number9.js';
+import { alterCode6, code6, modelling6 } from './code6.js';
+import { infographic6, nets6, protractor6, views6 } from './shapes6.js';
 import { alterCode5, code5 } from './code5.js';
 import { congruent5, infographic5, protractor5, views5 } from './shapes5.js';
 import { expressions5, patternKinds5, tablesOfValues5 } from './algebra5.js';
@@ -83,6 +85,13 @@ export const GENERATORS: Record<string, Generator> = {
   'MS.G5.F1.3.a': budgets5,
   'MS.G5.F1.4.a': credit5,
   'MS.G5.F1.6.a': taxes5,
+  'MS.G6.C3.a': code6,
+  'MS.G6.C3.b': alterCode6,
+  'MS.G6.C4.a': modelling6,
+  'MS.G6.D1.4.a': infographic6,
+  'MS.G6.E1.2.a': views6,
+  'MS.G6.E2.2.a': protractor6,
+  'MS.G6.E2.5.a': nets6,
   'MS.G6.C1.1.a': patternKinds6,
   'MS.G6.C1.2.a': translatePatterns6,
   'MS.G6.C1.4.a': decimalPatterns6,
