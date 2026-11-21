@@ -14,6 +14,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 2.7.2 | Grade 8 spatial sense (E) and financial literacy (F): 16 skills, 5 lessons (shipped) | M |
 | 2.8.0 | Placement quick checks for strands C to F, Grades 5 to 8 (shipped) | S |
 | 2.8.1 | Grade 6 gap fill: financial literacy complete, plus algebra (C1.1, C1.2, C1.4, C2.1), data (D1.1, D1.2, D1.3, D1.6) and combined transformations (E1.4): 13 skills, 4 lessons. Grade 6 C3, C4, D1.4, E1.2, E2.2 and E2.5 wait for the item tools below | M |
+| 2.8.2 | Grade 5 gap fill: financial literacy complete, plus algebra (C1.1, C1.2, C2.1), data (D1.1, D1.2, D1.3, D1.6) and spatial sense (E1.5, E2.1, E2.3): 14 skills, 4 lessons. Grade 5 C3, D1.4, E1.2, E1.3 and E2.4 wait for the item tools below | M |
 | 2.9.x | Grade 9 (MTH1W): 2.9.0 Number and Algebra, 2.9.1 Data, Geometry and Financial | M x 2 |
 | 2.10 to 2.12 | Grade 10 (MPM2D, MFM2P), Grade 11, Grade 12; each needs course pathways | L x 3 |
 
@@ -30,10 +31,10 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 
 | Release | Scope | Size |
 |---|---|---|
-| 2.8.2 | Weekly email test button and day choice; dashboard week-over-week compare; worksheets with several topics and a worked-solution page | M |
-| 2.8.3 | Caregiver notes and messages on goals | S |
-| 2.8.4 | Printable certificate, weekly challenges, sibling team goal | M |
-| 2.8.5 | Original SVG avatars and backgrounds | M |
+| 2.8.3 | Weekly email test button and day choice; dashboard week-over-week compare; worksheets with several topics and a worked-solution page | M |
+| 2.8.4 | Caregiver notes and messages on goals | S |
+| 2.8.5 | Printable certificate, weekly challenges, sibling team goal | M |
+| 2.8.6 | Original SVG avatars and backgrounds | M |
 | Unscheduled | Dashboard progress export as a PDF | S |
 
 ### Platform
@@ -41,13 +42,13 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | Release | Scope | Size |
 |---|---|---|
 | 2.6.1 | Offline follow-ups: "expires soon" reminder, pack size and topic choice, caregiver view of unsent answers | S |
-| 2.8.6 | "What is new" card after an upgrade, admin tour, Updates page cron schedule and "check again" | S |
-| 2.8.7 | Split lesson try-it code so a lesson loads under 585 kB; translate the admin "failed" label; per-skill bank sizes | S |
+| 2.8.7 | "What is new" card after an upgrade, admin tour, Updates page cron schedule and "check again" | S |
+| 2.8.8 | Split lesson try-it code so a lesson loads under 585 kB; translate the admin "failed" label; per-skill bank sizes | S |
 | 3.4.0 | Question writer for choice and fraction items; spaced review and lessons offline | M |
 
 ### Suggested order
 
-2.7.1 and 2.7.2 finish Grade 8, then 2.8.0 so placement covers every strand, then 3.0.0 (it opens the most deferred content), then Grade 9. Caregiver items (2.8.2, 2.8.3) fit between content releases.
+2.7.1 and 2.7.2 finish Grade 8, then 2.8.0 so placement covers every strand, then 3.0.0 (it opens the most deferred content), then Grade 9. Caregiver items (2.8.3, 2.8.4) fit between content releases.
 
 ### For the owner (not releases)
 
