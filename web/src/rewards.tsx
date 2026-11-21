@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'preact/hooks';
 import type { Text } from '../../shared/items/types';
 import { PALETTES } from '../../shared/palettes';
-import { COSMETICS } from '../../shared/rewards';
+import { COSMETICS, challengeById } from '../../shared/rewards';
 import { api } from './api';
+import { Avatar, PaletteSwatch } from './avatars';
 import { t } from './i18n';
 import { tt } from './MathText';
 
@@ -23,6 +24,8 @@ export interface RewardResult {
   newCosmetics: string[];
   goalsReached: string[];
   dailyGoalReached: boolean;
+  challengesDone?: string[];
+  teamGoalsReached?: string[];
 }
 
 export const avatarIcon = (id: string): string => COSMETICS.find((c) => c.id === id)?.icon ?? '🦊';
@@ -73,7 +76,7 @@ export function RewardBar({ highContrast, go }: { highContrast: boolean; go: (to
   const pct = Math.min(100, Math.round((h.into / h.need) * 100));
   return (
     <a class="rewardbar" data-tour="rewards" href="/app/learn/rewards" onClick={(e) => { e.preventDefault(); go('/app/learn/rewards'); }} aria-label={t('rewards.barLabel', { level: h.level, xp: h.xp, streak: h.streak })}>
-      <span class="avatar" aria-hidden="true">{avatarIcon(h.avatar)}</span>
+      <span class="avatar" aria-hidden="true"><Avatar id={h.avatar} size={32} /></span>
       <span class="lvl">{t('rewards.level', { n: h.level })}</span>
       <span class="xpmeter" role="progressbar" aria-valuemin={0} aria-valuemax={h.need} aria-valuenow={h.into} aria-label={t('rewards.toNext')}><span style={{ width: `${pct}%` }} /></span>
       <span class="xpnum">{h.xp} XP</span>
@@ -86,7 +89,7 @@ export function RewardBar({ highContrast, go }: { highContrast: boolean; go: (to
 
 const PART_KEY: Record<string, string> = {
   correct: 'rewards.part.correct', effort: 'rewards.part.effort', review: 'rewards.part.review', skill: 'rewards.part.skill', expectation: 'rewards.part.expectation',
-  comeback: 'rewards.part.comeback', 'daily-start': 'rewards.part.dailyStart', 'daily-goal': 'rewards.part.dailyGoal',
+  comeback: 'rewards.part.comeback', 'daily-start': 'rewards.part.dailyStart', 'daily-goal': 'rewards.part.dailyGoal', challenge: 'rewards.part.challenge',
 };
 
 export function RewardNote({ r, badgeNames }: { r: RewardResult; badgeNames: Record<string, Text> }) {
@@ -100,6 +103,8 @@ export function RewardNote({ r, badgeNames }: { r: RewardResult; badgeNames: Rec
       {r.streakGrew && r.streak > 1 && <p class="note ok">🔥 {t('rewards.streakGrew', { n: r.streak })}</p>}
       {r.dailyGoalReached && <p class="note ok">⏱️ {t('rewards.dailyGoal')}</p>}
       {r.goalsReached.map((g) => <p class="banner" key={g}>🎁 {t('rewards.goalReached', { goal: g })}</p>)}
+      {(r.challengesDone ?? []).map((id) => { const c = challengeById(id); return <p class="banner" key={id}>{c?.icon ?? '🏅'} {t('rewards.challengeDone', { name: c ? tt(c.name) : id })}</p>; })}
+      {(r.teamGoalsReached ?? []).map((g) => <p class="banner" key={g}>🏡 {t('rewards.teamReached', { goal: g })}</p>)}
       {r.newCosmetics.length > 0 && <p class="note ok">✨ {t('rewards.unlocked', { n: r.newCosmetics.length })}</p>}
     </div>
   );
@@ -113,6 +118,8 @@ interface Summary {
   badges: { id: string; icon: string; name: Text; how: Text; earnedAt: number | null }[];
   cosmetics: { id: string; kind: 'avatar' | 'palette'; icon: string; name: Text; unlocked: boolean; unlock: { level: number } | { badge: string } }[];
   goals: { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }[];
+  challenges: { id: string; icon: string; name: Text; how: Text; target: number; xp: number; progress: number; done: boolean }[];
+  teamGoals: { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }[];
 }
 
 export function Rewards({ go, highContrast }: { go: (to: string) => void; highContrast: boolean }) {
@@ -135,7 +142,7 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
       {s.cosmetics.filter((c) => c.kind === kind).map((c) => (
         <li key={c.id}>
           <button type="button" class={`cosmetic secondary${c.id === equipped ? ' on' : ''}`} disabled={!c.unlocked} aria-pressed={c.id === equipped} onClick={() => equip(c.id)}>
-            <span class="big" aria-hidden="true">{c.icon}</span> {tt(c.name)}
+            <span class="big" aria-hidden="true">{c.kind === 'avatar' ? <Avatar id={c.id} size={36} /> : <PaletteSwatch id={c.id} size={28} />}</span> {tt(c.name)}
             {!c.unlocked && <span class="muted small"> 🔒 {lock(c)}</span>}
           </button>
         </li>
@@ -146,7 +153,7 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
   return (
     <>
       <section class="card" aria-labelledby="rw-title">
-        <h1 id="rw-title">{avatarIcon(s.avatar)} {t('rewards.title')}</h1>
+        <h1 id="rw-title"><span class="avatar-lg"><Avatar id={s.avatar} size={48} /></span> {t('rewards.title')}</h1>
         <p><strong>{t('rewards.level', { n: s.level })}</strong> · {s.xp} XP</p>
         <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={s.need} aria-valuenow={s.into} aria-label={t('rewards.toNext')}><span style={{ width: `${pct}%` }} /></div>
         <p class="muted small">{t('rewards.xpToNext', { n: s.need - s.into, next: s.level + 1 })}</p>
@@ -165,6 +172,39 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
                 <strong>{g.title}</strong> {g.redeemed ? <span class="badge">✅ {t('rewards.goalDone')}</span> : g.reached ? <span class="badge">🎁 {t('rewards.goalReadyShort')}</span> : null}
                 <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
                 <span class="muted small">{g.progress} / {g.xpTarget} XP</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {s.challenges.length > 0 && (
+        <section class="card" aria-labelledby="ch-title">
+          <h2 id="ch-title">{t('rewards.challenges')}</h2>
+          <p class="muted small">{t('rewards.challengesHelp')}</p>
+          <ul class="plain">
+            {s.challenges.map((c) => (
+              <li class="goal" key={c.id}>
+                <span aria-hidden="true">{c.icon}</span> <strong>{tt(c.name)}</strong> {c.done && <span class="badge">✅ {t('rewards.challengeDoneShort')}</span>}
+                <br /><span class="muted small">{tt(c.how)} {!c.done && t('rewards.challengeBonus', { xp: c.xp })}</span>
+                <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={c.target} aria-valuenow={c.progress} aria-label={tt(c.name)}><span style={{ width: `${Math.round((c.progress / c.target) * 100)}%` }} /></div>
+                <span class="muted small">{c.progress} / {c.target}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {s.teamGoals.length > 0 && (
+        <section class="card" aria-labelledby="team-title">
+          <h2 id="team-title">{t('rewards.teamGoals')}</h2>
+          <p class="muted small">{t('rewards.teamGoalsHelp')}</p>
+          <ul class="plain">
+            {s.teamGoals.map((g) => (
+              <li class="goal" key={g.id}>
+                <span aria-hidden="true">🏡</span> <strong>{g.title}</strong> {g.reached && <span class="badge">🎁 {t('rewards.teamReadyShort')}</span>}
+                <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
+                <span class="muted small">{t('rewards.teamProgress', { progress: g.progress, target: g.xpTarget })}</span>
               </li>
             ))}
           </ul>

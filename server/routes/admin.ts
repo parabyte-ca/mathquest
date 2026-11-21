@@ -6,6 +6,7 @@ import { audit } from '../audit.js';
 import { newId, nowIso } from '../db.js';
 import { sendSignInLink } from './auth.js';
 import { noteSchema } from '../note.js';
+import { composeWeekly } from '../weekly.js';
 
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 
@@ -20,6 +21,7 @@ export function adminRoutes(ctx: Ctx): Router {
         sessionLimitMinutes: z.number().int().min(0).max(240).optional(),
         voice: z.boolean().optional(),
         weeklyEmail: z.boolean().optional(),
+        weeklyDay: z.number().int().min(0).max(6).optional(), // 0 = Sunday ... 6 = Saturday
       })
       .strict()
       .safeParse(req.body);
@@ -30,6 +32,19 @@ export function adminRoutes(ctx: Ctx): Router {
       .prepare('UPDATE users SET defaults_json = ?, weekly_email = ? WHERE id = ?')
       .run(JSON.stringify({ ...(JSON.parse(u.defaults_json) as object), ...defaults }), weeklyEmail === undefined ? u.weekly_email : weeklyEmail ? 1 : 0, u.id);
     res.json({ ok: true });
+  });
+
+  // Sends the caregiver their own weekly summary now, so they can see what it looks like (it does not count as the week's email).
+  r.post('/me/weekly-test', requireUser(), async (req, res) => {
+    const u = me(req);
+    const key = `weeklytest:${u.id}`;
+    const last = ctx.db.prepare('SELECT value FROM kv WHERE key = ?').get(key) as { value: string } | undefined;
+    if (last && ctx.now() - Number(last.value) < 60_000) return void res.status(429).json({ error: 'too_soon' });
+    ctx.db.prepare('INSERT INTO kv (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value').run(key, String(ctx.now()));
+    const msg = composeWeekly(ctx, { id: u.id, email: u.email, display_name: u.display_name });
+    if (!msg) return void res.json({ ok: true, sent: false, reason: 'no_students' });
+    const sent = await ctx.mailer.send({ to: u.email, ...msg });
+    res.json({ ok: true, sent });
   });
 
   r.use('/admin', requireUser('admin'));

@@ -9,6 +9,7 @@ interface Dash {
   student: { id: string; displayName: string; grade: number; language: string };
   level: number; xp: number; streak: number; bestStreak: number; freezes: number; minutesToday: number; dailyGoalMinutes: number;
   week: { answered: number; accuracy: number | null; minutes: number };
+  prevWeek: { answered: number; accuracy: number | null; minutes: number };
   month: { answered: number; accuracy: number | null; minutes: number };
   days: { day: string; answered: number; correct: number; minutes: number }[];
   skillsMastered: number; skillsPractised: number;
@@ -21,6 +22,7 @@ interface Dash {
 interface Expectation { code: string; grade: number; strand: string; strandName: string; text: string }
 
 const pct = (n: number | null): string => (n === null ? '—' : `${n}%`);
+const signed = (n: number): string => (n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0');
 
 export function Progress({ go }: { go: (to: string) => void }) {
   useLang();
@@ -47,8 +49,8 @@ export function Progress({ go }: { go: (to: string) => void }) {
           <div class="stat"><span class="num">{d.level}</span>{t('progress.level')} · {d.xp} XP</div>
           <div class="stat"><span class="num">{d.streak}</span>{t('progress.streak', { best: d.bestStreak })}</div>
           <div class="stat"><span class="num">{d.minutesToday}</span>{t('progress.today', { goal: d.dailyGoalMinutes })}</div>
-          <div class="stat"><span class="num">{d.week.answered}</span>{t('progress.weekQs', { min: d.week.minutes })}</div>
-          <div class="stat"><span class="num">{pct(d.week.accuracy)}</span>{t('progress.weekAcc')}</div>
+          <div class="stat"><span class="num">{d.week.answered}</span>{t('progress.weekQs', { min: d.week.minutes })}{d.prevWeek.answered > 0 && <span class="delta">{t('progress.vsQs', { delta: signed(d.week.answered - d.prevWeek.answered) })}</span>}</div>
+          <div class="stat"><span class="num">{pct(d.week.accuracy)}</span>{t('progress.weekAcc')}{d.week.accuracy !== null && d.prevWeek.accuracy !== null && <span class="delta">{t('progress.vsAcc', { delta: signed(d.week.accuracy - d.prevWeek.accuracy) })}</span>}</div>
           <div class="stat"><span class="num">{d.skillsMastered}</span>{t('progress.mastered', { n: d.skillsPractised })}</div>
         </div>
         <div class="actions row-actions"><button type="button" class="secondary" onClick={() => go('/app')}>{t('common.back')}</button></div>
@@ -68,7 +70,19 @@ export function Progress({ go }: { go: (to: string) => void }) {
             <tbody>{d.days.map((x) => <tr key={x.day}><th scope="row">{x.day}</th><td>{x.answered}</td><td>{x.correct}</td><td>{x.minutes}</td></tr>)}</tbody>
           </table></div>
         </details>
+        <p class="muted small">{d.prevWeek.answered > 0 ? t('progress.lastWeek', { n: d.prevWeek.answered, acc: pct(d.prevWeek.accuracy), min: d.prevWeek.minutes }) : t('progress.noLastWeek')}</p>
         <p class="muted small">{t('progress.month', { n: d.month.answered, acc: pct(d.month.accuracy), min: d.month.minutes })}</p>
+      </section>
+
+
+      <section class="card" aria-labelledby="cert-title">
+        <h2 id="cert-title">{t('progress.certs')}</h2>
+        <p class="muted small">{t('progress.certsHelp', { name: d.student.displayName })}</p>
+        <ul class="plain certlist">
+          <li><button type="button" class="secondary" onClick={() => go(`/app/certificate?student=${id}&kind=level`)}>🚀 {t('progress.certLevel', { n: d.level })} · {t('progress.certPrint')}</button></li>
+          {d.goals.filter((g) => g.reached).map((g) => <li key={g.id}><button type="button" class="secondary" onClick={() => go(`/app/certificate?student=${id}&kind=goal&ref=${g.id}`)}>🎯 {t('progress.certGoal', { title: g.title })} · {t('progress.certPrint')}</button></li>)}
+          {d.recentBadges.map((b) => <li key={b.id}><button type="button" class="secondary" onClick={() => go(`/app/certificate?student=${id}&kind=badge&ref=${b.id}`)}>🏅 {t('progress.certBadge', { name: b.name ? tt(b.name) : b.id })} · {t('progress.certPrint')}</button></li>)}
+        </ul>
       </section>
 
       <section class="card" aria-labelledby="strands-title">

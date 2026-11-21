@@ -15,7 +15,7 @@ Snapshot at release 2.9.1 (21 November 2026). To refresh the table, run `python 
 |---|---|---|
 | Expectation | `G7.C2.3` (Grade 7, Algebra, 2.3) | `content/curriculum.json` (built from `content/source/ontario` by `npm run curriculum:build`) |
 | Micro-skill | `MS.G7.C2.3.a` | `content/microskills.json` (name, expectation, tiers, prerequisites) |
-| Generator | `equations7` registered as `MS.G7.C2.3.a` | `shared/generators/index.ts` |
+| Generator | `equations7` registered as `MS.G7.C2.3.a` | `shared/generators/grade7.ts` (one registry file per grade; `index.ts` gathers them) |
 | Placement ladder | `7` (Number) or `7.C` (strand C): ordered list of micro-skills, easiest first | `content/placement.json` (Grades 5 to 8, strands B to F) |
 | Prerequisite chains | `fractions: G5.B1.3 -> ... -> G7.B2.8 -> G8.B2.6` | `content/prereq-chains.json` |
 | Lesson | `L.algebra7.equations-inequalities` lists the micro-skills it teaches | `shared/lessons/*.ts` |

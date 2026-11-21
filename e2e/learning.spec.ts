@@ -318,6 +318,8 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await kid.goto('/app/learn');
   await kid.getByRole('button', { name: 'My rewards' }).click();
   await expect(kid.getByRole('heading', { name: /My rewards/ })).toBeVisible();
+  await expect(kid.getByRole('heading', { name: "This week's challenges" })).toBeVisible();
+  await expect(kid.getByRole('progressbar', { name: /Thirty|Half|Sixty|One hour|Three days|Four days|Five days|Twenty|A new skill|Keep it fresh|Try three|Forty/ }).first()).toBeVisible();
   await expect(kid.getByRole('list').filter({ hasText: 'First steps' }).getByText('Earned').first()).toBeAttached();
   await expect(kid.getByRole('button', { name: /Dragon/ })).toBeDisabled();
   await scanOf(kid, 'rewards page');
@@ -339,6 +341,14 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
 
   // the caregiver reads progress, sets a goal, and marks it done once the student has earned it
   await parent.goto('/app');
+  // a family goal for all of the caregiver's students together
+  await expect(parent.getByRole('heading', { name: 'Family goals' })).toBeVisible();
+  await parent.getByLabel('What is the reward?').fill('Pizza night');
+  await parent.getByLabel('XP together').fill('500');
+  await parent.getByRole('button', { name: 'Add family goal' }).click();
+  await expect(parent.getByRole('progressbar', { name: 'Pizza night' })).toBeVisible();
+  await noHorizontalScroll(parent);
+  await scanOf(parent, 'caregiver home with a family goal');
   await parent.locator('li.row', { hasText: `@${username}` }).getByRole('link', { name: 'Progress and goals' }).click(); // the caregiver has one row per student made in earlier tests
   await expect(parent.getByRole('heading', { name: /progress/i, level: 1 })).toBeVisible();
   await expect(parent.getByText('questions this week', { exact: false })).toBeVisible();
@@ -385,4 +395,18 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await parent.emulateMedia({ media: 'screen' });
   await parent.getByLabel('Include the answer key').uncheck();
   await expect(parent.getByRole('heading', { name: 'Answer key' })).toHaveCount(0);
+
+  // a certificate for the goal the student reached, ready to print
+  await parent.goto(`/app/progress?student=${studentId(username)}`);
+  await expect(parent.getByRole('heading', { name: 'Certificates' })).toBeVisible();
+  await parent.getByRole('button', { name: /Goal: Movie night/ }).click();
+  await expect(parent.getByRole('heading', { name: 'Certificate of achievement' })).toBeVisible();
+  await expect(parent.locator('.certificate')).toContainText('Movie night');
+  await expect(parent.locator('.certificate')).toContainText('Robin');
+  await scanOf(parent, 'certificate');
+  await noHorizontalScroll(parent);
+  await parent.emulateMedia({ media: 'print' });
+  await expect(parent.getByRole('button', { name: 'Print certificate' })).toBeHidden();
+  await expect(parent.locator('.certificate')).toBeVisible();
+  await parent.emulateMedia({ media: 'screen' });
 });

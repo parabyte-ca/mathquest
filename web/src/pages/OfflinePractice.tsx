@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { check } from '../../../shared/check';
 import { buildFeedback, type Feedback } from '../../../shared/feedback';
-import { generate } from '../../../shared/generators/index';
 import { toPublic, type Given, type Item } from '../../../shared/items/types';
 import { makeRng } from '../../../shared/rng';
+import { generateLoaded, loadGenerators } from '../generators';
 import { ItemInput } from '../ItemInput';
 import { T2 } from '../MathText';
 import { getLang, t, useLang } from '../i18n';
@@ -34,6 +34,17 @@ export function OfflinePractice({ me, go }: { me: StudentMe; go: (to: string) =>
   const syncing = useRef(false);
 
   useEffect(() => { void loadPack(sid).then((p) => setPack(p ?? null)); }, [sid]);
+
+  // the question generators load on demand, one grade at a time, for the skills in this pack
+  const [gens, setGens] = useState<'loading' | 'ready' | 'failed'>('loading');
+  const packSkills = pack ? pack.items.map((i) => i.skill).join(',') : '';
+  useEffect(() => {
+    if (!pack) return;
+    let alive = true;
+    setGens('loading');
+    loadGenerators(pack.items.map((i) => i.skill)).then(() => alive && setGens('ready'), () => alive && setGens('failed'));
+    return () => { alive = false; };
+  }, [packSkills]);
 
   const send = async (quiet = false): Promise<void> => {
     if (syncing.current) return;
@@ -68,12 +79,14 @@ export function OfflinePractice({ me, go }: { me: StudentMe; go: (to: string) =>
   const summaryText = (s: SyncSummary): string => `${t('offlinep.synced', { correct: s.correct, answered: s.answered, xp: s.xp })}${s.leveledUp && s.level ? ` ${t('rewards.levelUp', { n: s.level })}` : ''}`;
 
   if (pack === undefined) return <section class="card narrow"><p role="status">{t('common.loading')}</p></section>;
+  if (pack && gens === 'failed') return <section class="card narrow"><p class="note" role="alert">{t('common.error')}</p><button type="button" onClick={() => go('/app/learn')}>{t('common.back')}</button></section>;
+  if (pack && gens === 'loading') return <section class="card narrow"><p role="status">{t('common.loading')}</p></section>;
 
   const idx = pack ? nextIndex(pack) : null;
   const item: Item | null = (() => {
     if (!pack || idx === null) return null;
     const ref = pack.items[idx]!;
-    try { return generate(ref.skill, ref.tier, ref.seed); } catch { return null; }
+    try { return generateLoaded(ref.skill, ref.tier, ref.seed); } catch { return null; }
   })();
 
   const submit = async (given: Given): Promise<void> => {

@@ -1,5 +1,35 @@
 # Changelog
 
+## [2.11.1] - 2026-11-21
+### Changed
+- Faster on a phone: the question generators (most of the app's code, about 1 MB) are now loaded one grade at a time, and only when they are needed: by a lesson's "try one with me", or by an offline pack. Opening a lesson used to fetch about 1.2 MB of code (about 330 kB compressed); it now fetches about 0.7 MB for a Grade 6 lesson (about 215 kB compressed). Practice, the home page and the caregiver pages never needed the generators, so the first screen is unchanged (about 127 kB of code, 41 kB compressed). A lesson shows "Loading" for a moment while its grade loads, and a clear message if the connection drops.
+- The offline worker saves the app's code in the background three files at a time and at low priority, so the first visit on a slow connection is not held up by it. Offline use is unchanged: everything is still saved on the first visit.
+- The generator registry is now one small file per grade (`shared/generators/grade5.ts` to `grade9.ts`); `index.ts` gathers them for the server, so nothing changes there.
+
+### Fixed
+- The admin page's AI usage list showed "failed" in English only; it is now translated.
+
+### Notes
+- Still on the list: splitting the lessons' text by grade (about 171 kB, 55 kB compressed) and a per-skill bank-size summary for the admin page.
+
+## [2.11.0] - 2026-11-21
+### Added
+- Weekly challenges: every Monday, three challenges open for every student, one of each kind (effort, showing up on different days, and growing, such as mastering a skill or answering review questions). Each pays bonus XP once when it is done during the week (Monday to Sunday, family time zone), shows on the rewards page with a progress bar, and is announced right after the answer that completes it. The set changes every week and every challenge comes round in turn.
+- Family goals: a caregiver can set one real-world reward for all of their students together (for example "pizza night after 1 000 XP"). Everyone's XP counts toward it, each student sees it and its progress on their rewards page, the sibling whose answer completes it is told to tell their grown-up, and the caregiver marks it done when the reward has been given. Up to three can be open at a time.
+- Printable certificates: from a student's progress page a caregiver can print a certificate for a level, a badge or a reached goal, and from the family goals for a reached family goal. A certificate is only available for something the student has really earned, is written in the student's language, and prints cleanly (the page controls are hidden).
+- Original avatars: the ten avatars (fox, panda, owl, octopus, butterfly, dolphin, unicorn, dragon, rocket and trophy) are now drawings made for MathQuest (simple flat SVG shapes, the same on every device, no emoji fonts), and each colour palette shows a small swatch of its own colours instead of an emoji.
+
+### Notes
+- Challenges and family goals add two small tables (migration 8). Nothing existing changes, and students who have not practised this week simply see all three challenges at zero.
+
+## [2.10.0] - 2026-11-21
+### Added
+- Weekly email: a caregiver can now choose the day it arrives (it still comes at about 7:30 a.m., and Monday is the default), and can send themselves a test email from the caregiver page to see what it looks like. A test email never counts as the week's email, and can be sent once a minute.
+- This week against last week: the progress page shows how many more or fewer questions and how many points of accuracy this week has compared with the week before, with last week's totals under the chart, and the weekly email says the same in one line.
+
+### Notes
+- The day is stored with the caregiver's other settings, so nothing needs migrating. Caregivers who never choose a day keep getting the email on Monday.
+
 ## [2.9.1] - 2026-11-21
 ### Added
 - Grade 6 is now fully covered: every Grade 6 expectation in strands B to F has practice (7 new micro-skills, 212 in all), asked in words and numbers like Grade 5. Each has generated questions in English and French, three difficulty tiers, a three-step hint ladder and a reason for every common wrong answer.

@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import type { Given, Item } from '../../../shared/items/types';
 import type { Lesson } from '../../../shared/lessons/types';
 import { check } from '../../../shared/check';
-import { generate } from '../../../shared/generators/index';
+import { generateLoaded, loadGenerators } from '../generators';
 import { ItemInput } from '../ItemInput';
 import { T2, tt } from '../MathText';
 import { speak, speechSupported, stopSpeaking } from '../speech';
@@ -81,7 +81,24 @@ export function LessonView({ lesson, settings, onDone, doneLabel }: { lesson: Le
 
 /** A guided question. The hint ladder is open; nothing here is scored. */
 function TryIt({ lesson, settings }: { lesson: Lesson; settings: StudentSettings }) {
-  const item: Item = useMemo(() => generate(lesson.tryIt.skill, lesson.tryIt.tier, lesson.tryIt.seed), [lesson.id]);
+  // the question generators load on demand (one grade at a time), so a lesson itself stays small
+  const [item, setItem] = useState<Item | null>(null);
+  const [failed, setFailed] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    setItem(null); setFailed(false);
+    loadGenerators([lesson.tryIt.skill]).then(
+      () => alive && setItem(generateLoaded(lesson.tryIt.skill, lesson.tryIt.tier, lesson.tryIt.seed)),
+      () => alive && setFailed(true),
+    );
+    return () => { alive = false; };
+  }, [lesson.id]);
+  if (failed) return <div><p class="note" role="alert">{t('common.error')}</p></div>;
+  if (!item) return <div><p role="status">{t('common.loading')}</p></div>;
+  return <TryItBody item={item} settings={settings} />;
+}
+
+function TryItBody({ item, settings }: { item: Item; settings: StudentSettings }) {
   const [hints, setHints] = useState(0);
   const [result, setResult] = useState<'right' | 'again' | null>(null);
 

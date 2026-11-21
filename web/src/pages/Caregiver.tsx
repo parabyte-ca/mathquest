@@ -31,6 +31,7 @@ export function Caregiver({ me, go }: { me: Extract<Me, { kind: 'user' }>; go: (
         </ul>
       </section>
       <AddStudent onAdded={load} />
+      {students && students.length > 0 && <FamilyGoals students={students} go={go} />}
       <Devices devices={devices} onChange={load} />
       <Defaults me={me} />
     </>
@@ -158,15 +159,74 @@ function Devices({ devices, onChange }: { devices: Device[]; onChange: () => voi
   );
 }
 
+interface FamilyGoal { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }
+
+/** One real-world goal for all of a caregiver's students together: everyone's XP counts toward it. */
+function FamilyGoals({ students, go }: { students: StudentInfo[]; go: (to: string) => void }) {
+  const [goals, setGoals] = useState<FamilyGoal[]>([]);
+  const [title, setTitle] = useState('');
+  const [target, setTarget] = useState(1000);
+  const [msg, setMsg] = useState('');
+  const load = async () => { const r = await api<{ goals: FamilyGoal[] }>('GET', '/me/family-goals'); if (r.ok) setGoals(r.data.goals); };
+  useEffect(() => { void load(); }, []);
+  const add = async (e: Event) => {
+    e.preventDefault();
+    const r = await api<{ error?: string }>('POST', '/me/family-goals', { title, xpTarget: target });
+    setMsg(r.ok ? '' : r.status === 409 ? t('caregiver.familyMax') : t('common.error'));
+    if (r.ok) { setTitle(''); await load(); }
+  };
+  const act = async (what: 'redeem' | 'remove', id: string) => {
+    await api(what === 'redeem' ? 'POST' : 'DELETE', what === 'redeem' ? `/me/family-goals/${id}/redeem` : `/me/family-goals/${id}`);
+    await load();
+  };
+  return (
+    <section class="card" aria-labelledby="fg-title">
+      <h2 id="fg-title">{t('caregiver.family')}</h2>
+      <p class="muted small">{t('caregiver.familyHelp')}</p>
+      {goals.length === 0 && <p>{t('caregiver.familyNone')}</p>}
+      <ul class="plain">
+        {goals.map((g) => (
+          <li class="goal" key={g.id}>
+            <span aria-hidden="true">🏡</span> <strong>{g.title}</strong> {g.redeemed && <span class="badge">✅</span>}
+            <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
+            <span class="muted small">{t('caregiver.familyProgress', { progress: g.progress, target: g.xpTarget })}</span>
+            {g.reached && !g.redeemed && <p class="note ok">🎁 {t('caregiver.familyReady')}</p>}
+            <div class="actions row-actions">
+              {g.reached && !g.redeemed && <button type="button" onClick={() => void act('redeem', g.id)}>{t('caregiver.familyDone')}</button>}
+              {g.reached && students.map((st) => <button type="button" class="secondary" key={st.id} onClick={() => go(`/app/certificate?student=${st.id}&kind=family&ref=${g.id}`)}>{t('caregiver.familyCert', { name: st.displayName })}</button>)}
+              <button type="button" class="secondary" onClick={() => void act('remove', g.id)}>{t('caregiver.familyRemove')}</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <form onSubmit={add}>
+        <label for="fgt">{t('caregiver.familyTitle')}</label>
+        <input id="fgt" type="text" value={title} minLength={2} maxLength={80} required onInput={(e) => setTitle((e.target as HTMLInputElement).value)} />
+        <label for="fgx">{t('caregiver.familyTarget')}</label>
+        <input id="fgx" type="number" min={100} max={1000000} step={50} value={target} onInput={(e) => setTarget(Number((e.target as HTMLInputElement).value))} />
+        <button type="submit">{t('caregiver.familyAdd')}</button>
+        <span role="status">{msg}</span>
+      </form>
+    </section>
+  );
+}
+
 function Defaults({ me }: { me: Extract<Me, { kind: 'user' }> }) {
   const [goal, setGoal] = useState(Number(me.user.defaults.dailyGoalMinutes ?? 15));
   const [limit, setLimit] = useState(Number(me.user.defaults.sessionLimitMinutes ?? 30));
   const [weekly, setWeekly] = useState(me.user.weeklyEmail);
+  const [weekday, setWeekday] = useState(Number(me.user.defaults.weeklyDay ?? 1));
   const [saved, setSaved] = useState(false);
+  const [testMsg, setTestMsg] = useState('');
   const save = async (e: Event) => {
     e.preventDefault();
-    const r = await api('PUT', '/me/defaults', { dailyGoalMinutes: goal, sessionLimitMinutes: limit, weeklyEmail: weekly });
+    const r = await api('PUT', '/me/defaults', { dailyGoalMinutes: goal, sessionLimitMinutes: limit, weeklyEmail: weekly, weeklyDay: weekday });
     setSaved(r.ok);
+  };
+  const sendTest = async () => {
+    setTestMsg('');
+    const r = await api<{ sent: boolean; reason?: string }>('POST', '/me/weekly-test', {});
+    setTestMsg(!r.ok ? (r.status === 429 ? t('caregiver.weeklyTestWait') : t('caregiver.weeklyTestFailed')) : r.data.reason === 'no_students' ? t('caregiver.weeklyTestNone') : r.data.sent ? t('caregiver.weeklyTestSent', { email: me.user.email }) : t('caregiver.weeklyTestFailed'));
   };
   return (
     <section class="card" data-tour="defaults">
@@ -177,9 +237,18 @@ function Defaults({ me }: { me: Extract<Me, { kind: 'user' }> }) {
         <label for="sl">{t('caregiver.sessionLimit')}</label>
         <input id="sl" type="number" min={0} max={240} value={limit} onInput={(e) => setLimit(Number((e.target as HTMLInputElement).value))} />
         <label class="check"><input type="checkbox" checked={weekly} onChange={(e) => setWeekly((e.target as HTMLInputElement).checked)} /> {t('caregiver.weeklyEmail')}</label>
+        <label for="wd">{t('caregiver.weeklyDay')}</label>
+        <select id="wd" value={weekday} onChange={(e) => setWeekday(Number((e.target as HTMLSelectElement).value))}>
+          {[1, 2, 3, 4, 5, 6, 0].map((d) => <option value={d} key={d}>{t(`caregiver.day.${d}`)}</option>)}
+        </select>
+        <p class="muted small">{t('caregiver.weeklyNote')}</p>
         <button type="submit">{t('common.save')}</button>
         <span role="status">{saved ? '✓' : ''}</span>
       </form>
+      <div class="actions row-actions">
+        <button type="button" class="secondary" onClick={() => void sendTest()}>{t('caregiver.weeklyTest')}</button>
+        <span role="status">{testMsg}</span>
+      </div>
     </section>
   );
 }

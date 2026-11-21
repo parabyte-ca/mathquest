@@ -13,7 +13,7 @@ export interface XpInput {
   kind: 'practice' | 'review' | 'placement';
 }
 export interface XpPart {
-  kind: 'correct' | 'effort' | 'review' | 'skill' | 'expectation' | 'comeback' | 'daily-start' | 'daily-goal';
+  kind: 'correct' | 'effort' | 'review' | 'skill' | 'expectation' | 'comeback' | 'daily-start' | 'daily-goal' | 'challenge';
   xp: number;
 }
 
@@ -81,6 +81,50 @@ export function streakToShow(s: StreakState, today: string): number {
   if (gap <= 1) return s.streak;
   if (gap === 2 && s.freezes > 0) return s.streak;
   return 0;
+}
+
+
+// ── weekly challenges ───────────────────────────────────────────────────────
+
+export type ChallengeMetric = 'answers' | 'correct' | 'days' | 'minutes' | 'skills' | 'reviews' | 'strands';
+export interface Challenge {
+  id: string;
+  icon: string;
+  name: Text;
+  how: Text;
+  metric: ChallengeMetric;
+  target: number;
+  /** Bonus XP, awarded once when the target is reached within the week (Monday to Sunday). */
+  xp: number;
+}
+const ch = (id: string, icon: string, name: Text, how: Text, metric: ChallengeMetric, target: number, xp: number): Challenge => ({ id, icon, name, how, metric, target, xp });
+/** Three kinds of challenge, so every week mixes effort, showing up on different days, and growing. */
+export const CHALLENGE_GROUPS: Challenge[][] = [
+  [
+    ch('answers-30', '✏️', t('Thirty questions', 'Trente questions'), t('Answer 30 questions this week.', 'Réponds à 30 questions cette semaine.'), 'answers', 30, 30),
+    ch('minutes-30', '⏱️', t('Half an hour', 'Une demi-heure'), t('Practise for 30 minutes in total this week.', 'Pratique 30 minutes en tout cette semaine.'), 'minutes', 30, 35),
+    ch('answers-60', '📝', t('Sixty questions', 'Soixante questions'), t('Answer 60 questions this week.', 'Réponds à 60 questions cette semaine.'), 'answers', 60, 45),
+    ch('minutes-60', '⌛', t('One hour', 'Une heure'), t('Practise for 60 minutes in total this week.', 'Pratique 60 minutes en tout cette semaine.'), 'minutes', 60, 50),
+  ],
+  [
+    ch('days-3', '📅', t('Three days', 'Trois jours'), t('Practise on 3 different days this week.', 'Pratique 3 jours différents cette semaine.'), 'days', 3, 30),
+    ch('days-4', '🗓️', t('Four days', 'Quatre jours'), t('Practise on 4 different days this week.', 'Pratique 4 jours différents cette semaine.'), 'days', 4, 40),
+    ch('days-5', '🌈', t('Five days', 'Cinq jours'), t('Practise on 5 different days this week.', 'Pratique 5 jours différents cette semaine.'), 'days', 5, 50),
+  ],
+  [
+    ch('correct-25', '🎯', t('Twenty-five right', 'Vingt-cinq réussites'), t('Get 25 questions right this week.', 'Réussis 25 questions cette semaine.'), 'correct', 25, 30),
+    ch('skill-1', '🧠', t('A new skill', 'Une nouvelle habileté'), t('Master a skill this week.', 'Maîtrise une habileté cette semaine.'), 'skills', 1, 40),
+    ch('reviews-8', '🔁', t('Keep it fresh', 'Garder frais'), t('Get 8 review questions right this week.', 'Réussis 8 questions de révision cette semaine.'), 'reviews', 8, 35),
+    ch('strands-3', '🧭', t('Try three topics', 'Essayer trois sujets'), t('Get a question right in 3 different strands this week.', 'Réussis une question dans 3 volets différents cette semaine.'), 'strands', 3, 40),
+    ch('correct-40', '🏹', t('Forty right', 'Quarante réussites'), t('Get 40 questions right this week.', 'Réussis 40 questions cette semaine.'), 'correct', 40, 40),
+  ],
+];
+export const CHALLENGES: Challenge[] = CHALLENGE_GROUPS.flat();
+export const challengeById = (id: string): Challenge | undefined => CHALLENGES.find((c) => c.id === id);
+/** The three challenges open in the week that starts on `monday` (YYYY-MM-DD). The same three for every student, and a new set each week. */
+export function challengesForWeek(monday: string): Challenge[] {
+  const week = Math.floor(dayNumber(monday) / 7);
+  return CHALLENGE_GROUPS.map((g, i) => g[(week + i * 2) % g.length]!);
 }
 
 // ── badges ────────────────────────────────────────────────────────────────────────
