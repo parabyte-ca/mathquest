@@ -22,7 +22,8 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 2.13.0 | Grade 10 part 2 (priority 2, shipped): MPM2D parabolas, projectiles, midpoint, distance, circles, similar triangles, trigonometry and the sine and cosine laws; MFM2P similar triangles, trigonometry, imperial units and parabola features: 22 skills, 5 lessons. Still open for Grade 10: B3 geometry proofs, MFM2P C3 graph reading, a Grade 10 quick check | L |
 | 2.14.0 | Grade 7 completion (priority 3, shipped): 14 skills, 5 lessons, quick-check ladders updated. The original scope row follows. | M |
 | 2.11.x (done as 2.14.0) | Grade 7 completion (priority 3): the unbuilt Number (B), algebra, data, spatial sense and financial expectations, plus the same words-and-numbers versions of coding, infographics, views and the protractor | M x 2 |
-| 2.12.x | Grade 11 completion (priority 4): MCR3U, MCF3M, MBF3C and the other Grade 11 courses, every strand | L x 3 |
+| 2.15.0 | Grade 11, part 1 (priority 4, shipped): MCR3U functions, exponentials, sequences and finance: 18 skills, 5 lessons. | L |
+| 2.12.x (in progress as 2.15.0 onward) | Grade 11 completion (priority 4): MCR3U, MCF3M, MBF3C and the other Grade 11 courses, every strand | L x 3 |
 | Later | Grade 9 Data, Geometry and Financial plus C4.1 and coding; Grade 8 completion; Grade 12 | M to L |
 
 ### Richer item tools (each unlocks deferred expectations)

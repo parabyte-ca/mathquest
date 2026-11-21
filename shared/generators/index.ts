@@ -6,10 +6,11 @@ import { GENERATORS_G7 } from './grade7.js';
 import { GENERATORS_G8 } from './grade8.js';
 import { GENERATORS_G9 } from './grade9.js';
 import { GENERATORS_G10 } from './grade10.js';
+import { GENERATORS_G11 } from './grade11.js';
 
 /**
  * One generator per micro-skill. Each takes (tier, seed) and is deterministic, so every item can be rebuilt and re-checked.
- * They are registered in the per-grade files (grade5.ts to grade10.ts), which the web app loads one grade at a time.
+ * They are registered in the per-grade files (grade5.ts to grade11.ts), which the web app loads one grade at a time.
  */
 export const GENERATORS: Record<string, Generator> = {
   ...GENERATORS_G5,
@@ -18,6 +19,7 @@ export const GENERATORS: Record<string, Generator> = {
   ...GENERATORS_G8,
   ...GENERATORS_G9,
   ...GENERATORS_G10,
+  ...GENERATORS_G11,
 };
 
 export const MAX_TIER = 3;

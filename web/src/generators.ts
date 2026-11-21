@@ -11,6 +11,7 @@ const LOADERS: Record<number, () => Promise<GradeMap>> = {
   8: () => import('../../shared/generators/grade8.js').then((m) => m.GENERATORS_G8),
   9: () => import('../../shared/generators/grade9.js').then((m) => m.GENERATORS_G9),
   10: () => import('../../shared/generators/grade10.js').then((m) => m.GENERATORS_G10),
+  11: () => import('../../shared/generators/grade11.js').then((m) => m.GENERATORS_G11),
 };
 const loaded = new Map<number, GradeMap>();
 const pending = new Map<number, Promise<void>>();
