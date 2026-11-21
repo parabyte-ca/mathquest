@@ -1,15 +1,15 @@
-import type { Generator, Item } from '../../shared/items/types';
+import type { Generator, Item } from '../../shared/items/types.js';
 
 // The question generators are most of the app's code, so the web app loads them one grade at a time, only when a lesson's try-it or an
 // offline pack needs them. (The server uses the whole registry in shared/generators/index.ts.)
 
 type GradeMap = Record<string, Generator>;
 const LOADERS: Record<number, () => Promise<GradeMap>> = {
-  5: () => import('../../shared/generators/grade5').then((m) => m.GENERATORS_G5),
-  6: () => import('../../shared/generators/grade6').then((m) => m.GENERATORS_G6),
-  7: () => import('../../shared/generators/grade7').then((m) => m.GENERATORS_G7),
-  8: () => import('../../shared/generators/grade8').then((m) => m.GENERATORS_G8),
-  9: () => import('../../shared/generators/grade9').then((m) => m.GENERATORS_G9),
+  5: () => import('../../shared/generators/grade5.js').then((m) => m.GENERATORS_G5),
+  6: () => import('../../shared/generators/grade6.js').then((m) => m.GENERATORS_G6),
+  7: () => import('../../shared/generators/grade7.js').then((m) => m.GENERATORS_G7),
+  8: () => import('../../shared/generators/grade8.js').then((m) => m.GENERATORS_G8),
+  9: () => import('../../shared/generators/grade9.js').then((m) => m.GENERATORS_G9),
 };
 const loaded = new Map<number, GradeMap>();
 const pending = new Map<number, Promise<void>>();
