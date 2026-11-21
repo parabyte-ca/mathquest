@@ -258,6 +258,7 @@ table.data th, table.data td { text-align: left; padding: 0.4rem 0.5rem; border-
 .sheet .opts { list-style: upper-alpha; margin: 0.25rem 0 0; }
 .sheet .key { break-before: page; }
 .sheet .key li { margin: 0.25rem 0; }
+.sheet .key li > ol.worked { list-style: decimal; margin: 0.25rem 0 0.25rem 1rem; }
 .noprint { }
 @media print {
   body { background: #fff; }

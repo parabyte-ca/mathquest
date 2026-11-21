@@ -85,3 +85,34 @@ describe('worksheets', () => {
     expect(res.body.studentGrade).toBe(5);
   });
 });
+
+describe('worksheets with several topics', () => {
+  it('takes the topics in turn, keeps single-topic sheets unchanged, and is repeatable', async () => {
+    const { env } = await setup();
+    const single = buildWorksheet(env.ctx, { focus: 'G5.B2.5', tier: 'mixed', count: 12, seed: 777 });
+    expect(buildWorksheet(env.ctx, { focus: ['G5.B2.5'], tier: 'mixed', count: 12, seed: 777 })).toEqual(single);
+    const two = buildWorksheet(env.ctx, { focus: ['G5.B2.5', 'G5.C2.3'], tier: 2, count: 10, seed: 9 });
+    expect(two).toHaveLength(10);
+    expect(buildWorksheet(env.ctx, { focus: ['G5.B2.5', 'G5.C2.3'], tier: 2, count: 10, seed: 9 })).toEqual(two);
+    // the first question is the first topic and the second is the second topic
+    expect(two[0]).toEqual(buildWorksheet(env.ctx, { focus: 'G5.B2.5', tier: 2, count: 1, seed: 9 })[0]);
+    expect(two[1]!.prompt).toEqual(generate('MS.G5.C2.3.a', 2, 10).prompt);
+  });
+
+  it('leaves out a topic with no content and de-duplicates repeated topics', async () => {
+    const { env } = await setup();
+    const a = buildWorksheet(env.ctx, { focus: ['G5.C2.3', 'NOPE.B1', 'G5.C2.3'], tier: 1, count: 6, seed: 3 });
+    expect(a).toEqual(buildWorksheet(env.ctx, { focus: 'G5.C2.3', tier: 1, count: 6, seed: 3 }));
+    expect(buildWorksheet(env.ctx, { focus: ['NOPE.B1'], tier: 1, count: 6, seed: 3 })).toEqual([]);
+  });
+
+  it('serves a mixed sheet over the API with each topic named and worked steps for every question', async () => {
+    const { s, cg } = await setup();
+    const res = await cg.agent.get(`/api/students/${s.studentId}/worksheet?focus=G5.B2.5,G5.C2.3&tier=mixed&count=8&seed=11`).expect(200);
+    expect(res.body.topics.map((x: { code: string }) => x.code)).toEqual(['G5.B2.5', 'G5.C2.3']);
+    expect(res.body.items).toHaveLength(8);
+    for (const it of res.body.items) expect(it.steps.length).toBeGreaterThanOrEqual(1);
+    await cg.agent.get(`/api/students/${s.studentId}/worksheet?focus=G5.B2.5,bad`).expect(400);
+    await cg.agent.get(`/api/students/${s.studentId}/worksheet?focus=${Array(7).fill('G5.B2.5').join(',')}`).expect(400);
+  });
+});

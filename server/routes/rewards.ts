@@ -6,7 +6,7 @@ import { audit } from '../audit.js';
 import { access } from './students.js';
 import { listMessages, markMessageRead, sendMessage, setGoalNote, archiveFamilyGoal, archiveGoal, createFamilyGoal, createGoal, listFamilyGoals, listGoals, localDay, redeemFamilyGoal, redeemGoal, RewardError, summary } from '../rewards/service.js';
 import { dashboard } from '../rewards/dashboard.js';
-import { buildWorksheet } from '../worksheet.js';
+import { buildWorksheet, MAX_TOPICS } from '../worksheet.js';
 
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 const tx = (en: string, fr: string): { en: string; fr: string } => ({ en, fr });
@@ -42,7 +42,8 @@ export function rewardRoutes(ctx: Ctx): Router {
     if (!a) return void res.status(404).json({ error: 'not_found' });
     const q = z
       .object({
-        focus: z.string().regex(/^[A-Z0-9]{2,6}\.[A-F][0-9.]{0,8}$/),
+        focus: z.string().max(120).transform((v) => v.split(',').map((x) => x.trim()).filter(Boolean))
+          .pipe(z.array(z.string().regex(/^[A-Z0-9]{2,6}\.[A-F][0-9.]{0,8}$/)).min(1).max(MAX_TOPICS)),
         tier: z.enum(['1', '2', '3', 'mixed']).default('mixed'),
         count: z.coerce.number().int().min(4).max(30).default(12),
         seed: z.coerce.number().int().min(1).max(2_000_000_000).optional(),
@@ -52,9 +53,9 @@ export function rewardRoutes(ctx: Ctx): Router {
     const seed = q.data.seed ?? Math.floor(ctx.now() % 1_000_000_000) + 1;
     const items = buildWorksheet(ctx, { focus: q.data.focus, tier: q.data.tier === 'mixed' ? 'mixed' : Number(q.data.tier), count: q.data.count, seed });
     if (items.length === 0) return void res.status(404).json({ error: 'no_content' });
-    const exp = ctx.db.prepare('SELECT text FROM curriculum_expectation WHERE code = ?').get(q.data.focus) as { text: string } | undefined;
-    audit(ctx.db, { kind: 'caregiver', id: me(req).id }, 'worksheet.create', a.student.id, { focus: q.data.focus, count: items.length });
-    res.json({ student: { displayName: a.student.display_name, grade: a.student.grade, language: a.student.language }, focus: q.data.focus, topic: exp?.text ?? '', tier: q.data.tier, seed, items });
+    const topics = q.data.focus.map((code) => ({ code, text: (ctx.db.prepare('SELECT text FROM curriculum_expectation WHERE code = ?').get(code) as { text: string } | undefined)?.text ?? '' }));
+    audit(ctx.db, { kind: 'caregiver', id: me(req).id }, 'worksheet.create', a.student.id, { focus: q.data.focus.join(','), count: items.length });
+    res.json({ student: { displayName: a.student.display_name, grade: a.student.grade, language: a.student.language }, focus: q.data.focus.join(', '), topic: topics.map((x) => x.text).filter(Boolean).join(' · '), topics, tier: q.data.tier, seed, items });
   });
 
   r.get('/students/:id/goals', (req, res) => {
