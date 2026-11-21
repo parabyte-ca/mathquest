@@ -70,6 +70,11 @@ export function createApp(deps: AppDeps): { app: Express; ctx: Ctx } {
   });
 
   const api = express.Router();
+  // Responses carry session and CSRF material and personal data: no browser, proxy or CDN should ever keep a copy.
+  api.use((_req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store');
+    next();
+  });
   api.use(originMiddleware(ctx));
   api.use(sessionMiddleware(ctx));
   api.use(authRoutes(ctx));

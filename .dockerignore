@@ -1,0 +1,25 @@
+# Keep secrets, local data and development leftovers out of the build context. The Dockerfile copies only what it names,
+# and this file is the second lock: even a future "COPY . ." cannot pick these up.
+.env
+.env.*
+!.env.example
+.git
+.github
+.state
+data
+upgrade
+upgrade-status
+node_modules
+dist
+test-results
+playwright-report
+coverage
+*.log
+*.pem
+*.key
+*.p12
+*.pfx
+*.db
+*.sqlite
+*.sqlite3
+*.map
