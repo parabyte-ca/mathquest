@@ -2,6 +2,60 @@
 
 Items waiting for a phase or a slot. Newest first within each section. Move an item into the CHANGELOG when it ships.
 
+## Release plan
+
+Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session, M two or three, L a multi-part build. Content releases go in grade order; the other tracks slot in between. Version numbers are targets and may shift.
+
+### Content, in grade order
+
+| Release | Scope | Size |
+|---|---|---|
+| 2.7.1 | Grade 8 algebra (C) and data (D): 11 skills, 3 lessons | M |
+| 2.7.2 | Grade 8 spatial sense (E) and financial literacy (F): about 15 skills | M |
+| 2.8.0 | Placement quick checks for strands C to F, Grades 5 to 8 | S |
+| 2.9.x | Grade 9 (MTH1W): 2.9.0 Number and Algebra, 2.9.1 Data, Geometry and Financial | M x 2 |
+| 2.10 to 2.12 | Grade 10 (MPM2D, MFM2P), Grade 11, Grade 12; each needs course pathways | L x 3 |
+
+### Richer item tools (each unlocks deferred expectations)
+
+| Release | Scope | Unlocks |
+|---|---|---|
+| 3.0.0 | Protractor, sliders, draggable lines and curves | Angles, graphs, transformation parameters |
+| 3.1.0 | Data items: tables, scatter plots, misleading graphs, infographics | Data strand D1, Grades 5 to 8 |
+| 3.2.0 | Code snippets: predict the output, fix the bug | C3 coding, Grades 5 to 9 |
+| 3.3.0 | Nets, 3-D and top/front/side views, compass constructions | E1.2, E2.4 and similar |
+
+### Caregivers and motivation
+
+| Release | Scope | Size |
+|---|---|---|
+| 2.8.1 | Weekly email test button and day choice; dashboard week-over-week compare; worksheets with several topics and a worked-solution page | M |
+| 2.8.2 | Caregiver notes and messages on goals | S |
+| 2.8.3 | Printable certificate, weekly challenges, sibling team goal | M |
+| 2.8.4 | Original SVG avatars and backgrounds | M |
+| Unscheduled | Dashboard progress export as a PDF | S |
+
+### Platform
+
+| Release | Scope | Size |
+|---|---|---|
+| 2.6.1 | Offline follow-ups: "expires soon" reminder, pack size and topic choice, caregiver view of unsent answers | S |
+| 2.8.5 | "What is new" card after an upgrade, admin tour, Updates page cron schedule and "check again" | S |
+| 2.8.6 | Split lesson try-it code so a lesson loads under 585 kB; translate the admin "failed" label; per-skill bank sizes | S |
+| 3.4.0 | Question writer for choice and fraction items; spaced review and lessons offline | M |
+
+### Suggested order
+
+2.7.1 and 2.7.2 finish Grade 8, then 2.8.0 so placement covers every strand, then 3.0.0 (it opens the most deferred content), then Grade 9. Caregiver items (2.8.1, 2.8.2) fit between content releases.
+
+### For the owner (not releases)
+
+- Run `scripts/pin-actions.sh` (needs internet access).
+- Manual screen-reader pass (VoiceOver and NVDA).
+- Dependabot: monthly, grouped minor and patch updates.
+- Delete old remote branches.
+- Check each new feature on the real server (install button, offline round trip, weekly email).
+
 ## Requested
 
 ## Noted earlier in this project (not yet scheduled)
