@@ -796,6 +796,254 @@
    "prereqs": [
     "MS.G6.B2.12.a"
    ]
+  },
+  {
+   "id": "MS.G7.C1.1.a",
+   "expectation": "G7.C1.1",
+   "name": "Compare linear growing patterns by rate and starting value",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.C1.3.a",
+   "expectation": "G7.C1.3",
+   "name": "Use pattern rules and solve for the unknown term",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C1.3.a",
+    "MS.G6.C2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.C1.4.a",
+   "expectation": "G7.C1.4",
+   "name": "Patterns among integers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.4.a",
+    "MS.G6.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.C2.1.a",
+   "expectation": "G7.C2.1",
+   "name": "Add and subtract like terms (monomials of degree 1)",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G7.C2.2.a",
+   "expectation": "G7.C2.2",
+   "name": "Evaluate expressions with whole numbers and decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C2.2.a",
+    "MS.G6.B2.7.a"
+   ]
+  },
+  {
+   "id": "MS.G7.C2.3.a",
+   "expectation": "G7.C2.3",
+   "name": "Solve multi-term equations with whole numbers and decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C2.3.a",
+    "MS.G7.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G7.C2.4.a",
+   "expectation": "G7.C2.4",
+   "name": "Solve and verify inequalities with whole numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C2.4.a",
+    "MS.G7.C2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.D1.2.a",
+   "expectation": "G7.D1.2",
+   "name": "Organize and read data using percentages",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B1.7.a"
+   ]
+  },
+  {
+   "id": "MS.G7.D1.3.a",
+   "expectation": "G7.D1.3",
+   "name": "Circle graphs: percents and angles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G7.D1.5.a",
+   "expectation": "G7.D1.5",
+   "name": "How adding or removing data changes the mean",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G7.D2.1.a",
+   "expectation": "G7.D2.1",
+   "name": "Probability of independent and dependent events",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D2.2.a",
+    "MS.G7.B2.8.a"
+   ]
+  },
+  {
+   "id": "MS.G7.D2.2.a",
+   "expectation": "G7.D2.2",
+   "name": "Theoretical and experimental probability",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D2.2.a",
+    "MS.G7.B1.7.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E1.1.a",
+   "expectation": "G7.E1.1",
+   "name": "Faces, vertices and edges of prisms and pyramids",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E1.3.a",
+   "expectation": "G7.E1.3",
+   "name": "Dilations, scale factor and similar shapes",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.10.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E1.4.a",
+   "expectation": "G7.E1.4",
+   "name": "Translations, reflections and rotations on the plane",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E1.3.a",
+    "MS.G7.B2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E2.1.a",
+   "expectation": "G7.E2.1",
+   "name": "Volume and capacity (1 mL = 1 cm³)",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E2.4.a",
+    "MS.G6.E2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E2.2.a",
+   "expectation": "G7.E2.2",
+   "name": "Unit conversions in area and volume problems",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E2.1.a",
+    "MS.G6.E2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E2.3.a",
+   "expectation": "G7.E2.3",
+   "name": "Circumference of a circle",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.9.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E2.5.a",
+   "expectation": "G7.E2.5",
+   "name": "Area of a circle",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.E2.3.a",
+    "MS.G7.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E2.6.a",
+   "expectation": "G7.E2.6",
+   "name": "Cylinder nets and surface area",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.E2.5.a",
+    "MS.G6.E2.6.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E2.7.a",
+   "expectation": "G7.E2.7",
+   "name": "Volume of prisms: base area × height",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E2.7.b",
+   "expectation": "G7.E2.7",
+   "name": "Volume of cylinders",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.E2.7.a",
+    "MS.G7.E2.5.a"
+   ]
+  },
+  {
+   "id": "MS.G7.F1.1.a",
+   "expectation": "G7.F1.1",
+   "name": "Exchange rates and currency conversion",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.9.a"
+   ]
+  },
+  {
+   "id": "MS.G7.F1.3.a",
+   "expectation": "G7.F1.3",
+   "name": "Create, track and adjust budgets",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.F1.5.a",
+   "expectation": "G7.F1.5",
+   "name": "How interest affects savings and borrowing",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.F1.4.a",
+    "MS.G7.B2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.F1.6.a",
+   "expectation": "G7.F1.6",
+   "name": "Compare accounts and loans",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.F1.5.a"
+   ]
   }
  ]
 }
