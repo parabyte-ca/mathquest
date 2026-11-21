@@ -276,13 +276,14 @@ export const STRAND_LESSONS: Lesson[] = [
   },
   {
     id: 'L.data5.sampling-relative-graphs',
-    skills: ['MS.G5.D1.1.a', 'MS.G5.D1.2.a', 'MS.G5.D1.3.a', 'MS.G5.D1.6.a'],
+    skills: ['MS.G5.D1.1.a', 'MS.G5.D1.2.a', 'MS.G5.D1.3.a', 'MS.G5.D1.4.a', 'MS.G5.D1.6.a'],
     title: t('Sampling, relative frequency, choosing graphs and reading them', 'Échantillonnage, fréquence relative, choix de graphiques et lecture'),
     intro: t('A fair sample, an honest table and the right graph help you tell the truth with data.', 'Un échantillon juste, un tableau honnête et le bon graphique t\'aident à dire la vérité avec des données.'),
     definitions: [
       d(['Sampling', 'Échantillonnage'], ['A representative sample looks like the whole group. Choosing at random from everyone is fair, and a larger random sample is usually better. Asking only one special part of the group gives a biased sample.', 'Un échantillon représentatif ressemble à tout le groupe. Choisir au hasard parmi tous est juste, et un plus grand échantillon au hasard est généralement meilleur. Interroger seulement une partie particulière du groupe donne un échantillon biaisé.']),
       d(['Relative frequency', 'Fréquence relative'], ['Relative frequency = count ÷ total. Multiply by 100 for a percent. The percents of all categories add to 100.', 'Fréquence relative = effectif ÷ total. Multiplie par 100 pour obtenir un pourcentage. Les pourcentages de toutes les catégories totalisent 100.']),
       d(['Choosing a graph', 'Choisir un graphique'], ['Bar graph: compare categories. Stacked-bar graph: show the parts inside each total. Circle graph: parts of one whole. Broken-line graph: change over time.', 'Diagramme à bandes : comparer des catégories. Diagramme à bandes superposées : montrer les parties dans chaque total. Diagramme circulaire : parties d\'un seul tout. Graphique à ligne brisée : changement dans le temps.']),
+      d(['Infographics', 'Infographies'], ['An infographic combines a title, graphs, a table and a short headline. It needs labels on the axes and the source of the data, and its headline must match the data without exaggerating.', 'Une infographie combine un titre, des graphiques, un tableau et un court grand titre. Elle a besoin d\'étiquettes sur les axes et de la source des données, et son grand titre doit correspondre aux données sans exagérer.']),
       d(['Misleading graphs', 'Graphiques trompeurs'], ['If an axis does not start at zero, small differences look big. In a stacked bar, a part is the total minus the other parts.', 'Si un axe ne commence pas à zéro, de petites différences paraissent grandes. Dans une bande superposée, une partie est le total moins les autres parties.']),
     ],
     examples: [
@@ -308,5 +309,39 @@ export const STRAND_LESSONS: Lesson[] = [
       ex(['Example 3: an angle', 'Exemple 3 : un angle'], ['A right angle is 6 wedges. One wedge is 90 ÷ 6 = 15°.', 'Un angle droit fait 6 coins. Un coin vaut 90 ÷ 6 = 15°.'], ['An angle of 4 wedges is 4 × 15 = 60°.', 'Un angle de 4 coins mesure 4 × 15 = 60°.']),
     ],
     tryIt: { skill: 'MS.G5.E1.5.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.coding5.programs',
+    skills: ['MS.G5.C3.1.a', 'MS.G5.C3.2.a'],
+    title: t('Programs with loops and conditionals', 'Programmes avec boucles et conditionnelles'),
+    intro: t('A program is a list of steps the computer follows in order. A loop repeats steps, and a conditional chooses between steps.', 'Un programme est une liste d\'étapes que l\'ordinateur suit dans l\'ordre. Une boucle répète des étapes, et une conditionnelle choisit entre des étapes.'),
+    definitions: [
+      d(['Loop', 'Boucle'], ['"Repeat 5 times: add 3" runs the step 5 times, so it adds 3 × 5 = 15 in all.', '« Répéter 5 fois : ajouter 3 » exécute l\'étape 5 fois : elle ajoute 3 × 5 = 15 en tout.']),
+      d(['Conditional', 'Conditionnelle'], ['"If score is greater than 20, add 4; otherwise, add 10." Test the condition, then follow only the branch that matches.', '« Si le score est plus grand que 20, ajouter 4 ; sinon, ajouter 10. » Teste la condition, puis suis seulement la branche qui correspond.']),
+      d(['Changing a program', 'Modifier un programme'], ['When you change a number in a program, work it through again with the new number. A bigger loop count gives a bigger total, and a new limit can switch the branch.', 'Quand tu changes un nombre dans un programme, refais le calcul avec le nouveau nombre. Un plus grand nombre de répétitions donne un plus grand total, et une nouvelle limite peut changer la branche.']),
+    ],
+    examples: [
+      ex(['Example 1: a loop', 'Exemple 1 : une boucle'], ['Set total to 2, then repeat 4 times: add 5.', 'Mets total à 2, puis répète 4 fois : ajouter 5.'], ['4 × 5 = 20, and 2 + 20 = 22.', '4 × 5 = 20, et 2 + 20 = 22.']),
+      ex(['Example 2: a conditional', 'Exemple 2 : une conditionnelle'], ['Score is 18. If score is greater than 20, add 4; otherwise, add 10. Is 18 greater than 20? No.', 'Le score est 18. Si le score est plus grand que 20, ajouter 4 ; sinon, ajouter 10. Est-ce que 18 est plus grand que 20 ? Non.'], ['So add 10: the score becomes 28.', 'On ajoute donc 10 : le score devient 28.']),
+      ex(['Example 3: a change', 'Exemple 3 : une modification'], ['A loop adds 6 four times and ends at 24. Change it to repeat 7 times.', 'Une boucle ajoute 6 quatre fois et se termine à 24. Change-la pour qu\'elle se répète 7 fois.'], ['Now 6 × 7 = 42.', 'Maintenant, 6 × 7 = 42.']),
+    ],
+    tryIt: { skill: 'MS.G5.C3.1.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.geometry5.congruent-views-protractor',
+    skills: ['MS.G5.E1.2.a', 'MS.G5.E1.3.a', 'MS.G5.E2.4.a'],
+    title: t('Congruent shapes, views of block structures and the protractor', 'Figures congrues, vues de structures de blocs et rapporteur'),
+    intro: t('Congruent shapes match exactly. A structure looks different from the top, the front and the side. A protractor measures an angle from a zero line.', 'Des figures congrues se superposent exactement. Une structure paraît différente de dessus, de face et de côté. Un rapporteur mesure un angle à partir d\'une ligne de zéro.'),
+    definitions: [
+      d(['Congruent', 'Congru'], ['Congruent shapes have equal matching sides and equal matching angles. In a parallelogram, opposite angles are equal and angles next to each other add to 180°.', 'Des figures congrues ont des côtés correspondants égaux et des angles correspondants égaux. Dans un parallélogramme, les angles opposés sont égaux et les angles voisins totalisent 180°.']),
+      d(['Views', 'Vues'], ['From above you see one square for each stack. From the front you see the height of each stack. A taller stack behind shows above a shorter one in front.', 'De dessus, tu vois un carré par pile. De face, tu vois la hauteur de chaque pile. Une pile plus haute derrière dépasse au-dessus d\'une pile plus basse devant.']),
+      d(['Protractor', 'Rapporteur'], ['Line one arm up with zero on the scale and read the other arm on the same scale. If the first arm is not at zero, subtract. Benchmarks: a right angle is 90° and a straight angle is 180°.', 'Aligne un côté avec le zéro de l\'échelle et lis l\'autre côté sur la même échelle. Si le premier côté n\'est pas à zéro, soustrais. Repères : un angle droit mesure 90° et un angle plat mesure 180°.']),
+    ],
+    examples: [
+      ex(['Example 1: congruent', 'Exemple 1 : congru'], ['Triangle ABC is congruent to triangle DEF, with A matching D and B matching E. AB is 7 cm.', 'Le triangle ABC est congru au triangle DEF, avec A qui correspond à D et B à E. AB mesure 7 cm.'], ['DE matches AB, so DE is 7 cm.', 'DE correspond à AB : DE mesure 7 cm.']),
+      ex(['Example 2: a front view', 'Exemple 2 : une vue de face'], ['Three stacks have heights 2, 3 and 1.', 'Trois piles ont des hauteurs de 2, 3 et 1.'], ['The front view has 2 + 3 + 1 = 6 squares. The top view has 3.', 'La vue de face a 2 + 3 + 1 = 6 carrés. La vue de dessus en a 3.']),
+      ex(['Example 3: a protractor', 'Exemple 3 : un rapporteur'], ['One arm is at 30° and the other at 110° on the same scale.', 'Un côté est à 30° et l\'autre à 110° sur la même échelle.'], ['The angle is 110 − 30 = 80°.', 'L\'angle mesure 110 − 30 = 80°.']),
+    ],
+    tryIt: { skill: 'MS.G5.E2.4.a', tier: 1, seed: 3 },
   },
 ];

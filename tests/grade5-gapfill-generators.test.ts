@@ -160,3 +160,68 @@ describe('Grade 5 spatial sense generators compute correct answers', () => {
     each('MS.G5.E2.3.a', [3], (it) => { const [right, per, mine] = nums(it.prompt.en) as [number, number, number]; expect(right).toBe(90); expect(90 % per).toBe(0); close(val(it), (90 / per) * mine, it.id); });
   });
 });
+
+describe('Grade 5 coding, congruence, views, protractor and infographic generators compute correct answers', () => {
+  it('runs short programs by simulation', () => {
+    each('MS.G5.C3.1.a', [1], (it) => { const [, start, , k, add] = nums(it.prompt.en) as [number, number, number, number, number]; let total = start; for (let i = 0; i < k; i++) total += add; close(val(it), total, it.id); });
+    each('MS.G5.C3.1.a', [2], (it) => {
+      const [score, limit, a, b] = nums(it.prompt.en) as [number, number, number, number];
+      close(val(it), score > limit ? score + a : score + b, it.id);
+    });
+    each('MS.G5.C3.1.a', [3], (it) => {
+      const [, , m] = nums(it.prompt.en) as [number, number, number]; const mult = /even/.test(it.prompt.en) ? 2 : 3;
+      let total = 0; for (let i = 1; i <= m; i++) if (i % mult === 0) total += i;
+      close(val(it), total, it.id);
+    });
+  });
+
+  it('alters programs', () => {
+    each('MS.G5.C3.2.a', [1], (it) => { const [, k, add, , k2] = nums(it.prompt.en) as number[]; let total = 0; for (let i = 0; i < k2!; i++) total += add!; expect(k).toBeLessThan(k2!); close(val(it), total, it.id); });
+    each('MS.G5.C3.2.a', [2], (it) => {
+      const [score, limit, a, b, before, , newLimit] = nums(it.prompt.en) as number[];
+      expect(score! > limit!).toBe(true); expect(before).toBe(score! + a!);
+      close(val(it), score! > newLimit! ? score! + a! : score! + b!, it.id); expect(val(it)).not.toBe(before);
+    });
+    each('MS.G5.C3.2.a', [3], (it) => {
+      const [start, add, goal] = nums(it.prompt.en) as [number, number, number];
+      let total = start, reps = 0; while (total < goal) { total += add; reps++; }
+      expect(total).toBe(goal); close(val(it), reps, it.id);
+    });
+  });
+
+  it('congruent shapes', () => {
+    each('MS.G5.E1.2.a', [1], (it) => {
+      const [ab, bc, ac] = nums(it.prompt.en.replace(/ABC|DEF/g, '')).slice(-3) as [number, number, number];
+      const side = /side (DE|EF|DF) in/.exec(it.prompt.en)![1]!;
+      close(val(it), side === 'DE' ? ab : side === 'EF' ? bc : ac, it.id);
+    });
+    each('MS.G5.E1.2.a', [2], (it) => { const [l, w] = nums(it.prompt.en) as [number, number]; close(val(it), /area/.test(it.prompt.en) ? l * w : 2 * (l + w), it.id); });
+    each('MS.G5.E1.2.a', [3], (it) => { const [a] = nums(it.prompt.en) as [number]; close(val(it), /opposite/.test(it.prompt.en) ? a : 180 - a, it.id); });
+  });
+
+  it('views of block structures', () => {
+    each('MS.G5.E1.3.a', [1], (it) => { const [n, ...h] = nums(it.prompt.en); expect(h.length).toBe(n); close(val(it), n!, it.id); });
+    each('MS.G5.E1.3.a', [2], (it) => { const [n, ...h] = nums(it.prompt.en); expect(h.length).toBe(n); close(val(it), h.reduce((a, b) => a + b, 0), it.id); });
+    each('MS.G5.E1.3.a', [3], (it) => {
+      const x = nums(it.prompt.en).slice(0, 6); const front = x.slice(0, 3), back = x.slice(3);
+      close(val(it), front.reduce((a, v, i) => a + Math.max(v, back[i]!), 0), it.id);
+    });
+  });
+
+  it('protractor', () => {
+    each('MS.G5.E2.4.a', [1], (it) => { const [a, b] = nums(it.prompt.en) as [number, number]; close(val(it), b - a, it.id); });
+    each('MS.G5.E2.4.a', [2], (it) => { const [s, o] = nums(it.prompt.en) as [number, number]; expect(s + o).toBe(180); close(val(it), Math.min(s, o), it.id); expect(val(it)).toBeLessThan(90); });
+    each('MS.G5.E2.4.a', [3], (it) => { const [d] = nums(it.prompt.en) as [number]; close(val(it), /less than a straight/.test(it.prompt.en) ? 180 - d : 90 + d, it.id); });
+  });
+
+  it('infographics', () => {
+    each('MS.G5.D1.4.a', [1], (it) => {
+      const have = ['title', 'labels', 'source'].filter((w) => new RegExp(w === 'title' ? 'a title' : w === 'labels' ? 'labels on the axes' : 'source of the data').test(it.prompt.en));
+      expect(have.length).toBe(2);
+      const missing = ['title', 'labels', 'source'].find((w) => !have.includes(w))!;
+      expect(rightText(it)).toMatch(missing === 'title' ? /^A title/ : missing === 'labels' ? /^Labels/ : /^The source/);
+    });
+    each('MS.G5.D1.4.a', [2], (it) => { const [count, total] = nums(it.prompt.en) as [number, number]; close(val(it), (count * 100) / total, it.id); });
+    each('MS.G5.D1.4.a', [3], (it) => { const [pct] = nums(it.prompt.en) as [number]; expect(rightText(it)).toBe(`${pct} out of every 100 students walk to school`); });
+  });
+});
