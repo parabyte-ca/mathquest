@@ -1,0 +1,6 @@
+// Lessons for one group of grades. The web app loads one group at a time, only when a lesson from it is opened.
+import type { Lesson } from './types.js';
+import { GRADE11_LESSONS } from './grade11.js';
+import { GRADE11B_LESSONS } from './grade11b.js';
+
+export const LESSONS_G11: Lesson[] = [...GRADE11_LESSONS, ...GRADE11B_LESSONS];
