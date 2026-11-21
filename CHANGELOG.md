@@ -11,7 +11,8 @@
 - Offline practice keeps the list of questions and the student's answers in the browser's own storage (IndexedDB) on that device, and a copy of their name and settings so the app can open offline. Signing out removes the copy of their name and settings; answers not yet sent stay until they are. The service worker still never stores any API data.
 - Because the questions are built on the device, a student could work out an answer outside the app; this is practice, and every answer still goes through the server's grading.
 
-### Also in this release (Grade 7 content, planned as 2.5.1)
+## [2.5.1] - 2026-11-21
+### Added
 - Grade 7 strands C to F: 26 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer.
   - Algebra (7): comparing growing patterns, pattern rules and unknown terms, integer patterns, like terms, evaluating with decimals, multi-term equations (including letters on both sides) and inequalities.
   - Data (5): percentages in data, circle graphs, how adding or removing data changes the mean, independent and dependent events (exact fractions), theoretical and experimental probability.
