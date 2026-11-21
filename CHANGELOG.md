@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.17.0] - 2026-11-21
+### Added
+- Grade 9 is now complete for everything the question player can handle: 21 new micro-skills, 4 lessons and a quick check for each new strand (Algebra, Data and Modelling, Geometry and Measurement, Financial Literacy).
+  - Algebra: code with variables, parameters, equations and inequalities (C2.1), breaking a situation into steps (C2.2), reading and altering code (C2.3), and linear against non-linear relations (C4.1).
+  - Data and Modelling: the implications of large data sets (D1.1), quartiles, the interquartile range and outliers (D1.2), scatter plots, lines of best fit and residuals (D1.3), and the five parts of the modelling cycle (D2.1 to D2.5): the question of interest, the plan and assumptions, the analysis, how well the model fits, and reporting limitations.
+  - Geometry and Measurement: designs with circle and triangle properties (E1.2), unit conversions including area and volume (E1.3), how scaling changes perimeter, area and volume (E1.4), the Pythagorean relationship in composite shapes and boxes (E1.5), and the volume relationships of prisms, pyramids, cylinders and cones (E1.6).
+  - Financial Literacy: past and present situations (F1.1), appreciation and depreciation (F1.2), the cost of borrowing (F1.3), and modifying a budget (F1.4).
+- Quick checks (placement) for Grade 9 Data, Geometry and Financial Literacy, and the Algebra check now includes the new skills.
+- Every new answer is recomputed by an independent, mutation-tested check. Money answers use rates chosen so results are exact; rounded answers are accepted within the stated tolerance.
+
+### Notes
+- The three "cultural history" research expectations (B1.1, C1.1, E1.1) are research tasks with nothing to auto-check, so they show as "coming soon".
+- Still to come: Grade 8 completion and Grade 12.
+
 ## [2.16.1] - 2026-11-21
 ### Security
 - A full audit of the source, the git history, the build, the production bundles and the running server found **no credentials, keys, tokens or connection strings in any browser code, bundle, source map or API response**. The two secrets the app uses (the Resend and Anthropic keys) were already only in the server's environment, used only for calls the server makes, and never sent to the browser. This release keeps it that way automatically.

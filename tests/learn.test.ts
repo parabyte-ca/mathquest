@@ -69,8 +69,7 @@ describe('options and sessions', () => {
         expect(['B', 'C', 'D', 'E', 'F'].every((k) => s8[k])).toBe(true); // every Grade 8 strand has content from 2.7.2
     const g9 = res.body.grades.find((g: { grade: number }) => g.grade === 9);
     const s9 = Object.fromEntries(g9.groups[0].strands.map((x: { strand: string; available: boolean }) => [x.strand, x.available]));
-    expect(s9.B && s9.C).toBe(true); // Grade 9 Number and Algebra have content from 2.9.0
-    expect(['D', 'E', 'F'].every((k) => !s9[k])).toBe(true); // Data, Geometry and Financial come in 2.9.1
+    expect(['B', 'C', 'D', 'E', 'F'].every((k) => s9[k])).toBe(true); // every Grade 9 strand has content from 2.17.0
     expect(res.body.grades.map((g: { grade: number }) => g.grade)).toEqual([5, 6, 7, 8, 9, 10, 11, 12]);
   });
 
@@ -442,7 +441,7 @@ describe('quick checks by strand', () => {
     const env = env0();
     const s = await makeStudent(env, { grade: 9, allowed: { grades: [5, 9], courses: [] } });
     await post(s, '/placement/start', { grade: 5, strand: 'Z' }).expect(400);
-    await post(s, '/placement/start', { grade: 9, strand: 'D' }).expect(404); // Grade 9 Data has no check until 2.9.1
+    await post(s, '/placement/start', { grade: 9, strand: 'A' }).expect(400); // strand A is never scored
   });
 });
 
@@ -504,7 +503,8 @@ describe('skill map', () => {
     expect(node('G6.B2.5').unmet).toContain('G5.B2.5');
     expect(map.nodes.every((n) => n.state !== 'soon')).toBe(true); // every Grade 6 expectation has practice from 2.9.1
     const map9 = (await s.agent.get('/api/learn/skillmap?grade=9&course=MTH1W').expect(200)).body as typeof map;
-    expect(map9.nodes.find((n) => n.code === 'MTH1W.D1.1')!.state).toBe('soon'); // Grade 9 Data has no content yet
+    expect(map9.nodes.find((n) => n.code === 'MTH1W.B1.1')!.state).toBe('soon'); // a research task has no practice
+    expect(map9.nodes.find((n) => n.code === 'MTH1W.D1.2')!.state).not.toBe('soon');
     expect(map.edges.some((e) => e.from === 'G5.B2.5' && e.to === 'G6.B2.5')).toBe(true);
 
     // practicing never needs the prerequisite: sessions can still start on a locked skill
