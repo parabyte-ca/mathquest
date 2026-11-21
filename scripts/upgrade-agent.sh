@@ -24,14 +24,24 @@ export LOG_FILE
 mkdir -p "$STATUS_DIR" "$STATE_DIR"
 chmod 700 "$STATE_DIR"
 
-write_status() { # write_status STATE MESSAGE [VERSION] [REQUEST_ID]
-  local state="$1" message="$2" version="${3:-}" rid="${4:-}" prev tmp
+write_status() { # write_status STATE MESSAGE [VERSION] [REQUEST_ID]   (STEP_KEY, STEP_N, STEP_COUNT and ERR may be set first)
+  local state="$1" message="$2" version="${3:-}" rid="${4:-}" prev tmp started backup finished=""
   prev="$(cat "$STATE_DIR/previous_version" 2>/dev/null || true)"
+  started="$(cat "$STATE_DIR/started_at" 2>/dev/null || true)"
+  backup="$(basename "$(cat "$STATE_DIR/last_backup" 2>/dev/null || true)" 2>/dev/null || true)"
+  case "$state" in succeeded | failed | rolled_back) finished="$(date -u +%Y-%m-%dT%H:%M:%SZ)" ;; esac
   tmp="$(mktemp "$STATUS_DIR/.status.XXXXXX")"
   jq -n --arg state "$state" --arg message "$message" --arg version "$version" --arg rid "$rid" --arg prev "$prev" \
+    --arg step "${STEP_KEY:-}" --argjson stepn "${STEP_N:-null}" --argjson stepc "${STEP_COUNT:-null}" --arg err "${ERR:-}" \
+    --arg started "$started" --arg finished "$finished" --arg backup "$backup" \
     '{state:$state, message:$message, version:(if $version=="" then null else $version end),
       requestId:(if $rid=="" then null else $rid end),
       previousVersion:(if $prev=="" then null else $prev end),
+      step:(if $step=="" then null else $step end), stepNumber:$stepn, stepCount:$stepc,
+      error:(if $err=="" then null else $err end),
+      startedAt:(if $started=="" or $rid=="" then null else $started end),
+      finishedAt:(if $finished=="" then null else $finished end),
+      backupFile:(if $backup=="" or $backup=="." then null else $backup end),
       updatedAt:(now|todate)}' >"$tmp"
   chmod 644 "$tmp"
   mv "$tmp" "$STATUS_DIR/status.json"
@@ -44,11 +54,13 @@ reject() { # reject REASON  (never echo request content into status: it is attac
 }
 
 run_agent() {
+  touch "$STATUS_DIR/heartbeat" # lets the admin page tell the agent is running (it runs every minute)
   exec 8>"$STATE_DIR/agent.lock"
   flock -n 8 || exit 0 # an upgrade is already running
 
   # Nothing to do?
   [ -e "$REQUEST" ] || [ -L "$REQUEST" ] || exit 0
+  rm -f "$STATE_DIR/started_at" "$STATUS_DIR/progress.json"
 
   # 1. Validate the file itself: a plain, small, regular file. Never follow symlinks.
   if [ -L "$REQUEST" ] || [ ! -f "$REQUEST" ]; then reject "not a regular file"; exit 0; fi
@@ -80,14 +92,27 @@ run_agent() {
     exit 0
   fi
 
+  date -u +%Y-%m-%dT%H:%M:%SZ >"$STATE_DIR/started_at"
   write_status validating "Checking release v$version" "$version" "$rid"
   log "request $rid: upgrade to v$version"
   write_status running "Updating to v$version (backup, verify, deploy)" "$version" "$rid"
 
-  local rc=0
+  local rc=0 pj="$STATUS_DIR/progress.json" log_from
+  log_from="$(wc -l <"$LOG_FILE" 2>/dev/null || echo 0)"; [[ "$log_from" =~ ^[0-9]+$ ]] || log_from=0
   "$ROOT_DIR/update.sh" --version "$version" >>"$LOG_FILE" 2>&1 || rc=$?
+  if [ -f "$pj" ]; then # the stage update.sh reached last: when it failed, this is where
+    STEP_KEY="$(jq -r '.step // empty' "$pj" 2>/dev/null || true)"
+    STEP_N="$(jq -r '.stepNumber // empty' "$pj" 2>/dev/null || true)"
+    STEP_COUNT="$(jq -r '.stepCount // empty' "$pj" 2>/dev/null || true)"
+    [[ "$STEP_N" =~ ^[0-9]+$ ]] || STEP_N=""
+    [[ "$STEP_COUNT" =~ ^[0-9]+$ ]] || STEP_COUNT=""
+    [ -n "$STEP_N" ] || STEP_N=null
+    [ -n "$STEP_COUNT" ] || STEP_COUNT=null
+  fi
+  # the host script's own reason, in plain words (its ERROR: lines go to the same log)
+  ERR="$(tail -n +"$((log_from + 1))" "$LOG_FILE" 2>/dev/null | grep -a 'ERROR:' | tail -n1 | sed 's/^.*ERROR: //' | cut -c1-280 || true)"
   case "$rc" in
-    0) write_status succeeded "Now running v$version" "$version" "$rid" ;;
+    0) STEP_KEY="done"; STEP_N=5; STEP_COUNT=5; ERR=""; write_status succeeded "Now running v$version" "$version" "$rid" ;;
     20) write_status rolled_back "Update failed; rolled back to the previous version" "$version" "$rid" ;;
     21) write_status failed "Update failed and the rollback failed. Run update.sh --rollback on the host." "$version" "$rid" ;;
     *) write_status failed "Update failed before anything changed (see upgrade.log)" "$version" "$rid" ;;

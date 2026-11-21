@@ -46,6 +46,19 @@ env_set() {
   mv "$tmp" "$ROOT_DIR/.env"
 }
 
+# Tells the admin page which stage an upgrade is in. No-op when upgrade-status/ or jq is missing (a manual run on a plain host).
+# progress STEP_NUMBER STEP_COUNT KEY   (KEY: backup | download | verify | deploy | health | rollback)
+progress() {
+  local dir="$ROOT_DIR/upgrade-status" tmp
+  [ -d "$dir" ] && command -v jq >/dev/null 2>&1 || return 0
+  tmp="$(mktemp "$dir/.progress.XXXXXX" 2>/dev/null)" || return 0
+  if jq -n --arg k "$3" --argjson n "$1" --argjson c "$2" '{step:$k, stepNumber:$n, stepCount:$c, updatedAt:(now|todate)}' >"$tmp" 2>/dev/null && chmod 644 "$tmp"; then
+    mv "$tmp" "$dir/progress.json" 2>/dev/null || rm -f "$tmp"
+  else
+    rm -f "$tmp"
+  fi
+}
+
 # Newer-than comparison for semver strings: version_gt A B  => A > B
 version_gt() { [ "$1" != "$2" ] && [ "$(printf '%s\n%s\n' "$1" "$2" | sort -V | tail -n1)" = "$1" ]; }
 

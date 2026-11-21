@@ -265,3 +265,12 @@ table.data th, table.data td { text-align: left; padding: 0.4rem 0.5rem; border-
 }
 
 textarea { font: inherit; resize: vertical; }
+
+/* ── upgrade steps ─────────────────────────────────────────────────────────── */
+ol.steps { list-style: none; padding: 0; margin: 0.5rem 0 1rem; }
+ol.steps li { padding: 0.25rem 0; }
+ol.steps li.current { font-weight: 700; }
+ol.steps li.done { color: var(--ok); }
+ol.steps li.failed { color: var(--danger); font-weight: 700; }
+ol.steps li.pending { color: var(--muted); }
+.lastupgrade { border-top: 1px solid var(--line); padding-top: 0.5rem; margin-top: 0.5rem; }

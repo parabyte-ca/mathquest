@@ -102,3 +102,69 @@ describe('upgrade agent', () => {
     expect(r.log).not.toContain('SECRET-PAYLOAD');
   });
 });
+
+describe('upgrade agent: richer status', () => {
+  /** A stub update.sh that reports a stage, logs a reason, and exits with `code`. */
+  function stub(code: number, step: string, n: number, error?: string, backup = '/data/backups/mathquest-2026-11-21T01-00-00-000Z.db'): void {
+    setup(code);
+    mkdirSync(join(root, '.state'), { recursive: true });
+    writeFileSync(
+      join(root, 'update.sh'),
+      `#!/usr/bin/env bash\nsource "$(dirname "$0")/scripts/lib.sh"\necho '${backup}' >"$ROOT_DIR/.state/last_backup"\nprogress ${n} 5 ${step}\n${error ? `log "ERROR: ${error}"\n` : ''}exit ${code}\n`,
+      { mode: 0o755 },
+    );
+  }
+
+  it('touches a heartbeat every run, even with nothing to do', () => {
+    setup(0);
+    expect(existsSync(join(root, 'upgrade-status', 'heartbeat'))).toBe(false);
+    run();
+    expect(existsSync(join(root, 'upgrade-status', 'heartbeat'))).toBe(true);
+  });
+
+  it('records the stage, start and finish times and the backup file name on success', () => {
+    stub(0, 'health', 5);
+    req({ version: '2.1.0' });
+    const s = run().status!;
+    expect(s).toMatchObject({ state: 'succeeded', step: 'done', stepNumber: 5, stepCount: 5, error: null, backupFile: 'mathquest-2026-11-21T01-00-00-000Z.db' });
+    expect(s.startedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+    expect(s.finishedAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+  });
+
+  it('names the stage that failed and the reason, for a failure before anything changed', () => {
+    stub(1, 'verify', 3, 'signature check failed for ghcr.io/parabyte-ca/mathquest:2.1.0: no matching signatures');
+    req({ version: '2.1.0' });
+    const s = run().status!;
+    expect(s).toMatchObject({ state: 'failed', step: 'verify', stepNumber: 3, stepCount: 5 });
+    expect(s.error).toBe('signature check failed for ghcr.io/parabyte-ca/mathquest:2.1.0: no matching signatures');
+  });
+
+  it('reports a rollback with the stage that went wrong', () => {
+    stub(20, 'rollback', 5, 'v2.1.0 did not become healthy');
+    req({ version: '2.1.0' });
+    expect(run().status).toMatchObject({ state: 'rolled_back', step: 'rollback', error: expect.stringContaining('did not become healthy') });
+  });
+
+  it('keeps old progress and errors out of a new request, and out of rejected requests', () => {
+    writeFileSync(join(root, 'upgrade-status', 'progress.json'), JSON.stringify({ step: 'deploy', stepNumber: 4, stepCount: 5 }));
+    req({ version: '1.0.0' }); // a downgrade: refused before anything runs
+    const s = run().status!;
+    expect(s).toMatchObject({ state: 'failed', step: null, error: null });
+    expect(existsSync(join(root, 'upgrade-status', 'progress.json'))).toBe(false);
+  });
+
+  it('does not blame a failure on an error left in the log by an earlier run', () => {
+    stub(1, 'backup', 1); // fails without logging a reason this time
+    writeFileSync(join(root, 'upgrade-status', 'upgrade.log'), '2026-11-01T00:00:00Z ERROR: an old problem\n');
+    req({ version: '2.1.0' });
+    expect(run().status).toMatchObject({ state: 'failed', error: null, step: 'backup' });
+  });
+
+  it('never puts a path in the status: only the backup file name', () => {
+    stub(0, 'health', 5, undefined, '/mnt/pool/apps/mathquest/data/backups/mathquest-x.db');
+    req({ version: '2.1.0' });
+    const s = run().status!;
+    expect(s.backupFile).toBe('mathquest-x.db');
+    expect(JSON.stringify(s)).not.toContain('/mnt/');
+  });
+});
