@@ -653,6 +653,149 @@
    "prereqs": [
     "MS.G6.B2.3.a"
    ]
+  },
+  {
+   "id": "MS.G7.B1.2.a",
+   "expectation": "G7.B1.2",
+   "name": "Perfect squares and square roots",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B2.6.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B1.3.a",
+   "expectation": "G7.B1.3",
+   "name": "Compare negative fractions and decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B1.2.a",
+    "MS.G6.B1.6.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B1.4.a",
+   "expectation": "G7.B1.4",
+   "name": "Write fractions in simplest form",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B1.3.b"
+   ]
+  },
+  {
+   "id": "MS.G7.B1.7.a",
+   "expectation": "G7.B1.7",
+   "name": "Convert fractions and decimals to percents",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B1.6.a",
+    "MS.G5.B1.7.b"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.1.a",
+   "expectation": "G7.B2.1",
+   "name": "Order of operations with brackets and exponents",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B2.1.a",
+    "MS.G7.B2.7.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.3.a",
+   "expectation": "G7.B2.3",
+   "name": "Increase or decrease a number by 1%, 5%, 10%, 25%, 50%, 100%",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.4.a",
+   "expectation": "G7.B2.4",
+   "name": "Add and subtract integers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.5.a",
+   "expectation": "G7.B2.5",
+   "name": "Add and subtract fractions, including mixed numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B2.5.b",
+    "MS.G6.B2.5.c",
+    "MS.G7.B1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.6.a",
+   "expectation": "G7.B2.6",
+   "name": "Greatest common factor (numbers up to 144)",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B2.6.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.6.b",
+   "expectation": "G7.B2.6",
+   "name": "Least common multiple of two and three numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.6.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.7.a",
+   "expectation": "G7.B2.7",
+   "name": "Exponential notation and powers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.B2.6.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.8.a",
+   "expectation": "G7.B2.8",
+   "name": "Multiply fractions and mixed numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B2.9.a",
+    "MS.G7.B1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.8.b",
+   "expectation": "G7.B2.8",
+   "name": "Divide fractions by fractions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.8.a",
+    "MS.G6.B2.10.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.9.a",
+   "expectation": "G7.B2.9",
+   "name": "Multiply and divide decimals by decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B2.7.a",
+    "MS.G6.B2.8.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.10.a",
+   "expectation": "G7.B2.10",
+   "name": "Proportional reasoning with unit rates",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B2.12.a"
+   ]
   }
  ]
 }

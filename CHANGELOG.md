@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.5.0] - 2026-11-21
+### Added
+- Grade 7 Number (strand B), the first Grade 7 content: 15 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer. Topics: perfect squares and square roots, comparing negative fractions and decimals, simplest form, converting to percents, order of operations with brackets and exponents, mental percent change (1%, 5%, 10%, 25%, 50%, 100%), adding and subtracting integers, adding and subtracting fractions and mixed numbers, greatest common factor, least common multiple of two and three numbers, powers (including negative bases), multiplying and dividing fractions, multiplying and dividing decimals by decimals, and proportional reasoning with unit rates.
+- Four Grade 7 lessons ("Show me how"), and a Grade 7 placement ladder that revisits Grade 6 skills first.
+- Independent arithmetic tests for every new generator (each recomputes the answer from the prompt by a different method).
+
+### Changed
+- Grade 7 now shows Number as available; its other strands still say "coming soon".
+
 ## [2.4.1] - 2026-11-21
 ### Fixed
 - On a phone, the caregiver Progress page could be wider than the screen: the 14-day and by-topic tables did not shrink, so the page scrolled sideways and taps landed slightly off target. The tables now scroll inside their card and wrap long words, and the end-to-end tests check that this page never scrolls sideways.

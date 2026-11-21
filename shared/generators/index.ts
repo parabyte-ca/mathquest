@@ -7,6 +7,7 @@ import { addSub5, compareWhole, composeWhole, divide3by2, facts5, mentalMath5, m
 import { addSub6, compareMixed, divideByTenths, divideDecimals, divisibility, fracDec6, integersLine, multiStep6, percentMental, primeFactors, ratiosPercents, roundDecimals, thousandths, timesTenths, wholeDivFraction, wholeTimesFraction, wholeToMillion } from './number6.js';
 import { decimalPattern, evalDecimal6, evalWhole, growingPatternRule, inequality5, inequality6, linearPattern6, solveEq5, solveEq6 } from './algebra56.js';
 import { centralTendency5, experimental5, probFraction5, probPercent6, range6, twoEvents6 } from './data56.js';
+import { addSubFrac7, convert7, decimals7, divFrac7, exponent7, gcf7, intAddSub7, lcm7, mulFrac7, orderOps7, percentChange7, proportional7, rational7, simplify7, squares7 } from './number7.js';
 import { angles6, area6, areaParTri5, bestValue5, fourQuadrants6, metricBoth6, metricDown5, quads6, salesTax5, samePerimeter5, simpleInterest6, surfaceArea6, triangles5 } from './spatial56.js';
 
 /** One generator per micro-skill. Each takes (tier, seed) and is deterministic, so every item can be rebuilt and re-checked. */
@@ -84,6 +85,21 @@ export const GENERATORS: Record<string, Generator> = {
   'MS.G6.B2.10.a': wholeDivFraction,
   'MS.G6.B2.11.a': divideDecimals,
   'MS.G6.B2.12.a': ratiosPercents,
+  'MS.G7.B1.2.a': squares7,
+  'MS.G7.B1.3.a': rational7,
+  'MS.G7.B1.4.a': simplify7,
+  'MS.G7.B1.7.a': convert7,
+  'MS.G7.B2.1.a': orderOps7,
+  'MS.G7.B2.3.a': percentChange7,
+  'MS.G7.B2.4.a': intAddSub7,
+  'MS.G7.B2.5.a': addSubFrac7,
+  'MS.G7.B2.6.a': gcf7,
+  'MS.G7.B2.6.b': lcm7,
+  'MS.G7.B2.7.a': exponent7,
+  'MS.G7.B2.8.a': mulFrac7,
+  'MS.G7.B2.8.b': divFrac7,
+  'MS.G7.B2.9.a': decimals7,
+  'MS.G7.B2.10.a': proportional7,
 };
 
 export const MAX_TIER = 3;
