@@ -8,6 +8,7 @@ import { GRADE6_LESSONS } from './grade6.js';
 import { GRADE9_LESSONS } from './grade9.js';
 import { GRADE10_LESSONS } from './grade10.js';
 import { GAPS7_LESSONS } from './gaps7.js';
+import { GRADE11_LESSONS } from './grade11.js';
 import { NUMBER8_LESSONS } from './number8.js';
 import { STRAND8_LESSONS } from './strands8.js';
 import { STRAND_LESSONS } from './strands56.js';
@@ -27,6 +28,7 @@ export const LESSONS: Lesson[] = [
   ...GRADE9_LESSONS,
   ...GRADE10_LESSONS,
   ...GAPS7_LESSONS,
+  ...GRADE11_LESSONS,
   {
     id: 'L.fractions.naming',
     skills: ['MS.G5.B1.3.a', 'MS.G5.B1.3.b', 'MS.G5.B1.3.c'],

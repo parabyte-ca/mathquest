@@ -2444,6 +2444,170 @@
    "prereqs": [
     "MS.G10.MFM2P.C2.1.a"
    ]
+  },
+  {
+   "id": "MS.G11.MCR3U.A1.1.a",
+   "expectation": "MCR3U.A1",
+   "name": "Function notation: evaluating and solving",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.A1.2.a",
+   "expectation": "MCR3U.A1",
+   "name": "Domain restrictions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.A2.1.a",
+   "expectation": "MCR3U.A2",
+   "name": "Inverse of a function",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.A3.1.a",
+   "expectation": "MCR3U.A3",
+   "name": "Transformations of a point",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.A4.1.a",
+   "expectation": "MCR3U.A4",
+   "name": "Intersections of a line and a parabola",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.6.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.A4.2.a",
+   "expectation": "MCR3U.A4",
+   "name": "Maximum and minimum values of a quadratic",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A4.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.A4.3.a",
+   "expectation": "MCR3U.A4",
+   "name": "The discriminant and the number of zeros",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.7.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.A5.1.a",
+   "expectation": "MCR3U.A5",
+   "name": "Simplifying radicals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.A5.2.a",
+   "expectation": "MCR3U.A5",
+   "name": "Simplifying rational expressions and restrictions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A3.5.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.B1.1.a",
+   "expectation": "MCR3U.B1",
+   "name": "Rational exponents",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.B3.1.a",
+   "expectation": "MCR3U.B3",
+   "name": "Linear, quadratic or exponential from a table",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.B5.1.a",
+   "expectation": "MCR3U.B5",
+   "name": "Growth and decay models",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B3.5.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.C1.1.a",
+   "expectation": "MCR3U.C1",
+   "name": "Pascal's triangle and binomial expansion",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.C1.2.a",
+   "expectation": "MCR3U.C1",
+   "name": "Recursive sequences",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.C3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.C2.1.a",
+   "expectation": "MCR3U.C2",
+   "name": "Arithmetic sequences and series",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.C1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.C2.2.a",
+   "expectation": "MCR3U.C2",
+   "name": "Geometric sequences and series",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.C2.1.a",
+    "MS.G11.MCR3U.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.C3.1.a",
+   "expectation": "MCR3U.C3",
+   "name": "Compound interest",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.B5.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MCR3U.C4.1.a",
+   "expectation": "MCR3U.C4",
+   "name": "Ordinary simple annuities",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.C2.2.a",
+    "MS.G11.MCR3U.C3.1.a"
+   ]
   }
  ]
 }

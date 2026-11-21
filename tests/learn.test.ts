@@ -477,6 +477,22 @@ describe('Grade 10 by course', () => {
   });
 });
 
+describe('Grade 11 by course', () => {
+  it('practices MCR3U Functions, Exponential Functions and Discrete Functions by course', async () => {
+    const env = env0();
+    const s = await makeStudent(env, { grade: 11, allowed: { grades: [11], courses: [] } });
+    for (const strand of ['A', 'B', 'C']) {
+      const r = await start(s, { grade: 11, course: 'MCR3U', strands: [strand] });
+      expect(r.step.item ?? r.step.lessonId ?? r.step.target, strand).toBeDefined();
+    }
+    await post(s, '/session', { grade: 11, course: 'MCR3U', strands: ['D'] }).expect(404); // MCR3U trigonometry has no content yet
+    await post(s, '/session', { grade: 11, strands: ['A'] }).expect(404); // without the course there is no Grade 11 content
+    const opts = (await s.agent.get('/api/learn/options').expect(200)).body as { grades: { grade: number; groups: { course: string | null; strands: { strand: string; available: boolean }[] }[] }[] };
+    const mcr = opts.grades.find((g) => g.grade === 11)!.groups.find((g) => g.course === 'MCR3U')!;
+    expect(mcr.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B', 'C']);
+  });
+});
+
 describe('skill map', () => {
   it('shows soon, locked, new, in progress and mastered states, with prerequisites', async () => {
     const env = env0();

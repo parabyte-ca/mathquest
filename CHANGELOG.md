@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.15.0] - 2026-11-21
+### Added
+- Grade 11 begins with MCR3U (Functions, university preparation): 18 new micro-skills and 5 lessons, practised by choosing the course.
+  - Characteristics of Functions: function notation, domain restrictions, inverses, transformations of a point, where a line meets a parabola, maximum and minimum values, the discriminant and the number of zeros, simplifying radicals, and simplifying rational expressions with restrictions.
+  - Exponential Functions: rational exponents (including negative ones), telling linear, quadratic and exponential relations apart from a table, and growth and decay models.
+  - Discrete Functions: Pascal's triangle and binomial expansion, recursive sequences, arithmetic and geometric sequences and series, compound interest, and ordinary simple annuities (future value, payment and present value).
+- Every new answer is recomputed by an independent, mutation-tested check. Money answers use rates chosen so results are exact, and present values are accepted to within a cent.
+- Grade 11 generators load as their own chunk on the web (`shared/generators/grade11.ts`); skill ids carry the course (`MS.G11.MCR3U.A1.1.a`).
+
+### Notes
+- This release also carries 2.14.0 (Grade 7 completion).
+- Still to come for Grade 11: MCR3U trigonometry (exact values, reciprocal ratios, identities, the ambiguous case, sinusoidal functions), MCF3M, MBF3C and the other Grade 11 courses, and a Grade 11 quick check.
+
 ## [2.14.0] - 2026-11-21
 ### Added
 - Grade 7 is now complete for everything the question player can handle: 14 new micro-skills and 5 lessons, asked in words and numbers.
