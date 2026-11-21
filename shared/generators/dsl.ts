@@ -1,7 +1,7 @@
 // A small toolkit for writing generators: bilingual text with correct number formatting, and a one-call builder for the
 // common "type a number" item. Numbers inside prompts are TeX so they render and are read aloud the same way in both languages.
 import { makeRng, shuffle, type Rng } from '../rng.js';
-import type { Category, Generator, Text, Visual } from '../items/types.js';
+import type { Category, Format, Generator, SliderSpec, Text, Visual } from '../items/types.js';
 import { build } from './kit.js';
 
 export type Lang = 'en' | 'fr';
@@ -58,16 +58,21 @@ export interface NumDraw {
   praise?: Text;
   category?: Category;
   tolerance?: number;
+  /** Accept any value within this many units of the answer (for example 2 degrees on a protractor). */
+  absTolerance?: number;
   visual?: Visual;
+  /** How the student gives the number: typed (default), moved on a slider (give `slider` too), or drawn as an angle on a protractor. */
+  format?: 'number' | 'slider' | 'angle';
+  slider?: SliderSpec;
 }
 
-/** A generator whose answer is a number the student types. `draw` picks the variables for the tier and describes the item. */
+/** A generator whose answer is a number the student types, slides or draws. `draw` picks the variables for the tier and describes the item. */
 export const numGen = (skill: string, draw: (tier: number, r: Rng, seed: number) => NumDraw): Generator => (tier, seed) => {
   const r = makeRng(seed);
   const d = draw(tier, r, seed);
   return build({
-    skill, tier, seed, category: d.category ?? 'KU', format: 'number', prompt: d.prompt, visual: d.visual,
-    answer: { kind: 'number', value: round6(d.answer), tolerance: d.tolerance },
+    skill, tier, seed, category: d.category ?? 'KU', format: (d.format ?? 'number') as Format, prompt: d.prompt, visual: d.visual, slider: d.slider,
+    answer: { kind: 'number', value: round6(d.answer), tolerance: d.tolerance, absTolerance: d.absTolerance },
     steps: d.steps, nudge: d.nudge, stepHint: d.stepHint ?? d.steps[0]!,
     wrong: (d.wrong ?? []).map(([v, why, step]) => ({ answer: { kind: 'number' as const, value: round6(v) }, why, stepIndex: step ?? 0 })),
     praise: d.praise,

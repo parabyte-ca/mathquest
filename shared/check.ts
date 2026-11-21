@@ -108,7 +108,7 @@ export function check(answer: Answer, given: Given, literal = false): boolean {
   switch (answer.kind) {
     case 'number': {
       if (given.kind !== 'number') return false;
-      return numberCandidates(given.text).some((v) => close(v, answer.value, answer.tolerance ?? 1e-9));
+      return numberCandidates(given.text).some((v) => close(v, answer.value, answer.tolerance ?? 1e-9) || (answer.absTolerance !== undefined && Math.abs(v - answer.value) <= answer.absTolerance));
     }
     case 'expression':
       return given.kind === 'expression' && expressionsEquivalent(given.text, answer.expr, answer.vars);

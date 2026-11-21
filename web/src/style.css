@@ -133,6 +133,17 @@ math { font-size: 1.15em; }
 .vis .vlabel { font-size: 14px; font-weight: 700; }
 .vis .pt { fill: var(--segfill2); stroke: var(--ink); stroke-width: 2; }
 .vis.plane { max-width: 22rem; touch-action: manipulation; cursor: crosshair; }
+.vis.protractor { max-width: 24rem; margin: 0 auto; }
+.vis.protractor.draggable { touch-action: none; cursor: pointer; }
+.vis .proto-body { fill: var(--seg); stroke: var(--ink); stroke-width: 2; opacity: 0.85; }
+.vis .tick-line { stroke: var(--ink); stroke-width: 1; }
+.vis .tick.inner { font-size: 10px; opacity: 0.8; }
+.vis .axis.base { stroke-width: 4; }
+.vis .arm { stroke: var(--danger); stroke-width: 4; stroke-linecap: round; }
+.slider-in { margin: 0.75rem 0; }
+.slider-in input[type='range'] { width: 100%; min-height: 44px; }
+.slider-in .ends { display: flex; justify-content: space-between; }
+.slider-in .readout { font-size: 1.25rem; font-weight: 700; }
 .vis .grow { transform-box: fill-box; transform-origin: left center; animation: grow 0.6s ease-out both; }
 @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 @media (prefers-reduced-motion: reduce) { .vis .grow { animation: none; } }

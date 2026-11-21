@@ -8,7 +8,7 @@ const ex = (title: [string, string], ...steps: [string, string][]) => ({ title: 
 export const GAPS7_LESSONS: Lesson[] = [
   {
     id: 'L.gaps7.number',
-    skills: ['MS.G7.B1.1.a', 'MS.G7.B1.5.a', 'MS.G7.B1.6.a', 'MS.G7.B2.2.a'],
+    skills: ['MS.G7.B1.1.a', 'MS.G7.B1.5.a', 'MS.G7.B1.6.a', 'MS.G7.B2.2.a', 'MS.G7.B2.2.b'],
     title: t('Big numbers, rounding and equivalents', 'Grands nombres, arrondis et équivalents'),
     intro: t('Place value works the same way in every size of number. These skills help you read, round and compare numbers, and move between fractions, decimals and percents.', 'La valeur de position fonctionne de la même façon pour tous les nombres. Ces habiletés t\'aident à lire, arrondir et comparer des nombres, et à passer entre fractions, nombres décimaux et pourcentages.'),
     definitions: [

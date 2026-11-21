@@ -121,7 +121,7 @@ export const NUMBER_LESSONS: Lesson[] = [
   },
   {
     id: 'L.number.integers',
-    skills: ['MS.G6.B1.2.a', 'MS.G6.B1.3.a'],
+    skills: ['MS.G6.B1.2.a', 'MS.G6.B1.2.b', 'MS.G6.B1.3.a'],
     title: t('Integers and ordering numbers', 'Les entiers et l\'ordre des nombres'),
     intro: t('Integers include negative numbers. On a number line, numbers to the right are greater.', 'Les entiers comprennent les nombres négatifs. Sur une droite numérique, les nombres à droite sont plus grands.'),
     definitions: [

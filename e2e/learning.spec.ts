@@ -410,3 +410,47 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await expect(parent.locator('.certificate')).toBeVisible();
   await parent.emulateMedia({ media: 'screen' });
 });
+
+test('protractor lesson: a student draws an angle by moving the arm (slider or drag), and gets it checked', async ({ page, browser, baseURL }, info) => {
+  const { kid } = await setup(browser, baseURL!, page, info, 'pr');
+  await kid.goto('/app/learn/lesson?id=L.g5.protractor-use');
+  await expect(kid.getByRole('heading', { name: /Using a protractor/ })).toBeVisible();
+  await expect(kid.locator('svg.protractor').first()).toBeVisible();
+  for (let i = 0; i < 3; i++) {
+    await kid.getByRole('button', { name: 'Next', exact: true }).click(); // example i + 1
+    await kid.getByRole('button', { name: 'Next step' }).click();
+  }
+  await kid.getByRole('button', { name: 'Try one with me' }).click();
+  const prompt = await kid.locator('form.answer').locator('xpath=ancestor::*[1]').innerText();
+  const angle = Number(/Draw an angle that measures\s*(\d+)/.exec(prompt.replace(/\n/g, ' '))?.[1]);
+  expect(angle).toBeGreaterThan(0);
+
+  // nothing is chosen yet, so Check is off; the arm is not drawn until the student moves it
+  await expect(kid.getByRole('button', { name: 'Check' })).toBeDisabled();
+  await expect(kid.locator('svg.protractor line.arm')).toHaveCount(0);
+  const results = await new AxeBuilder({ page: kid }).withTags(AXE_TAGS).analyze();
+  expect(results.violations.map((v) => v.id)).toEqual([]);
+
+  // a wrong place first: the other scale
+  await kid.locator('#angle-range').fill(String(180 - angle === angle ? angle + 20 : 180 - angle));
+  await expect(kid.locator('svg.protractor line.arm')).toHaveCount(1);
+  await kid.getByRole('button', { name: 'Check' }).click();
+  await expect(kid.getByText(/Not yet/)).toBeVisible();
+
+  // then the right place, set by dragging the arm on the protractor
+  const svg = kid.locator('svg.protractor');
+  const box = (await svg.boundingBox())!;
+  const rad = (angle * Math.PI) / 180;
+  const flip = await kid.locator('svg.protractor line.axis.base').evaluate((el) => Number(el.getAttribute('x2')) < Number(el.getAttribute('x1')));
+  const abs = flip ? Math.PI - rad : rad;
+  const x = box.x + ((170 + 120 * Math.cos(abs)) / 340) * box.width;
+  const y = box.y + ((165 - 120 * Math.sin(abs)) / 190) * box.height;
+  await kid.mouse.move(x, y);
+  await kid.mouse.down();
+  await kid.mouse.move(x + 0.01, y);
+  await kid.mouse.up();
+  await expect(kid.locator('#angle-range')).toHaveValue(new RegExp(`^(${angle - 1}|${angle}|${angle + 1})$`));
+  await kid.locator('#angle-range').fill(String(angle));
+  await kid.getByRole('button', { name: 'Check' }).click();
+  await expect(kid.getByText("That's right!")).toBeVisible();
+});

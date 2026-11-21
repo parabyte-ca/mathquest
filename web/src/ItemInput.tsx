@@ -17,6 +17,7 @@ export function ItemInput({ item, disabled, onSubmit }: { item: PublicItem; disa
   const [pairs, setPairs] = useState<[number, number][]>([]);
   const [left, setLeft] = useState<number | null>(null);
   const [point, setPoint] = useState<{ x: number; y: number } | null>(null);
+  const [moved, setMoved] = useState<number | null>(null); // slider value or angle in degrees; null until the student moves it
   const [kb, setKb] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dragFrom = useRef<number | null>(null);
@@ -39,6 +40,7 @@ export function ItemInput({ item, disabled, onSubmit }: { item: PublicItem; disa
     case 'multi': given = multi.length ? { kind: 'multi', indices: multi } : null; break;
     case 'order': given = { kind: 'order', order }; break;
     case 'match': given = pairs.length === (item.options?.length ?? -1) ? { kind: 'match', pairs } : null; break;
+    case 'slider': case 'angle': given = moved === null ? null : { kind: 'number', text: String(moved) }; break;
     case 'point': given = point ? { kind: 'point', x: point.x, y: point.y } : null; break;
   }
 
@@ -50,6 +52,14 @@ export function ItemInput({ item, disabled, onSubmit }: { item: PublicItem; disa
     setOrder(next);
   };
 
+  // The picture follows the control: the marker on a number line, the arm on a protractor.
+  const shownVisual = (v: NonNullable<PublicItem['visual']>): NonNullable<PublicItem['visual']> => {
+    if (item.format === 'slider' && v.type === 'numberLine') return { ...v, marks: moved === null ? [] : [{ at: moved }] };
+    if (item.format === 'angle' && v.type === 'protractor') return { ...v, angle: moved ?? undefined };
+    return v;
+  };
+  const unit = item.slider?.unit ?? '';
+
   const field = (value: string, onInput: (v: string) => void, label: string, id: string) => (
     <div class="fld">
       <label for={id} class="sr">{label}</label>
@@ -59,7 +69,7 @@ export function ItemInput({ item, disabled, onSubmit }: { item: PublicItem; disa
 
   return (
     <form class="answer" data-item={item.id} onSubmit={(e) => { e.preventDefault(); if (given && !disabled) onSubmit(given); }}>
-      {item.visual && <div class="visual"><Visual v={item.visual} picked={point} onPick={item.format === 'point' ? (x, y) => !disabled && setPoint({ x, y }) : undefined} /></div>}
+      {item.visual && <div class="visual"><Visual v={shownVisual(item.visual)} picked={point} onPick={item.format === 'point' ? (x, y) => !disabled && setPoint({ x, y }) : undefined} onAngle={item.format === 'angle' ? (a) => !disabled && setMoved(a) : undefined} /></div>}
 
       {(item.format === 'number' || item.format === 'expression') && (
         <div class="entry">
@@ -165,6 +175,31 @@ export function ItemInput({ item, disabled, onSubmit }: { item: PublicItem; disa
               })}
             </ul>
           </div>
+        </div>
+      )}
+
+      {item.format === 'slider' && item.slider && (
+        <div class="slider-in">
+          <label for="slide">{t('play.sliderLabel')}</label>
+          <input id="slide" type="range" min={item.slider.min} max={item.slider.max} step={item.slider.step} value={moved ?? item.slider.min} disabled={disabled}
+            aria-valuetext={moved === null ? t('play.sliderUntouched') : `${moved}${unit}`}
+            onInput={(e) => setMoved(Number((e.target as HTMLInputElement).value))}
+            onKeyUp={(e) => { if (moved === null) setMoved(Number((e.target as HTMLInputElement).value)); }}
+            onPointerUp={(e) => { if (moved === null) setMoved(Number((e.target as HTMLInputElement).value)); }} />
+          <div class="ends muted small" aria-hidden="true"><span>{item.slider.min}{unit}</span><span>{item.slider.max}{unit}</span></div>
+          <p class="readout" role="status">{moved === null ? t('play.sliderUntouched') : t('play.sliderValue', { v: `${moved}${unit}` })}</p>
+        </div>
+      )}
+
+      {item.format === 'angle' && (
+        <div class="slider-in">
+          <p class="muted small">{t('play.angleHelp')}</p>
+          <label for="angle-range">{t('play.angleLabel')}</label>
+          <input id="angle-range" type="range" min={0} max={180} step={1} value={moved ?? 0} disabled={disabled}
+            aria-valuetext={moved === null ? t('play.sliderUntouched') : `${moved}°`}
+            onInput={(e) => setMoved(Number((e.target as HTMLInputElement).value))}
+            onKeyUp={(e) => { if (moved === null) setMoved(Number((e.target as HTMLInputElement).value)); }} />
+          <p class="readout" role="status">{moved === null ? t('play.sliderUntouched') : t('play.angleValue', { v: moved })}</p>
         </div>
       )}
 
