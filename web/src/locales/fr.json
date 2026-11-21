@@ -19,6 +19,7 @@
   "ai.reject": "Refuser",
   "ai.rejectedNote": "Certains brouillons n'ont pas passé nos vérifications et ont été écartés.",
   "ai.reports": "Signalements des élèves",
+  "ai.failedCalls": "{n} en échec",
   "ai.resolve": "Écarter",
   "ai.retire": "Retirer",
   "ai.skill": "Habileté",

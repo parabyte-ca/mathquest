@@ -19,6 +19,7 @@
   "ai.reject": "Reject",
   "ai.rejectedNote": "Some drafts failed our checks and were dropped.",
   "ai.reports": "Student reports",
+  "ai.failedCalls": "{n} failed",
   "ai.resolve": "Dismiss",
   "ai.retire": "Retire",
   "ai.skill": "Skill",

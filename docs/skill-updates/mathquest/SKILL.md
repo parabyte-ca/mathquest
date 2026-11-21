@@ -35,13 +35,13 @@ More detail on modules, tables and design decisions is in `references/architectu
 
 Do the grades in order, one strand group per release, and look up what the grade requires in `ontario-math-curriculum`. For each expectation that can be asked as a number, fraction or choice:
 
-1. **Generator** in `shared/generators/` using the DSL in `dsl.ts` (`numGen`, `choiceGen`, `bi`, `mc`, `r6`, `money`) or `build()` from `kit.ts` for fraction answers. Three tiers, steps (worked example), a nudge, and `wrong` entries for common misconceptions. Register it in `shared/generators/index.ts` under `MS.G{grade}.{strand}{n}.{n}.{letter}`.
+1. **Generator** in `shared/generators/` (registered in that grade's `gradeN.ts` map; `index.ts` gathers the maps and the web app loads one grade at a time) using the DSL in `dsl.ts` (`numGen`, `choiceGen`, `bi`, `mc`, `r6`, `money`) or `build()` from `kit.ts` for fraction answers. Three tiers, steps (worked example), a nudge, and `wrong` entries for common misconceptions. Register it in `shared/generators/index.ts` under `MS.G{grade}.{strand}{n}.{n}.{letter}`.
 2. **Micro-skill** entry in `content/microskills.json` with `expectation`, `name`, `tiers: 3` and `prereqs` (earlier micro-skill ids; the graph must have no cycles).
 3. **Placement**: add the skill to its ladder in `content/placement.json`, ordered easiest to hardest and never before one of its own prerequisites. Number uses the plain grade as its key (`7`); strands C to F use `grade.strand` (`7.C`) and hold that strand's earlier-grade skills too. A test fails if a strand skill is missing from its ladder.
 4. **Lessons** in `shared/lessons/` (definitions, two or three worked examples, a `tryIt`), registered in `shared/lessons/index.ts`. Every micro-skill needs a lesson that lists it. EN and FR must differ for any string with words.
 5. **Independent arithmetic test** in `tests/`: parse the English prompt, recompute the answer by a different method (brute force, exact fractions, `Function` evaluation), compare. Then mutate one generator answer to prove the test fails. The generic `tests/generators.test.ts` already checks structure, determinism, bilingual text and wrong-answer rules for every registered skill.
 6. **Update tests that assume content is missing** (`tests/learn.test.ts` checks which strands show as available).
-7. Update `CHANGELOG.md`, `README.md`, `docs/BACKLOG.md`, bump the version, run every check, open a draft PR.
+7. Update `CHANGELOG.md`, `README.md`, `docs/BACKLOG.md`, bump the version everywhere it lives (`VERSION`, `package.json`, `package-lock.json` twice, the README badge and `--version` line, `.env.example`), run every check, open a draft PR.
 
 Items that need richer tools (coding, infographics, nets and 3-D views, constructions, reading sources) are listed in `docs/BACKLOG.md`; do not fake them with numeric stand-ins.
 

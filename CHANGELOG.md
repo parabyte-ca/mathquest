@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.11.1] - 2026-11-21
+### Changed
+- Faster on a phone: the question generators (most of the app's code, about 1 MB) are now loaded one grade at a time, and only when they are needed: by a lesson's "try one with me", or by an offline pack. Opening a lesson used to fetch about 1.2 MB of code (about 330 kB compressed); it now fetches about 0.7 MB for a Grade 6 lesson (about 215 kB compressed). Practice, the home page and the caregiver pages never needed the generators, so the first screen is unchanged (about 127 kB of code, 41 kB compressed). A lesson shows "Loading" for a moment while its grade loads, and a clear message if the connection drops.
+- The offline worker saves the app's code in the background three files at a time and at low priority, so the first visit on a slow connection is not held up by it. Offline use is unchanged: everything is still saved on the first visit.
+- The generator registry is now one small file per grade (`shared/generators/grade5.ts` to `grade9.ts`); `index.ts` gathers them for the server, so nothing changes there.
+
+### Fixed
+- The admin page's AI usage list showed "failed" in English only; it is now translated.
+
+### Notes
+- Still on the list: splitting the lessons' text by grade (about 171 kB, 55 kB compressed) and a per-skill bank-size summary for the admin page.
+
 ## [2.11.0] - 2026-11-21
 ### Added
 - Weekly challenges: every Monday, three challenges open for every student, one of each kind (effort, showing up on different days, and growing, such as mastering a skill or answering review questions). Each pays bonus XP once when it is done during the week (Monday to Sunday, family time zone), shows on the rewards page with a progress bar, and is announced right after the answer that completes it. The set changes every week and every challenge comes round in turn.

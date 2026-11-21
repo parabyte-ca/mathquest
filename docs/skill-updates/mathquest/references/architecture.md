@@ -10,7 +10,7 @@ Contents: modules · data tables · the answer path · rewards · caregivers and
 | Auth and sessions | `routes/auth.ts`, `session.ts`, `crypto.ts`, `ratelimit.ts`, `mail.ts` (Resend; `MemoryMailer` in tests), `routes/devices.ts` (pairing codes, approval) |
 | Students, caregivers | `routes/students.ts`, `student_caregivers` table, `note.ts` (optional invitation note) |
 | Learning loop | `learn/service.ts` (sessions, `issue`, `next`, `answer`, hints, placement, skill map, offline packs), `routes/learn.ts`, `shared/engine/*` (BKT, struggle ladder, review, placement, session mix) |
-| Content | `shared/generators/*` (one file per grade and strand group; `index.ts` is the registry), `shared/lessons/*`, `content/*.json`, `curriculum.ts` loads JSON into SQLite |
+| Content | `shared/generators/*` (topic files per grade and strand group, registered in `grade5.ts` to `grade9.ts`; `index.ts` gathers those into the registry, and the web app loads them one grade at a time), `shared/lessons/*`, `content/*.json`, `curriculum.ts` loads JSON into SQLite |
 | Checking and feedback | `shared/check.ts` (number, fraction, mixed, expression via math.js, choice, multi, order, match, point), `shared/feedback.ts`, `shared/mathspeech.ts` |
 | Rewards | `shared/rewards.ts` (pure XP, levels `50*L*(L-1)`, streaks, badges, cosmetics), `server/rewards/service.ts` and `dashboard.ts`, `shared/palettes.ts`, `weekly.ts`, `worksheet.ts` |
 | AI question writer | `server/ai/anthropic.ts` (spend-capped client), `verify.ts` (re-computes answers with math.js, banned-term filter), `pipeline.ts`; admin review queue in `routes/ai.ts`; about one practice item in four comes from the approved bank |

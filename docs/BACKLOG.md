@@ -47,7 +47,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 |---|---|---|
 | 2.6.1 | Offline follow-ups: "expires soon" reminder, pack size and topic choice, caregiver view of unsent answers | S |
 | 2.8.8 | "What is new" card after an upgrade, admin tour, Updates page cron schedule and "check again" | S |
-| 2.8.9 | Split lesson try-it code so a lesson loads under 585 kB; translate the admin "failed" label; per-skill bank sizes | S |
+| 2.11.1 | Faster on a phone: generators load one grade at a time (shipped). Still open: split the lessons' text by grade, per-skill bank-size summary on the admin page | S |
 | 3.4.0 | Question writer for choice and fraction items; spaced review and lessons offline | M |
 
 ### Suggested order
@@ -79,7 +79,7 @@ Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completel
 - Grade 7 items that need richer tools: coding (C3), infographics and misleading graphs (D1.1, D1.4, D1.6), top, front, side and perspective views (E1.2), constructing circles (E2.4), reliable sources and decision factors (F1.2, F1.4).
 - Grade 5-6 strand items that need richer tools: coding (C3), modelling (C4), data collection and infographics (D1), nets and 3-D views (E1.2, E2.5), transformations (E1.5), taxes and budgets (F1).
 - Grades 7 to 12 content, in grade order. Grade 7 Number shipped in 2.5.0 and Grade 7 strands C to F in 2.5.1; Grade 8 shipped in 2.7.0 (Number), 2.7.1 (C and D) and 2.7.2 (E and F); next is Grade 9 (MTH1W).
-- Admin usage view: translate the "failed" label; add a per-skill bank-size summary.
+- Admin usage view: add a per-skill bank-size summary (the "failed" label is now translated).
 - Let the question writer produce non-numeric formats (choice, fraction) once the verifier can re-compute them.
 - Refresh the `ontario-math-curriculum` skill and create a `mathquest` skill.
 
