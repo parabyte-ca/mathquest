@@ -40,6 +40,12 @@ export const fmt = (lang: Lang): F => ({
 /** Builds a bilingual Text from one function of the formatter, so both languages share the same numbers. */
 export const bi = (fn: (f: F) => string): Text => ({ en: fn(fmt('en')), fr: fn(fmt('fr')) });
 
+/** Keeps only the mapped wrong answers that are finite, distinct and different from the right answer. */
+export const keepWrong = (answer: number, list: [number, Text, number?][]): [number, Text, number?][] => {
+  const seen = new Set<number>([round6(answer)]);
+  return list.filter(([v]) => Number.isFinite(v) && !seen.has(round6(v)) && (seen.add(round6(v)), true));
+};
+
 export interface NumDraw {
   prompt: Text;
   answer: number;

@@ -170,4 +170,73 @@ export const STRAND_LESSONS: Lesson[] = [
     ],
     tryIt: { skill: 'MS.G5.F1.2.a', tier: 2, seed: 3 },
   },
+  {
+    id: 'L.finance6.goals',
+    skills: ['MS.G6.F1.1.a', 'MS.G6.F1.2.a', 'MS.G6.F1.3.a', 'MS.G6.F1.5.a'],
+    title: t('Paying, saving for goals, borrowing and giving', 'Payer, économiser pour un objectif, emprunter et donner'),
+    intro: t('Money choices have effects. How you pay, how fast you save, and what you spend, lend or give all change how soon you reach a goal.', 'Les choix d\'argent ont des effets. La façon de payer, la vitesse d\'épargne et ce que tu dépenses, prêtes ou donnes changent le temps qu\'il faut pour atteindre un objectif.'),
+    definitions: [
+      d(['Payment methods', 'Modes de paiement'], ['Cash gives change: bill minus price. A debit card takes money straight from your account. A credit card lends you money, and a fee or interest may be added. Compare the fees in dollars.', 'Le comptant donne de la monnaie : billet moins prix. Une carte de débit retire l\'argent directement de ton compte. Une carte de crédit te prête de l\'argent, et des frais ou de l\'intérêt peuvent s\'ajouter. Compare les frais en dollars.']),
+      d(['Financial goals', 'Objectifs financiers'], ['Weeks to a goal = (cost − what you already have) ÷ what you save each week.', 'Semaines pour atteindre un objectif = (coût − ce que tu as déjà) ÷ ce que tu économises chaque semaine.']),
+      d(['Factors that help or interfere', 'Facteurs qui aident ou nuisent'], ['Extra income helps: it raises the weekly saving. A new expense interferes: it lowers the weekly saving. Find the weeks before and after, then subtract.', 'Un revenu de plus aide : il augmente l\'économie hebdomadaire. Une nouvelle dépense nuit : elle diminue l\'économie hebdomadaire. Trouve les semaines avant et après, puis soustrais.']),
+      d(['Trading, lending, borrowing, donating', 'Échanger, prêter, emprunter, donner'], ['A fair trade swaps equal total values. When you lend or borrow, what is still owed is the amount minus what has been paid back. A donation of a percent is that percent of what you earn.', 'Un échange équitable échange des valeurs totales égales. Quand on prête ou emprunte, ce qui reste dû est le montant moins ce qui a été remboursé. Un don d\'un pourcentage est ce pourcentage de ce que tu gagnes.']),
+    ],
+    examples: [
+      ex(['Example 1: a goal', 'Exemple 1 : un objectif'], ['A game costs 60 dollars. You have 15 dollars and save 5 dollars a week. Still needed: 60 − 15 = 45 dollars.', 'Un jeu coûte 60 dollars. Tu as 15 dollars et tu économises 5 dollars par semaine. Il manque : 60 − 15 = 45 dollars.'], ['45 ÷ 5 = 9, so it takes 9 weeks.', '45 ÷ 5 = 9 : il faut 9 semaines.']),
+      ex(['Example 2: a factor', 'Exemple 2 : un facteur'], ['A 60 dollar goal at 10 dollars a week takes 6 weeks. A new expense of 5 dollars a week leaves 5 dollars a week.', 'Un objectif de 60 dollars à 10 dollars par semaine prend 6 semaines. Une nouvelle dépense de 5 dollars par semaine laisse 5 dollars par semaine.'], ['Now it takes 12 weeks, which is 6 more weeks.', 'Maintenant, il faut 12 semaines, soit 6 semaines de plus.']),
+      ex(['Example 3: a loan', 'Exemple 3 : un prêt'], ['You lend 80 dollars and are paid back 10 dollars a week. After 3 weeks you have been paid 3 × 10 = 30 dollars.', 'Tu prêtes 80 dollars et on te rembourse 10 dollars par semaine. Après 3 semaines, on t\'a remboursé 3 × 10 = 30 dollars.'], ['Still owed: 80 − 30 = 50 dollars.', 'Reste dû : 80 − 30 = 50 dollars.']),
+    ],
+    tryIt: { skill: 'MS.G6.F1.2.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.algebra6.patterns-monomials',
+    skills: ['MS.G6.C1.1.a', 'MS.G6.C1.2.a', 'MS.G6.C1.4.a', 'MS.G6.C2.1.a'],
+    title: t('Kinds of patterns, tables and rules, and adding like terms', 'Types de suites, tableaux et règles, et addition de termes semblables'),
+    intro: t('Patterns can repeat, grow or shrink. A table, a rule and a pattern are three ways to show the same thing, and terms with the same letter can be added.', 'Les suites peuvent se répéter, croître ou décroître. Un tableau, une règle et une suite sont trois façons de montrer la même chose, et les termes avec la même lettre peuvent s\'additionner.'),
+    definitions: [
+      d(['Kinds of patterns', 'Types de suites'], ['A repeating pattern has a core that repeats. A growing pattern goes up and a shrinking pattern goes down. A growing pattern is linear when it jumps by the same amount every term.', 'Une suite répétitive a un motif de base qui se répète. Une suite croissante monte et une suite décroissante descend. Une suite croissante est linéaire quand elle fait le même écart à chaque terme.']),
+      d(['Tables and rules', 'Tableaux et règles'], ['In a table, the jump between values is the number beside n in the rule. Put term 1 in the rule to find the number that is added.', 'Dans un tableau, l\'écart entre les valeurs est le nombre à côté de n dans la règle. Mets le terme 1 dans la règle pour trouver le nombre ajouté.']),
+      d(['Adding monomials', 'Additionner des monômes'], ['Terms with the same letter are like terms. Add the numbers in front: 3x + 5x = 8x. Plain numbers are added with plain numbers.', 'Les termes avec la même lettre sont des termes semblables. Additionne les nombres devant : 3x + 5x = 8x. Les nombres seuls s\'additionnent avec les nombres seuls.']),
+    ],
+    examples: [
+      ex(['Example 1: a repeating pattern', 'Exemple 1 : une suite répétitive'], ['The core 4, 7, 2 repeats. Divide the term number 20 by 3 (the length of the core): the remainder is 2.', 'Le motif de base 4, 7, 2 se répète. Divise le numéro du terme 20 par 3 (la longueur du motif) : le reste est 2.'], ['The remainder 2 means the 2nd number of the core, so term 20 is 7.', 'Le reste 2 signifie le 2e nombre du motif : le terme 20 est 7.']),
+      ex(['Example 2: from a table to a rule', 'Exemple 2 : du tableau à la règle'], ['Values 5, 8, 11, 14 for terms 1 to 4 jump by 3. Term 1 gives 3 × 1 + c = 5, so c = 2.', 'Les valeurs 5, 8, 11, 14 pour les termes 1 à 4 font un écart de 3. Le terme 1 donne 3 × 1 + c = 5 : c = 2.'], ['The rule is 3n + 2, so term 10 is 32.', 'La règle est 3n + 2 : le terme 10 est 32.']),
+      ex(['Example 3: like terms', 'Exemple 3 : termes semblables'], ['Add (2x + 3) + (4x + 5). The x terms: 2 + 4 = 6. The plain numbers: 3 + 5 = 8.', 'Additionne (2x + 3) + (4x + 5). Les termes en x : 2 + 4 = 6. Les nombres seuls : 3 + 5 = 8.'], ['The sum is 6x + 8. When x = 3 it is 18 + 8 = 26.', 'La somme est 6x + 8. Quand x = 3, elle vaut 18 + 8 = 26.']),
+    ],
+    tryIt: { skill: 'MS.G6.C1.2.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.data6.kinds-intervals-graphs',
+    skills: ['MS.G6.D1.1.a', 'MS.G6.D1.2.a', 'MS.G6.D1.3.a', 'MS.G6.D1.6.a'],
+    title: t('Kinds of data, intervals, choosing a graph and misleading graphs', 'Types de données, intervalles, choix d\'un graphique et graphiques trompeurs'),
+    intro: t('The kind of data tells you how to organize it, and the purpose tells you which graph to draw. A graph can also give the wrong idea if it is drawn in a tricky way.', 'Le type de données te dit comment les organiser, et le but te dit quel graphique tracer. Un graphique peut aussi donner une fausse idée s\'il est tracé de façon trompeuse.'),
+    definitions: [
+      d(['Discrete and continuous', 'Discret et continu'], ['Discrete data is counted in whole steps, like goals or pets. Continuous data is measured and can be any value in a range, like height or time.', 'Les données discrètes se comptent par pas entiers, comme des buts ou des animaux. Les données continues se mesurent et peuvent prendre n\'importe quelle valeur dans un intervalle, comme la taille ou le temps.']),
+      d(['Intervals', 'Intervalles'], ['Intervals group data into equal steps, like 40 to 49, 50 to 59, and so on. Every value belongs to exactly one interval, and both ends count.', 'Les intervalles regroupent des données en pas égaux, comme 40 à 49, 50 à 59, et ainsi de suite. Chaque valeur appartient à un seul intervalle, et les deux extrémités comptent.']),
+      d(['Choosing a graph', 'Choisir un graphique'], ['Bar graph: compare categories. Circle graph: parts of a whole. Histogram: how measurements spread across equal intervals. Broken-line graph: change over time.', 'Diagramme à bandes : comparer des catégories. Diagramme circulaire : parties d\'un tout. Histogramme : répartition de mesures dans des intervalles égaux. Graphique à ligne brisée : changement dans le temps.']),
+      d(['Misleading graphs', 'Graphiques trompeurs'], ['If a bar graph\'s axis does not start at zero, small differences look big. Compare the real values, not just the heights.', 'Si l\'axe d\'un diagramme à bandes ne commence pas à zéro, de petits écarts paraissent grands. Compare les vraies valeurs, pas seulement les hauteurs.']),
+    ],
+    examples: [
+      ex(['Example 1: discrete or continuous', 'Exemple 1 : discret ou continu'], ['The number of pets in a family is counted in whole steps.', 'Le nombre d\'animaux dans une famille se compte par pas entiers.'], ['It is discrete. The mass of a backpack is measured, so it is continuous.', 'Il est discret. La masse d\'un sac à dos se mesure : elle est continue.']),
+      ex(['Example 2: a percent from intervals', 'Exemple 2 : un pourcentage à partir d\'intervalles'], ['Of 40 values, 10 are in the interval 20 to 29.', 'Sur 40 données, 10 sont dans l\'intervalle de 20 à 29.'], ['10 ÷ 40 × 100 = 25%.', '10 ÷ 40 × 100 = 25 %.']),
+      ex(['Example 3: a misleading axis', 'Exemple 3 : un axe trompeur'], ['An axis starts at 90. Bars show 92 and 98. The drawn heights are 92 − 90 = 2 and 98 − 90 = 8.', 'Un axe commence à 90. Les bandes montrent 92 et 98. Les hauteurs tracées sont 92 − 90 = 2 et 98 − 90 = 8.'], ['The second bar looks 8 ÷ 2 = 4 times as tall, but the real increase is only about 6.5%.', 'La deuxième bande paraît 8 ÷ 2 = 4 fois plus haute, mais la vraie augmentation n\'est que d\'environ 6,5 %.']),
+    ],
+    tryIt: { skill: 'MS.G6.D1.1.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.geometry.combined-transformations',
+    skills: ['MS.G6.E1.4.a'],
+    title: t('Combining translations, reflections and rotations', 'Combiner des translations, des réflexions et des rotations'),
+    intro: t('A combination is just several moves in a row. Do one move at a time, write the new point, and then do the next move on that new point.', 'Une combinaison, ce sont simplement plusieurs déplacements à la suite. Fais un déplacement à la fois, écris le nouveau point, puis fais le déplacement suivant sur ce nouveau point.'),
+    definitions: [
+      d(['Rotation about the origin', 'Rotation autour de l\'origine'], ['Counterclockwise: 90° turns (x, y) into (−y, x). 180° turns it into (−x, −y). 270° turns it into (y, −x). 360° is a full turn and changes nothing.', 'Dans le sens antihoraire : 90° transforme (x, y) en (−y, x). 180° le transforme en (−x, −y). 270° le transforme en (y, −x). 360° est un tour complet et ne change rien.']),
+      d(['The order matters', 'L\'ordre compte'], ['Doing the same moves in a different order can end at a different point. Follow the order in the question.', 'Faire les mêmes déplacements dans un ordre différent peut mener à un autre point. Suis l\'ordre de l\'énoncé.']),
+    ],
+    examples: [
+      ex(['Example 1: translate, then reflect', 'Exemple 1 : translater, puis réfléchir'], ['Move (2, 3) 4 right and 1 down to get (6, 2).', 'Déplace (2, 3) de 4 vers la droite et de 1 vers le bas pour obtenir (6, 2).'], ['Reflect in the x-axis: the sign of y changes, so the image is (6, −2).', 'Réfléchis par rapport à l\'axe des x : le signe de y change, l\'image est (6, −2).']),
+      ex(['Example 2: reflect, then rotate', 'Exemple 2 : réfléchir, puis tourner'], ['Reflect (−3, 5) in the y-axis to get (3, 5).', 'Réfléchis (−3, 5) par rapport à l\'axe des y pour obtenir (3, 5).'], ['Rotate 90° counterclockwise: (x, y) becomes (−y, x), so the image is (−5, 3).', 'Tourne de 90° dans le sens antihoraire : (x, y) devient (−y, x), l\'image est (−5, 3).']),
+      ex(['Example 3: a full turn', 'Exemple 3 : un tour complet'], ['A rotation of 360° brings the point back where it was.', 'Une rotation de 360° ramène le point où il était.'], ['So (4, −2) rotated 360° is still (4, −2).', 'Donc (4, −2) tourné de 360° est toujours (4, −2).']),
+    ],
+    tryIt: { skill: 'MS.G6.E1.4.a', tier: 1, seed: 3 },
+  },
 ];
