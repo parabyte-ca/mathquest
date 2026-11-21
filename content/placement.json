@@ -1,5 +1,5 @@
 {
-  "_note": "Placement ladders: micro-skills ordered easiest to hardest, per grade. A student's placement test is a short adaptive search along this list.",
+  "_note": "Placement ladders: micro-skills ordered easiest to hardest, per grade. A student's placement test is a short adaptive search along this list. Keys are a grade for the Number check ('7') or grade.strand for the other strands ('7.C'); each strand ladder also holds the same strand's earlier-grade skills.",
   "ladders": {
     "5": [
       "MS.G5.B1.1.a",
@@ -24,6 +24,29 @@
       "MS.G5.B1.7.b",
       "MS.G5.B2.5.c"
     ],
+    "5.C": [
+      "MS.G5.C1.3.a",
+      "MS.G5.C1.4.a",
+      "MS.G5.C2.2.a",
+      "MS.G5.C2.3.a",
+      "MS.G5.C2.4.a"
+    ],
+    "5.D": [
+      "MS.G5.D1.5.a",
+      "MS.G5.D2.1.a",
+      "MS.G5.D2.2.a"
+    ],
+    "5.E": [
+      "MS.G5.E1.1.a",
+      "MS.G5.E1.4.a",
+      "MS.G5.E2.2.a",
+      "MS.G5.E2.5.a",
+      "MS.G5.E2.6.a"
+    ],
+    "5.F": [
+      "MS.G5.F1.2.a",
+      "MS.G5.F1.5.a"
+    ],
     "6": [
       "MS.G5.B2.6.a",
       "MS.G5.B1.3.b",
@@ -45,6 +68,43 @@
       "MS.G6.B2.12.a",
       "MS.G6.B2.5.c",
       "MS.G6.B2.10.a"
+    ],
+    "6.C": [
+      "MS.G5.C1.3.a",
+      "MS.G5.C1.4.a",
+      "MS.G5.C2.2.a",
+      "MS.G5.C2.3.a",
+      "MS.G5.C2.4.a",
+      "MS.G6.C1.3.a",
+      "MS.G6.C2.2.a",
+      "MS.G6.C2.3.a",
+      "MS.G6.C2.4.a"
+    ],
+    "6.D": [
+      "MS.G5.D1.5.a",
+      "MS.G5.D2.1.a",
+      "MS.G5.D2.2.a",
+      "MS.G6.D1.5.a",
+      "MS.G6.D2.1.a",
+      "MS.G6.D2.2.a"
+    ],
+    "6.E": [
+      "MS.G5.E1.1.a",
+      "MS.G5.E1.4.a",
+      "MS.G5.E2.2.a",
+      "MS.G5.E2.5.a",
+      "MS.G5.E2.6.a",
+      "MS.G6.E1.1.a",
+      "MS.G6.E1.3.a",
+      "MS.G6.E2.1.a",
+      "MS.G6.E2.3.a",
+      "MS.G6.E2.4.a",
+      "MS.G6.E2.6.a"
+    ],
+    "6.F": [
+      "MS.G5.F1.2.a",
+      "MS.G5.F1.5.a",
+      "MS.G6.F1.4.a"
     ],
     "7": [
       "MS.G5.B2.6.a",
@@ -82,6 +142,69 @@
       "MS.G7.B2.1.a",
       "MS.G7.B2.10.a",
       "MS.G7.B2.8.b"
+    ],
+    "7.C": [
+      "MS.G5.C1.3.a",
+      "MS.G5.C1.4.a",
+      "MS.G5.C2.2.a",
+      "MS.G5.C2.3.a",
+      "MS.G5.C2.4.a",
+      "MS.G6.C1.3.a",
+      "MS.G6.C2.2.a",
+      "MS.G6.C2.3.a",
+      "MS.G6.C2.4.a",
+      "MS.G7.C1.1.a",
+      "MS.G7.C1.3.a",
+      "MS.G7.C1.4.a",
+      "MS.G7.C2.1.a",
+      "MS.G7.C2.2.a",
+      "MS.G7.C2.3.a",
+      "MS.G7.C2.4.a"
+    ],
+    "7.D": [
+      "MS.G5.D1.5.a",
+      "MS.G5.D2.1.a",
+      "MS.G5.D2.2.a",
+      "MS.G6.D1.5.a",
+      "MS.G6.D2.1.a",
+      "MS.G6.D2.2.a",
+      "MS.G7.D1.2.a",
+      "MS.G7.D1.3.a",
+      "MS.G7.D1.5.a",
+      "MS.G7.D2.1.a",
+      "MS.G7.D2.2.a"
+    ],
+    "7.E": [
+      "MS.G5.E1.1.a",
+      "MS.G5.E1.4.a",
+      "MS.G5.E2.2.a",
+      "MS.G5.E2.5.a",
+      "MS.G5.E2.6.a",
+      "MS.G6.E1.1.a",
+      "MS.G6.E1.3.a",
+      "MS.G6.E2.1.a",
+      "MS.G6.E2.3.a",
+      "MS.G6.E2.4.a",
+      "MS.G6.E2.6.a",
+      "MS.G7.E1.1.a",
+      "MS.G7.E1.3.a",
+      "MS.G7.E1.4.a",
+      "MS.G7.E2.1.a",
+      "MS.G7.E2.2.a",
+      "MS.G7.E2.3.a",
+      "MS.G7.E2.5.a",
+      "MS.G7.E2.6.a",
+      "MS.G7.E2.7.a",
+      "MS.G7.E2.7.b"
+    ],
+    "7.F": [
+      "MS.G5.F1.2.a",
+      "MS.G5.F1.5.a",
+      "MS.G6.F1.4.a",
+      "MS.G7.F1.1.a",
+      "MS.G7.F1.3.a",
+      "MS.G7.F1.5.a",
+      "MS.G7.F1.6.a"
     ],
     "8": [
       "MS.G5.B2.6.a",
@@ -131,6 +254,96 @@
       "MS.G8.B1.2.a",
       "MS.G8.B2.8.a",
       "MS.G8.B2.1.a"
+    ],
+    "8.C": [
+      "MS.G5.C1.3.a",
+      "MS.G5.C1.4.a",
+      "MS.G5.C2.2.a",
+      "MS.G5.C2.3.a",
+      "MS.G5.C2.4.a",
+      "MS.G6.C1.3.a",
+      "MS.G6.C2.2.a",
+      "MS.G6.C2.3.a",
+      "MS.G6.C2.4.a",
+      "MS.G7.C1.1.a",
+      "MS.G7.C1.3.a",
+      "MS.G7.C1.4.a",
+      "MS.G7.C2.1.a",
+      "MS.G7.C2.2.a",
+      "MS.G7.C2.3.a",
+      "MS.G7.C2.4.a",
+      "MS.G8.C1.1.a",
+      "MS.G8.C1.3.a",
+      "MS.G8.C1.4.a",
+      "MS.G8.C2.1.a",
+      "MS.G8.C2.2.a",
+      "MS.G8.C2.3.a",
+      "MS.G8.C2.4.a"
+    ],
+    "8.D": [
+      "MS.G5.D1.5.a",
+      "MS.G5.D2.1.a",
+      "MS.G5.D2.2.a",
+      "MS.G6.D1.5.a",
+      "MS.G6.D2.1.a",
+      "MS.G6.D2.2.a",
+      "MS.G7.D1.2.a",
+      "MS.G7.D1.3.a",
+      "MS.G7.D1.5.a",
+      "MS.G7.D2.1.a",
+      "MS.G7.D2.2.a",
+      "MS.G8.D1.2.a",
+      "MS.G8.D1.5.a",
+      "MS.G8.D2.1.a",
+      "MS.G8.D2.2.a"
+    ],
+    "8.E": [
+      "MS.G5.E1.1.a",
+      "MS.G5.E1.4.a",
+      "MS.G5.E2.2.a",
+      "MS.G5.E2.5.a",
+      "MS.G5.E2.6.a",
+      "MS.G6.E1.1.a",
+      "MS.G6.E1.3.a",
+      "MS.G6.E2.1.a",
+      "MS.G6.E2.3.a",
+      "MS.G6.E2.4.a",
+      "MS.G6.E2.6.a",
+      "MS.G7.E1.1.a",
+      "MS.G7.E1.3.a",
+      "MS.G7.E1.4.a",
+      "MS.G7.E2.1.a",
+      "MS.G7.E2.2.a",
+      "MS.G7.E2.3.a",
+      "MS.G7.E2.5.a",
+      "MS.G7.E2.6.a",
+      "MS.G7.E2.7.a",
+      "MS.G7.E2.7.b",
+      "MS.G8.E1.1.a",
+      "MS.G8.E1.3.a",
+      "MS.G8.E1.4.a",
+      "MS.G8.E2.1.a",
+      "MS.G8.E2.2.a",
+      "MS.G8.E2.2.b",
+      "MS.G8.E2.3.a",
+      "MS.G8.E2.3.b",
+      "MS.G8.E2.4.a",
+      "MS.G8.E2.4.b"
+    ],
+    "8.F": [
+      "MS.G5.F1.2.a",
+      "MS.G5.F1.5.a",
+      "MS.G6.F1.4.a",
+      "MS.G7.F1.1.a",
+      "MS.G7.F1.3.a",
+      "MS.G7.F1.5.a",
+      "MS.G7.F1.6.a",
+      "MS.G8.F1.1.a",
+      "MS.G8.F1.2.a",
+      "MS.G8.F1.3.a",
+      "MS.G8.F1.4.a",
+      "MS.G8.F1.5.a",
+      "MS.G8.F1.6.a"
     ]
   }
 }

@@ -31,6 +31,8 @@ export function LearnHome({ me, go }: { me: Extract<Me, { kind: 'student' }>; go
   const q = new URLSearchParams({ grade: String(grade) });
   if (course) q.set('course', course);
   if (!mix && strands.length) q.set('strands', strands.join(','));
+  // One topic ticked: the quick check covers that topic; otherwise it is the Number check.
+  const checkStrand = !mix && strands.length === 1 && /^[B-F]$/.test(strands[0]!) ? strands[0]! : null;
 
   return (
     <>
@@ -71,7 +73,7 @@ export function LearnHome({ me, go }: { me: Extract<Me, { kind: 'student' }>; go
         <div class="actions row-actions">
           <button type="button" disabled={!anyContent || (!mix && strands.length === 0)} onClick={() => go(`/app/learn/practice?${q}`)}>{t('learn.start')}</button>
           <button type="button" class="secondary" disabled={!anyContent || (!mix && strands.length === 0)} onClick={() => go(`/app/learn/offline?${q}`)}>{t('learn.offline')}</button>
-          <button type="button" class="secondary" disabled={!anyContent} onClick={() => go(`/app/learn/placement?grade=${grade}`)}>{t('learn.placement')}</button>
+          <button type="button" class="secondary" disabled={!anyContent} onClick={() => go(`/app/learn/placement?grade=${grade}${checkStrand ? `&strand=${checkStrand}` : ''}`)}>{t('learn.placement')}</button>
           <button type="button" class="secondary" data-tour="skillmap" onClick={() => go(`/app/learn/map?grade=${grade}${course ? `&course=${course}` : ''}`)}>{t('learn.skillMap')}</button>
           <button type="button" class="secondary" onClick={() => go('/app/learn/rewards')}>{t('learn.rewards')}</button>
           <button type="button" class="secondary" data-tour="settings" onClick={() => go('/app/learn/settings')}>{t('learn.settings')}</button>

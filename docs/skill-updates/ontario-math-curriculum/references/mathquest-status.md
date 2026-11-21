@@ -1,6 +1,6 @@
 # MathQuest content status
 
-Snapshot at release 2.7.2 (21 November 2026). To refresh the table, run `python scripts/content_status.py` from the MathQuest repository root (the `mathquest` skill bundles it) and paste the result below. The repository's `docs/BACKLOG.md` is the live to-do list.
+Snapshot at release 2.8.0 (21 November 2026). To refresh the table, run `python scripts/content_status.py` from the MathQuest repository root (the `mathquest` skill bundles it) and paste the result below. The repository's `docs/BACKLOG.md` is the live to-do list.
 
 ## Contents
 1. How ids and files line up
@@ -16,7 +16,7 @@ Snapshot at release 2.7.2 (21 November 2026). To refresh the table, run `python 
 | Expectation | `G7.C2.3` (Grade 7, Algebra, 2.3) | `content/curriculum.json` (built from `content/source/ontario` by `npm run curriculum:build`) |
 | Micro-skill | `MS.G7.C2.3.a` | `content/microskills.json` (name, expectation, tiers, prerequisites) |
 | Generator | `equations7` registered as `MS.G7.C2.3.a` | `shared/generators/index.ts` |
-| Placement ladder | grade `7`: ordered list of micro-skills, easiest first | `content/placement.json` (Number strands only so far) |
+| Placement ladder | `7` (Number) or `7.C` (strand C): ordered list of micro-skills, easiest first | `content/placement.json` (Grades 5 to 8, strands B to F) |
 | Prerequisite chains | `fractions: G5.B1.3 -> ... -> G7.B2.8 -> G8.B2.6` | `content/prereq-chains.json` |
 | Lesson | `L.algebra7.equations-inequalities` lists the micro-skills it teaches | `shared/lessons/*.ts` |
 
@@ -34,7 +34,7 @@ Micro-skills, and expectations that have at least one, by grade and strand (stra
 | 8 | 12 · 12 of 12 | 7 · 7 of 8 | 4 · 4 of 8 | 10 · 7 of 8 | 6 · 6 of 6 |
 | 9 to 12 | not yet | | | | |
 
-153 micro-skills in all. Placement ladders exist for Grades 5 to 8 (Number only). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practised through the C1.3 pattern-rule skill.
+153 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand (Number, algebra, data, spatial sense, financial literacy). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practised through the C1.3 pattern-rule skill.
 
 ## 3. What is deliberately deferred
 

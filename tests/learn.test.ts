@@ -386,6 +386,61 @@ describe('mastery, spaced review and placement', () => {
   });
 });
 
+describe('quick checks by strand', () => {
+  /** Runs a whole check, answering every probe right or wrong, and returns what the server said at the end. */
+  async function runCheck(env: TestEnv, s: S, body: object, right: boolean) {
+    const started = (await post(s, '/placement/start', body).expect(200)).body as { item: { id: string }; ladderSize: number };
+    let id = started.item.id;
+    for (let count = 1; count <= 8; count++) {
+      const { body: res } = await answerItem(env, s, id, right) as unknown as { body: { placement: { done: boolean; next?: { id: string }; result?: { startingIndex: number; ladder: string[]; startingSkill: string } } } };
+      if (res.placement.done) return { count, result: res.placement.result!, ladderSize: started.ladderSize };
+      id = res.placement.next!.id;
+    }
+    throw new Error('the check did not finish in eight questions');
+  }
+
+  it('checks one strand within eight questions, with that strand\'s skills only, for every grade and strand', async () => {
+    const env = env0(3);
+    const s = await makeStudent(env, { grade: 8, allowed: { grades: [5, 6, 7, 8], courses: [] } });
+    for (const grade of [5, 6, 7, 8]) {
+      for (const strand of ['C', 'D', 'E', 'F']) {
+        const { count, result } = await runCheck(env, s, { grade, strand }, true);
+        expect(count, `${grade}.${strand}`).toBeLessThanOrEqual(8);
+        for (const skill of result.ladder) expect(skill, `${grade}.${strand}`).toMatch(new RegExp(`^MS\\.G\\d+\\.${strand}`));
+        expect(result.ladder.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('places a strong student high and a struggling student low within a strand, without touching other strands', async () => {
+    for (const right of [true, false]) {
+      const env = env0(5);
+      const s = await makeStudent(env, { grade: 7, allowed: { grades: [5, 6, 7], courses: [] } });
+      const { result } = await runCheck(env, s, { grade: 7, strand: 'E' }, right);
+      if (right) expect(result.startingIndex).toBeGreaterThanOrEqual(result.ladder.length - 4); else expect(result.startingIndex).toBeLessThanOrEqual(1);
+      const strands = (env.db.prepare("SELECT DISTINCT substr(skill_id, 4, 7) AS k FROM mastery WHERE student_id = ?").all(s.studentId) as { k: string }[]).map((r) => r.k);
+      expect(strands.every((k) => /^G\d\.E/.test(k))).toBe(true);
+    }
+  });
+
+  it('keeps the Number check and a strand check apart, and tidies up with the right keys', async () => {
+    const env = env0(9);
+    const s = await makeStudent(env, { grade: 5 });
+    await runCheck(env, s, { grade: 5 }, true);
+    await runCheck(env, s, { grade: 5, strand: 'C' }, false);
+    const rows = env.db.prepare('SELECT strand, done_at FROM placement WHERE student_id = ? ORDER BY strand').all(s.studentId) as { strand: string; done_at: number | null }[];
+    expect(rows.map((r) => r.strand)).toEqual(['B', 'C']);
+    expect(rows.every((r) => r.done_at !== null)).toBe(true);
+  });
+
+  it('rejects a strand with no check and a strand that does not exist', async () => {
+    const env = env0();
+    const s = await makeStudent(env, { grade: 9, allowed: { grades: [5, 9], courses: [] } });
+    await post(s, '/placement/start', { grade: 5, strand: 'Z' }).expect(400);
+    await post(s, '/placement/start', { grade: 9, strand: 'C' }).expect(404);
+  });
+});
+
 describe('skill map', () => {
   it('shows soon, locked, new, in progress and mastered states, with prerequisites', async () => {
     const env = env0();

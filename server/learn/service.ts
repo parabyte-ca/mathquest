@@ -389,30 +389,34 @@ function ladderEvent(a: Ladder, b: Ladder): LadderEvent {
 
 // ── placement ──────────────────────────────────────────────────────────────────────
 
-function placementLadder(grade: number): string[] {
+/** The Number check keeps the plain grade as its key; the other strands use "grade.strand" (for example "7.C"). */
+export const PLACEMENT_STRANDS = ['B', 'C', 'D', 'E', 'F'] as const;
+function placementLadder(grade: number, strand = 'B'): string[] {
   const file = JSON.parse(readFileSync(join(process.cwd(), 'content', 'placement.json'), 'utf8')) as { ladders: Record<string, string[]> };
-  return (file.ladders[String(grade)] ?? []).filter(hasGenerator);
+  return (file.ladders[strand === 'B' ? String(grade) : `${grade}.${strand}`] ?? []).filter(hasGenerator);
 }
-
-export function placementStart(ctx: Ctx, student: StudentRow, grade: number): { item: PublicItem; ladderSize: number } {
+export function placementStart(ctx: Ctx, student: StudentRow, grade: number, strand = 'B'): { item: PublicItem; ladderSize: number } {
   if (!allowedGrades(student).includes(grade)) throw new LearnError('grade_not_allowed', 403);
-  const ladder = placementLadder(grade);
+  if (!(PLACEMENT_STRANDS as readonly string[]).includes(strand)) throw new LearnError('invalid_request');
+  const ladder = placementLadder(grade, strand);
   if (ladder.length === 0) throw new LearnError('no_content', 404);
   const state = startPlacement(ladder.length);
-  ctx.db.prepare('INSERT INTO placement (student_id, grade, state_json) VALUES (?,?,?) ON CONFLICT(student_id, grade) DO UPDATE SET state_json = excluded.state_json, done_at = NULL, result_json = NULL').run(student.id, grade, JSON.stringify(state));
+  ctx.db.prepare('INSERT INTO placement (student_id, grade, strand, state_json) VALUES (?,?,?,?) ON CONFLICT(student_id, grade, strand) DO UPDATE SET state_json = excluded.state_json, done_at = NULL, result_json = NULL').run(student.id, grade, strand, JSON.stringify(state));
   ctx.db.prepare('DELETE FROM pending_item WHERE student_id = ? AND kind = ?').run(student.id, 'placement');
-  const it = issue(ctx, student, null, 'placement', `placement:${grade}`, ladder[nextProbe(state)]!, 2);
+  const it = issue(ctx, student, null, 'placement', `placement:${grade}:${strand}`, ladder[nextProbe(state)]!, 2);
   return { item: pub(it), ladderSize: ladder.length };
 }
 
 function placementStep(ctx: Ctx, student: StudentRow, target: string, correct: boolean): NonNullable<AnswerResult['placement']> {
-  const grade = Number(target.split(':')[1]);
-  const row = ctx.db.prepare('SELECT state_json FROM placement WHERE student_id = ? AND grade = ?').get(student.id, grade) as { state_json: string } | undefined;
-  const ladder = placementLadder(grade);
+  const [, g, st] = target.split(':'); // "placement:7:C" (an older "placement:7" means Number)
+  const grade = Number(g);
+  const strand = st ?? 'B';
+  const row = ctx.db.prepare('SELECT state_json FROM placement WHERE student_id = ? AND grade = ? AND strand = ?').get(student.id, grade, strand) as { state_json: string } | undefined;
+  const ladder = placementLadder(grade, strand);
   if (!row) return { done: true };
   const state = recordPlacement(JSON.parse(row.state_json) as PlacementState, correct, 8);
   if (!state.done) {
-    ctx.db.prepare('UPDATE placement SET state_json = ? WHERE student_id = ? AND grade = ?').run(JSON.stringify(state), student.id, grade);
+    ctx.db.prepare('UPDATE placement SET state_json = ? WHERE student_id = ? AND grade = ? AND strand = ?').run(JSON.stringify(state), student.id, grade, strand);
     const it = issue(ctx, student, null, 'placement', target, ladder[nextProbe(state)]!, 2);
     return { done: false, next: pub(it) };
   }
@@ -424,7 +428,7 @@ function placementStep(ctx: Ctx, student: StudentRow, target: string, correct: b
   });
   const start = startingIndex(state);
   const result = { startingSkill: ladder[Math.min(start, ladder.length - 1)] ?? null, ladder, startingIndex: start };
-  ctx.db.prepare('UPDATE placement SET state_json = ?, done_at = ?, result_json = ? WHERE student_id = ? AND grade = ?').run(JSON.stringify(state), ctx.now(), JSON.stringify(result), student.id, grade);
+  ctx.db.prepare('UPDATE placement SET state_json = ?, done_at = ?, result_json = ? WHERE student_id = ? AND grade = ? AND strand = ?').run(JSON.stringify(state), ctx.now(), JSON.stringify(result), student.id, grade, strand);
   return { done: true, result };
 }
 
