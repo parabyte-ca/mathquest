@@ -341,7 +341,18 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   // a printable worksheet with an answer key
   await parent.getByLabel('Topic', { exact: true }).selectOption('G5.C2.3');
   await parent.getByLabel('Number of questions').fill('10');
-  await parent.getByRole('button', { name: 'Make worksheet' }).click();
+  try {
+    await parent.getByRole('button', { name: 'Make worksheet' }).click({ timeout: 10_000 });
+  } catch (e) {
+    // say what is on top of the button, so a failure on a slow runner can be understood from the log alone
+    const where = await parent.evaluate(() => {
+      const b = [...document.querySelectorAll('button')].find((x) => x.textContent === 'Make worksheet')!;
+      const r = b.getBoundingClientRect();
+      const stack = document.elementsFromPoint(r.x + r.width / 2, r.y + r.height / 2).map((el) => `${el.tagName}.${el.className}#${el.id}`);
+      return JSON.stringify({ box: [r.x, r.y, r.width, r.height].map(Math.round), scroll: [scrollX, scrollY], viewport: [innerWidth, innerHeight, visualViewport?.scale, document.documentElement.scrollWidth], stack, disabled: b.disabled });
+    });
+    throw new Error(`"Make worksheet" could not be clicked: ${where}\n${(e as Error).message.slice(0, 300)}`);
+  }
   await expect(parent.getByRole('heading', { name: 'Your worksheet is ready' })).toBeVisible();
   await expect(parent.locator('.sheet ol.qs > li')).toHaveCount(10);
   await expect(parent.getByRole('heading', { name: 'Answer key' })).toBeVisible();
