@@ -33,6 +33,17 @@ describe('content links', () => {
     for (const id of ['MS.G5.B1.1.a', 'MS.G5.B2.6.a', 'MS.G5.B2.9.a', 'MS.G6.B1.4.a', 'MS.G6.B2.12.a']) expect(covered.has(id), id).toBe(true);
   });
 
+  it('every Grade 5 to 8 skill in strands C to F is on its strand\'s quick-check ladder, and only that strand\'s skills are', () => {
+    const info = (id: string): { grade: number; strand: string } => { const m = /^MS\.G(\d+)\.([A-F])/.exec(id)!; return { grade: Number(m[1]), strand: m[2]! }; };
+    for (const grade of [5, 6, 7, 8]) {
+      for (const strand of ['C', 'D', 'E', 'F']) {
+        const ladder = ladders[`${grade}.${strand}`] ?? [];
+        const expected = micro.map((m) => m.id).filter((id) => info(id).strand === strand && info(id).grade <= grade);
+        expect([...ladder].sort(), `${grade}.${strand}`).toEqual([...expected].sort());
+      }
+    }
+  });
+
   it('prerequisites of micro-skills form no cycle', () => {
     const state = new Map<string, number>();
     const byId = new Map(micro.map((m) => [m.id, m]));

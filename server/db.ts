@@ -343,6 +343,25 @@ const MIGRATIONS: { id: number; name: string; sql: string }[] = [
     CREATE INDEX idx_offline_pack_student ON offline_pack(student_id);
     `,
   },
+  {
+    id: 7,
+    name: 'placement-by-strand',
+    sql: `
+    -- A quick check can now cover one strand (B Number is the original check). The primary key gains the strand, so the table is rebuilt.
+    CREATE TABLE placement_new (
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      grade INTEGER NOT NULL,
+      strand TEXT NOT NULL DEFAULT 'B',
+      state_json TEXT NOT NULL,
+      done_at INTEGER,
+      result_json TEXT,
+      PRIMARY KEY (student_id, grade, strand)
+    );
+    INSERT INTO placement_new (student_id, grade, strand, state_json, done_at, result_json) SELECT student_id, grade, 'B', state_json, done_at, result_json FROM placement;
+    DROP TABLE placement;
+    ALTER TABLE placement_new RENAME TO placement;
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

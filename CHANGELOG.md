@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.8.0] - 2026-11-21
+### Added
+- Quick checks (placement) for every strand in Grades 5 to 8, not only Number. Tick one topic on the student home page and "Quick check (placement)" now checks that topic: a short adaptive check of at most eight questions along an easiest-to-hardest ladder of that topic's skills (including the same topic's earlier-grade skills), then practice on that topic starts at the right level. With no topic or several ticked, the check is the Number check, as before. Nothing is lowered; the check only raises what a student plainly knows.
+- Placement ladders for strands C (algebra), D (data), E (spatial sense) and F (financial literacy) in Grades 5 to 8 (`content/placement.json`, keys like `7.C`). A test makes sure every skill of those strands is on its ladder and that no ladder puts a skill before its own prerequisite.
+- `POST /api/learn/placement/start` accepts an optional `strand` (B to F).
+- Migration 7: placement results are kept per grade and strand. Existing Number results are kept as strand B.
+- Tests: server tests for every grade and strand (finish within eight questions, only that strand's skills, strong and weak students, strands kept apart, bad requests) and an end-to-end test that runs the Number check and then a Spatial Sense check and starts practice on it.
+
 ## [2.7.2] - 2026-11-21
 ### Added
 - Grade 8 spatial sense (strand E, 10 skills) and financial literacy (strand F, 6 skills), which completes Grade 8: 16 new micro-skills with generated questions in English and French, three difficulty tiers each, a three-step hint ladder and a reason for every common wrong answer.

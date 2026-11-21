@@ -123,27 +123,46 @@ test('struggle and recover: a student who keeps missing gets an easier question,
   await expect(kid.locator('.feedback.good')).toBeVisible();
 });
 
-test('placement test starts practice at the right level', async ({ page, browser, baseURL }, info) => {
+test('placement test starts practice at the right level, and a quick check can cover one topic', async ({ page, browser, baseURL }, info) => {
   const { kid, username } = await setup(browser, baseURL!, page, info, 'pl');
+  /** Answers every probe right until the check says "All set!". Returns how many questions it took. */
+  const runCheck = async (): Promise<number> => {
+    let questions = 0;
+    let last = '';
+    for (; questions < 10; questions++) {
+      await expect.poll(() => { try { return currentItem(username).id; } catch { return last; } }, { timeout: 10_000 }).not.toBe(last);
+      const { id, item } = currentItem(username);
+      await expect(kid.locator(`form.answer[data-item="${id}"]`)).toBeVisible();
+      last = id;
+      expect(await fillAnswer(kid, item, true)).toBe(true);
+      await kid.getByRole('button', { name: 'Check' }).click();
+      const finished = await Promise.race([
+        kid.getByRole('heading', { name: 'All set!' }).waitFor({ timeout: 8000 }).then(() => true).catch(() => false),
+        expect.poll(() => { try { return currentItem(username).id; } catch { return last; } }, { timeout: 8000 }).not.toBe(last).then(() => false).catch(() => false),
+      ]);
+      if (finished) { questions++; break; }
+    }
+    await expect(kid.getByRole('heading', { name: 'All set!' })).toBeVisible();
+    return questions;
+  };
+
   await kid.getByRole('button', { name: /Quick check/ }).click();
   await expect(kid.getByText('There is no pass or fail.')).toBeVisible();
-  let questions = 0;
-  let last = '';
-  for (; questions < 10; questions++) {
-    await expect.poll(() => { try { return currentItem(username).id; } catch { return last; } }, { timeout: 10_000 }).not.toBe(last);
-    const { id, item } = currentItem(username);
-    await expect(kid.locator(`form.answer[data-item="${id}"]`)).toBeVisible();
-    last = id;
-    expect(await fillAnswer(kid, item, true)).toBe(true);
-    await kid.getByRole('button', { name: 'Check' }).click();
-    const finished = await Promise.race([
-      kid.getByRole('heading', { name: 'All set!' }).waitFor({ timeout: 8000 }).then(() => true).catch(() => false),
-      expect.poll(() => { try { return currentItem(username).id; } catch { return last; } }, { timeout: 8000 }).not.toBe(last).then(() => false).catch(() => false),
-    ]);
-    if (finished) { questions++; break; }
-  }
-  expect(questions).toBeLessThanOrEqual(8);
-  await expect(kid.getByRole('heading', { name: 'All set!' })).toBeVisible();
+  expect(await runCheck()).toBeLessThanOrEqual(8);
+
+  // One topic ticked: the quick check covers that topic, and practice then starts on it.
+  await kid.goto('/app/learn');
+  await expect(async () => {
+    await kid.getByLabel(/^E\./).check();
+    await expect(kid.getByLabel(/^E\./)).toBeChecked();
+  }).toPass();
+  await kid.getByRole('button', { name: /Quick check/ }).click();
+  await expect(kid.getByText('There is no pass or fail.')).toBeVisible();
+  const asked = new Set<string>();
+  await expect.poll(() => { try { const s = currentItem(username).item.skill; asked.add(s); return s; } catch { return ''; } }, { timeout: 10_000 }).toMatch(/^MS\.G5\.E/);
+  expect(await runCheck()).toBeLessThanOrEqual(8);
+  await kid.getByRole('button', { name: 'Start practice' }).click();
+  await expect.poll(() => { try { return currentItem(username).item.skill; } catch { return ''; } }, { timeout: 10_000 }).toMatch(/^MS\.G5\.E/);
 });
 
 test('skill map shows states, prerequisites that are recommended not required, and practice from a node', async ({ page, browser, baseURL }, info) => {
