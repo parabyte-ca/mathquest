@@ -3,6 +3,7 @@ import { z } from 'zod';
 import type { Ctx, StudentRow } from '../context.js';
 import { requireStudent } from '../context.js';
 import * as svc from '../learn/service.js';
+import * as rewards from '../rewards/service.js';
 
 const student = (res: Response): StudentRow => res.locals.student as StudentRow;
 
@@ -42,6 +43,20 @@ export function learnRoutes(ctx: Ctx): Router {
     if (!body.success) throw new svc.LearnError('invalid_request');
     return svc.reportItem(ctx, student(res), body.data.itemId, body.data.reason);
   }));
+
+  r.get('/learn/rewards', (_req, res) => void res.json(rewards.summary(ctx, student(res))));
+  r.get('/learn/rewards/header', (_req, res) => void res.json(rewards.header(ctx, student(res))));
+  r.post('/learn/rewards/equip', (req, res) => {
+    const body = z.object({ id: z.string().max(40) }).safeParse(req.body);
+    if (!body.success) return void res.status(400).json({ error: 'invalid_request' });
+    try {
+      rewards.equip(ctx, student(res), body.data.id);
+      res.json({ ok: true });
+    } catch (e) {
+      if (e instanceof rewards.RewardError) return void res.status(e.status).json({ error: e.code });
+      throw e;
+    }
+  });
 
   r.get('/learn/options', handle((_req, res) => svc.options(ctx, student(res))));
 

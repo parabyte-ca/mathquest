@@ -12,6 +12,7 @@ import { isDue, onReview, scheduleFirstReview } from '../../shared/engine/review
 import { nextProbe, placementPriors, recordPlacement, startPlacement, startingIndex, type PlacementState } from '../../shared/engine/placement.js';
 import { buildFeedback, type Feedback } from '../../shared/feedback.js';
 import { generate, hasGenerator, MAX_TIER } from '../../shared/generators/index.js';
+import { effectiveSettings, onAnswered, type RewardResult } from '../rewards/service.js';
 import { toPublic, type Given, type Item, type PublicItem, type Text } from '../../shared/items/types.js';
 import { lessonForSkill } from '../../shared/lessons/index.js';
 import { makeRng } from '../../shared/rng.js';
@@ -140,8 +141,13 @@ function loadSession(ctx: Ctx, student: StudentRow, id: string): { row: SessionR
   return { row, data: JSON.parse(row.params_json) as Stored };
 }
 
+/** After a session reaches its caregiver-set limit, a new one waits this long. */
+const BREAK_MS = 20 * 60_000;
+
 export function startSession(ctx: Ctx, student: StudentRow, input: { grade: number; course?: string | null; strands?: string[]; focus?: string | null }) {
   if (!allowedGrades(student).includes(input.grade)) throw new LearnError('grade_not_allowed', 403);
+  const rested = ctx.db.prepare('SELECT value FROM kv WHERE key = ?').get(`rest:${student.id}`) as { value: string } | undefined;
+  if (rested && ctx.now() - Number(rested.value) < BREAK_MS) throw new LearnError('take_a_break', 429);
   const params: SessionParams = { grade: input.grade, course: input.course ?? null, strands: input.strands ?? [], focus: input.focus ?? null };
   const targets = targetsFor(ctx, params);
   if (targets.length === 0) throw new LearnError('no_content', 404);
@@ -197,7 +203,7 @@ const pub = ({ micro: _micro, ...rest }: PublicItem & { micro: string }): Public
 export type NextResult =
   | { type: 'item'; item: PublicItem; kind: string; target: string; phase: string; resumed?: boolean }
   | { type: 'lesson'; lessonId: string; skill: string; target: string; reason: 'stuck' }
-  | { type: 'done'; summary: { answered: number; correct: number; masteredExpectations: string[] } };
+  | { type: 'done'; reason?: 'limit'; summary: { answered: number; correct: number; masteredExpectations: string[] } };
 
 function summary(ctx: Ctx, student: StudentRow, sessionId: string, targets: string[]) {
   const s = ctx.db.prepare('SELECT answered, correct FROM practice_session WHERE id = ?').get(sessionId) as { answered: number; correct: number };
@@ -216,6 +222,14 @@ export function next(ctx: Ctx, student: StudentRow, sessionId: string, opts: { s
     return { type: 'item', item: toPublic({ ...item, id: pending.id }), kind: pending.kind, target: pending.target, phase: loadLadder(ctx, student.id, pending.target).phase, resumed: true };
   }
   ctx.db.prepare('DELETE FROM pending_item WHERE student_id = ? AND session_id = ?').run(student.id, sessionId);
+
+  // A caregiver-set limit per sitting: finish the question in hand, then suggest a break.
+  const limit = effectiveSettings(ctx, student).sessionLimitMinutes;
+  const started = (ctx.db.prepare('SELECT started_at FROM practice_session WHERE id = ?').get(sessionId) as { started_at: number }).started_at;
+  if (limit > 0 && ctx.now() - started >= limit * 60_000) {
+    ctx.db.prepare('INSERT INTO kv (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value').run(`rest:${student.id}`, String(ctx.now()));
+    return { type: 'done', reason: 'limit', summary: summary(ctx, student, sessionId, targets) };
+  }
 
   if (opts.similar && data.last) {
     const l = data.last;
@@ -297,6 +311,7 @@ export interface AnswerResult {
   state: SkillState;
   masteredSkill: boolean;
   masteredExpectation: boolean;
+  reward?: RewardResult | null;
   placement?: { done: boolean; next?: PublicItem; result?: { startingSkill: string | null; ladder: string[]; startingIndex: number } };
 }
 
@@ -354,6 +369,7 @@ export function answer(ctx: Ctx, student: StudentRow, itemId: string, given: unk
     masteredExpectation: masteredSkill && (expectationOf(ctx, item.skill) ? expectationMastered(ctx, student.id, expectationOf(ctx, item.skill)!) : false),
   };
   if (p.kind === 'placement') result.placement = placementStep(ctx, student, p.target, correct);
+  result.reward = onAnswered(ctx, student, { correct, tier: item.tier, hints: p.hints, kind: p.kind, masteredSkill: result.masteredSkill, masteredExpectation: result.masteredExpectation, recovered: event === 'recovered' });
   return result;
 }
 
