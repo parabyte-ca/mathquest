@@ -17,6 +17,7 @@ import { forgetStudent } from './offlineStore';
 const loadAdmin = () => import('./pages/Admin').then((m) => m.Admin);
 const loadProgress = () => import('./pages/Progress').then((m) => m.Progress);
 const loadWorksheet = () => import('./pages/Worksheet').then((m) => m.Worksheet);
+const loadCertificate = () => import('./pages/Certificate').then((m) => m.Certificate);
 
 function usePath(): [string, (to: string) => void] {
   const [path, setPath] = useState(location.pathname);
@@ -63,6 +64,7 @@ function App() {
   if (!me) return <Shell path={path} me={me} signOut={signOut} go={go}><SignIn go={go} /></Shell>;
   if (path === '/app/admin' && me.user.role === 'admin') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadAdmin} props={{}} /></Shell>;
   if (path === '/app/progress') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadProgress} props={{ go }} /></Shell>;
+  if (path === '/app/certificate') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadCertificate} props={{ go }} /></Shell>;
   if (path === '/app/worksheet') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadWorksheet} props={{ go }} /></Shell>;
   return <Shell path={path} me={me} signOut={signOut} go={go}><Caregiver me={me} go={go} /></Shell>;
 }

@@ -38,8 +38,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 |---|---|---|
 | 2.10.0 | Weekly email day choice and test button, and this-week-against-last-week compare (shipped). Still open from the old row: worksheets with several topics and a worked-solution page | M |
 | 2.8.5 | Caregiver notes and messages on goals | S |
-| 2.8.6 | Printable certificate, weekly challenges, sibling team goal | M |
-| 2.8.7 | Original SVG avatars and backgrounds | M |
+| 2.11.0 | Weekly challenges, family goals, printable certificates and original SVG avatars (shipped). Caregiver notes and messages on goals remain below | M |
 | Unscheduled | Dashboard progress export as a PDF | S |
 
 ### Platform

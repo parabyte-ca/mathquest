@@ -74,6 +74,17 @@ export function Progress({ go }: { go: (to: string) => void }) {
         <p class="muted small">{t('progress.month', { n: d.month.answered, acc: pct(d.month.accuracy), min: d.month.minutes })}</p>
       </section>
 
+
+      <section class="card" aria-labelledby="cert-title">
+        <h2 id="cert-title">{t('progress.certs')}</h2>
+        <p class="muted small">{t('progress.certsHelp', { name: d.student.displayName })}</p>
+        <ul class="plain certlist">
+          <li><button type="button" class="secondary" onClick={() => go(`/app/certificate?student=${id}&kind=level`)}>🚀 {t('progress.certLevel', { n: d.level })} · {t('progress.certPrint')}</button></li>
+          {d.goals.filter((g) => g.reached).map((g) => <li key={g.id}><button type="button" class="secondary" onClick={() => go(`/app/certificate?student=${id}&kind=goal&ref=${g.id}`)}>🎯 {t('progress.certGoal', { title: g.title })} · {t('progress.certPrint')}</button></li>)}
+          {d.recentBadges.map((b) => <li key={b.id}><button type="button" class="secondary" onClick={() => go(`/app/certificate?student=${id}&kind=badge&ref=${b.id}`)}>🏅 {t('progress.certBadge', { name: b.name ? tt(b.name) : b.id })} · {t('progress.certPrint')}</button></li>)}
+        </ul>
+      </section>
+
       <section class="card" aria-labelledby="strands-title">
         <h2 id="strands-title">{t('progress.strands')}</h2>
         {d.strands.length === 0 ? <p>{t('progress.none')}</p> : (

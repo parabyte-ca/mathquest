@@ -362,6 +362,34 @@ const MIGRATIONS: { id: number; name: string; sql: string }[] = [
     ALTER TABLE placement_new RENAME TO placement;
     `,
   },
+  {
+    id: 8,
+    name: 'challenges-and-family-goals',
+    sql: `
+    -- A weekly challenge a student completed (the week is identified by its Monday), so each one pays its bonus once.
+    CREATE TABLE challenge_done (
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      week TEXT NOT NULL,
+      challenge_id TEXT NOT NULL,
+      at INTEGER NOT NULL,
+      PRIMARY KEY (student_id, week, challenge_id)
+    );
+
+    -- A real-world goal for all of a caregiver's students together ("movie night after 3 000 XP as a family"). Progress is the XP
+    -- those students earned since it was set.
+    CREATE TABLE family_goal (
+      id TEXT PRIMARY KEY,
+      user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+      title TEXT NOT NULL,
+      xp_target INTEGER NOT NULL,
+      created_at INTEGER NOT NULL,
+      reached_at INTEGER,
+      redeemed_at INTEGER,
+      archived INTEGER NOT NULL DEFAULT 0
+    );
+    CREATE INDEX idx_family_goal_user ON family_goal(user_id);
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

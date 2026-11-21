@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.11.0] - 2026-11-21
+### Added
+- Weekly challenges: every Monday, three challenges open for every student, one of each kind (effort, showing up on different days, and growing, such as mastering a skill or answering review questions). Each pays bonus XP once when it is done during the week (Monday to Sunday, family time zone), shows on the rewards page with a progress bar, and is announced right after the answer that completes it. The set changes every week and every challenge comes round in turn.
+- Family goals: a caregiver can set one real-world reward for all of their students together (for example "pizza night after 1 000 XP"). Everyone's XP counts toward it, each student sees it and its progress on their rewards page, the sibling whose answer completes it is told to tell their grown-up, and the caregiver marks it done when the reward has been given. Up to three can be open at a time.
+- Printable certificates: from a student's progress page a caregiver can print a certificate for a level, a badge or a reached goal, and from the family goals for a reached family goal. A certificate is only available for something the student has really earned, is written in the student's language, and prints cleanly (the page controls are hidden).
+- Original avatars: the ten avatars (fox, panda, owl, octopus, butterfly, dolphin, unicorn, dragon, rocket and trophy) are now drawings made for MathQuest (simple flat SVG shapes, the same on every device, no emoji fonts), and each colour palette shows a small swatch of its own colours instead of an emoji.
+
+### Notes
+- Challenges and family goals add two small tables (migration 8). Nothing existing changes, and students who have not practised this week simply see all three challenges at zero.
+
 ## [2.10.0] - 2026-11-21
 ### Added
 - Weekly email: a caregiver can now choose the day it arrives (it still comes at about 7:30 a.m., and Monday is the default), and can send themselves a test email from the caregiver page to see what it looks like. A test email never counts as the week's email, and can be sent once a minute.

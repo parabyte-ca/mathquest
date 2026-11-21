@@ -3,8 +3,8 @@ import { newId } from '../db.js';
 import { MASTERED } from '../../shared/engine/bkt.js';
 import {
   BADGES, COSMETICS, DEFAULT_AVATAR, DEFAULT_PALETTE, XP_COMEBACK, XP_DAILY_GOAL, XP_DAILY_START, XP_EXPECTATION_MASTERED, XP_SKILL_MASTERED,
-  cosmeticById, isUnlocked, levelInfo, newBadgeIds, streakStep, streakToShow, xpForAnswer,
-  type Stats, type StreakState, type XpPart,
+  challengesForWeek, cosmeticById, isUnlocked, levelInfo, newBadgeIds, streakStep, streakToShow, xpForAnswer,
+  type ChallengeMetric, type Stats, type StreakState, type XpPart,
 } from '../../shared/rewards.js';
 
 export class RewardError extends Error {
@@ -28,6 +28,96 @@ interface StateRow {
 /** The calendar day (YYYY-MM-DD) in the family's time zone. */
 export function localDay(ms: number, tz: string): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(ms);
+}
+
+
+/** The Monday (YYYY-MM-DD, family time zone) that starts the week containing `ms`. Weekly challenges run Monday to Sunday. */
+export function weekStart(ms: number, tz: string): string {
+  const day = localDay(ms, tz);
+  const dow = new Date(`${day}T12:00:00Z`).getUTCDay(); // 0 = Sunday
+  return localDay(Date.parse(`${day}T12:00:00Z`) - ((dow + 6) % 7) * 86_400_000, tz);
+}
+
+/** What a student has done so far in the week that starts on `monday`, for each kind of challenge. */
+export function weekProgress(ctx: Ctx, sid: string, monday: string): Record<ChallengeMetric, number> {
+  const tz = ctx.cfg.timezone;
+  const since = ctx.now() - 8 * 86_400_000;
+  const inWeek = (at: number): boolean => localDay(at, tz) >= monday;
+  const rows = (ctx.db.prepare("SELECT correct, kind, ms, at FROM attempt WHERE student_id = ? AND at >= ? AND kind != 'placement'").all(sid, since) as { correct: number; kind: string; ms: number; at: number }[]).filter((r) => inWeek(r.at));
+  const strands = new Set(
+    (ctx.db
+      .prepare("SELECT ce.strand, a.at FROM attempt a JOIN microskill m ON m.id = a.skill_id JOIN curriculum_expectation ce ON ce.code = m.expectation WHERE a.student_id = ? AND a.correct = 1 AND a.kind != 'placement' AND a.at >= ?")
+      .all(sid, since) as { strand: string; at: number }[]).filter((r) => inWeek(r.at)).map((r) => r.strand),
+  );
+  const skills = (ctx.db.prepare("SELECT at FROM reward_event WHERE student_id = ? AND kind = 'skill' AND at >= ?").all(sid, since) as { at: number }[]).filter((r) => inWeek(r.at)).length;
+  return {
+    answers: rows.length,
+    correct: rows.filter((r) => r.correct === 1).length,
+    days: new Set(rows.map((r) => localDay(r.at, tz))).size,
+    minutes: Math.floor(rows.reduce((a, r) => a + r.ms, 0) / 60_000),
+    reviews: rows.filter((r) => r.correct === 1 && r.kind === 'review').length,
+    strands: strands.size,
+    skills,
+  };
+}
+
+export interface ChallengeView { id: string; icon: string; name: { en: string; fr: string }; how: { en: string; fr: string }; target: number; xp: number; progress: number; done: boolean }
+/** This week's challenges with the student's progress on each. */
+export function challengeViews(ctx: Ctx, sid: string): ChallengeView[] {
+  const monday = weekStart(ctx.now(), ctx.cfg.timezone);
+  const done = new Set((ctx.db.prepare('SELECT challenge_id FROM challenge_done WHERE student_id = ? AND week = ?').all(sid, monday) as { challenge_id: string }[]).map((r) => r.challenge_id));
+  const prog = weekProgress(ctx, sid, monday);
+  return challengesForWeek(monday).map((c) => ({ id: c.id, icon: c.icon, name: c.name, how: c.how, target: c.target, xp: c.xp, progress: done.has(c.id) ? c.target : Math.min(c.target, prog[c.metric]), done: done.has(c.id) }));
+}
+
+export interface FamilyGoalView { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean; createdAt: number; reachedAt: number | null }
+const familyProgress = (ctx: Ctx, userId: string, createdAt: number): number =>
+  (ctx.db.prepare('SELECT COALESCE(SUM(re.xp), 0) AS n FROM reward_event re JOIN student_caregivers sc ON sc.student_id = re.student_id WHERE sc.caregiver_id = ? AND re.at >= ?').get(userId, createdAt) as { n: number }).n;
+const familyView = (ctx: Ctx, g: { id: string; user_id: string; title: string; xp_target: number; created_at: number; reached_at: number | null; redeemed_at: number | null }): FamilyGoalView => ({
+  id: g.id, title: g.title, xpTarget: g.xp_target, progress: g.reached_at !== null ? g.xp_target : Math.min(g.xp_target, familyProgress(ctx, g.user_id, g.created_at)), reached: g.reached_at !== null, redeemed: g.redeemed_at !== null, createdAt: g.created_at, reachedAt: g.reached_at,
+});
+const FG = 'id, user_id, title, xp_target, created_at, reached_at, redeemed_at';
+type FgRow = Parameters<typeof familyView>[1];
+
+/** A caregiver's family goals (all of their students' XP counts toward them). */
+export function listFamilyGoals(ctx: Ctx, userId: string): FamilyGoalView[] {
+  return (ctx.db.prepare(`SELECT ${FG} FROM family_goal WHERE user_id = ? AND archived = 0 ORDER BY created_at DESC`).all(userId) as FgRow[]).map((g) => familyView(ctx, g));
+}
+/** The family goals a student is part of: those of any of their caregivers. A goal that was finished and marked done is not shown. */
+export function familyGoalsForStudent(ctx: Ctx, studentId: string): FamilyGoalView[] {
+  const rows = ctx.db
+    .prepare(`SELECT DISTINCT fg.id, fg.user_id, fg.title, fg.xp_target, fg.created_at, fg.reached_at, fg.redeemed_at FROM family_goal fg JOIN student_caregivers sc ON sc.caregiver_id = fg.user_id WHERE sc.student_id = ? AND fg.archived = 0 AND fg.redeemed_at IS NULL ORDER BY fg.created_at DESC`)
+    .all(studentId) as FgRow[];
+  return rows.map((g) => familyView(ctx, g));
+}
+export function createFamilyGoal(ctx: Ctx, userId: string, title: string, xpTarget: number): string {
+  const id = newId();
+  ctx.db.prepare('INSERT INTO family_goal (id, user_id, title, xp_target, created_at) VALUES (?,?,?,?,?)').run(id, userId, title, xpTarget, ctx.now());
+  return id;
+}
+export function redeemFamilyGoal(ctx: Ctx, userId: string, goalId: string): void {
+  const g = ctx.db.prepare('SELECT reached_at, redeemed_at FROM family_goal WHERE id = ? AND user_id = ? AND archived = 0').get(goalId, userId) as { reached_at: number | null; redeemed_at: number | null } | undefined;
+  if (!g) throw new RewardError('not_found', 404);
+  if (g.reached_at === null) throw new RewardError('not_reached', 409);
+  if (g.redeemed_at !== null) throw new RewardError('already_redeemed', 409);
+  ctx.db.prepare('UPDATE family_goal SET redeemed_at = ? WHERE id = ?').run(ctx.now(), goalId);
+}
+export function archiveFamilyGoal(ctx: Ctx, userId: string, goalId: string): void {
+  const r = ctx.db.prepare('UPDATE family_goal SET archived = 1 WHERE id = ? AND user_id = ?').run(goalId, userId);
+  if (r.changes !== 1) throw new RewardError('not_found', 404);
+}
+/** Marks the family goals this student's XP just completed, and returns their titles. */
+function reachFamilyGoals(ctx: Ctx, studentId: string): string[] {
+  const open = ctx.db
+    .prepare('SELECT DISTINCT fg.id, fg.user_id, fg.title, fg.xp_target, fg.created_at FROM family_goal fg JOIN student_caregivers sc ON sc.caregiver_id = fg.user_id WHERE sc.student_id = ? AND fg.archived = 0 AND fg.reached_at IS NULL')
+    .all(studentId) as { id: string; user_id: string; title: string; xp_target: number; created_at: number }[];
+  const out: string[] = [];
+  for (const g of open) {
+    if (familyProgress(ctx, g.user_id, g.created_at) < g.xp_target) continue;
+    ctx.db.prepare('UPDATE family_goal SET reached_at = ? WHERE id = ?').run(ctx.now(), g.id);
+    out.push(g.title);
+  }
+  return out;
 }
 
 function getState(ctx: Ctx, sid: string): StateRow {
@@ -87,6 +177,8 @@ export interface RewardResult {
   newCosmetics: string[];
   goalsReached: string[];
   dailyGoalReached: boolean;
+  challengesDone: string[];
+  teamGoalsReached: string[];
 }
 
 export interface AnswerFacts {
@@ -127,6 +219,18 @@ export function onAnswered(ctx: Ctx, student: StudentRow, a: AnswerFacts): Rewar
     parts.push({ kind: 'daily-goal', xp: XP_DAILY_GOAL });
   }
 
+  // weekly challenges: progress this week, counting this answer (its attempt row is already written; a skill mastered by it is written below)
+  const monday = weekStart(now, tz);
+  const doneWeek = new Set((ctx.db.prepare('SELECT challenge_id FROM challenge_done WHERE student_id = ? AND week = ?').all(student.id, monday) as { challenge_id: string }[]).map((r) => r.challenge_id));
+  const prog = weekProgress(ctx, student.id, monday);
+  if (a.masteredSkill) prog.skills += 1;
+  const challengesDone: string[] = [];
+  for (const c of challengesForWeek(monday)) {
+    if (doneWeek.has(c.id) || prog[c.metric] < c.target) continue;
+    challengesDone.push(c.id);
+    parts.push({ kind: 'challenge', xp: c.xp });
+  }
+
   const gained = parts.reduce((s, p) => s + p.xp, 0);
   const totalXp = row.xp + gained;
   const info = levelInfo(totalXp);
@@ -135,6 +239,7 @@ export function onAnswered(ctx: Ctx, student: StudentRow, a: AnswerFacts): Rewar
     .run(totalXp, step.state.streak, step.state.best, step.state.lastDay, step.state.freezes, dailyGoalReached ? today : row.daily_goal_day, now, student.id);
   const ins = ctx.db.prepare('INSERT INTO reward_event (student_id, at, kind, xp) VALUES (?,?,?,?)');
   for (const p of parts) ins.run(student.id, now, p.kind, p.xp);
+  for (const id of challengesDone) ctx.db.prepare('INSERT OR IGNORE INTO challenge_done (student_id, week, challenge_id, at) VALUES (?,?,?,?)').run(student.id, monday, id, now);
 
   const newBadges = newBadgeIds(stats(ctx, student.id, step.state.streak, info.level), beforeBadges);
   for (const id of newBadges) ctx.db.prepare('INSERT OR IGNORE INTO badge_earned (student_id, badge_id, at) VALUES (?,?,?)').run(student.id, id, now);
@@ -145,11 +250,12 @@ export function onAnswered(ctx: Ctx, student: StudentRow, a: AnswerFacts): Rewar
     .prepare('SELECT id, title FROM goal WHERE student_id = ? AND archived = 0 AND reached_at IS NULL AND ? - baseline_xp >= xp_target')
     .all(student.id, totalXp) as { id: string; title: string }[];
   for (const g of reached) ctx.db.prepare('UPDATE goal SET reached_at = ? WHERE id = ?').run(now, g.id);
+  const teamGoalsReached = reachFamilyGoals(ctx, student.id);
 
   return {
     xp: gained, parts, totalXp, level: info.level, leveledUp: info.level > beforeLevel, into: info.into, need: info.need,
     streak: step.state.streak, streakGrew: step.started, freezeUsed: step.freezeUsed, freezeEarned: step.freezeEarned,
-    newBadges, newCosmetics, goalsReached: reached.map((g) => g.title), dailyGoalReached,
+    newBadges, newCosmetics, goalsReached: reached.map((g) => g.title), dailyGoalReached, challengesDone, teamGoalsReached,
   };
 }
 
@@ -219,6 +325,8 @@ export function summary(ctx: Ctx, student: StudentRow) {
     badges: BADGES.map((b) => ({ id: b.id, icon: b.icon, name: b.name, how: b.how, earnedAt: earned.get(b.id) ?? null })),
     cosmetics: COSMETICS.map((c) => ({ id: c.id, kind: c.kind, icon: c.icon, name: c.name, unlocked: isUnlocked(c, info.level, have), unlock: c.unlock })),
     goals: listGoals(ctx, student.id),
+    challenges: challengeViews(ctx, student.id),
+    teamGoals: familyGoalsForStudent(ctx, student.id),
   };
 }
 

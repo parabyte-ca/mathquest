@@ -295,3 +295,22 @@ html.hc .tour { border-color: #fff; box-shadow: none; }
 .installhelp { position: absolute; right: 1rem; top: 100%; z-index: 20; width: min(22rem, calc(100vw - 2rem)); margin-top: 0.25rem; padding: 1rem; background: var(--card); border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18); text-align: left; }
 .installhelp p { margin: 0 0 0.5rem; }
 .syncnote { margin: 0 0 1rem; }
+
+/* ── printable certificate ─────────────────────────────────────────────────── */
+.certificate { background: #fff; color: #1a1a1a; border: 10px double #b45309; border-radius: 6px; padding: 2rem 1.5rem; text-align: center; max-width: 42rem; margin: 0 auto; }
+.certificate h1 { color: #7c2d12; font-size: 2rem; margin: 0.25rem 0 1rem; }
+.certificate .cert-icon { font-size: 3.5rem; margin: 0; }
+.certificate .cert-line { margin: 0.5rem 0; font-size: 1.1rem; }
+.certificate .cert-name { font-size: 2.2rem; font-weight: 800; margin: 0.25rem 0 0.75rem; border-bottom: 2px solid #b45309; display: inline-block; padding: 0 1.5rem 0.25rem; }
+.certificate .cert-detail { font-size: 1.4rem; font-weight: 700; margin: 0.75rem 0; overflow-wrap: anywhere; }
+.certificate .cert-foot { color: #4a4a4a; margin-top: 1.5rem; }
+.certificate .cert-sign { margin: 2.5rem auto 0; max-width: 16rem; border-top: 1px solid #1a1a1a; padding-top: 0.25rem; }
+.certificate .cert-sign small { display: block; color: #4a4a4a; }
+ul.certlist { display: grid; gap: 0.5rem; }
+@media print { .certificate { border-width: 10px; break-inside: avoid; margin: 0 auto; } }
+
+/* ── avatars ───────────────────────────────────────────────────────────────── */
+.avatar-art, .swatch { display: block; flex: none; }
+.rewardbar .avatar { display: inline-flex; align-items: center; font-size: 1rem; }
+.avatar-lg { display: inline-flex; vertical-align: middle; margin-right: 0.25rem; }
+.cosmetic .big { display: inline-flex; align-items: center; }

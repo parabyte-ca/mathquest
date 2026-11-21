@@ -1,6 +1,6 @@
 {
   "name": "mathquest",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "private": true,
   "description": "Adaptive Ontario math practice and rewards for Grades 5-12 (self-hosted, invite-only)",
   "type": "module",

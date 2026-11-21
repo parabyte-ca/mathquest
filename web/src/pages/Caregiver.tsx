@@ -31,6 +31,7 @@ export function Caregiver({ me, go }: { me: Extract<Me, { kind: 'user' }>; go: (
         </ul>
       </section>
       <AddStudent onAdded={load} />
+      {students && students.length > 0 && <FamilyGoals students={students} go={go} />}
       <Devices devices={devices} onChange={load} />
       <Defaults me={me} />
     </>
@@ -154,6 +155,58 @@ function Devices({ devices, onChange }: { devices: Device[]; onChange: () => voi
           ))}
         </ul>
       )}
+    </section>
+  );
+}
+
+interface FamilyGoal { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }
+
+/** One real-world goal for all of a caregiver's students together: everyone's XP counts toward it. */
+function FamilyGoals({ students, go }: { students: StudentInfo[]; go: (to: string) => void }) {
+  const [goals, setGoals] = useState<FamilyGoal[]>([]);
+  const [title, setTitle] = useState('');
+  const [target, setTarget] = useState(1000);
+  const [msg, setMsg] = useState('');
+  const load = async () => { const r = await api<{ goals: FamilyGoal[] }>('GET', '/me/family-goals'); if (r.ok) setGoals(r.data.goals); };
+  useEffect(() => { void load(); }, []);
+  const add = async (e: Event) => {
+    e.preventDefault();
+    const r = await api<{ error?: string }>('POST', '/me/family-goals', { title, xpTarget: target });
+    setMsg(r.ok ? '' : r.status === 409 ? t('caregiver.familyMax') : t('common.error'));
+    if (r.ok) { setTitle(''); await load(); }
+  };
+  const act = async (what: 'redeem' | 'remove', id: string) => {
+    await api(what === 'redeem' ? 'POST' : 'DELETE', what === 'redeem' ? `/me/family-goals/${id}/redeem` : `/me/family-goals/${id}`);
+    await load();
+  };
+  return (
+    <section class="card" aria-labelledby="fg-title">
+      <h2 id="fg-title">{t('caregiver.family')}</h2>
+      <p class="muted small">{t('caregiver.familyHelp')}</p>
+      {goals.length === 0 && <p>{t('caregiver.familyNone')}</p>}
+      <ul class="plain">
+        {goals.map((g) => (
+          <li class="goal" key={g.id}>
+            <span aria-hidden="true">🏡</span> <strong>{g.title}</strong> {g.redeemed && <span class="badge">✅</span>}
+            <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
+            <span class="muted small">{t('caregiver.familyProgress', { progress: g.progress, target: g.xpTarget })}</span>
+            {g.reached && !g.redeemed && <p class="note ok">🎁 {t('caregiver.familyReady')}</p>}
+            <div class="actions row-actions">
+              {g.reached && !g.redeemed && <button type="button" onClick={() => void act('redeem', g.id)}>{t('caregiver.familyDone')}</button>}
+              {g.reached && students.map((st) => <button type="button" class="secondary" key={st.id} onClick={() => go(`/app/certificate?student=${st.id}&kind=family&ref=${g.id}`)}>{t('caregiver.familyCert', { name: st.displayName })}</button>)}
+              <button type="button" class="secondary" onClick={() => void act('remove', g.id)}>{t('caregiver.familyRemove')}</button>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <form onSubmit={add}>
+        <label for="fgt">{t('caregiver.familyTitle')}</label>
+        <input id="fgt" type="text" value={title} minLength={2} maxLength={80} required onInput={(e) => setTitle((e.target as HTMLInputElement).value)} />
+        <label for="fgx">{t('caregiver.familyTarget')}</label>
+        <input id="fgx" type="number" min={100} max={1000000} step={50} value={target} onInput={(e) => setTarget(Number((e.target as HTMLInputElement).value))} />
+        <button type="submit">{t('caregiver.familyAdd')}</button>
+        <span role="status">{msg}</span>
+      </form>
     </section>
   );
 }

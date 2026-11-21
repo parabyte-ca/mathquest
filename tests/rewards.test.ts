@@ -4,8 +4,9 @@ import { makeEnv, makeStudent, signIn, addUser, type TestEnv } from './helpers.j
 import { makeRng } from '../shared/rng.js';
 import { answerToGiven } from '../shared/check.js';
 import { loadCurriculum } from '../server/curriculum.js';
-import { BADGES, COSMETICS, levelInfo, newBadgeIds, streakStep, streakToShow, xpForAnswer, xpToReach, type Stats, type StreakState } from '../shared/rewards.js';
-import { localDay, onAnswered, summary, effectiveSettings } from '../server/rewards/service.js';
+import { BADGES, CHALLENGE_GROUPS, COSMETICS, challengesForWeek, levelInfo, newBadgeIds, streakStep, streakToShow, xpForAnswer, xpToReach, type Stats, type StreakState } from '../shared/rewards.js';
+import { localDay, onAnswered, summary, effectiveSettings, weekStart } from '../server/rewards/service.js';
+import type { StudentRow } from '../server/context.js';
 import type { Item } from '../shared/items/types.js';
 
 const DAY = 86_400_000;
@@ -275,5 +276,140 @@ describe('caregiver session limit', () => {
     env.db.prepare('UPDATE sessions SET expires_at = ?').run(env.clock.t + DAY);
     const again = await s.agent.post('/api/learn/next').set('x-csrf-token', s.csrf).send({ sessionId: start.body.sessionId }).expect(200);
     expect(again.body.type).toBe('item');
+  });
+});
+
+describe('weekly challenges', () => {
+  const TZ = 'America/Toronto';
+  it('opens three challenges a week, one of each kind, the same for everyone, and a different set the next week', () => {
+    const a = challengesForWeek('2026-11-23'), b = challengesForWeek('2026-11-30');
+    expect(a).toHaveLength(3);
+    expect(a.map((c) => CHALLENGE_GROUPS.findIndex((g) => g.includes(c)))).toEqual([0, 1, 2]);
+    expect(challengesForWeek('2026-11-23').map((c) => c.id)).toEqual(a.map((c) => c.id));
+    expect(b.map((c) => c.id)).not.toEqual(a.map((c) => c.id));
+    const seen = new Set<string>();
+    for (let w = 0; w < 60; w++) for (const c of challengesForWeek(new Date(Date.UTC(2026, 0, 5) + w * 7 * DAY).toISOString().slice(0, 10))) seen.add(c.id);
+    expect(seen.size).toBe(CHALLENGE_GROUPS.flat().length); // every challenge comes round
+    for (const c of CHALLENGE_GROUPS.flat()) { expect(c.target).toBeGreaterThan(0); expect(c.xp).toBeGreaterThan(0); for (const l of ['en', 'fr'] as const) { expect(c.name[l].length).toBeGreaterThan(0); expect(c.how[l].length).toBeGreaterThan(0); } }
+  });
+
+  it('finds the Monday of a week in the family time zone', () => {
+    expect(weekStart(Date.UTC(2026, 10, 25, 15), TZ)).toBe('2026-11-23');
+    expect(weekStart(Date.UTC(2026, 10, 23, 3), TZ)).toBe('2026-11-16'); // Sunday evening in Toronto
+    expect(weekStart(Date.UTC(2026, 10, 29, 20), TZ)).toBe('2026-11-23'); // Sunday afternoon, still the same week
+  });
+
+  it('pays a challenge bonus once, when its target is reached within the week, and shows progress', async () => {
+    const env = mk(3);
+    const s = await makeStudent(env);
+    const student = env.db.prepare('SELECT * FROM students WHERE id = ?').get(s.studentId) as StudentRow;
+    // pick a Wednesday whose week has the "thirty questions" challenge open
+    let monday = '2026-11-23';
+    while (!challengesForWeek(monday).some((c) => c.id === 'answers-30')) monday = new Date(Date.parse(`${monday}T12:00:00Z`) + 7 * DAY).toISOString().slice(0, 10);
+    env.clock.t = Date.parse(`${monday}T17:00:00Z`) + 2 * DAY; // Wednesday noon, Toronto
+    const addAttempt = () => env.db.prepare("INSERT INTO attempt (student_id, skill_id, tier, kind, correct, hints, ms, at) VALUES (?,?,?,?,?,?,?,?)").run(s.studentId, 'MS.G5.C2.3.a', 1, 'practice', 1, 0, 5000, env.clock.t);
+    const facts = { correct: true, tier: 1, hints: 0, kind: 'practice' as const, masteredSkill: false, masteredExpectation: false, recovered: false };
+    for (let i = 0; i < 29; i++) { addAttempt(); onAnswered(env.ctx, student, facts); }
+    const before = summary(env.ctx, student).challenges.find((c) => c.id === 'answers-30')!;
+    expect(before).toMatchObject({ progress: 29, target: 30, done: false });
+    addAttempt();
+    const r = onAnswered(env.ctx, student, facts)!;
+    expect(r.challengesDone).toContain('answers-30');
+    expect(r.parts.find((p) => p.kind === 'challenge' && p.xp === 30)).toBeDefined();
+    const done = summary(env.ctx, student).challenges.find((c) => c.id === 'answers-30')!;
+    expect(done).toMatchObject({ progress: 30, done: true });
+    addAttempt();
+    const again = onAnswered(env.ctx, student, facts)!;
+    expect(again.challengesDone).not.toContain('answers-30'); // paid once
+    expect(again.parts.some((p) => p.kind === 'challenge' && p.xp === 30)).toBe(false);
+    // next week starts afresh
+    env.clock.t += 7 * DAY;
+    expect(summary(env.ctx, student).challenges.every((c) => !c.done)).toBe(true);
+  });
+});
+
+describe('family goals and certificates', () => {
+  async function setup() {
+    const env = mk(9);
+    const s = await makeStudent(env);
+    const email = (env.db.prepare("SELECT u.email FROM users u JOIN student_caregivers sc ON sc.caregiver_id = u.id WHERE sc.student_id = ? AND sc.role = 'owner'").get(s.studentId) as { email: string }).email;
+    const cg = await signIn(env, email);
+    const second = await cg.agent.post('/api/students').set('x-csrf-token', cg.csrf).send({ displayName: 'Sib', username: `sib_${Math.random().toString(36).slice(2, 7)}`, pin: '1234', grade: 6 }).expect(201);
+    const rows = (id: string) => env.db.prepare('SELECT * FROM students WHERE id = ?').get(id) as StudentRow;
+    return { env, s, cg, a: rows(s.studentId), b: rows(second.body.id as string) };
+  }
+  const post = (cg: Awaited<ReturnType<typeof signIn>>, url: string, body: object = {}) => cg.agent.post(url).set('x-csrf-token', cg.csrf).send(body);
+  const facts = { correct: true, tier: 2, hints: 0, kind: 'practice' as const, masteredSkill: false, masteredExpectation: false, recovered: false };
+
+  it('adds up the XP of all of a caregiver\'s students toward one goal, reaches it once, and lets the caregiver mark it done', async () => {
+    const { env, s, cg, a, b } = await setup();
+    const made = await post(cg, '/api/me/family-goals', { title: 'Movie night for everyone', xpTarget: 100 }).expect(201);
+    let goal = (await cg.agent.get('/api/me/family-goals').expect(200)).body.goals[0];
+    expect(goal).toMatchObject({ title: 'Movie night for everyone', xpTarget: 100, progress: 0, reached: false });
+    await post(cg, `/api/me/family-goals/${made.body.id}/redeem`).expect(409);
+    onAnswered(env.ctx, a, facts); // 15 XP plus the daily start bonus
+    goal = (await cg.agent.get('/api/me/family-goals').expect(200)).body.goals[0];
+    expect(goal.progress).toBeGreaterThan(0);
+    expect(goal.reached).toBe(false);
+    let reachedBy = '';
+    for (let i = 0; i < 12 && !reachedBy; i++) {
+      const who = i % 2 ? a : b;
+      if (onAnswered(env.ctx, who, facts)!.teamGoalsReached.includes('Movie night for everyone')) reachedBy = who.display_name;
+    }
+    expect(reachedBy).not.toBe('');
+    goal = (await cg.agent.get('/api/me/family-goals').expect(200)).body.goals[0];
+    expect(goal).toMatchObject({ reached: true, progress: 100 });
+    expect(onAnswered(env.ctx, a, facts)!.teamGoalsReached).toEqual([]); // reached once
+    expect((await s.agent.get('/api/learn/rewards').expect(200)).body.teamGoals[0]).toMatchObject({ title: 'Movie night for everyone', reached: true });
+    await post(cg, `/api/me/family-goals/${made.body.id}/redeem`).expect(200);
+    await post(cg, `/api/me/family-goals/${made.body.id}/redeem`).expect(409);
+    expect((await s.agent.get('/api/learn/rewards').expect(200)).body.teamGoals).toEqual([]); // done goals leave the student's page
+  });
+
+  it('validates family goals, allows at most three open ones, and keeps other caregivers out', async () => {
+    const { env, cg } = await setup();
+    await post(cg, '/api/me/family-goals', { title: 'x', xpTarget: 500 }).expect(400);
+    await post(cg, '/api/me/family-goals', { title: 'Pizza night', xpTarget: 20 }).expect(400);
+    const ids: string[] = [];
+    for (const t of ['One', 'Two', 'Three']) ids.push((await post(cg, '/api/me/family-goals', { title: `Goal ${t}`, xpTarget: 500 }).expect(201)).body.id as string);
+    await post(cg, '/api/me/family-goals', { title: 'Goal Four', xpTarget: 500 }).expect(409);
+    await cg.agent.delete(`/api/me/family-goals/${ids[0]}`).set('x-csrf-token', cg.csrf).expect(200);
+    await post(cg, '/api/me/family-goals', { title: 'Goal Four', xpTarget: 500 }).expect(201);
+    addUser(env, 'stranger2@x.ca');
+    const other = await signIn(env, 'stranger2@x.ca');
+    expect((await other.agent.get('/api/me/family-goals').expect(200)).body.goals).toEqual([]);
+    await other.agent.delete(`/api/me/family-goals/${ids[1]}`).set('x-csrf-token', other.csrf).expect(404);
+    await post(other, `/api/me/family-goals/${ids[1]}/redeem`).expect(404);
+    await request(env.app).get('/api/me/family-goals').expect(401);
+  });
+
+  it('prints a certificate only for something that was really earned, and only for the family\'s caregivers', async () => {
+    const { env, s, cg, a, b } = await setup();
+    const cert = (q: string, who = cg) => who.agent.get(`/api/students/${a.id}/certificate?${q}`);
+    await cert('kind=badge&ref=century').expect(404); // not earned
+    await cert('kind=goal&ref=nope').expect(404);
+    await cert('kind=teapot').expect(400);
+    env.db.prepare("INSERT INTO attempt (student_id, skill_id, tier, kind, correct, hints, ms, at) VALUES (?,?,?,?,?,?,?,?)").run(a.id, 'MS.G5.C2.3.a', 1, 'practice', 1, 0, 5000, env.clock.t); // the badge counts real answers
+    onAnswered(env.ctx, a, facts);
+    const badge = (await cert('kind=badge&ref=first-steps').expect(200)).body;
+    expect(badge.student).toMatchObject({ displayName: 'Kid', grade: 5 });
+    expect(badge.heading.en).toBe('Badge earned');
+    expect(badge.detail.fr).toContain('Premiers pas');
+    expect(badge.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    const lvl = (await cert('kind=level').expect(200)).body;
+    expect(lvl.detail.en).toMatch(/^Level \d+ with \d+ XP$/);
+    const g = await post(cg, `/api/students/${a.id}/goals`, { title: 'Ice cream trip', xpTarget: 50 }).expect(201);
+    await cert(`kind=goal&ref=${g.body.id}`).expect(404); // not reached yet
+    for (let i = 0; i < 6; i++) onAnswered(env.ctx, a, facts);
+    expect((await cert(`kind=goal&ref=${g.body.id}`).expect(200)).body.detail.en).toBe('Ice cream trip');
+    const fg = await post(cg, '/api/me/family-goals', { title: 'Beach day', xpTarget: 100 }).expect(201);
+    await cert(`kind=family&ref=${fg.body.id}`).expect(404);
+    for (let i = 0; i < 8; i++) onAnswered(env.ctx, b, facts);
+    expect((await cert(`kind=family&ref=${fg.body.id}`).expect(200)).body.heading.en).toBe('Family goal reached');
+    addUser(env, 'stranger3@x.ca');
+    const other = await signIn(env, 'stranger3@x.ca');
+    await cert('kind=level', other).expect(404);
+    await request(env.app).get(`/api/students/${a.id}/certificate?kind=level`).expect(401);
+    void s;
   });
 });
