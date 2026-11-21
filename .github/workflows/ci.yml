@@ -86,7 +86,8 @@ jobs:
           mkdir -p image-scan
           docker cp mqscan:/app/dist/web image-scan/web
           docker cp mqscan:/app/dist/server image-scan/server
-          docker export mqscan | tar -t | grep -v '^app/node_modules/' > image-scan/files.txt
+          # Only the application's own files: the base image carries its own npm (with source maps) and the dependencies are third-party.
+          docker export mqscan | tar -t | grep '^app/' | grep -v '^app/node_modules/' > image-scan/files.txt
           docker rm mqscan >/dev/null
           if grep -E '(^|/)\.env($|\.)|\.map$|\.pem$|\.key$|\.p12$|\.db$|(^|/)\.git/' image-scan/files.txt; then echo "the image contains a file that must not ship"; exit 1; fi
           npm run audit:secrets -- --no-source --no-history --require-client --client image-scan/web --server image-scan/server
