@@ -21,8 +21,8 @@ describe('lessons', () => {
     }
   });
 
-  it('give every Grade 5-6 Number micro-skill a lesson to fall back on', () => {
-    const missing = micro.filter((m) => /^MS\.G[56]\.B/.test(m) && !lessonForSkill(m));
+  it('give every Grade 5-7 Number micro-skill a lesson to fall back on', () => {
+    const missing = micro.filter((m) => /^MS\.G[567]\.B/.test(m) && !lessonForSkill(m));
     expect(missing).toEqual([]);
   });
 
