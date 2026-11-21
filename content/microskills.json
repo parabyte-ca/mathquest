@@ -1391,6 +1391,132 @@
    ]
   },
   {
+   "id": "MS.G7.B1.1.a",
+   "expectation": "G7.B1.1",
+   "name": "Numbers up to one billion and expanded form",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B1.5.a",
+   "expectation": "G7.B1.5",
+   "name": "Fractions and decimals between two quantities",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B1.6.a",
+   "expectation": "G7.B1.6",
+   "name": "Rounding",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.2.a",
+   "expectation": "G7.B2.2",
+   "name": "Fraction, decimal and percent equivalents",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.C1.2.a",
+   "expectation": "G7.C1.2",
+   "name": "Patterns with whole numbers and decimals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G7.C3.1.a",
+   "expectation": "G7.C3.1",
+   "name": "Code with counts and sub-programs",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.C3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.C3.2.a",
+   "expectation": "G7.C3.2",
+   "name": "Reading and altering code",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G7.D1.1.a",
+   "expectation": "G7.D1.1",
+   "name": "Why percentages describe large data sets",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G7.D1.4.a",
+   "expectation": "G7.D1.4",
+   "name": "Infographics",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G7.D1.6.a",
+   "expectation": "G7.D1.6",
+   "name": "Analysis and misleading graphs",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.D1.6.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E1.2.a",
+   "expectation": "G7.E1.2",
+   "name": "Top, front and side views to scale",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G7.E2.4.a",
+   "expectation": "G7.E2.4",
+   "name": "Constructing circles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.E2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G7.F1.2.a",
+   "expectation": "G7.F1.2",
+   "name": "Reliable sources of financial information",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.F1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.F1.4.a",
+   "expectation": "G7.F1.4",
+   "name": "Factors that influence financial decisions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.F1.3.a"
+   ]
+  },
+  {
    "id": "MS.G8.B1.1.a",
    "expectation": "G8.B1.1",
    "name": "Scientific notation for very large and very small numbers",

@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.14.0] - 2026-11-21
+### Added
+- Grade 7 is now complete for everything the question player can handle: 14 new micro-skills and 5 lessons, asked in words and numbers.
+  - Number: numbers up to one billion and expanded form (B1.1), fractions and decimals between two quantities (B1.5), rounding (B1.6), and fraction, decimal and percent equivalents (B2.2).
+  - Algebra: patterns with decimals, rules and equations (C1.2), code with counts and sub-programs (C3.1), and reading and altering code (C3.2).
+  - Data: why percentages describe large data sets (D1.1), infographics (D1.4), and misleading graphs and statistics (D1.6).
+  - Spatial sense: top, front and side views to scale (E1.2) and constructing circles (E2.4).
+  - Financial literacy: reliable sources (F1.2) and factors that influence a decision (F1.4).
+- The Grade 7 quick checks now include the new skills (Number, Algebra, Data, Spatial sense and Financial literacy).
+- Independent checks recompute every new answer a second way, and were mutation-tested. Rounding uses exact whole-number arithmetic so ties always round up.
+
+### Notes
+- This release also carries 2.12.0 and 2.13.0 (Grade 10) and the one spelling of "practice", because they were merged together.
+
 ## [2.13.0] - 2026-11-21
 ### Added
 - The rest of Grade 10 for both courses (22 new micro-skills, 5 lessons), so every strand of MPM2D and MFM2P that the question player can handle now has practice.
