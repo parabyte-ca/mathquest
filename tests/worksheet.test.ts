@@ -67,7 +67,7 @@ describe('worksheets', () => {
     expect(again.body.items).toEqual(res.body.items);
     await cg.agent.get(`/api/students/${s.studentId}/worksheet?focus=bad`).expect(400);
     await cg.agent.get(`/api/students/${s.studentId}/worksheet?focus=G5.C2.3&count=2`).expect(400);
-    await cg.agent.get(`/api/students/${s.studentId}/worksheet?focus=MCV4U.A1`).expect(404); // no practice content yet
+    await cg.agent.get(`/api/students/${s.studentId}/worksheet?focus=MDM4U.A1`).expect(404); // no practice content yet
     addUser(env, 'other@x.ca');
     const other = await signIn(env, 'other@x.ca');
     await other.agent.get(`/api/students/${s.studentId}/worksheet?focus=G5.C2.3`).expect(404);
@@ -81,7 +81,7 @@ describe('worksheets', () => {
     const codes = res.body.expectations.map((e: { code: string }) => e.code);
     expect(codes).toContain('G5.C2.3');
     expect(codes).toContain('G6.B2.12');
-    expect(codes).not.toContain('MCV4U.A1'); // nothing to practice yet
+    expect(codes).not.toContain('MDM4U.A1'); // nothing to practice yet
     expect(res.body.studentGrade).toBe(5);
   });
 });
