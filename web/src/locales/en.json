@@ -544,7 +544,7 @@
   "household.leaveConfirm": "Leave {name}? You will no longer see their progress.",
   "household.lastOwner": "There must always be one owner. Make someone else an owner first.",
   "household.invite": "Invite a co-parent",
-  "household.inviteHelp": "Shares all the students you own with another parent. They get one email with a sign-in link.",
+  "household.inviteHelp": "Shares only the students you tick with another parent. They get one email with a sign-in link, and any other owner is told.",
   "household.inviteSend": "Send invitation",
   "household.inviteDone": "Invitation sent.",
   "household.tooMany": "Too many invitations. Please try again later.",
@@ -601,5 +601,11 @@
   "welcome.privacyTitle": "Your privacy",
   "welcome.privacy": "You only see the students shared with you. Each student has a recent activity list showing who looked at or changed things, and only the caregivers on that student can read it.",
   "welcome.tour": "Take the quick tour",
-  "welcome.gotIt": "Got it"
+  "welcome.gotIt": "Got it",
+  "admin.counts": "owns {owns}, helps with {helps}",
+  "household.which": "Which students?",
+  "household.pickOne": "Choose at least one student.",
+  "household.pickAll": "Select all",
+  "household.pickNone": "Clear",
+  "household.confirmShare": "Share {names} with {email} as {role}? They will be able to see progress, goals and messages."
 }

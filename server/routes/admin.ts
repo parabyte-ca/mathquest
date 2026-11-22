@@ -76,7 +76,8 @@ export function adminRoutes(ctx: Ctx): Router {
   r.get('/admin/users', (_req, res) => {
     res.json({
       users: ctx.db
-        .prepare('SELECT id, email, role, display_name AS displayName, status, created_at AS createdAt, last_login_at AS lastLoginAt FROM users ORDER BY created_at')
+        // Counts only: how many students each account owns and helps with. Never which students, and never anything about them.
+        .prepare("SELECT u.id, u.email, u.role, u.display_name AS displayName, u.status, u.created_at AS createdAt, u.last_login_at AS lastLoginAt, (SELECT COUNT(*) FROM student_caregivers sc WHERE sc.caregiver_id = u.id AND sc.role = 'owner') AS owns, (SELECT COUNT(*) FROM student_caregivers sc WHERE sc.caregiver_id = u.id AND sc.role = 'co') AS helps FROM users u ORDER BY u.created_at")
         .all(),
     });
   });

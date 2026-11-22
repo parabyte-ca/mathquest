@@ -35,7 +35,7 @@ export function Caregiver({ me, go }: { me: Extract<Me, { kind: 'user' }>; go: (
       </section>
       <AddStudent onAdded={load} />
       {students && students.length > 0 && <FamilyGoals students={students} go={go} />}
-      {students && students.some((s) => s.linkRole === 'owner') && <InviteParent />}
+      {students && students.some((s) => s.linkRole === 'owner') && <InviteParent students={students.filter((s) => s.linkRole === 'owner')} />}
       <Devices devices={devices} onChange={load} />
       <Defaults me={me} />
       <Account me={me} />
@@ -50,6 +50,7 @@ function StudentRow({ s, onChange, go, first }: { s: StudentInfo; onChange: () =
   const [shareRole, setShareRole] = useState<'co' | 'owner'>('co');
   const share = async (e: Event) => {
     e.preventDefault();
+    if (!confirm(t('household.confirmShare', { names: s.displayName, email, role: shareRole === 'owner' ? t('household.roleOwner') : t('household.roleCo') }))) return;
     const r = await api<{ error?: string }>('POST', `/students/${s.id}/caregivers`, { email, role: shareRole, note: personal.trim() || undefined });
     setNote(r.ok ? t('caregiver.shareDone') : r.data.error === 'note_has_link' ? t('invite.noteLink') : t('common.error'));
     if (r.ok) { setEmail(''); setPersonal(''); }
@@ -310,29 +311,41 @@ function Caregivers({ s, onChange }: { s: StudentInfo; onChange: () => void }) {
   );
 }
 
-/** Share every student you own with another parent in one step. */
-function InviteParent() {
+/** Share the students you choose with another parent in one step. Nothing is ticked to begin with, and you confirm the address before it is sent. */
+function InviteParent({ students }: { students: StudentInfo[] }) {
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState<'co' | 'owner'>('owner');
+  const [role, setRole] = useState<'co' | 'owner'>('co');
   const [note, setNote] = useState('');
+  const [picked, setPicked] = useState<string[]>([]);
   const [msg, setMsg] = useState('');
+  const toggle = (id: string) => setPicked((p) => (p.includes(id) ? p.filter((x) => x !== id) : [...p, id]));
   const send = async (e: Event) => {
     e.preventDefault();
-    const r = await api<{ error?: string }>('POST', '/me/invite-parent', { email, role, note: note.trim() || undefined });
+    if (picked.length === 0) return setMsg(t('household.pickOne'));
+    const names = students.filter((s) => picked.includes(s.id)).map((s) => s.displayName).join(', ');
+    if (!confirm(t('household.confirmShare', { names, email, role: role === 'owner' ? t('household.roleOwner') : t('household.roleCo') }))) return;
+    const r = await api<{ error?: string }>('POST', '/me/invite-parent', { email, role, note: note.trim() || undefined, studentIds: picked });
     setMsg(r.ok ? t('household.inviteDone') : r.data.error === 'note_has_link' ? t('invite.noteLink') : r.status === 429 ? t('household.tooMany') : t('common.error'));
-    if (r.ok) { setEmail(''); setNote(''); }
+    if (r.ok) { setEmail(''); setNote(''); setPicked([]); }
   };
   return (
     <section class="card">
       <h2>{t('household.invite')}</h2>
       <p class="muted">{t('household.inviteHelp')}</p>
       <form onSubmit={send}>
+        <fieldset>
+          <legend>{t('household.which')}</legend>
+          {students.map((s) => (
+            <label class="check" key={s.id}><input type="checkbox" checked={picked.includes(s.id)} onChange={() => toggle(s.id)} /> {s.displayName}</label>
+          ))}
+          <button type="button" class="secondary small" onClick={() => setPicked(picked.length === students.length ? [] : students.map((s) => s.id))}>{picked.length === students.length ? t('household.pickNone') : t('household.pickAll')}</button>
+        </fieldset>
         <label for="ip-email">{t('caregiver.shareEmail')}</label>
         <input id="ip-email" type="email" required value={email} onInput={(e) => setEmail((e.target as HTMLInputElement).value)} />
         <label for="ip-role">{t('household.role')}</label>
         <select id="ip-role" value={role} onChange={(e) => setRole((e.target as HTMLSelectElement).value as 'co' | 'owner')}>
-          <option value="owner">{t('household.roleOwner')}</option>
           <option value="co">{t('household.roleCo')}</option>
+          <option value="owner">{t('household.roleOwner')}</option>
         </select>
         <label for="ip-note">{t('invite.note')}</label>
         <textarea id="ip-note" rows={2} maxLength={500} value={note} onInput={(e) => setNote((e.target as HTMLTextAreaElement).value)} />

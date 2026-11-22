@@ -59,6 +59,20 @@ export const notifyShared = (ctx: Ctx, target: UserRow, student: StudentRow, by:
   notice(ctx, target.email, `${student.display_name} was shared with you on MathQuest`,
     `${nameOf(by)} shared ${student.display_name} with you${role === 'owner' ? ' as an owner' : ''}. You can now see their progress, set goals and send messages.`, `${student.display_name} was shared with you`);
 
+/** When an owner shares students, every other owner of those students hears about it, with the address that was added, so a mistyped
+ *  address or an unwanted share is noticed straight away. One email per owner, listing the students. */
+export async function notifyOwnersShared(ctx: Ctx, students: StudentRow[], by: UserRow, target: UserRow, role: LinkRole): Promise<void> {
+  const perOwner = new Map<string, string[]>();
+  for (const s of students) for (const id of ownerIds(ctx.db, s.id)) if (id !== by.id && id !== target.id) perOwner.set(id, [...(perOwner.get(id) ?? []), s.display_name]);
+  for (const [id, names] of perOwner) {
+    const owner = ctx.db.prepare('SELECT email FROM users WHERE id = ?').get(id) as { email: string } | undefined;
+    if (!owner) continue;
+    await notice(ctx, owner.email, 'A student you own was shared on MathQuest',
+      `${nameOf(by)} shared ${names.join(', ')} with ${target.email} as ${role === 'owner' ? 'an owner' : 'a helper'}. If that was not expected, open MathQuest, find the student and remove them.`,
+      'A student you own was shared').catch(() => undefined);
+  }
+}
+
 // ── account deletion ───────────────────────────────────────────────────
 
 export type Outcome = 'stays' | 'deleted' | 'transfer-needed' | 'leave';

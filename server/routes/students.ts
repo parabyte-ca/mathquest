@@ -7,7 +7,7 @@ import { audit } from '../audit.js';
 import { newId, nowIso } from '../db.js';
 import { publicStudent, sendSignInLink } from './auth.js';
 import { studentExport } from '../export.js';
-import { MAX_CAREGIVERS, addLink, caregiverCount, linkRole, notifyShared, ownerIds, usernameInUse } from '../household.js';
+import { MAX_CAREGIVERS, addLink, caregiverCount, linkRole, notifyOwnersShared, notifyShared, ownerIds, usernameInUse } from '../household.js';
 import { noteSchema } from '../note.js';
 
 const username = z.string().trim().regex(/^[a-z0-9_]{3,20}$/i, 'username');
@@ -122,6 +122,7 @@ export function studentRoutes(ctx: Ctx): Router {
     const result = addLink(ctx.db, a.student, target, parsed.data.role, user);
     if (invited) await sendSignInLink(ctx, target, { invite: true, note: parsed.data.note || undefined, from: user.display_name || user.email });
     else if (result === 'added') await notifyShared(ctx, target, a.student, user, parsed.data.role);
+    if (result === 'added') await notifyOwnersShared(ctx, [a.student], user, target, parsed.data.role);
     audit(ctx.db, { kind: user.role, id: user.id }, 'student.share', a.student.id, { caregiver: target.id, role: parsed.data.role, noteAttached: invited && !!parsed.data.note });
     res.status(201).json({ ok: true });
   });

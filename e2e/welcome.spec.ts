@@ -6,6 +6,8 @@ const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'];
 
 test('a caregiver who was invited sees a one-time welcome that names who shared what, and it replaces the first-run tour', async ({ page, browser, baseURL }, info) => {
   const vp = info.project.name;
+  const asked: string[] = [];
+  page.on('dialog', (d) => { asked.push(d.message()); void d.accept(); }); // sharing asks "Share X with Y as Z?" first
   await signInCaregiver(page, `inviter-${vp}@e2e.test`);
   await page.getByLabel('Display name').fill('Robin');
   await page.getByLabel(/^Username/).fill(`welcomekid_${vp}`);
@@ -16,6 +18,7 @@ test('a caregiver who was invited sees a one-time welcome that names who shared 
   await page.getByRole('combobox', { name: 'Role' }).first().selectOption('co');
   await page.getByRole('button', { name: 'Share', exact: true }).click();
   await expect(page.getByText('Shared.')).toBeVisible();
+  expect(asked.join(' ')).toContain(`guest-${vp}@e2e.test`); // the address is shown back before anything is sent
 
   const ctx = await browser.newContext({ baseURL, extraHTTPHeaders: { 'x-forwarded-for': uniqueIp() } });
   const guest: Page = await ctx.newPage();

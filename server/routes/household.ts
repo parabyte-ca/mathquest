@@ -8,7 +8,7 @@ import { audit } from '../audit.js';
 import { ACTIVITY_DAYS } from '../jobs.js';
 import { newId, nowIso } from '../db.js';
 import { caregiverExport } from '../export.js';
-import { DELETE_GRACE_MS, addLink, caregiversOf, deletePreview, linkRole, MAX_CAREGIVERS, notice, notifyShared, ownerIds, welcomeFor } from '../household.js';
+import { DELETE_GRACE_MS, addLink, caregiversOf, deletePreview, linkRole, MAX_CAREGIVERS, notice, notifyOwnersShared, notifyShared, ownerIds, welcomeFor } from '../household.js';
 import { sendSignInLink } from './auth.js';
 import { access } from './students.js';
 import { noteSchema } from '../note.js';
@@ -98,11 +98,15 @@ export function householdRoutes(ctx: Ctx): Router {
 
   // Invite a co-parent to every student you own. Nothing about whether the address already has an account (or has a clashing username) is revealed.
   r.post('/me/invite-parent', requireUser('caregiver'), familyOnly, async (req, res) => {
-    const parsed = z.object({ email: z.string().trim().toLowerCase().email().max(254), role: z.enum(['owner', 'co']).default('co'), note: noteSchema }).strict().safeParse(req.body);
+    const parsed = z.object({ email: z.string().trim().toLowerCase().email().max(254), role: z.enum(['owner', 'co']).default('co'), note: noteSchema, studentIds: z.array(z.string().min(1).max(64)).min(1).max(100) }).strict().safeParse(req.body);
     if (!parsed.success) return void res.status(400).json({ error: parsed.error.issues.some((i) => i.message === 'has_link') ? 'note_has_link' : 'invalid_request' });
     const user = me(req);
-    const mine = ctx.db.prepare("SELECT s.* FROM students s JOIN student_caregivers sc ON sc.student_id = s.id WHERE sc.caregiver_id = ? AND sc.role = 'owner' ORDER BY s.display_name").all(user.id) as StudentRow[];
-    if (mine.length === 0) return void res.status(409).json({ error: 'no_students' });
+    const owned = ctx.db.prepare("SELECT s.* FROM students s JOIN student_caregivers sc ON sc.student_id = s.id WHERE sc.caregiver_id = ? AND sc.role = 'owner' ORDER BY s.display_name").all(user.id) as StudentRow[];
+    if (owned.length === 0) return void res.status(409).json({ error: 'no_students' });
+    // Only the students the caller names, and only ones they own: an id that is not theirs is a mistake or tampering, and shares nothing.
+    const wanted = new Set(parsed.data.studentIds);
+    const mine = owned.filter((s) => wanted.has(s.id));
+    if (mine.length !== wanted.size) return void res.status(404).json({ error: 'not_found' });
     if (!ctx.limits.invite.take(user.id)) return void res.status(429).json({ error: 'too_many_requests' });
     let target = ctx.db.prepare('SELECT * FROM users WHERE email = ?').get(parsed.data.email) as UserRow | undefined;
     if (target && (target.role !== 'caregiver' || target.status === 'disabled' || target.id === user.id)) return void res.status(201).json({ ok: true });
@@ -118,6 +122,7 @@ export function householdRoutes(ctx: Ctx): Router {
     audit(ctx.db, { kind: 'caregiver', id: user.id }, 'student.share', null, { caregiver: target.id, students: added.length, role: parsed.data.role, noteAttached: invited && !!parsed.data.note });
     if (invited) await sendSignInLink(ctx, target, { invite: true, note: parsed.data.note || undefined, from: nameOf(user) });
     else if (added.length > 0) await notifyShared(ctx, target, added[0]!, user, parsed.data.role).catch(() => undefined);
+    if (added.length > 0) await notifyOwnersShared(ctx, added, user, target, parsed.data.role);
     res.status(201).json({ ok: true });
   });
 
