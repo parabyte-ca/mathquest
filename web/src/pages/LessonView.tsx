@@ -68,11 +68,11 @@ export function LessonView({ lesson, settings, onDone, doneLabel }: { lesson: Le
         {speechSupported() && settings.voice && section < tryIdx && <button type="button" class="secondary" onClick={readCurrent}>🔊 {t('play.readAloud')}</button>}
         {section > 0 && <button type="button" class="secondary" onClick={() => { setSection(section - 1); setStepIdx(0); }}>{t('common.back')}</button>}
         {ex && stepIdx < ex.steps.length - 1 ? (
-          <button type="button" onClick={() => setStepIdx(stepIdx + 1)}>{t('lesson.nextStep')}</button>
+          <button type="button" class="go" onClick={() => setStepIdx(stepIdx + 1)}>{t('lesson.nextStep')}</button>
         ) : section < tryIdx ? (
-          <button type="button" onClick={() => { setSection(section + 1); setStepIdx(0); }}>{section === examples.length ? t('lesson.tryOne') : t('lesson.next')}</button>
+          <button type="button" class="go" onClick={() => { setSection(section + 1); setStepIdx(0); }}>{section === examples.length ? t('lesson.tryOne') : t('lesson.next')}</button>
         ) : (
-          <button type="button" onClick={onDone}>{doneLabel ?? t('lesson.finish')}</button>
+          <button type="button" class="go" onClick={onDone}>{doneLabel ?? t('lesson.finish')}</button>
         )}
       </div>
     </section>

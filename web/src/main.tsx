@@ -1,5 +1,7 @@
 import { render } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/fira-code/wght.css';
 import '@fontsource/opendyslexic/400.css';
 import '@fontsource/opendyslexic/700.css';
 import './style.css';
@@ -75,7 +77,7 @@ function Shell(p: { path: string; me: Me | null | undefined; signOut: () => void
     <>
       <a class="skip" href="#main">Skip to content</a>
       <header class="bar">
-        <a class="brand" href="/app" onClick={(e) => { e.preventDefault(); p.go('/app'); }}>{t('app.name')}</a>
+        <a class="brand" href="/app" onClick={(e) => { e.preventDefault(); p.go('/app'); }}><img src="/brand/logo.png" alt="" width="30" height="30" />{t('app.name')}</a>
         <nav aria-label="Main">
           {isAdmin && <a href="/app/admin" onClick={(e) => { e.preventDefault(); p.go('/app/admin'); }}>{t('nav.admin')}</a>}
           <InstallButton />

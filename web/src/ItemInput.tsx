@@ -215,7 +215,7 @@ export function ItemInput({ item, disabled, onSubmit }: { item: PublicItem; disa
         </div>
       )}
 
-      <button type="submit" disabled={disabled || !given}>{t('play.check')}</button>
+      <button type="submit" class="go" disabled={disabled || !given}>{t('play.check')}</button>
     </form>
   );
 }

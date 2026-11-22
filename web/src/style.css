@@ -1,16 +1,26 @@
 :root {
   --bg: #f5f7fb;
   --card: #ffffff;
-  --text: #14213d;
+  --text: #14263f;
   --muted: #566074;
-  --brand: #1f5fd6;
+  --brand: #1565c0;
   --brand-text: #ffffff;
+  --blue-soft: #e3eefb;
+  --orange: #f57c00;
+  --on-orange: #14263f;
+  --orange-soft: #ffe9d2;
+  --yellow: #fbc02d;
+  --on-yellow: #14263f;
+  --yellow-soft: #fff3d6;
+  --amber-text: #8a5200;
   --danger: #b3261e;
   --ok: #1b6e3c;
   --warn: #8a4b00;
   --line: #d5dbe6;
   --focus: #ffb703;
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'Fira Code Variable', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-family: var(--font);
   line-height: 1.5;
 }
 @media (prefers-color-scheme: dark) {
@@ -19,8 +29,13 @@
     --card: #182236;
     --text: #eef2fa;
     --muted: #a6b1c8;
-    --brand: #6ea2ff;
-    --brand-text: #0b1220;
+    --brand: #64b5f6;
+    --brand-text: #0c1422;
+    --blue-soft: #1b2d4e;
+    --orange: #ffa726;
+    --orange-soft: #3a2a14;
+    --yellow-soft: #3a3115;
+    --amber-text: #ffcc66;
     --danger: #ff8a80;
     --ok: #6fdc9b;
     --warn: #ffc266;
@@ -54,6 +69,9 @@ input, select, button, .btn { font: inherit; }
 input:not([type='checkbox']), select, textarea { width: 100%; min-height: 44px; padding: 0.5rem 0.75rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); }
 input[type='checkbox'] { width: 24px; height: 24px; }
 button, .btn { min-height: 44px; min-width: 44px; padding: 0.5rem 1rem; border: 0; border-radius: 8px; background: var(--brand); color: var(--brand-text); font-weight: 700; cursor: pointer; margin-top: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+/* The next action (start, check, continue) is orange; everything else stays blue. Navy text, because white on orange fails contrast. */
+button.go, .btn.go { background: var(--orange); color: var(--on-orange); }
+.brand img { width: 30px; height: 30px; margin-right: 0.4rem; object-fit: contain; }
 button:disabled { opacity: 0.55; cursor: not-allowed; }
 button.link { background: none; color: var(--brand); margin: 0; font-weight: 600; text-decoration: underline; }
 button.danger { background: var(--danger); color: #fff; margin-top: 0; }
@@ -90,7 +108,7 @@ dd { margin: 0; }
 /* ───────── Phase 2: learning experience ───────── */
 :root { --ink: #14213d; --seg: #dbe6fb; --segfill: #2f6df0; --segfill2: #7a4fd6; --good: #1b6e3c; --tip: #8a4b00; --soft: #eef3fd; }
 @media (prefers-color-scheme: dark) { :root { --ink: #eef2fa; --seg: #26324d; --segfill: #6ea2ff; --segfill2: #b79bff; --good: #6fdc9b; --tip: #ffc266; --soft: #1d2a45; } }
-html.hc { --bg: #000; --card: #000; --text: #fff; --ink: #fff; --muted: #fff; --brand: #ffe600; --brand-text: #000; --line: #fff; --seg: #222; --segfill: #ffe600; --segfill2: #00e5ff; --soft: #111; --good: #7dffa8; --tip: #ffe600; --focus: #00e5ff; }
+html.hc { --orange: #ffe600; --on-orange: #000; --orange-soft: #111; --yellow: #ffe600; --yellow-soft: #111; --amber-text: #ffe600; --blue-soft: #111; --bg: #000; --card: #000; --text: #fff; --ink: #fff; --muted: #fff; --brand: #ffe600; --brand-text: #000; --line: #fff; --seg: #222; --segfill: #ffe600; --segfill2: #00e5ff; --soft: #111; --good: #7dffa8; --tip: #ffe600; --focus: #00e5ff; }
 html.hc .card { border-width: 2px; }
 html.dys body, html.dys button, html.dys input, html.dys select { font-family: 'OpenDyslexic', system-ui, sans-serif; letter-spacing: 0.02em; line-height: 1.7; }
 html.rm *, html.rm *::before, html.rm *::after { animation: none !important; transition: none !important; }
@@ -114,11 +132,12 @@ button.icon { min-width: 44px; padding: 0; margin-top: 0; }
 .qtools { display: flex; gap: 0.5rem; }
 .prompt { font-size: 1.25rem; line-height: 1.6; margin: 0.5rem 0 1rem; }
 .tex { font-size: 1.15em; }
-.tex-raw { font-family: ui-monospace, monospace; }
+.tex-raw { font-family: var(--mono); }
 math { font-size: 1.15em; }
 .preview { display: block; min-height: 2rem; padding: 0.25rem 0; }
 
 .answer { display: grid; gap: 0.75rem; }
+.answer input:not([type='checkbox']):not([type='range']), .mathfield { font-family: var(--mono); }
 .entry-row { display: flex; gap: 0.5rem; align-items: stretch; }
 .entry-row input { flex: 1; font-size: 1.2rem; }
 .entry-row button { margin-top: 0; }

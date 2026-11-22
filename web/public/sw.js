@@ -16,7 +16,7 @@ self.addEventListener('install', (event) => {
         const { files } = await res.json();
         // a few at a time and at low priority, so the first visit on a slow phone connection is not slowed by the worker saving
         // every page's code in the background
-        const queue = files.filter((f) => /^\/assets\/[\w.-]+\.(js|css)$/.test(f));
+        const queue = files.filter((f) => /^\/assets\/[\w.-]+\.(js|css|woff2)$/.test(f));
         const worker = async () => { for (let f = queue.shift(); f; f = queue.shift()) await cache.add(new Request(new URL(f, self.location.href).href, { priority: 'low' })).catch(() => undefined); };
         await Promise.all([worker(), worker(), worker()]);
       }

@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.16.0] - 2026-11-22
+### Changed
+- The app has the new brand colours: a deeper blue (#1565C0) for the app, links and buttons, orange (#F57C00) for the next action (Check, Next, Continue) with navy text because white on orange fails contrast, and yellow for rewards. Light and dark modes both pass the contrast checks, and high contrast still wins, using one bright accent.
+- Inter is now the app's font and Fira Code is used for answers and typed maths. Both ship with the app (Latin letters only, including French accents) and are saved for offline use, so nothing is fetched from another site.
+- The logo (the shield with the rocket and compass, as supplied) now shows in the top bar.
+- The five unlockable colour palettes (Sunrise, Forest, Ocean, Twilight, Candy) each have their own orange, yellow and tints, so every palette reads as one whole look instead of showing brand orange inside a green or pink page. Classic is the brand look. The unlock levels and saved choices are unchanged.
+- Magic-link emails, the offline page, the app icon colour and the browser theme colour use the new blue.
+
+### Notes
+- The logo is the supplied raster image, not a redrawn version; the PWA icons and favicon keep their old shape for now. The SVG icon set, a vector logo and avatar frames are 3.17.0, and any change to the logo itself will be checked with the owner first.
+
 ## [3.15.0] - 2026-11-22
 ### Added
 - Recent activity for each student, on the caregiver page: who looked at the progress, changed the profile, set a goal, sent a message, made a worksheet, shared, handed over, exported or left, and when a student signed in on a device or was locked out. Every caregiver on a student can read it, with names; a caregiver who has since left shows as "A former caregiver".
