@@ -57,8 +57,8 @@ export function TourHost({ me, path }: { me: Me | null | undefined; path: string
     const who = `${kind}:${me.kind === 'student' ? me.student.id : me.user.id}`;
     if (asked.current === who) return;
     asked.current = who;
-    void api<{ done: string[] }>('GET', '/tours').then((r) => {
-      if (r.ok && !r.data.done.includes(kind) && !active) startTour(kind, false);
+    void api<{ done: string[]; welcomePending?: boolean }>('GET', '/tours').then((r) => {
+      if (r.ok && !r.data.done.includes(kind) && !r.data.welcomePending && !active) startTour(kind, false);
     });
   }, [me, path]);
 

@@ -48,6 +48,7 @@ Another parent can already test today without any of this: the admin invites the
 | 3.6.0 | Grade 11 MEL3E (shipped): pay and deductions, sale prices and unit prices, savings, loans, vehicle costs and leasing, map scales and trips: 10 skills, 3 lessons | M |
 | 3.7.0 | Grade 12 MCT4C (shipped): exponential and polynomial functions, formulas, trigonometry, forces, circle properties, arcs and sectors: 17 skills, 4 lessons | L |
 | 3.8.0 | Grade 12 MAP4C (shipped): exponents and models, annuities and mortgages, owning against renting, budgets, optimal dimensions, trigonometry, two-variable data and bias: 16 skills, 4 lessons | L |
+| 3.20.0 | First-sign-in welcome for invited parents (shipped): who shared what, role, how a student signs in, privacy; replaces the first-run walkthrough | S |
 | 3.19.0 | Brand refresh, part 3 (shipped): install icons and favicon from the logo, line navigation icons, filled topic and reward icons, playful student look and calmer caregiver look. A redrawn vector logo is still optional and needs the owner's sign-off | M |
 | 3.18.0 | Quick checks (placement ladders) for Grade 10 to 12 courses (shipped): one per course, eight questions at most | S |
 | 3.17.0 | Brand refresh, part 2 (shipped in part): avatar frames as a new reward and SVG badge icons. Still open: vector logo and install icons, line icons for navigation | M |
@@ -108,7 +109,7 @@ Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completel
   - **Ownership transfer** to another caregiver who already shares the child, with a confirmation email to both.
   - **Leave a shared child** for a co-caregiver, without the owner having to unshare.
   - **Account deletion** for a caregiver, after a full export (their students, progress, goals, messages) they can download. Define what happens to children they own when other owners exist (they stay) and when none do (they are deleted after a clear warning and a waiting period).
-  - **Invite a parent** from the caregiver page (today only the admin can invite someone with no child to share), with a welcome on first sign-in that explains devices and PINs.
+  - **Invite a parent** from the caregiver page (today only the admin can invite someone with no child to share), with a welcome on first sign-in that explains devices and PINs (the welcome shipped in 3.20.0).
   - **Activity log** per child, readable by that child's caregivers (priority 2): who viewed or changed what and when. Student sign-ins, goals, messages, worksheets and exports are already recorded in the audit log; the caregiver view and a retention rule are what is missing.
   - **Passkeys** as a second way to sign in, so a mailbox is not the only key to a household (after the activity log).
   - Keep the 3.12.0 rules: the admin sees accounts only, usernames are unique per household, a refused share reveals nothing about other families. Extend `tests/household-isolation.test.ts` for every new route (co-owners, transfer, leave, delete and export).

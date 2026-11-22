@@ -126,3 +126,20 @@ export async function purgeDueAccounts(db: DB, cfg: Pick<Config, 'baseUrl'>, mai
   }
   return done;
 }
+
+/** What an invited caregiver sees the first time they sign in: who shared which students with them, and in what role. Shown once. */
+export function welcomeFor(db: DB, userId: string): { show: boolean; invitedBy: string[]; students: { id: string; displayName: string; grade: number; role: LinkRole }[] } {
+  const rows = db
+    .prepare(
+      `SELECT s.id, s.display_name AS displayName, s.grade, sc.role, u.display_name AS byName, u.email AS byEmail
+         FROM student_caregivers sc JOIN students s ON s.id = sc.student_id JOIN users u ON u.id = sc.added_by
+        WHERE sc.caregiver_id = ? AND sc.added_by <> sc.caregiver_id ORDER BY sc.added_at, sc.rowid`,
+    )
+    .all(userId) as { id: string; displayName: string; grade: number; role: LinkRole; byName: string; byEmail: string }[];
+  const seen = db.prepare("SELECT 1 FROM tour_seen WHERE subject_kind = 'user' AND subject_id = ? AND tour = 'welcome'").get(userId);
+  return {
+    show: rows.length > 0 && !seen,
+    invitedBy: [...new Set(rows.map((r) => r.byName || r.byEmail))],
+    students: rows.map(({ id, displayName, grade, role }) => ({ id, displayName, grade, role })),
+  };
+}
