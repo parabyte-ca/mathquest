@@ -235,8 +235,15 @@ test('accessibility: high contrast, dyslexia font and reduced motion apply; keyb
   } else if (item.format === 'point') {
     await kid.locator('#px').fill(String((item.answer as { x: number }).x));
     await kid.locator('#py').fill(String((item.answer as { y: number }).y));
+  } else if (item.format === 'angle' || item.format === 'slider') {
+    // the protractor and slider questions are range inputs: Home, then the arrow key once per step
+    const value = (item.answer as { value: number }).value;
+    const { min, step } = item.format === 'angle' ? { min: 0, step: 1 } : { min: item.slider!.min, step: item.slider!.step };
+    await kid.locator(item.format === 'angle' ? '#angle-range' : '#slide').focus();
+    await kid.keyboard.press('Home');
+    for (let i = 0; i < Math.round((value - min) / step); i++) await kid.keyboard.press('ArrowRight');
   } else {
-    // strand E now has number questions too: type the answer with the keyboard
+    // strand E also has number questions: type the answer with the keyboard
     expect(item.format).toBe('number');
     await kid.locator('#ans').focus();
     await kid.keyboard.type(String((item.answer as { value: number }).value));
