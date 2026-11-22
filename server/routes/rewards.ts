@@ -22,17 +22,17 @@ export function rewardRoutes(ctx: Ctx): Router {
     res.json(dashboard(ctx, a.student));
   });
 
-  // Expectations with practice content, for the grades this student may use: the worksheet builder's choices.
+  // Expectations with practice content (grade-level ones, then each Grade 10 to 12 course), for the grades this student may use: the worksheet builder's choices.
   r.get('/students/:id/worksheet/options', (req, res) => {
     const a = access(ctx, me(req), req.params.id!);
     if (!a) return void res.status(404).json({ error: 'not_found' });
     const grades = (JSON.parse(a.student.allowed_json) as { grades?: number[] }).grades ?? [];
     const rows = ctx.db
       .prepare(
-        `SELECT DISTINCT ce.code, ce.grade, ce.strand, ce.strand_name AS strandName, ce.text FROM curriculum_expectation ce JOIN microskill m ON m.expectation = ce.code
-          WHERE ce.course IS NULL ORDER BY ce.grade, ce.code`,
+        `SELECT DISTINCT ce.code, ce.grade, ce.course, ce.strand, ce.strand_name AS strandName, ce.text FROM curriculum_expectation ce JOIN microskill m ON m.expectation = ce.code
+          ORDER BY ce.grade, ce.course IS NOT NULL, ce.course, ce.code`,
       )
-      .all() as { code: string; grade: number; strand: string; strandName: string; text: string }[];
+      .all() as { code: string; grade: number; course: string | null; strand: string; strandName: string; text: string }[];
     res.json({ studentGrade: a.student.grade, expectations: rows.filter((r) => (grades.length ? grades.includes(r.grade) : true)) });
   });
 

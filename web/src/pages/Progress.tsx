@@ -20,7 +20,7 @@ interface Dash {
   recentBadges: { id: string; at: number; name?: Text }[];
   goals: Goal[];
 }
-interface Expectation { code: string; grade: number; strand: string; strandName: string; text: string }
+interface Expectation { code: string; grade: number; course: string | null; strand: string; strandName: string; text: string }
 
 const pct = (n: number | null): string => (n === null ? '—' : `${n}%`);
 const signed = (n: number): string => (n > 0 ? `+${n}` : n < 0 ? `−${Math.abs(n)}` : '0');
@@ -208,7 +208,7 @@ function WorksheetBuilder({ id, grade, go }: { id: string; grade: number; go: (t
     void api<{ expectations: Expectation[] }>('GET', `/students/${id}/worksheet/options`).then((r) => {
       if (!r.ok) return;
       setExps(r.data.expectations);
-      const first = r.data.expectations.find((e) => e.grade === grade) ?? r.data.expectations[0];
+      const first = r.data.expectations.find((e) => e.grade === grade && !e.course) ?? r.data.expectations.find((e) => e.grade === grade) ?? r.data.expectations[0];
       if (first) setFocus(first.code);
     });
   }, [id]);
@@ -219,7 +219,7 @@ function WorksheetBuilder({ id, grade, go }: { id: string; grade: number; go: (t
     const seed = 1 + Math.floor(Math.random() * 1_000_000_000);
     go(`/app/worksheet?student=${encodeURIComponent(id)}&focus=${encodeURIComponent(topics.join(','))}&tier=${tier}&count=${count}&seed=${seed}`);
   };
-  const grades = [...new Set(exps.map((e) => e.grade))];
+  const groups = [...new Set(exps.map((e) => `${e.grade}|${e.course ?? ''}`))].map((k) => { const [g, c] = k.split('|') as [string, string]; return { key: k, grade: Number(g), course: c }; });
   return (
     <section class="card" aria-labelledby="ws-title">
       <h2 id="ws-title">{t('ws.title')}</h2>
@@ -227,9 +227,9 @@ function WorksheetBuilder({ id, grade, go }: { id: string; grade: number; go: (t
       <form onSubmit={open}>
         <label for="ws-topic">{t('ws.topic')}</label>
         <select id="ws-topic" value={focus} onChange={(e) => setFocus((e.target as HTMLSelectElement).value)}>
-          {grades.map((g) => (
-            <optgroup key={g} label={`${t('caregiver.grade')} ${g}`}>
-              {exps.filter((e) => e.grade === g).map((e) => <option key={e.code} value={e.code}>{e.code} · {e.strandName}: {e.text.slice(0, 70)}</option>)}
+          {groups.map((g) => (
+            <optgroup key={g.key} label={`${t('caregiver.grade')} ${g.grade}${g.course ? ` · ${g.course}` : ''}`}>
+              {exps.filter((e) => e.grade === g.grade && (e.course ?? '') === g.course).map((e) => <option key={e.code} value={e.code}>{e.code} · {e.strandName}: {e.text.slice(0, 70)}</option>)}
             </optgroup>
           ))}
         </select>

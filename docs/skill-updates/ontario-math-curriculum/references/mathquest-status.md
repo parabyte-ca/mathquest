@@ -68,4 +68,4 @@ These need item types or tools the question player does not have yet. Build the 
 - Link each new micro-skill to the previous grade's micro-skill on the same chain, and to the same-grade skill it depends on.
 - Prefer exact answers: choose numbers so results are whole or have at most six decimal places, and use 3.14 for pi when the prompt says so.
 - Include at least one common misconception per item and word it kindly ("It looks like..."); a student must never be told they are careless.
-- Next up: a Grade 10, 11 and 12 quick check (placement ladders), the worksheet topic picker for course content, and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then a Grade 10 and 11 quick check and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then the richer-tools releases listed in the backlog.
+- Next up: a Grade 10, 11 and 12 quick check (placement ladders) and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then a Grade 10 and 11 quick check and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then the richer-tools releases listed in the backlog.
