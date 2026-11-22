@@ -6,6 +6,20 @@ Items waiting for a phase or a slot. Newest first within each section. Move an i
 
 Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session, M two or three, L a multi-part build. Content releases go in grade order; the other tracks slot in between. Version numbers are targets and may shift.
 
+### Priorities (set 22 November 2026)
+
+The owner wants another parent to help test the app, so household and family accounts come first, then the brand refresh, then the quick checks. Version numbers are targets.
+
+| Order | Release | Scope | Size |
+|---|---|---|---|
+| 1 | 3.14.0 | Household and family accounts, part 1: a co-owner role so two parents are equals (both can delete, share and change a PIN, and neither can remove the other), ownership transfer, a caregiver can leave a shared child, caregiver account deletion with a full data export first, and a clear "invite a parent" path with a first-sign-in welcome. | L |
+| 2 | 3.15.0 | Household activity log: caregivers see who viewed or changed their children's data and when (the admin still sees account events only). Passkeys as a second way to sign in are planned after this. | M |
+| 3 | 3.16.0 | Brand refresh, part 1: the colour tokens (blue, orange, yellow, neutrals), the logo (the shield with the rocket and compass; check with the owner before adopting any refinement), Inter and Fira Code bundled, student side playful and caregiver side calmer, the palettes recolouring the accents (see the brand entry under Requested). | L |
+| 4 | 3.17.0 | Brand refresh, part 2: the brand icons redrawn as SVG (line icons for navigation, filled icons for topics and rewards) and avatar frames as a new reward. | L |
+| 5 | later | Quick checks (placement ladders) for Grades 10 to 12; the shared-device "who is practising?" picker and a sibling comparison on the caregiver dashboard. | M |
+
+Another parent can already test today without any of this: the admin invites their email from the Admin page, they sign in and add their own children, and the household isolation in 3.12.0 keeps their family apart from every other.
+
 ### Content, in grade order
 
 | Release | Scope | Size |
@@ -82,6 +96,16 @@ Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completel
 - Check each new feature on the real server (install button, offline round trip, weekly email).
 
 ## Requested
+
+- Household and family accounts (priority 1, notes from 22 November 2026). Today each child has one owner plus optional co-caregivers, and there is no household entity. Wanted:
+  - A **co-owner** role so two parents are equals. Owners can delete, share, change a PIN and add other owners; nobody can remove the last owner; an owner can step down.
+  - **Ownership transfer** to another caregiver who already shares the child, with a confirmation email to both.
+  - **Leave a shared child** for a co-caregiver, without the owner having to unshare.
+  - **Account deletion** for a caregiver, after a full export (their students, progress, goals, messages) they can download. Define what happens to children they own when other owners exist (they stay) and when none do (they are deleted after a clear warning and a waiting period).
+  - **Invite a parent** from the caregiver page (today only the admin can invite someone with no child to share), with a welcome on first sign-in that explains devices and PINs.
+  - **Activity log** per child, readable by that child's caregivers (priority 2): who viewed or changed what and when. Student sign-ins, goals, messages, worksheets and exports are already recorded in the audit log; the caregiver view and a retention rule are what is missing.
+  - **Passkeys** as a second way to sign in, so a mailbox is not the only key to a household (after the activity log).
+  - Keep the 3.12.0 rules: the admin sees accounts only, usernames are unique per household, a refused share reveals nothing about other families. Extend `tests/household-isolation.test.ts` for every new route (co-owners, transfer, leave, delete and export).
 
 - Brand refresh (decisions made 22 November 2026, nothing built yet). Logo: the shield with the rocket and compass (version 2). If it is refined, check with the owner before adopting. Student side playful (gems, flames, filled topic and reward icons), caregiver side calmer. Line icons for navigation, filled icons for topics and rewards. Palette: blue #1565C0, orange #F57C00, yellow #FBC02D; navy text on orange and a deeper green for text so contrast passes. Redraw the icons as SVG (the sheet icons are raster and some labels have typos), bundle Inter and Fira Code with the app, and keep a high-contrast mode. The mockup is a private artifact; swap the colour tokens first, then icons and logo. Size: M to L.
   - Customization rewards (a student unlocks 10 avatars and 6 colour palettes by level or badge; `shared/rewards.ts`, `shared/palettes.ts`, `web/src/avatars.tsx`, `web/src/rewards.tsx`). What the brand changes:
