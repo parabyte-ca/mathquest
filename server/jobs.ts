@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import type { Config } from './config.js';
 import type { DB } from './db.js';
 import type { Mailer } from './mail.js';
+import { purgeDueAccounts } from './household.js';
 import { sendWeeklyEmails } from './weekly.js';
 
 /** Online SQLite backup into data/backups, then prune files older than the retention window. */
@@ -34,6 +35,7 @@ export function startJobs(db: DB, cfg: Config, mailer?: Mailer): () => void {
   const tick = (): void => {
     purgeExpired(db);
     if (mailer) sendWeeklyEmails(db, cfg, mailer).catch((e: Error) => console.error(`[weekly] failed: ${e.message}`));
+    purgeDueAccounts(db, cfg, mailer).catch((e: Error) => console.error(`[account purge] failed: ${e.message}`));
     const d = new Date();
     const day = d.toISOString().slice(0, 10);
     if (d.getHours() === 3 && d.getMinutes() >= 15 && day !== lastBackupDay && existsSync(cfg.dataDir)) {

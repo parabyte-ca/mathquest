@@ -164,7 +164,7 @@ async function notifyLockout(ctx: Ctx, student: StudentRow): Promise<void> {
 }
 
 export const publicUser = (u: UserRow) => ({
-  id: u.id, email: u.email, role: u.role, displayName: u.display_name, weeklyEmail: !!u.weekly_email, defaults: JSON.parse(u.defaults_json) as unknown,
+  id: u.id, email: u.email, role: u.role, displayName: u.display_name, weeklyEmail: !!u.weekly_email, defaults: JSON.parse(u.defaults_json) as unknown, deleteAt: u.delete_at ?? null,
 });
 export const publicStudent = (s: StudentRow) => ({
   id: s.id, username: s.username, displayName: s.display_name, grade: s.grade, language: s.language,

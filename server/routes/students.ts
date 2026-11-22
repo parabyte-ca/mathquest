@@ -6,7 +6,8 @@ import { hashPin } from '../crypto.js';
 import { audit } from '../audit.js';
 import { newId, nowIso } from '../db.js';
 import { publicStudent, sendSignInLink } from './auth.js';
-import { renderEmail } from '../email.js';
+import { studentExport } from '../export.js';
+import { MAX_CAREGIVERS, addLink, caregiverCount, linkRole, notifyShared, ownerIds, usernameInUse } from '../household.js';
 import { noteSchema } from '../note.js';
 
 const username = z.string().trim().regex(/^[a-z0-9_]{3,20}$/i, 'username');
@@ -42,13 +43,6 @@ export function access(ctx: Ctx, user: UserRow, studentId: string): { student: S
   return link ? { student, role: link.role } : null;
 }
 
-/** True when one of the students this caregiver can reach already has the username. Usernames only have to be unique inside a household. */
-export function usernameInUse(ctx: Ctx, caregiverId: string, username: string, exceptStudentId = ''): boolean {
-  return !!ctx.db
-    .prepare('SELECT 1 FROM students s JOIN student_caregivers sc ON sc.student_id = s.id WHERE sc.caregiver_id = ? AND s.username = ? AND s.id != ?')
-    .get(caregiverId, username, exceptStudentId);
-}
-
 export function studentRoutes(ctx: Ctx): Router {
   const r = Router();
   r.use('/students', requireUser());
@@ -68,7 +62,7 @@ export function studentRoutes(ctx: Ctx): Router {
     if (!parsed.success) return void res.status(400).json({ error: 'invalid_request', fields: parsed.error.issues.map((i) => i.message) });
     const user = me(req);
     const d = parsed.data;
-    if (usernameInUse(ctx, user.id, d.username)) return void res.status(409).json({ error: 'username_taken' });
+    if (usernameInUse(ctx.db, user.id, d.username)) return void res.status(409).json({ error: 'username_taken' });
     const id = newId();
     ctx.db.transaction(() => {
       ctx.db
@@ -104,40 +98,52 @@ export function studentRoutes(ctx: Ctx): Router {
     res.json({ ok: true });
   });
 
-  // Co-caregiver sharing (owner only). Unknown emails become invited caregivers and get a sign-in link.
+  // Sharing a student with another caregiver (owners only), as a helper or as a second owner. Unknown emails become invited caregivers and get a
+  // sign-in link. The answer is the same whether or not the address already has an account.
   r.post('/students/:id/caregivers', async (req, res) => {
-    const parsed = z.object({ email: z.string().trim().toLowerCase().email().max(254), note: noteSchema }).safeParse(req.body);
+    const parsed = z.object({ email: z.string().trim().toLowerCase().email().max(254), note: noteSchema, role: z.enum(['owner', 'co']).default('co') }).safeParse(req.body);
     if (!parsed.success) return void res.status(400).json({ error: parsed.error.issues.some((i) => i.message === 'has_link') ? 'note_has_link' : 'invalid_request' });
     const user = me(req);
     const a = access(ctx, user, req.params.id as string);
     if (!a || a.role !== 'owner') return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
-    // The answer is the same whether or not the address already has an account, so this cannot be used to find out who uses MathQuest.
+    if (!ctx.limits.invite.take(user.id)) return void res.status(429).json({ error: 'too_many_requests' });
     let target = ctx.db.prepare('SELECT * FROM users WHERE email = ?').get(parsed.data.email) as UserRow | undefined;
-    let invited = false;
-    if (target && (target.role !== 'caregiver' || target.status === 'disabled')) return void res.status(201).json({ ok: true });
-    if (target && target.id === user.id) return void res.status(201).json({ ok: true });
+    if (target && (target.role !== 'caregiver' || target.status === 'disabled' || target.id === user.id)) return void res.status(201).json({ ok: true });
+    if (caregiverCount(ctx.db, a.student.id) >= MAX_CAREGIVERS && !(target && linkRole(ctx.db, a.student.id, target.id))) return void res.status(409).json({ error: 'too_many_caregivers' });
     // The recipient signs in on their own devices, where a username must pick out one child: refuse a clash before sharing.
-    if (target && usernameInUse(ctx, target.id, a.student.username, a.student.id)) return void res.status(409).json({ error: 'username_conflict' });
+    if (target && !linkRole(ctx.db, a.student.id, target.id) && usernameInUse(ctx.db, target.id, a.student.username, a.student.id)) return void res.status(409).json({ error: 'username_conflict' });
+    let invited = false;
     if (!target) {
       const id = newId();
       ctx.db.prepare("INSERT INTO users (id, email, role, status, invited_by, created_at) VALUES (?,?, 'caregiver','invited',?,?)").run(id, parsed.data.email, user.id, nowIso());
       target = ctx.db.prepare('SELECT * FROM users WHERE id = ?').get(id) as UserRow;
       invited = true;
     }
-    const added = ctx.db.prepare("INSERT OR IGNORE INTO student_caregivers (student_id, caregiver_id, role, added_by, added_at) VALUES (?,?,'co',?,?)").run(a.student.id, target.id, user.id, nowIso());
+    const result = addLink(ctx.db, a.student, target, parsed.data.role, user);
     if (invited) await sendSignInLink(ctx, target, { invite: true, note: parsed.data.note || undefined, from: user.display_name || user.email });
-    else if (added.changes === 1) await notifyShared(ctx, target, a.student, user);
-    audit(ctx.db, { kind: user.role, id: user.id }, 'student.share', a.student.id, { caregiver: target.id, noteAttached: invited && !!parsed.data.note });
+    else if (result === 'added') await notifyShared(ctx, target, a.student, user, parsed.data.role);
+    audit(ctx.db, { kind: user.role, id: user.id }, 'student.share', a.student.id, { caregiver: target.id, role: parsed.data.role, noteAttached: invited && !!parsed.data.note });
     res.status(201).json({ ok: true });
   });
 
+  // Remove a helper (an owner does this), or leave a student yourself (anyone on it, unless you are its only owner). Owners never remove each other.
   r.delete('/students/:id/caregivers/:cid', (req, res) => {
     const user = me(req);
     const a = access(ctx, user, req.params.id as string);
-    if (!a || a.role !== 'owner') return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
-    const result = ctx.db.prepare("DELETE FROM student_caregivers WHERE student_id = ? AND caregiver_id = ? AND role = 'co'").run(a.student.id, req.params.cid);
-    if (result.changes !== 1) return void res.status(404).json({ error: 'not_found' });
-    audit(ctx.db, { kind: user.role, id: user.id }, 'student.unshare', a.student.id, { caregiver: req.params.cid });
+    if (!a) return void res.status(404).json({ error: 'not_found' });
+    const cid = req.params.cid as string;
+    if (cid === user.id) {
+      if (a.role === 'owner' && ownerIds(ctx.db, a.student.id).length < 2) return void res.status(409).json({ error: 'last_owner' });
+      ctx.db.prepare('DELETE FROM student_caregivers WHERE student_id = ? AND caregiver_id = ?').run(a.student.id, user.id);
+      audit(ctx.db, { kind: user.role, id: user.id }, 'student.leave', a.student.id);
+      return void res.json({ ok: true });
+    }
+    if (a.role !== 'owner') return void res.status(403).json({ error: 'forbidden' });
+    const target = linkRole(ctx.db, a.student.id, cid);
+    if (!target) return void res.status(404).json({ error: 'not_found' });
+    if (target === 'owner') return void res.status(403).json({ error: 'forbidden' });
+    ctx.db.prepare("DELETE FROM student_caregivers WHERE student_id = ? AND caregiver_id = ? AND role = 'co'").run(a.student.id, cid);
+    audit(ctx.db, { kind: user.role, id: user.id }, 'student.unshare', a.student.id, { caregiver: cid });
     res.json({ ok: true });
   });
 
@@ -145,20 +151,8 @@ export function studentRoutes(ctx: Ctx): Router {
     const user = me(req);
     const a = access(ctx, user, req.params.id as string);
     if (!a) return void res.status(404).json({ error: 'not_found' });
-    const id = a.student.id;
-    audit(ctx.db, { kind: user.role, id: user.id }, 'student.export', id);
-    res.json({
-      exportedAt: nowIso(),
-      student: publicStudent(a.student),
-      mastery: ctx.db.prepare('SELECT skill_id, p_known, tier, attempts, correct, last_seen_at, next_review_at FROM mastery WHERE student_id = ?').all(id),
-      attempts: ctx.db.prepare('SELECT skill_id, tier, correct, hints, tries, ms, at FROM attempt WHERE student_id = ? ORDER BY at').all(id),
-      rewards: {
-        state: ctx.db.prepare('SELECT xp, streak, best_streak, last_day, freezes, avatar, palette FROM reward_state WHERE student_id = ?').get(id) ?? null,
-        events: ctx.db.prepare('SELECT at, kind, xp FROM reward_event WHERE student_id = ? ORDER BY at').all(id),
-        badges: ctx.db.prepare('SELECT badge_id, at FROM badge_earned WHERE student_id = ? ORDER BY at').all(id),
-        goals: ctx.db.prepare('SELECT title, xp_target, created_at, reached_at, redeemed_at FROM goal WHERE student_id = ? ORDER BY created_at').all(id),
-      },
-    });
+    audit(ctx.db, { kind: user.role, id: user.id }, 'student.export', a.student.id);
+    res.json({ exportedAt: nowIso(), ...studentExport(ctx, a.student) });
   });
 
   r.delete('/students/:id', (req, res) => {
@@ -175,20 +169,4 @@ export function studentRoutes(ctx: Ctx): Router {
   });
 
   return r;
-}
-
-/** Tells an existing caregiver that a student was shared with them, so nothing appears in their account unannounced. */
-async function notifyShared(ctx: Ctx, target: UserRow, student: StudentRow, by: UserRow): Promise<void> {
-  const from = by.display_name || by.email;
-  const text = `${from} shared ${student.display_name} with you on MathQuest. You can now see their progress, set goals and send messages. Open MathQuest: ${ctx.cfg.baseUrl}/app`;
-  await ctx.mailer.send({
-    to: target.email,
-    subject: `${student.display_name} was shared with you on MathQuest`,
-    text,
-    html: renderEmail({
-      lang: 'en', baseUrl: ctx.cfg.baseUrl, title: `${student.display_name} was shared with you`, preheader: `${from} shared a student with you.`,
-      intro: [`${from} shared ${student.display_name} with you. You can now see their progress, set goals and send messages.`],
-      button: { label: 'Open MathQuest', url: `${ctx.cfg.baseUrl}/app` },
-    }),
-  });
 }

@@ -59,6 +59,9 @@ const ROUTES: { m: 'get' | 'post' | 'patch' | 'delete'; url: (id: string) => str
   { m: 'patch', url: (id) => `/api/students/${id}`, body: { displayName: 'Renamed' } },
   { m: 'post', url: (id) => `/api/students/${id}/caregivers`, body: { email: 'zed@x.ca' }, ownerOnly: true },
   { m: 'delete', url: (id) => `/api/students/${id}/caregivers/some-id`, ownerOnly: true },
+  { m: 'get', url: (id) => `/api/students/${id}/caregivers` },
+  { m: 'patch', url: (id) => `/api/students/${id}/caregivers/some-id`, body: { role: 'owner' }, ownerOnly: true },
+  { m: 'post', url: (id) => `/api/students/${id}/transfer`, body: { caregiverId: 'some-id' }, ownerOnly: true },
   { m: 'delete', url: (id) => `/api/students/${id}`, ownerOnly: true },
 ];
 const snapshot = (env: TestEnv): string =>
@@ -274,6 +277,6 @@ describe('the upgrade that lets usernames repeat', () => {
     expect((db.prepare('SELECT COUNT(*) AS n FROM mastery').get() as { n: number }).n).toBe(0);
     expect((db.prepare('SELECT COUNT(*) AS n FROM student_caregivers').get() as { n: number }).n).toBe(0);
     migrate(db); // running it again changes nothing
-    expect((db.prepare('SELECT COUNT(*) AS n FROM schema_version').get() as { n: number }).n).toBe(10);
+    expect((db.prepare('SELECT COUNT(*) AS n FROM schema_version').get() as { n: number }).n).toBe(11);
   });
 });
