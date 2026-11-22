@@ -72,7 +72,7 @@ describe('household activity log', () => {
 
   it('bulk "invite a co-parent" shows on every student it shared', async () => {
     const { A, k1, k2 } = await world();
-    await send(A, 'post', '/api/me/invite-parent', { email: 'b@x.ca', role: 'owner' }).expect(201);
+    await send(A, 'post', '/api/me/invite-parent', { email: 'b@x.ca', role: 'owner', studentIds: [k1, k2] }).expect(201);
     for (const k of [k1, k2]) expect((await log(A, k)).entries.map((e) => `${e.action}:${e.detail.role}`)).toContain('student.share:owner');
   });
 

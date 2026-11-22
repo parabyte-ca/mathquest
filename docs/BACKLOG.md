@@ -48,6 +48,7 @@ Another parent can already test today without any of this: the admin invites the
 | 3.6.0 | Grade 11 MEL3E (shipped): pay and deductions, sale prices and unit prices, savings, loans, vehicle costs and leasing, map scales and trips: 10 skills, 3 lessons | M |
 | 3.7.0 | Grade 12 MCT4C (shipped): exponential and polynomial functions, formulas, trigonometry, forces, circle properties, arcs and sectors: 17 skills, 4 lessons | L |
 | 3.8.0 | Grade 12 MAP4C (shipped): exponents and models, annuities and mortgages, owning against renting, budgets, optimal dimensions, trigonometry, two-variable data and bias: 16 skills, 4 lessons | L |
+| 3.21.0 | Safer sharing (shipped): choose which students to share, confirm the address, other owners are emailed, admin sees owner and helper counts only | S |
 | 3.20.0 | First-sign-in welcome for invited parents (shipped): who shared what, role, how a student signs in, privacy; replaces the first-run walkthrough | S |
 | 3.19.0 | Brand refresh, part 3 (shipped): install icons and favicon from the logo, line navigation icons, filled topic and reward icons, playful student look and calmer caregiver look. A redrawn vector logo is still optional and needs the owner's sign-off | M |
 | 3.18.0 | Quick checks (placement ladders) for Grade 10 to 12 courses (shipped): one per course, eight questions at most | S |

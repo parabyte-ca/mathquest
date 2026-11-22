@@ -119,16 +119,16 @@ describe('inviting a co-parent to every student', () => {
   it('shares everything you own, and gives the same answer whether or not the address has an account', async () => {
     const { env, A, k1, k2 } = await family();
     env.mailer.outbox.length = 0;
-    const fresh = await send(A, 'post', '/api/me/invite-parent', { email: 'newparent@x.ca', role: 'owner', note: 'Welcome aboard' });
+    const fresh = await send(A, 'post', '/api/me/invite-parent', { email: 'newparent@x.ca', role: 'owner', note: 'Welcome aboard', studentIds: [k1, k2] });
     expect([fresh.status, fresh.body]).toEqual([201, { ok: true }]);
     expect(roleOf(env, k1, 'newparent@x.ca')).toBe('owner');
     expect(roleOf(env, k2, 'newparent@x.ca')).toBe('owner');
     expect(env.mailer.outbox).toHaveLength(1); // one invitation with a sign-in link, not one per child
     expect(env.mailer.outbox[0]!.text).toContain('/verify');
     expect(env.mailer.outbox[0]!.text).toContain('> Welcome aboard');
-    const existing = await send(A, 'post', '/api/me/invite-parent', { email: 'b@x.ca' });
-    const admin = await send(A, 'post', '/api/me/invite-parent', { email: 'admin@x.ca' });
-    const self = await send(A, 'post', '/api/me/invite-parent', { email: 'a@x.ca' });
+    const existing = await send(A, 'post', '/api/me/invite-parent', { email: 'b@x.ca', studentIds: [k1, k2] });
+    const admin = await send(A, 'post', '/api/me/invite-parent', { email: 'admin@x.ca', studentIds: [k1] });
+    const self = await send(A, 'post', '/api/me/invite-parent', { email: 'a@x.ca', studentIds: [k1] });
     for (const res of [existing, admin, self]) expect([res.status, res.body]).toEqual([201, { ok: true }]);
     expect(roleOf(env, k1, 'b@x.ca')).toBe('co'); // the default role is helper
     expect(roleOf(env, k1, 'admin@x.ca')).toBeUndefined();
@@ -138,19 +138,19 @@ describe('inviting a co-parent to every student', () => {
   it('skips a child whose username clashes with one the person already has, and says nothing about it', async () => {
     const { env, A, C, k1, k2 } = await family();
     await create(C, 'sam'); // C already has a 'sam'
-    const res = await send(A, 'post', '/api/me/invite-parent', { email: 'c@x.ca' });
+    const res = await send(A, 'post', '/api/me/invite-parent', { email: 'c@x.ca', studentIds: [k1, k2] });
     expect([res.status, res.body]).toEqual([201, { ok: true }]);
     expect(roleOf(env, k1, 'c@x.ca')).toBeUndefined(); // A's 'sam' clashes with C's 'sam'
     expect(roleOf(env, k2, 'c@x.ca')).toBe('co');
   });
 
   it('needs a student to share, and is limited per caregiver', async () => {
-    const { A, B } = await family();
-    expect((await send(B, 'post', '/api/me/invite-parent', { email: 'x@x.ca' })).body.error).toBe('no_students'); // B has none of their own
+    const { A, B, k1 } = await family();
+    expect((await send(B, 'post', '/api/me/invite-parent', { email: 'x@x.ca', studentIds: [k1] })).body.error).toBe('no_students'); // B has none of their own
     let last = 0;
-    for (let i = 0; i < 12; i++) last = (await send(A, 'post', '/api/me/invite-parent', { email: `many${i}@x.ca` })).status;
+    for (let i = 0; i < 12; i++) last = (await send(A, 'post', '/api/me/invite-parent', { email: `many${i}@x.ca`, studentIds: [k1] })).status;
     expect(last).toBe(429);
-    expect((await send(A, 'post', '/api/me/invite-parent', { email: 'not-an-email' })).status).toBe(400);
+    expect((await send(A, 'post', '/api/me/invite-parent', { email: 'not-an-email', studentIds: [k1] })).status).toBe(400);
   });
 });
 
@@ -217,7 +217,7 @@ describe('deleting an account', () => {
     await send(A, 'post', '/api/me/delete/cancel').expect(200);
     expect((await send(A, 'get', '/api/me')).body.user.deleteAt).toBeNull();
     expect(await purgeDueAccounts(env.db, env.ctx.cfg, env.mailer, env.clock.t + DELETE_GRACE_MS + 1)).toBe(0); // cancelled
-    for (const [m, u] of [['get', '/api/me/delete-preview'], ['post', '/api/me/delete/cancel'], ['post', '/api/me/invite-parent']] as const) expect((await send(X, m, u, m === 'post' ? { email: 'z@x.ca' } : undefined)).status, u).toBe(403);
+    for (const [m, u] of [['get', '/api/me/delete-preview'], ['post', '/api/me/delete/cancel'], ['post', '/api/me/invite-parent']] as const) expect((await send(X, m, u, m === 'post' ? { email: 'z@x.ca', studentIds: ['x'] } : undefined)).status, u).toBe(403);
     expect((await send(X, 'post', '/api/me/delete', { confirm: 'admin@x.ca' })).status).toBe(403); // the admin account is not deleted this way
     const shown = ((await send(X, 'get', '/api/admin/audit?limit=500').expect(200)).body.entries as { action: string }[]).map((e) => e.action);
     expect(shown).toEqual(expect.arrayContaining(['account.delete_requested', 'account.delete_cancelled']));

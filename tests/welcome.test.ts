@@ -48,10 +48,10 @@ describe('first-sign-in welcome', () => {
 
   it('works for "invite a co-parent" (every student at once) and names each inviter once', async () => {
     const { A, B, C, mk } = await world();
-    await mk(A, 'sam'); await mk(A, 'mia'); await mk(C, 'zoe');
-    await send(A, 'post', '/api/me/invite-parent', { email: 'new@x.ca', role: 'owner' }).expect(201);
-    await send(C, 'post', '/api/me/invite-parent', { email: 'b@x.ca' }).expect(201);
-    await send(A, 'post', '/api/me/invite-parent', { email: 'b@x.ca' }).expect(201);
+    const sam = await mk(A, 'sam'), mia = await mk(A, 'mia'), zoe = await mk(C, 'zoe');
+    await send(A, 'post', '/api/me/invite-parent', { email: 'new@x.ca', role: 'owner', studentIds: [sam, mia] }).expect(201);
+    await send(C, 'post', '/api/me/invite-parent', { email: 'b@x.ca', studentIds: [zoe] }).expect(201);
+    await send(A, 'post', '/api/me/invite-parent', { email: 'b@x.ca', studentIds: [sam, mia] }).expect(201);
     const w = await welcome(B);
     expect(w.invitedBy.sort()).toEqual(['a@x.ca', 'c@x.ca']);
     expect(w.students.map((s) => s.displayName).sort()).toEqual(['MIA', 'SAM', 'ZOE']);

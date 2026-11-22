@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.21.0] - 2026-11-22
+### Security
+- "Invite a co-parent" no longer shares everything you own. You tick the students (none are ticked to begin with), and the server shares exactly those. A request with no list, an empty list, or a student that is not yours is refused and shares nothing and creates no account; one wrong id refuses the whole request. The role now defaults to Helper rather than Owner.
+- Before anything is sent, sharing asks "Share Sam with name@example.com as Helper?", showing the address back, for one student and for several.
+- When an owner shares a student, every other owner of that student gets an email with the address that was added and the students concerned (one email per owner), so a mistyped address or an unwanted share is noticed straight away. The recent activity list already shows it too.
+- Tests check that an invited caregiver reaches only the named students on every route, that a helper cannot pass on a student, and that a share to an unknown address leaves no trace.
+
+### Added
+- The Admin page shows, for each caregiver account, how many students they own and how many they help with ("owns 2, helps with 1"). It never shows which students, or anything about them: the admin still cannot see any family's data.
+
+### Notes
+- The API for "Invite a co-parent" now requires `studentIds`.
+
 ## [3.20.0] - 2026-11-22
 ### Added
 - A first-sign-in welcome for a parent who was invited to students. The first time they sign in, the top of the caregiver page says who shared how many students with them, lists each student with their role, explains what that role can do (an owner can change a PIN, share and delete; a helper can see progress, set goals, message, make worksheets and approve devices, and can leave), shows how a student signs in on a new device (get a code, approve it, then username and 4-digit PIN) and says who can see what. It is in English and French, and it appears once.

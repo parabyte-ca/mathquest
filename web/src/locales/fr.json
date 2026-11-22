@@ -544,7 +544,7 @@
   "household.leaveConfirm": "Quitter {name}? Vous ne verrez plus sa progression.",
   "household.lastOwner": "Il doit toujours y avoir un propriétaire. Nommez d'abord quelqu'un d'autre propriétaire.",
   "household.invite": "Inviter un coparent",
-  "household.inviteHelp": "Partage tous les élèves dont vous êtes propriétaire avec un autre parent. Il reçoit un courriel avec un lien de connexion.",
+  "household.inviteHelp": "Ne partage que les élèves que vous cochez avec un autre parent. Cette personne reçoit un courriel avec un lien de connexion, et tout autre propriétaire est informé.",
   "household.inviteSend": "Envoyer l'invitation",
   "household.inviteDone": "Invitation envoyée.",
   "household.tooMany": "Trop d'invitations. Veuillez réessayer plus tard.",
@@ -601,5 +601,11 @@
   "welcome.privacyTitle": "Votre vie privée",
   "welcome.privacy": "Vous ne voyez que les élèves partagés avec vous. Chaque élève a une liste d'activité récente qui montre qui a consulté ou modifié des choses, et seuls les aidants de cet élève peuvent la lire.",
   "welcome.tour": "Faire la visite rapide",
-  "welcome.gotIt": "Compris"
+  "welcome.gotIt": "Compris",
+  "admin.counts": "propriétaire de {owns}, aidant pour {helps}",
+  "household.which": "Quels élèves?",
+  "household.pickOne": "Choisissez au moins un élève.",
+  "household.pickAll": "Tout sélectionner",
+  "household.pickNone": "Effacer",
+  "household.confirmShare": "Partager {names} avec {email} comme {role}? Cette personne pourra voir la progression, les objectifs et les messages."
 }

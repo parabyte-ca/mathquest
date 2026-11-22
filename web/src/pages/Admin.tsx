@@ -3,7 +3,7 @@ import { api } from '../api';
 import { getLang, t, useLang } from '../i18n';
 import { stepStates, type StepKey, type StepStatus } from '../upgradeSteps';
 
-interface UserRow { id: string; email: string; role: string; displayName: string; status: string; lastLoginAt: string | null }
+interface UserRow { id: string; email: string; role: string; displayName: string; status: string; lastLoginAt: string | null; owns: number; helps: number }
 interface AuditRow { id: number; at: string; actorKind: string; action: string; target: string | null }
 interface UpdateInfo {
   current: string;
@@ -67,7 +67,7 @@ export function Admin() {
         <ul class="plain">
           {users.map((u) => (
             <li class="row" key={u.id}>
-              <span>{u.email} <span class="muted">({u.role}, {u.status})</span></span>
+              <span>{u.email} <span class="muted">({u.role}, {u.status})</span>{u.role === 'caregiver' && <span class="muted small"> · {t('admin.counts', { owns: u.owns, helps: u.helps })}</span>}</span>
             </li>
           ))}
         </ul>
