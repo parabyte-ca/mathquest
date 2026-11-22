@@ -107,10 +107,36 @@ const ART: Record<string, ComponentChildren> = {
   ),
 };
 
-/** A round avatar. Falls back to the emoji for an avatar this build does not know. */
-export function Avatar({ id, size = 40 }: { id: string; size?: number }) {
+// Frames: the brand's shield drawn around the avatar. Each has a rim colour, an inner edge colour and an optional trail.
+const SHIELD = 'M36 3 L66 13 L66 40 Q66 66 36 77 Q6 66 6 40 L6 13 Z';
+const FRAME: Record<string, { rim: string; edge: string; extra?: ComponentChildren }> = {
+  'frame-blue': { rim: '#1565c0', edge: '#64b5f6' },
+  'frame-silver': { rim: '#8d99ab', edge: '#eef2f7' },
+  'frame-gold': { rim: '#c98a00', edge: '#fbc02d' },
+  'frame-rocket': {
+    rim: '#1565c0', edge: '#fbc02d',
+    extra: <path d="M20 70 Q24 79 28 70 M32 72 Q36 82 40 72 M44 70 Q48 79 52 70" stroke="#f57c00" stroke-width="3.2" stroke-linecap="round" fill="none" />,
+  },
+};
+
+/** A round avatar, inside a shield if a frame is chosen. Falls back to the emoji for an avatar this build does not know. */
+export function Avatar({ id, size = 40, frame }: { id: string; size?: number; frame?: string }) {
   const art = ART[id];
   if (!art) return <span class="avatar-fallback" aria-hidden="true">{COSMETICS.find((c) => c.id === id)?.icon ?? '🦊'}</span>;
+  const f = frame ? FRAME[frame] : undefined;
+  if (f) {
+    return (
+      <svg class="avatar-art framed" width={size} height={Math.round((size * 86) / 72)} viewBox="0 0 72 86" aria-hidden="true" focusable="false">
+        <path d={SHIELD} fill={f.rim} />
+        <path d={SHIELD} fill="none" stroke={f.edge} stroke-width="2.5" transform="translate(36 38) scale(0.9) translate(-36 -38)" />
+        <svg x="12" y="14" width="48" height="48" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="32" fill={BG[id] ?? '#eee'} />
+          <g>{art}</g>
+        </svg>
+        {f.extra}
+      </svg>
+    );
+  }
   return (
     <svg class="avatar-art" width={size} height={size} viewBox="0 0 64 64" aria-hidden="true" focusable="false">
       <circle cx="32" cy="32" r="32" fill={BG[id] ?? '#eee'} />
@@ -119,10 +145,16 @@ export function Avatar({ id, size = 40 }: { id: string; size?: number }) {
   );
 }
 
+/** A small preview of a frame, for the picker (an empty circle for "no frame"). */
+export function FramePreview({ id, size = 36 }: { id: string; size?: number }) {
+  if (!FRAME[id]) return <svg width={size} height={size} viewBox="0 0 64 64" aria-hidden="true" focusable="false"><circle cx="32" cy="32" r="28" fill="none" stroke="#8a8f9c" stroke-width="4" stroke-dasharray="6 6" /></svg>;
+  return <Avatar id="avatar-fox" size={size} frame={id} />;
+}
+
 /** A small round swatch showing a palette's page and brand colours. */
 export function PaletteSwatch({ id, size = 28 }: { id: string; size?: number }) {
   const p = PALETTES.find((x) => x.id === id);
-  const bg = p?.vars['--bg'] ?? '#f5f7fb', brand = p?.vars['--brand'] ?? '#1f5fd6', card = p?.vars['--card'] ?? '#ffffff';
+  const bg = p?.vars['--bg'] ?? '#f5f7fb', brand = p?.vars['--brand'] ?? '#1565c0', card = p?.vars['--card'] ?? '#ffffff';
   return (
     <svg class="swatch" width={size} height={size} viewBox="0 0 32 32" aria-hidden="true" focusable="false">
       <circle cx="16" cy="16" r="15" fill={bg} stroke="#8a8f9c" stroke-width="1" />

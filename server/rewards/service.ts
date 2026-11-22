@@ -22,6 +22,7 @@ interface StateRow {
   freezes: number;
   avatar: string;
   palette: string;
+  frame: string;
   daily_goal_day: string | null;
 }
 
@@ -353,6 +354,7 @@ export function summary(ctx: Ctx, student: StudentRow) {
     dailyGoalMinutes: settings.dailyGoalMinutes,
     avatar: row.avatar,
     palette: row.palette,
+    frame: row.frame,
     badges: BADGES.map((b) => ({ id: b.id, icon: b.icon, name: b.name, how: b.how, earnedAt: earned.get(b.id) ?? null })),
     cosmetics: COSMETICS.map((c) => ({ id: c.id, kind: c.kind, icon: c.icon, name: c.name, unlocked: isUnlocked(c, info.level, have), unlock: c.unlock })),
     goals: listGoals(ctx, student.id),
@@ -368,13 +370,13 @@ export function equip(ctx: Ctx, student: StudentRow, cosmeticId: string): void {
   const row = getState(ctx, student.id);
   const have = new Set((ctx.db.prepare('SELECT badge_id FROM badge_earned WHERE student_id = ?').all(student.id) as { badge_id: string }[]).map((r) => r.badge_id));
   if (!isUnlocked(c, levelInfo(row.xp).level, have)) throw new RewardError('locked', 403);
-  ctx.db.prepare(`UPDATE reward_state SET ${c.kind === 'avatar' ? 'avatar' : 'palette'} = ? WHERE student_id = ?`).run(c.id, student.id);
+  ctx.db.prepare(`UPDATE reward_state SET ${c.kind} = ? WHERE student_id = ?`).run(c.id, student.id);
 }
 
 /** The small strip shown in the student header (cheaper than the full summary). */
-export function header(ctx: Ctx, student: StudentRow): { level: number; xp: number; into: number; need: number; streak: number; avatar: string; palette: string } {
+export function header(ctx: Ctx, student: StudentRow): { level: number; xp: number; into: number; need: number; streak: number; avatar: string; palette: string; frame: string } {
   const row = getState(ctx, student.id);
   const info = levelInfo(row.xp);
   const streak = streakToShow({ streak: row.streak, best: row.best_streak, lastDay: row.last_day, freezes: row.freezes }, localDay(ctx.now(), ctx.cfg.timezone));
-  return { level: info.level, xp: row.xp, into: info.into, need: info.need, streak, avatar: row.avatar, palette: row.palette };
+  return { level: info.level, xp: row.xp, into: info.into, need: info.need, streak, avatar: row.avatar, palette: row.palette, frame: row.frame };
 }
