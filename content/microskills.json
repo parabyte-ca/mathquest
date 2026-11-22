@@ -3102,6 +3102,165 @@
    "prereqs": [
     "MS.G8.F1.2.a"
    ]
+  },
+  {
+   "id": "MS.G12.MHF4U.A1.1.a",
+   "expectation": "MHF4U.A1",
+   "name": "Evaluate logarithms",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.A1.2.a",
+   "expectation": "MHF4U.A1",
+   "name": "The laws of logarithms",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.A2.1.a",
+   "expectation": "MHF4U.A2",
+   "name": "Graphs of logarithmic functions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.A1.1.a",
+    "MS.G11.MCR3U.A3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.A3.1.a",
+   "expectation": "MHF4U.A3",
+   "name": "Solve exponential equations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.A1.1.a",
+    "MS.G11.MCR3U.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.A3.2.a",
+   "expectation": "MHF4U.A3",
+   "name": "Solve logarithmic equations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.A1.2.a",
+    "MS.G12.MHF4U.A3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.B1.1.a",
+   "expectation": "MHF4U.B1",
+   "name": "Radian measure",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.B1.2.a",
+   "expectation": "MHF4U.B1",
+   "name": "Exact values of trigonometric ratios in radians",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.B1.1.a",
+    "MS.G11.MCR3U.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.B2.1.a",
+   "expectation": "MHF4U.B2",
+   "name": "Features of sinusoidal functions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.B1.1.a",
+    "MS.G11.MCR3U.D5.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.B3.1.a",
+   "expectation": "MHF4U.B3",
+   "name": "Solve trigonometric equations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.C1.1.a",
+   "expectation": "MHF4U.C1",
+   "name": "Features of polynomial functions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.C2.1.a",
+   "expectation": "MHF4U.C2",
+   "name": "Features of rational functions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.A5.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.C3.1.a",
+   "expectation": "MHF4U.C3",
+   "name": "The remainder and factor theorems",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.C3.2.a",
+   "expectation": "MHF4U.C3",
+   "name": "Solve polynomial equations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.C3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.C4.1.a",
+   "expectation": "MHF4U.C4",
+   "name": "Solve polynomial and rational inequalities",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.C3.2.a",
+    "MS.G12.MHF4U.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.D1.1.a",
+   "expectation": "MHF4U.D1",
+   "name": "Average and instantaneous rates of change",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.D2.1.a",
+   "expectation": "MHF4U.D2",
+   "name": "Combine functions: sums, products and composition",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MHF4U.D3.1.a",
+   "expectation": "MHF4U.D3",
+   "name": "Even and odd functions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.D2.1.a"
+   ]
   }
  ]
 }

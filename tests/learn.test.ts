@@ -493,6 +493,24 @@ describe('Grade 11 by course', () => {
   });
 });
 
+describe('Grade 12 by course', () => {
+  it('practices every MHF4U strand by course, and the other Grade 12 courses have no content yet', async () => {
+    const env = env0();
+    const s = await makeStudent(env, { grade: 12, allowed: { grades: [12], courses: [] } });
+    for (const strand of ['A', 'B', 'C', 'D']) {
+      const r = await start(s, { grade: 12, course: 'MHF4U', strands: [strand] });
+      expect(r.step.item ?? r.step.lessonId ?? r.step.target, strand).toBeDefined();
+    }
+    await post(s, '/session', { grade: 12, course: 'MCV4U', strands: ['A'] }).expect(404); // Calculus and Vectors has no content yet
+    await post(s, '/session', { grade: 12, strands: ['A'] }).expect(404); // without the course there is no Grade 12 content
+    const opts = (await s.agent.get('/api/learn/options').expect(200)).body as { grades: { grade: number; groups: { course: string | null; strands: { strand: string; available: boolean }[] }[] }[] };
+    const mhf = opts.grades.find((g) => g.grade === 12)!.groups.find((g) => g.course === 'MHF4U')!;
+    expect(mhf.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B', 'C', 'D']);
+    const mcv = opts.grades.find((g) => g.grade === 12)!.groups.find((g) => g.course === 'MCV4U')!;
+    expect(mcv.strands.some((x) => x.available)).toBe(false);
+  });
+});
+
 describe('skill map', () => {
   it('shows soon, locked, new, in progress and mastered states, with prerequisites', async () => {
     const env = env0();

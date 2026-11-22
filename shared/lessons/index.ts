@@ -6,8 +6,9 @@ import { LESSONS_G8 } from './bucket-g8.js';
 import { LESSONS_G9 } from './bucket-g9.js';
 import { LESSONS_G10 } from './bucket-g10.js';
 import { LESSONS_G11 } from './bucket-g11.js';
+import { LESSONS_G12 } from './bucket-g12.js';
 
-export const LESSON_BUCKETS = { g56: LESSONS_G56, g7: LESSONS_G7, g8: LESSONS_G8, g9: LESSONS_G9, g10: LESSONS_G10, g11: LESSONS_G11 } as const;
+export const LESSON_BUCKETS = { g56: LESSONS_G56, g7: LESSONS_G7, g8: LESSONS_G8, g9: LESSONS_G9, g10: LESSONS_G10, g11: LESSONS_G11, g12: LESSONS_G12 } as const;
 export type LessonBucket = keyof typeof LESSON_BUCKETS;
 
 export const LESSONS: Lesson[] = Object.values(LESSON_BUCKETS).flat();

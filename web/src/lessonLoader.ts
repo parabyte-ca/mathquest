@@ -3,7 +3,7 @@ import { LESSON_BUCKET_OF } from '../../shared/lessons/map';
 
 // Lesson text is large, so the app loads it one group of grades at a time, only when a lesson from that group is opened.
 // (The server and the tests use the whole set in shared/lessons/index.ts.)
-type Bucket = 'g56' | 'g7' | 'g8' | 'g9' | 'g10' | 'g11';
+type Bucket = 'g56' | 'g7' | 'g8' | 'g9' | 'g10' | 'g11' | 'g12';
 const LOADERS: Record<Bucket, () => Promise<Lesson[]>> = {
   g56: () => import('../../shared/lessons/bucket-g56').then((m) => m.LESSONS_G56),
   g7: () => import('../../shared/lessons/bucket-g7').then((m) => m.LESSONS_G7),
@@ -11,6 +11,7 @@ const LOADERS: Record<Bucket, () => Promise<Lesson[]>> = {
   g9: () => import('../../shared/lessons/bucket-g9').then((m) => m.LESSONS_G9),
   g10: () => import('../../shared/lessons/bucket-g10').then((m) => m.LESSONS_G10),
   g11: () => import('../../shared/lessons/bucket-g11').then((m) => m.LESSONS_G11),
+  g12: () => import('../../shared/lessons/bucket-g12').then((m) => m.LESSONS_G12),
 };
 const loaded = new Map<Bucket, Lesson[]>();
 
