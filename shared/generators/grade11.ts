@@ -1,10 +1,15 @@
-// Registry of the Grade 11 generators (MCR3U and MCF3M): one per micro-skill, each taking (tier, seed).
+// Registry of the Grade 11 generators (MCR3U, MCF3M and MBF3C): one per micro-skill, each taking (tier, seed).
 // Register a new Grade 11 generator here, under MS.G11.{COURSE}.{strand}{n}.{n}.{letter}.
 import type { Generator } from '../items/types.js';
-import { diffSquaresGen, discriminantGen, factorGeneralGen, quadFormulaGen } from './algebra10.js';
+import { diffSquaresGen, discriminantGen, expandGen, factorGeneralGen, factorMonicGen, quadFormulaGen, solveFactorGen } from './algebra10.js';
 import { annuity11, arithmetic11, compound11, geometric11, pascal11, recursive11 } from './discrete11.js';
 import { distinguish11, growth11, rationalExp11 } from './expo11.js';
 import { cosineLawGen, sineLawGen } from './geometry10.js';
+import { vehicle11, zeroNeg11 } from './mbf11.js';
+import { quartiles9 } from './data9.js';
+import { borrowing9 } from './finance9.js';
+import { composite9 } from './geometry9.js';
+import { probRules12 } from './prob12.js';
 import { exponentRules11, perfectSquare11, quadRange11, simpleCompound11, vertexStandard11 } from './mcf11.js';
 import { ambiguous11, exactValues11, identities11, obtuseLaws11, reciprocal11, sineFunction11, sinusoid11, twoTriangles11 } from './trig11.js';
 import { domain11, extreme11, inverse11, lineParabola11, notation11, radicals11, rational11, transform11 } from './function11.js';
@@ -56,4 +61,21 @@ export const GENERATORS_G11: Record<string, Generator> = {
   'MS.G11.MCF3M.C1.2.a': sineLawGen('MS.G11.MCF3M.C1.2.a'),
   'MS.G11.MCF3M.C1.3.a': cosineLawGen('MS.G11.MCF3M.C1.3.a'),
   'MS.G11.MCF3M.C2.1.a': sineFunction11('MS.G11.MCF3M.C2.1.a'),
+  // MBF3C, Quadratic Functions (A), Quadratics (A1), Exponents (A2), Financial Applications (B), Design and Trigonometry (C), Data (D)
+  'MS.G11.MBF3C.A1.1.a': expandGen('MS.G11.MBF3C.A1.1.a', true),
+  'MS.G11.MBF3C.A1.2.a': factorMonicGen('MS.G11.MBF3C.A1.2.a'),
+  'MS.G11.MBF3C.A1.3.a': solveFactorGen('MS.G11.MBF3C.A1.3.a'),
+  'MS.G11.MBF3C.A1.4.a': vertexStandard11('MS.G11.MBF3C.A1.4.a'),
+  'MS.G11.MBF3C.A2.1.a': zeroNeg11('MS.G11.MBF3C.A2.1.a'),
+  'MS.G11.MBF3C.A2.2.a': exponentRules11('MS.G11.MBF3C.A2.2.a'),
+  'MS.G11.MBF3C.A2.3.a': growth11('MS.G11.MBF3C.A2.3.a'),
+  'MS.G11.MBF3C.B1.1.a': simpleCompound11('MS.G11.MBF3C.B1.1.a'),
+  'MS.G11.MBF3C.B1.2.a': compound11('MS.G11.MBF3C.B1.2.a'),
+  'MS.G11.MBF3C.B2.1.a': borrowing9('MS.G11.MBF3C.B2.1.a'),
+  'MS.G11.MBF3C.B3.1.a': vehicle11('MS.G11.MBF3C.B3.1.a'),
+  'MS.G11.MBF3C.C1.1.a': composite9('MS.G11.MBF3C.C1.1.a'),
+  'MS.G11.MBF3C.C2.1.a': sineLawGen('MS.G11.MBF3C.C2.1.a'),
+  'MS.G11.MBF3C.C2.2.a': cosineLawGen('MS.G11.MBF3C.C2.2.a'),
+  'MS.G11.MBF3C.D1.1.a': quartiles9('MS.G11.MBF3C.D1.1.a'),
+  'MS.G11.MBF3C.D2.1.a': probRules12('MS.G11.MBF3C.D2.1.a'),
 };

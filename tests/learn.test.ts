@@ -477,10 +477,10 @@ describe('Grade 10 by course', () => {
 });
 
 describe('Grade 11 by course', () => {
-  it('practices MCR3U and MCF3M by course', async () => {
+  it('practices MCR3U, MCF3M and MBF3C by course', async () => {
     const env = env0();
     const s = await makeStudent(env, { grade: 11, allowed: { grades: [11], courses: [] } });
-    for (const [course, strand] of [['MCR3U', 'A'], ['MCR3U', 'B'], ['MCR3U', 'C'], ['MCR3U', 'D'], ['MCF3M', 'A'], ['MCF3M', 'B'], ['MCF3M', 'C']] as const) {
+    for (const [course, strand] of [['MCR3U', 'A'], ['MCR3U', 'B'], ['MCR3U', 'C'], ['MCR3U', 'D'], ['MCF3M', 'A'], ['MCF3M', 'B'], ['MCF3M', 'C'], ['MBF3C', 'A'], ['MBF3C', 'B'], ['MBF3C', 'C'], ['MBF3C', 'D']] as const) {
       const r = await start(s, { grade: 11, course, strands: [strand] });
       expect(r.step.item ?? r.step.lessonId ?? r.step.target, `${course} ${strand}`).toBeDefined();
     }
@@ -489,7 +489,8 @@ describe('Grade 11 by course', () => {
     const g11 = opts.grades.find((g) => g.grade === 11)!.groups;
     expect(g11.find((g) => g.course === 'MCR3U')!.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B', 'C', 'D']);
     expect(g11.find((g) => g.course === 'MCF3M')!.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B', 'C']);
-    expect(g11.find((g) => g.course === 'MBF3C')!.strands.some((x) => x.available)).toBe(false); // the other Grade 11 courses have no content yet
+    expect(g11.find((g) => g.course === 'MBF3C')!.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B', 'C', 'D']);
+    expect(g11.find((g) => g.course === 'MEL3E')!.strands.some((x) => x.available)).toBe(false); // Workplace Preparation has no content yet
   });
 });
 
