@@ -54,7 +54,7 @@ function StudentRow({ s, onChange, go, first }: { s: StudentInfo; onChange: () =
       onChange();
     }
   };
-  const isOwner = s.linkRole === 'owner' || s.linkRole === 'admin';
+  const isOwner = s.linkRole === 'owner';
   return (
     <li class="row">
       <div>

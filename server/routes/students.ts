@@ -6,6 +6,7 @@ import { hashPin } from '../crypto.js';
 import { audit } from '../audit.js';
 import { newId, nowIso } from '../db.js';
 import { publicStudent, sendSignInLink } from './auth.js';
+import { renderEmail } from '../email.js';
 import { noteSchema } from '../note.js';
 
 const username = z.string().trim().regex(/^[a-z0-9_]{3,20}$/i, 'username');
@@ -27,15 +28,25 @@ const allowed = z.object({ grades: z.array(z.number().int().min(5).max(12)).max(
 
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 
-/** Caregivers reach only students they are linked to. Admins reach all. */
-export function access(ctx: Ctx, user: UserRow, studentId: string): { student: StudentRow; role: 'owner' | 'co' | 'admin' } | null {
+/**
+ * A person reaches only the students they are linked to, as owner or as an additional (co) caregiver. The install admin has no
+ * special reach into a household: admins manage accounts, never a family's data. An unknown id and someone else's student
+ * look the same (null), so ids cannot be probed.
+ */
+export function access(ctx: Ctx, user: UserRow, studentId: string): { student: StudentRow; role: 'owner' | 'co' } | null {
   const student = ctx.db.prepare('SELECT * FROM students WHERE id = ?').get(studentId) as StudentRow | undefined;
   if (!student) return null;
-  if (user.role === 'admin') return { student, role: 'admin' };
   const link = ctx.db.prepare('SELECT role FROM student_caregivers WHERE student_id = ? AND caregiver_id = ?').get(studentId, user.id) as
     | { role: 'owner' | 'co' }
     | undefined;
   return link ? { student, role: link.role } : null;
+}
+
+/** True when one of the students this caregiver can reach already has the username. Usernames only have to be unique inside a household. */
+export function usernameInUse(ctx: Ctx, caregiverId: string, username: string, exceptStudentId = ''): boolean {
+  return !!ctx.db
+    .prepare('SELECT 1 FROM students s JOIN student_caregivers sc ON sc.student_id = s.id WHERE sc.caregiver_id = ? AND s.username = ? AND s.id != ?')
+    .get(caregiverId, username, exceptStudentId);
 }
 
 export function studentRoutes(ctx: Ctx): Router {
@@ -44,13 +55,9 @@ export function studentRoutes(ctx: Ctx): Router {
 
   r.get('/students', (req, res) => {
     const user = me(req);
-    const rows = (
-      user.role === 'admin'
-        ? ctx.db.prepare('SELECT s.*, \'admin\' AS link_role FROM students s ORDER BY s.display_name').all()
-        : ctx.db
-            .prepare('SELECT s.*, sc.role AS link_role FROM students s JOIN student_caregivers sc ON sc.student_id = s.id WHERE sc.caregiver_id = ? ORDER BY s.display_name')
-            .all(user.id)
-    ) as (StudentRow & { link_role: string })[];
+    const rows = ctx.db
+      .prepare('SELECT s.*, sc.role AS link_role FROM students s JOIN student_caregivers sc ON sc.student_id = s.id WHERE sc.caregiver_id = ? ORDER BY s.display_name')
+      .all(user.id) as (StudentRow & { link_role: string })[];
     res.json({ students: rows.map((s) => ({ ...publicStudent(s), linkRole: s.link_role })) });
   });
 
@@ -61,7 +68,7 @@ export function studentRoutes(ctx: Ctx): Router {
     if (!parsed.success) return void res.status(400).json({ error: 'invalid_request', fields: parsed.error.issues.map((i) => i.message) });
     const user = me(req);
     const d = parsed.data;
-    if (ctx.db.prepare('SELECT 1 FROM students WHERE username = ?').get(d.username)) return void res.status(409).json({ error: 'username_taken' });
+    if (usernameInUse(ctx, user.id, d.username)) return void res.status(409).json({ error: 'username_taken' });
     const id = newId();
     ctx.db.transaction(() => {
       ctx.db
@@ -84,6 +91,7 @@ export function studentRoutes(ctx: Ctx): Router {
     if (!a) return void res.status(404).json({ error: 'not_found' });
     const d = parsed.data;
     const s = a.student;
+    if (d.pin !== undefined && a.role !== 'owner') return void res.status(403).json({ error: 'forbidden' }); // only the owner changes a PIN
     ctx.db
       .prepare('UPDATE students SET display_name = ?, grade = ?, language = ?, settings_json = ?, allowed_json = ?, pin_hash = ?, pin_failures = 0, locked_until = 0 WHERE id = ?')
       .run(
@@ -102,26 +110,31 @@ export function studentRoutes(ctx: Ctx): Router {
     if (!parsed.success) return void res.status(400).json({ error: parsed.error.issues.some((i) => i.message === 'has_link') ? 'note_has_link' : 'invalid_request' });
     const user = me(req);
     const a = access(ctx, user, req.params.id as string);
-    if (!a || (a.role !== 'owner' && a.role !== 'admin')) return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
+    if (!a || a.role !== 'owner') return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
+    // The answer is the same whether or not the address already has an account, so this cannot be used to find out who uses MathQuest.
     let target = ctx.db.prepare('SELECT * FROM users WHERE email = ?').get(parsed.data.email) as UserRow | undefined;
     let invited = false;
+    if (target && (target.role !== 'caregiver' || target.status === 'disabled')) return void res.status(201).json({ ok: true });
+    if (target && target.id === user.id) return void res.status(201).json({ ok: true });
+    // The recipient signs in on their own devices, where a username must pick out one child: refuse a clash before sharing.
+    if (target && usernameInUse(ctx, target.id, a.student.username, a.student.id)) return void res.status(409).json({ error: 'username_conflict' });
     if (!target) {
       const id = newId();
       ctx.db.prepare("INSERT INTO users (id, email, role, status, invited_by, created_at) VALUES (?,?, 'caregiver','invited',?,?)").run(id, parsed.data.email, user.id, nowIso());
       target = ctx.db.prepare('SELECT * FROM users WHERE id = ?').get(id) as UserRow;
       invited = true;
     }
-    if (target.role !== 'caregiver') return void res.status(400).json({ error: 'not_a_caregiver' });
-    ctx.db.prepare("INSERT OR IGNORE INTO student_caregivers (student_id, caregiver_id, role, added_by, added_at) VALUES (?,?,'co',?,?)").run(a.student.id, target.id, user.id, nowIso());
+    const added = ctx.db.prepare("INSERT OR IGNORE INTO student_caregivers (student_id, caregiver_id, role, added_by, added_at) VALUES (?,?,'co',?,?)").run(a.student.id, target.id, user.id, nowIso());
     if (invited) await sendSignInLink(ctx, target, { invite: true, note: parsed.data.note || undefined, from: user.display_name || user.email });
+    else if (added.changes === 1) await notifyShared(ctx, target, a.student, user);
     audit(ctx.db, { kind: user.role, id: user.id }, 'student.share', a.student.id, { caregiver: target.id, noteAttached: invited && !!parsed.data.note });
-    res.status(201).json({ ok: true, invited });
+    res.status(201).json({ ok: true });
   });
 
   r.delete('/students/:id/caregivers/:cid', (req, res) => {
     const user = me(req);
     const a = access(ctx, user, req.params.id as string);
-    if (!a || (a.role !== 'owner' && a.role !== 'admin')) return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
+    if (!a || a.role !== 'owner') return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
     const result = ctx.db.prepare("DELETE FROM student_caregivers WHERE student_id = ? AND caregiver_id = ? AND role = 'co'").run(a.student.id, req.params.cid);
     if (result.changes !== 1) return void res.status(404).json({ error: 'not_found' });
     audit(ctx.db, { kind: user.role, id: user.id }, 'student.unshare', a.student.id, { caregiver: req.params.cid });
@@ -151,7 +164,7 @@ export function studentRoutes(ctx: Ctx): Router {
   r.delete('/students/:id', (req, res) => {
     const user = me(req);
     const a = access(ctx, user, req.params.id as string);
-    if (!a || (a.role !== 'owner' && a.role !== 'admin')) return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
+    if (!a || a.role !== 'owner') return void res.status(a ? 403 : 404).json({ error: a ? 'forbidden' : 'not_found' });
     ctx.db.transaction(() => {
       ctx.db.prepare("DELETE FROM sessions WHERE kind = 'student' AND subject_id = ?").run(a.student.id);
       ctx.db.prepare("DELETE FROM tour_seen WHERE subject_kind = 'student' AND subject_id = ?").run(a.student.id);
@@ -162,4 +175,20 @@ export function studentRoutes(ctx: Ctx): Router {
   });
 
   return r;
+}
+
+/** Tells an existing caregiver that a student was shared with them, so nothing appears in their account unannounced. */
+async function notifyShared(ctx: Ctx, target: UserRow, student: StudentRow, by: UserRow): Promise<void> {
+  const from = by.display_name || by.email;
+  const text = `${from} shared ${student.display_name} with you on MathQuest. You can now see their progress, set goals and send messages. Open MathQuest: ${ctx.cfg.baseUrl}/app`;
+  await ctx.mailer.send({
+    to: target.email,
+    subject: `${student.display_name} was shared with you on MathQuest`,
+    text,
+    html: renderEmail({
+      lang: 'en', baseUrl: ctx.cfg.baseUrl, title: `${student.display_name} was shared with you`, preheader: `${from} shared a student with you.`,
+      intro: [`${from} shared ${student.display_name} with you. You can now see their progress, set goals and send messages.`],
+      button: { label: 'Open MathQuest', url: `${ctx.cfg.baseUrl}/app` },
+    }),
+  });
 }

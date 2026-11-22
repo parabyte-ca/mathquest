@@ -72,21 +72,21 @@ export function challengeViews(ctx: Ctx, sid: string): ChallengeView[] {
 
 export interface FamilyGoalView { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean; createdAt: number; reachedAt: number | null }
 const familyProgress = (ctx: Ctx, userId: string, createdAt: number): number =>
-  (ctx.db.prepare('SELECT COALESCE(SUM(re.xp), 0) AS n FROM reward_event re JOIN student_caregivers sc ON sc.student_id = re.student_id WHERE sc.caregiver_id = ? AND re.at >= ?').get(userId, createdAt) as { n: number }).n;
+  (ctx.db.prepare('SELECT COALESCE(SUM(re.xp), 0) AS n FROM reward_event re JOIN student_caregivers sc ON sc.student_id = re.student_id WHERE sc.caregiver_id = ? AND sc.role = \'owner\' AND re.at >= ?').get(userId, createdAt) as { n: number }).n;
 const familyView = (ctx: Ctx, g: { id: string; user_id: string; title: string; xp_target: number; created_at: number; reached_at: number | null; redeemed_at: number | null }): FamilyGoalView => ({
   id: g.id, title: g.title, xpTarget: g.xp_target, progress: g.reached_at !== null ? g.xp_target : Math.min(g.xp_target, familyProgress(ctx, g.user_id, g.created_at)), reached: g.reached_at !== null, redeemed: g.redeemed_at !== null, createdAt: g.created_at, reachedAt: g.reached_at,
 });
 const FG = 'id, user_id, title, xp_target, created_at, reached_at, redeemed_at';
 type FgRow = Parameters<typeof familyView>[1];
 
-/** A caregiver's family goals (all of their students' XP counts toward them). */
+/** A caregiver's family goals. The XP of the students they own counts toward them; students shared with them do not, so one household's progress never feeds another's. */
 export function listFamilyGoals(ctx: Ctx, userId: string): FamilyGoalView[] {
   return (ctx.db.prepare(`SELECT ${FG} FROM family_goal WHERE user_id = ? AND archived = 0 ORDER BY created_at DESC`).all(userId) as FgRow[]).map((g) => familyView(ctx, g));
 }
-/** The family goals a student is part of: those of any of their caregivers. A goal that was finished and marked done is not shown. */
+/** The family goals a student is part of: those of their owner. A goal that was finished and marked done is not shown. */
 export function familyGoalsForStudent(ctx: Ctx, studentId: string): FamilyGoalView[] {
   const rows = ctx.db
-    .prepare(`SELECT DISTINCT fg.id, fg.user_id, fg.title, fg.xp_target, fg.created_at, fg.reached_at, fg.redeemed_at FROM family_goal fg JOIN student_caregivers sc ON sc.caregiver_id = fg.user_id WHERE sc.student_id = ? AND fg.archived = 0 AND fg.redeemed_at IS NULL ORDER BY fg.created_at DESC`)
+    .prepare(`SELECT DISTINCT fg.id, fg.user_id, fg.title, fg.xp_target, fg.created_at, fg.reached_at, fg.redeemed_at FROM family_goal fg JOIN student_caregivers sc ON sc.caregiver_id = fg.user_id AND sc.role = 'owner' WHERE sc.student_id = ? AND fg.archived = 0 AND fg.redeemed_at IS NULL ORDER BY fg.created_at DESC`)
     .all(studentId) as FgRow[];
   return rows.map((g) => familyView(ctx, g));
 }
@@ -109,7 +109,7 @@ export function archiveFamilyGoal(ctx: Ctx, userId: string, goalId: string): voi
 /** Marks the family goals this student's XP just completed, and returns their titles. */
 function reachFamilyGoals(ctx: Ctx, studentId: string): string[] {
   const open = ctx.db
-    .prepare('SELECT DISTINCT fg.id, fg.user_id, fg.title, fg.xp_target, fg.created_at FROM family_goal fg JOIN student_caregivers sc ON sc.caregiver_id = fg.user_id WHERE sc.student_id = ? AND fg.archived = 0 AND fg.reached_at IS NULL')
+    .prepare('SELECT DISTINCT fg.id, fg.user_id, fg.title, fg.xp_target, fg.created_at FROM family_goal fg JOIN student_caregivers sc ON sc.caregiver_id = fg.user_id AND sc.role = \'owner\' WHERE sc.student_id = ? AND fg.archived = 0 AND fg.reached_at IS NULL')
     .all(studentId) as { id: string; user_id: string; title: string; xp_target: number; created_at: number }[];
   const out: string[] = [];
   for (const g of open) {

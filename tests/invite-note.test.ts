@@ -92,11 +92,15 @@ describe('invitation notes', () => {
     const mail = env.mailer.outbox.at(-1)!;
     expect(mail.text).toContain('A note from Alex:');
     expect(mail.text).toContain("> Please keep an eye on Robin's progress.");
-    // someone who already has an account is just linked: no invitation, so no email
+    // someone who already has an account is just linked: no invitation and no note, only a short notice that a student was shared with them
     addUser(env, 'existing@x.ca');
     env.mailer.outbox.length = 0;
     await post(cg, `/api/students/${s.studentId}/caregivers`, { email: 'existing@x.ca', note: 'Hello' }).expect(201);
-    expect(env.mailer.outbox).toHaveLength(0);
+    expect(env.mailer.outbox).toHaveLength(1);
+    expect(env.mailer.outbox[0]!.subject).toContain('was shared with you');
+    expect(env.mailer.outbox[0]!.text).toContain('Alex shared');
+    expect(env.mailer.outbox[0]!.text).not.toContain('Hello');
+    expect(links(env.mailer.outbox[0]!.text).every((l) => !l.includes('/verify'))).toBe(true); // no sign-in link
     const res = await post(cg, `/api/students/${s.studentId}/caregivers`, { email: 'other@x.ca', note: 'go to https://evil.test' });
     expect(res.status).toBe(400);
     expect(res.body.error).toBe('note_has_link');

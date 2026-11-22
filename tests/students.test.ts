@@ -139,7 +139,7 @@ describe('caregiver access and sharing', () => {
     const id = await createStudent(a);
     env.mailer.outbox.length = 0;
     const res = await a.agent.post(`/api/students/${id}/caregivers`).set('x-csrf-token', a.csrf).send({ email: 'new@example.com' }).expect(201);
-    expect(res.body.invited).toBe(true);
+    expect(res.body).toEqual({ ok: true }); // the same answer whether or not the address had an account
     expect(env.mailer.outbox[0]!.to).toBe('new@example.com');
   });
 

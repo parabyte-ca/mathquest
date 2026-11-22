@@ -5,7 +5,8 @@ import { dirname } from 'node:path';
 export type DB = Database.Database;
 
 // Forward-only migrations. Never edit an applied migration; add a new one.
-const MIGRATIONS: { id: number; name: string; sql: string }[] = [
+/** `rebuildsReferencedTable` migrations drop and recreate a table other tables point to, so foreign keys are switched off around them (SQLite cannot do that inside a transaction) and checked afterwards. */
+const MIGRATIONS: { id: number; name: string; sql: string; rebuildsReferencedTable?: boolean }[] = [
   {
     id: 1,
     name: 'foundation',
@@ -409,6 +410,34 @@ const MIGRATIONS: { id: number; name: string; sql: string }[] = [
     CREATE INDEX idx_student_message_student ON student_message(student_id, created_at);
     `,
   },
+  {
+    id: 10,
+    name: 'usernames-per-household',
+    rebuildsReferencedTable: true,
+    sql: `
+    -- A student's username only has to be unique within a household (among the students one caregiver can reach), not across the whole install,
+    -- so the UNIQUE constraint goes. The table is rebuilt because SQLite cannot drop a constraint in place.
+    CREATE TABLE students_new (
+      id TEXT PRIMARY KEY,
+      username TEXT NOT NULL COLLATE NOCASE,
+      display_name TEXT NOT NULL,
+      pin_hash TEXT NOT NULL,
+      grade INTEGER NOT NULL CHECK (grade BETWEEN 5 AND 12),
+      language TEXT NOT NULL DEFAULT 'en' CHECK (language IN ('en','fr')),
+      settings_json TEXT NOT NULL DEFAULT '{}',
+      allowed_json TEXT NOT NULL DEFAULT '{"grades":[],"courses":[]}',
+      pin_failures INTEGER NOT NULL DEFAULT 0,
+      locked_until INTEGER NOT NULL DEFAULT 0,
+      created_by TEXT NOT NULL REFERENCES users(id),
+      created_at TEXT NOT NULL
+    );
+    INSERT INTO students_new (id, username, display_name, pin_hash, grade, language, settings_json, allowed_json, pin_failures, locked_until, created_by, created_at)
+      SELECT id, username, display_name, pin_hash, grade, language, settings_json, allowed_json, pin_failures, locked_until, created_by, created_at FROM students;
+    DROP TABLE students;
+    ALTER TABLE students_new RENAME TO students;
+    CREATE INDEX idx_students_username ON students(username);
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {
@@ -421,15 +450,26 @@ export function openDb(path: string): DB {
   return db;
 }
 
-export function migrate(db: DB): void {
+/** Applies the migrations not yet applied, up to `upTo` (all of them by default; a lower number is for tests of an upgrade). */
+export function migrate(db: DB, upTo = Number.MAX_SAFE_INTEGER): void {
   db.exec('CREATE TABLE IF NOT EXISTS schema_version (id INTEGER PRIMARY KEY, name TEXT NOT NULL, applied_at TEXT NOT NULL)');
   const applied = new Set((db.prepare('SELECT id FROM schema_version').all() as { id: number }[]).map((r) => r.id));
   for (const m of MIGRATIONS) {
-    if (applied.has(m.id)) continue;
-    db.transaction(() => {
-      db.exec(m.sql);
-      db.prepare('INSERT INTO schema_version (id, name, applied_at) VALUES (?,?,?)').run(m.id, m.name, new Date().toISOString());
-    })();
+    if (applied.has(m.id) || m.id > upTo) continue;
+    const fkWasOn = m.rebuildsReferencedTable ? (db.pragma('foreign_keys', { simple: true }) as number) === 1 : false;
+    if (m.rebuildsReferencedTable) db.pragma('foreign_keys = OFF');
+    try {
+      db.transaction(() => {
+        db.exec(m.sql);
+        if (m.rebuildsReferencedTable) {
+          const broken = db.pragma('foreign_key_check') as unknown[];
+          if (broken.length > 0) throw new Error(`migration ${m.id} left ${broken.length} broken foreign key(s)`);
+        }
+        db.prepare('INSERT INTO schema_version (id, name, applied_at) VALUES (?,?,?)').run(m.id, m.name, new Date().toISOString());
+      })();
+    } finally {
+      if (m.rebuildsReferencedTable && fkWasOn) db.pragma('foreign_keys = ON');
+    }
   }
 }
 
