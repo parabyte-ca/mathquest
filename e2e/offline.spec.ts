@@ -70,7 +70,7 @@ test('offline practice: download a pack, practice with no connection, and the an
   })).toBe(true);
 
   // while online: choose Algebra and download a pack
-  await kid.getByLabel(/^C\. Algebra/).check();
+  await kid.getByLabel(/C\. Algebra/).check();
   await kid.getByRole('button', { name: 'Practice without internet' }).click();
   await expect(kid.getByRole('heading', { name: 'Practice without internet' })).toBeVisible();
   await kid.getByRole('button', { name: 'Download questions' }).click();
