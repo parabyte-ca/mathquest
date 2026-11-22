@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.4.0] - 2026-11-22
+### Added
+- Grade 12 MDM4U (Data Management): 16 new micro-skills (388 in all) and 3 lessons, choosable by course with its four strands.
+  - Counting and probability: the rules of probability, conditional probability and drawing without replacement, permutations and combinations (including repeated letters), and Pascal's triangle.
+  - Probability distributions: expected value and fair games, binomial and hypergeometric distributions, z-scores and the 68-95-99.7 rule, and the normal approximation to the binomial with the continuity correction.
+  - Organization of data: sources of bias and sampling techniques (simple random, systematic, stratified, cluster, multi-stage, convenience).
+  - Statistical analysis: variance and standard deviation, quartiles and outliers, the least-squares line, r squared, residuals, and margin of error.
+- Every new answer is recomputed by an independent, mutation-tested check; counting answers are checked by listing every outcome, arrangement or subset.
+
+### Fixed
+- The letter-arrangement question counted the repeated letters of LEVEL and SEEDS wrongly; the independent check caught it before release.
+
+### Notes
+- MDM4U E (the culminating investigation) is a project with nothing to auto-check, so it stays "coming soon", as do the research parts of other courses.
+- The college and workplace Grade 12 courses (MCT4C, MAP4C, MEL4E) still show "coming soon".
+
 ## [3.3.0] - 2026-11-22
 ### Added
 - Grade 12 MCV4U (Calculus and Vectors): 14 new micro-skills (372 in all) and 3 lessons, choosable by course with its three strands.

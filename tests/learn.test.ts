@@ -494,22 +494,22 @@ describe('Grade 11 by course', () => {
 });
 
 describe('Grade 12 by course', () => {
-  it('practices every MHF4U and MCV4U strand by course, and the other Grade 12 courses have no content yet', async () => {
+  it('practices every MHF4U, MCV4U and MDM4U strand by course, and the other Grade 12 courses have no content yet', async () => {
     const env = env0();
     const s = await makeStudent(env, { grade: 12, allowed: { grades: [12], courses: [] } });
-    for (const [course, strands] of [['MHF4U', ['A', 'B', 'C', 'D']], ['MCV4U', ['A', 'B', 'C']]] as const) {
+    const built = [['MHF4U', ['A', 'B', 'C', 'D']], ['MCV4U', ['A', 'B', 'C']], ['MDM4U', ['A', 'B', 'C', 'D']]] as const;
+    for (const [course, strands] of built) {
       for (const strand of strands) {
         const r = await start(s, { grade: 12, course, strands: [strand] });
         expect(r.step.item ?? r.step.lessonId ?? r.step.target, `${course} ${strand}`).toBeDefined();
       }
     }
-    await post(s, '/session', { grade: 12, course: 'MDM4U', strands: ['A'] }).expect(404); // Data Management has no content yet
+    await post(s, '/session', { grade: 12, course: 'MCT4C', strands: ['A'] }).expect(404); // College Technology has no content yet
     await post(s, '/session', { grade: 12, strands: ['A'] }).expect(404); // without the course there is no Grade 12 content
     const opts = (await s.agent.get('/api/learn/options').expect(200)).body as { grades: { grade: number; groups: { course: string | null; strands: { strand: string; available: boolean }[] }[] }[] };
     const groups = opts.grades.find((g) => g.grade === 12)!.groups;
-    expect(groups.find((g) => g.course === 'MHF4U')!.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B', 'C', 'D']);
-    expect(groups.find((g) => g.course === 'MCV4U')!.strands.filter((x) => x.available).map((x) => x.strand)).toEqual(['A', 'B', 'C']);
-    expect(groups.find((g) => g.course === 'MDM4U')!.strands.some((x) => x.available)).toBe(false);
+    for (const [course, strands] of built) expect(groups.find((g) => g.course === course)!.strands.filter((x) => x.available).map((x) => x.strand), course).toEqual([...strands]);
+    expect(groups.find((g) => g.course === 'MCT4C')!.strands.some((x) => x.available)).toBe(false);
   });
 });
 

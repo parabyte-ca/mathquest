@@ -29,7 +29,8 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 3.1.0 | Grade 8 completion (shipped): rational patterns, two-variable data, scatter plots, infographics, analysis, models from views: 6 skills, 3 lessons | M |
 | 3.2.0 | Grade 12 MHF4U (shipped): logarithms, radians and trigonometric equations, polynomial and rational functions, rates of change and combining functions: 17 skills, 4 lessons | L |
 | 3.3.0 | Grade 12 MCV4U (shipped): limits, derivatives and their rules, curves and optimization, vectors, lines and planes: 14 skills, 3 lessons | L |
-| Later | Grade 12 MDM4U (data management), then the college and workplace courses (MCT4C, MAP4C, MEL4E) | L |
+| 3.4.0 | Grade 12 MDM4U (shipped): probability rules and counting, distributions, sampling and bias, statistical analysis: 16 skills, 3 lessons | L |
+| Later | The Grade 12 college and workplace courses (MCT4C, MAP4C, MEL4E) and the Grade 11 college and workplace courses (MBF3C, MEL3E) | L |
 
 ### Richer item tools (each unlocks deferred expectations)
 
