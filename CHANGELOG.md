@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.7.0] - 2026-11-22
+### Added
+- Grade 12 MCT4C (College Technology): 17 new micro-skills (431 in all) and 4 lessons, choosable by course with its four strands.
+  - Exponential functions: growth and decay problems, solving exponential equations with common bases and logarithms, and evaluating logarithms.
+  - Polynomial functions: evaluating, key features of the graphs, solving by factoring, and rearranging technology formulas (Ohm's law, power, motion).
+  - Trigonometry: right-triangle applications, the sine and cosine laws, features of sine functions and sinusoidal models.
+  - Applications of geometry: forces and navigation with vectors, design problems with composite shapes, circle properties (inscribed angles, chords, tangents), and arcs and sectors.
+- Every new answer is recomputed by an independent, mutation-tested check.
+
+### Notes
+- Graphing exponential equations and connecting representations of polynomials stay in the lessons; there is nothing to auto-check.
+- MAP4C and MEL4E still show "coming soon".
+
 ## [3.6.0] - 2026-11-22
 ### Added
 - Grade 11 MEL3E (Mathematics for Work and Everyday Life): 10 new micro-skills (414 in all) and 3 lessons, choosable by course with its three strands.

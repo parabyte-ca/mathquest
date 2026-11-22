@@ -3775,6 +3775,160 @@
    "prereqs": [
     "MS.G12.MDM4U.C2.1.a"
    ]
+  },
+  {
+   "id": "MS.G12.MCT4C.A1.1.a",
+   "expectation": "MCT4C.A1",
+   "name": "Exponential growth and decay problems",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.A2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.A2.1.a",
+   "expectation": "MCT4C.A2",
+   "name": "Solving exponential equations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCT4C.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.A2.2.a",
+   "expectation": "MCT4C.A2",
+   "name": "Evaluating logarithms",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCT4C.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.B1.1.a",
+   "expectation": "MCT4C.B1",
+   "name": "Evaluating polynomial functions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.B1.2.a",
+   "expectation": "MCT4C.B1",
+   "name": "Key features of polynomial graphs",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCT4C.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.B3.1.a",
+   "expectation": "MCT4C.B3",
+   "name": "Solving quadratic equations by factoring",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.A1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.B3.2.a",
+   "expectation": "MCT4C.B3",
+   "name": "Solving polynomial equations by factoring",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCT4C.B3.1.a",
+    "MS.G12.MCT4C.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.B3.3.a",
+   "expectation": "MCT4C.B3",
+   "name": "Rearranging and using technology formulas",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCT4C.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.C1.1.a",
+   "expectation": "MCT4C.C1",
+   "name": "Right-triangle trigonometry in applications",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.C1.2.a",
+   "expectation": "MCT4C.C1",
+   "name": "The sine law in applications",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.C1.3.a",
+   "expectation": "MCT4C.C1",
+   "name": "The cosine law in applications",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.C2.1.a",
+   "expectation": "MCT4C.C2",
+   "name": "Features of sine functions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCT4C.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.C3.1.a",
+   "expectation": "MCT4C.C3",
+   "name": "Sinusoidal models",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCT4C.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.D1.1.a",
+   "expectation": "MCT4C.D1",
+   "name": "Forces and navigation with vectors",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.E1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.D2.1.a",
+   "expectation": "MCT4C.D2",
+   "name": "Design problems with 2-D shapes and 3-D figures",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.D3.1.a",
+   "expectation": "MCT4C.D3",
+   "name": "Inscribed angles, chords and tangents",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.E1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCT4C.D3.2.a",
+   "expectation": "MCT4C.D3",
+   "name": "Arcs and sectors",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCT4C.D3.1.a"
+   ]
   }
  ]
 }
