@@ -2,5 +2,6 @@
 import type { Lesson } from './types.js';
 import { GRADE12_LESSONS } from './grade12.js';
 import { GRADE12C_LESSONS } from './grade12c.js';
+import { GRADE12D_LESSONS } from './grade12d.js';
 
-export const LESSONS_G12: Lesson[] = [...GRADE12_LESSONS, ...GRADE12C_LESSONS];
+export const LESSONS_G12: Lesson[] = [...GRADE12_LESSONS, ...GRADE12C_LESSONS, ...GRADE12D_LESSONS];

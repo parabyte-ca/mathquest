@@ -3929,6 +3929,151 @@
    "prereqs": [
     "MS.G12.MCT4C.D3.1.a"
    ]
+  },
+  {
+   "id": "MS.G12.MAP4C.A1.1.a",
+   "expectation": "MAP4C.A1",
+   "name": "Rational exponents",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.A2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.A1.2.a",
+   "expectation": "MAP4C.A1",
+   "name": "Exponent rules on numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MAP4C.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.A1.3.a",
+   "expectation": "MAP4C.A1",
+   "name": "Solving exponential equations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MAP4C.A1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.A2.1.a",
+   "expectation": "MAP4C.A2",
+   "name": "Comparing linear models by initial value and rate",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.A1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.A3.1.a",
+   "expectation": "MAP4C.A3",
+   "name": "Rearranging and using formulas",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MAP4C.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.B1.1.a",
+   "expectation": "MAP4C.B1",
+   "name": "Annuities",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.B1.2.a",
+   "expectation": "MAP4C.B1",
+   "name": "Mortgages",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MAP4C.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.B2.1.a",
+   "expectation": "MAP4C.B2",
+   "name": "Owning against renting accommodation",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MAP4C.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.B3.1.a",
+   "expectation": "MAP4C.B3",
+   "name": "Budgets for individuals and families",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.F1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.C1.1.a",
+   "expectation": "MAP4C.C1",
+   "name": "Measurement problems from real-world applications",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.E1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.C2.1.a",
+   "expectation": "MAP4C.C2",
+   "name": "Optimal dimensions of rectangles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MAP4C.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.C3.1.a",
+   "expectation": "MAP4C.C3",
+   "name": "Right-triangle trigonometry in occupations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.C3.2.a",
+   "expectation": "MAP4C.C3",
+   "name": "The sine and cosine laws with obtuse angles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MAP4C.C3.1.a",
+    "MS.G11.MBF3C.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.D1.1.a",
+   "expectation": "MAP4C.D1",
+   "name": "The line of best fit for two-variable data",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.D1.2.a",
+   "expectation": "MAP4C.D1",
+   "name": "Quartiles, the interquartile range and outliers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MAP4C.D2.1.a",
+   "expectation": "MAP4C.D2",
+   "name": "Bias in data from the media and advertising",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MAP4C.D1.2.a"
+   ]
   }
  ]
 }

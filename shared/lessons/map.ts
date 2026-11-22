@@ -127,4 +127,8 @@ export const LESSON_BUCKET_OF: Record<string, LessonBucket> = {
   'L.g12.mct-polynomials': 'g12',
   'L.g12.mct-trig': 'g12',
   'L.g12.mct-geometry': 'g12',
+  'L.g12.map-models': 'g12',
+  'L.g12.map-finance': 'g12',
+  'L.g12.map-geometry': 'g12',
+  'L.g12.map-data': 'g12',
 };

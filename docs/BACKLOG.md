@@ -33,7 +33,8 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 3.5.0 | Grade 11 MBF3C (shipped): quadratics, exponents, financial applications, design and trigonometry, data: 16 skills, 5 lessons | L |
 | 3.6.0 | Grade 11 MEL3E (shipped): pay and deductions, sale prices and unit prices, savings, loans, vehicle costs and leasing, map scales and trips: 10 skills, 3 lessons | M |
 | 3.7.0 | Grade 12 MCT4C (shipped): exponential and polynomial functions, formulas, trigonometry, forces, circle properties, arcs and sectors: 17 skills, 4 lessons | L |
-| Later | The Grade 12 college and workplace courses (MAP4C, MEL4E) | L |
+| 3.8.0 | Grade 12 MAP4C (shipped): exponents and models, annuities and mortgages, owning against renting, budgets, optimal dimensions, trigonometry, two-variable data and bias: 16 skills, 4 lessons | L |
+| Later | The Grade 12 workplace course (MEL4E) | M |
 
 ### Richer item tools (each unlocks deferred expectations)
 
