@@ -84,6 +84,24 @@ describe('worksheets', () => {
     expect(codes).not.toContain('MEL4E.Z9'); // not listed
     expect(res.body.studentGrade).toBe(5);
   });
+
+  it('also lists the Grade 10 to 12 course topics, and every listed topic makes a sheet', async () => {
+    const { s, cg } = await setup();
+    const res = await cg.agent.get(`/api/students/${s.studentId}/worksheet/options`).expect(200);
+    const rows = res.body.expectations as { code: string; grade: number; course: string | null }[];
+    for (const course of ['MPM2D', 'MFM2P', 'MCR3U', 'MCF3M', 'MBF3C', 'MEL3E', 'MHF4U', 'MCV4U', 'MDM4U', 'MCT4C', 'MAP4C', 'MEL4E']) {
+      expect(rows.some((r) => r.course === course && r.code.startsWith(`${course}.`)), course).toBe(true);
+    }
+    expect(rows.filter((r) => !r.course).every((r) => r.grade <= 9)).toBe(true); // grade-level topics come first, then courses
+    expect(rows.findIndex((r) => r.course) > rows.findLastIndex((r) => r.grade === 9 && !r.course)).toBe(true);
+    for (const r of rows) {
+      const sheet = await cg.agent.get(`/api/students/${s.studentId}/worksheet?focus=${r.code}&count=4&seed=7`);
+      expect(sheet.status, r.code).toBe(200);
+      expect(sheet.body.items.length, r.code).toBeGreaterThan(0);
+    }
+    const mixed = await cg.agent.get(`/api/students/${s.studentId}/worksheet?focus=MCT4C.A1,MAP4C.B1&count=6&seed=7`).expect(200);
+    expect(mixed.body.items).toHaveLength(6);
+  });
 });
 
 describe('worksheets with several topics', () => {

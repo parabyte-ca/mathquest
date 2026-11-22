@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.10.0] - 2026-11-22
+### Added
+- The worksheet topic picker now lists the Grade 10 to 12 course topics (MPM2D, MFM2P, MCR3U, MCF3M, MBF3C, MEL3E, MHF4U, MCV4U, MDM4U, MCT4C, MAP4C, MEL4E), grouped by grade and course after the grade-level topics. Up to six topics, course or grade-level, can still be mixed on one sheet.
+
+### Fixed
+- The keyboard-only accessibility test failed about one run in thirty when Grade 5 strand E drew the protractor question. It now sets slider and protractor questions with the keyboard.
+
+### Notes
+- A test now checks that every topic the picker lists makes a sheet, so the picker cannot offer a dead choice.
+
 ## [3.9.0] - 2026-11-22
 ### Added
 - Grade 12 MEL4E (Mathematics for Work and Everyday Life): 11 new micro-skills (458 in all) and 3 lessons, choosable by course with its three strands. Every Ontario Grade 11 and 12 course now has practice content.
