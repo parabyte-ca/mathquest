@@ -163,7 +163,7 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
             <div class="actions row-actions">
               {!f.correct && <button type="button" class="secondary" disabled={busy} onClick={() => load(true)}>{t('play.similar')}</button>}
               {lesson && !f.correct && <button type="button" class="secondary" onClick={() => setShowHow(true)}>{t('play.showHow')}</button>}
-              <button type="button" disabled={busy} onClick={() => load(false)}>{t('play.next')}</button>
+              <button type="button" class="go" disabled={busy} onClick={() => load(false)}>{t('play.next')}</button>
               <button type="button" class="link" onClick={() => go('/app/learn')}>{t('play.stop')}</button>
             </div>
           </div>

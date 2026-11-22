@@ -11,7 +11,7 @@ const version = readFileSync(resolve(here, '../VERSION'), 'utf8').trim();
 const assetManifest = (): import('vite').Plugin => ({
   name: 'asset-manifest',
   generateBundle(_o, bundle) {
-    const files = Object.keys(bundle).filter((f) => /\.(js|css)$/.test(f)).map((f) => `/${f}`).sort();
+    const files = Object.keys(bundle).filter((f) => /\.(js|css)$/.test(f) || /-latin-wght-normal[\w.-]*\.woff2$/.test(f)).map((f) => `/${f}`).sort();
     this.emitFile({ type: 'asset', fileName: 'asset-manifest.json', source: JSON.stringify({ version, files }) });
   },
 });

@@ -1,6 +1,6 @@
 {
   "name": "mathquest",
-  "version": "3.15.0",
+  "version": "3.16.0",
   "private": true,
   "description": "Adaptive Ontario math practice and rewards for Grades 5-12 (self-hosted, invite-only)",
   "type": "module",
@@ -28,6 +28,8 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
+    "@fontsource-variable/fira-code": "^5.3.0",
+    "@fontsource-variable/inter": "^5.3.0",
     "@fontsource/opendyslexic": "^5.3.0",
     "@playwright/test": "^1.50.0",
     "@preact/preset-vite": "^2.10.0",
