@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.20.0] - 2026-11-22
+### Added
+- A first-sign-in welcome for a parent who was invited to students. The first time they sign in, the top of the caregiver page says who shared how many students with them, lists each student with their role, explains what that role can do (an owner can change a PIN, share and delete; a helper can see progress, set goals, message, make worksheets and approve devices, and can leave), shows how a student signs in on a new device (get a code, approve it, then username and 4-digit PIN) and says who can see what. It is in English and French, and it appears once.
+- The welcome stands in for the first-run walkthrough, so an invited parent is not shown both. "Take the quick tour" starts the walkthrough from the welcome, and the Help link always does.
+- It works for both ways of inviting: sharing one student, and "Invite a co-parent" for every student. Someone invited by two people sees both names.
+
+### Notes
+- It only ever describes the signed-in person's own invitations; a signed-out visitor and the admin get nothing, and it is deleted with the account. Caregivers who only have their own students see the normal first-run walkthrough as before.
+- No migration: it uses the existing "seen" markers.
+
 ## [3.19.0] - 2026-11-22
 ### Changed
 - The brand refresh is finished. The install icons (home screen, app launcher, iPhone) and the browser tab icon now show the logo, and so do the sign-in emails, which use the same image. The logo is the supplied image, unchanged; it is a small picture, so the largest icon is a little soft.

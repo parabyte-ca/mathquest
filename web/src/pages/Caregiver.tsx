@@ -3,6 +3,7 @@ import { Glyph } from '../icons';
 import { api } from '../api';
 import type { Me, StudentInfo } from '../api';
 import { t, useLang } from '../i18n';
+import { startTour } from '../tour';
 
 interface Device { id: string; label: string; lastSeenAt: number }
 
@@ -23,6 +24,7 @@ export function Caregiver({ me, go }: { me: Extract<Me, { kind: 'user' }>; go: (
 
   return (
     <>
+      <Welcome />
       <section class="card">
         <h1>{t('caregiver.title')}</h1>
         {students === null && <p role="status">{t('common.loading')}</p>}
@@ -424,5 +426,43 @@ function Activity({ s }: { s: StudentInfo }) {
       {more && events && <button type="button" class="secondary" onClick={() => void load(events[events.length - 1]!.id)}>{t('activity.more')}</button>}
       <p class="muted small">{t('activity.keep', { days })}</p>
     </details>
+  );
+}
+
+interface WelcomeData { show: boolean; invitedBy: string[]; students: { id: string; displayName: string; grade: number; role: 'owner' | 'co' }[] }
+
+/** Shown once to a caregiver who was invited to students: who shared what, what their role allows, and how a student signs in. */
+function Welcome() {
+  const [w, setW] = useState<WelcomeData | null>(null);
+  useEffect(() => { void api<WelcomeData>('GET', '/me/welcome').then((r) => { if (r.ok && r.data.show) setW(r.data); }); }, []);
+  if (!w) return null;
+  const done = async (tour: boolean) => {
+    await api('POST', '/tours/welcome/complete', {});
+    setW(null);
+    if (tour) startTour('caregiver');
+  };
+  const owner = w.students.some((s) => s.role === 'owner');
+  return (
+    <section class="card welcome" role="region" aria-labelledby="welcome-title">
+      <h1 id="welcome-title">{t('welcome.title')}</h1>
+      <p>{t('welcome.shared', { who: w.invitedBy.join(', '), n: w.students.length })}</p>
+      <ul>
+        {w.students.map((s) => <li key={s.id}><strong>{s.displayName}</strong> <span class="muted">{t('caregiver.grade')} {s.grade} · {s.role === 'owner' ? t('household.roleOwner') : t('household.roleCo')}</span></li>)}
+      </ul>
+      <h2>{t('welcome.canTitle')}</h2>
+      <p>{owner ? t('welcome.canOwner') : t('welcome.canHelper')}</p>
+      <h2>{t('welcome.signInTitle')}</h2>
+      <ol>
+        <li>{t('welcome.step1')}</li>
+        <li>{t('welcome.step2')}</li>
+        <li>{owner ? t('welcome.step3Owner') : t('welcome.step3Helper')}</li>
+      </ol>
+      <h2>{t('welcome.privacyTitle')}</h2>
+      <p>{t('welcome.privacy')}</p>
+      <div class="actions row-actions">
+        <button type="button" class="go" onClick={() => void done(true)}>{t('welcome.tour')}</button>
+        <button type="button" class="secondary" onClick={() => void done(false)}>{t('welcome.gotIt')}</button>
+      </div>
+    </section>
   );
 }

@@ -8,7 +8,7 @@ import { audit } from '../audit.js';
 import { ACTIVITY_DAYS } from '../jobs.js';
 import { newId, nowIso } from '../db.js';
 import { caregiverExport } from '../export.js';
-import { DELETE_GRACE_MS, addLink, caregiversOf, deletePreview, linkRole, MAX_CAREGIVERS, notice, notifyShared, ownerIds } from '../household.js';
+import { DELETE_GRACE_MS, addLink, caregiversOf, deletePreview, linkRole, MAX_CAREGIVERS, notice, notifyShared, ownerIds, welcomeFor } from '../household.js';
 import { sendSignInLink } from './auth.js';
 import { access } from './students.js';
 import { noteSchema } from '../note.js';
@@ -128,6 +128,11 @@ export function householdRoutes(ctx: Ctx): Router {
     audit(ctx.db, { kind: 'caregiver', id: user.id }, 'account.export', user.id);
     res.setHeader('Content-Disposition', 'attachment; filename="mathquest-account.json"');
     res.json(caregiverExport(ctx, user));
+  });
+
+  // The one-time welcome for a caregiver who was invited to students: who shared what, and in which role. Only ever about the caller.
+  r.get('/me/welcome', requireUser('caregiver'), familyOnly, (req, res) => {
+    res.json(welcomeFor(ctx.db, me(req).id));
   });
 
   // Deleting your account: see what would happen, ask (with your email as the confirmation), cancel during the waiting period.

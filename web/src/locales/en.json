@@ -587,5 +587,19 @@
   "activity.message.send": "{actor} sent a message.",
   "activity.worksheet.create": "{actor} made a worksheet.",
   "activity.auth.student_login": "{actor} signed in on a device.",
-  "rewards.frames": "Frames"
+  "rewards.frames": "Frames",
+  "welcome.title": "Welcome to MathQuest",
+  "welcome.shared": "{who} shared {n} student(s) with you. Here is what you can see and do.",
+  "welcome.canTitle": "What you can do",
+  "welcome.canOwner": "As a parent (owner) you can see progress, set goals, send messages, make worksheets, approve devices, change a PIN, share a student with someone else and delete one. Another owner cannot remove you.",
+  "welcome.canHelper": "As a helper you can see progress, set goals, send messages, make worksheets and approve devices. Only an owner can change a PIN, share or delete a student. You can leave a student at any time.",
+  "welcome.signInTitle": "How a student signs in",
+  "welcome.step1": "On the student's device, open the app and choose the student sign-in, then press \"Get a code\".",
+  "welcome.step2": "Type that code into \"Approved devices\" on this page and approve the device.",
+  "welcome.step3Owner": "The student then signs in with their username and the 4-digit PIN you chose. You can change the PIN on the student's card.",
+  "welcome.step3Helper": "The student then signs in with their username and a 4-digit PIN. Ask an owner if you need the PIN.",
+  "welcome.privacyTitle": "Your privacy",
+  "welcome.privacy": "You only see the students shared with you. Each student has a recent activity list showing who looked at or changed things, and only the caregivers on that student can read it.",
+  "welcome.tour": "Take the quick tour",
+  "welcome.gotIt": "Got it"
 }

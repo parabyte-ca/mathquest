@@ -587,5 +587,19 @@
   "activity.message.send": "{actor} a envoyé un message.",
   "activity.worksheet.create": "{actor} a créé une feuille d'exercices.",
   "activity.auth.student_login": "{actor} s'est connecté sur un appareil.",
-  "rewards.frames": "Cadres"
+  "rewards.frames": "Cadres",
+  "welcome.title": "Bienvenue dans MathQuest",
+  "welcome.shared": "{who} a partagé {n} élève(s) avec vous. Voici ce que vous pouvez voir et faire.",
+  "welcome.canTitle": "Ce que vous pouvez faire",
+  "welcome.canOwner": "En tant que parent (propriétaire), vous pouvez voir la progression, fixer des objectifs, envoyer des messages, créer des feuilles d'exercices, approuver des appareils, changer un NIP, partager un élève avec quelqu'un d'autre et en supprimer un. Un autre propriétaire ne peut pas vous retirer.",
+  "welcome.canHelper": "En tant qu'aidant, vous pouvez voir la progression, fixer des objectifs, envoyer des messages, créer des feuilles d'exercices et approuver des appareils. Seul un propriétaire peut changer un NIP, partager ou supprimer un élève. Vous pouvez quitter un élève à tout moment.",
+  "welcome.signInTitle": "Comment un élève se connecte",
+  "welcome.step1": "Sur l'appareil de l'élève, ouvrez l'appli, choisissez la connexion d'élève, puis appuyez sur « Obtenir un code ».",
+  "welcome.step2": "Saisissez ce code dans « Appareils approuvés » sur cette page et approuvez l'appareil.",
+  "welcome.step3Owner": "L'élève se connecte ensuite avec son nom d'utilisateur et le NIP à 4 chiffres que vous avez choisi. Vous pouvez changer le NIP sur la carte de l'élève.",
+  "welcome.step3Helper": "L'élève se connecte ensuite avec son nom d'utilisateur et un NIP à 4 chiffres. Demandez le NIP à un propriétaire au besoin.",
+  "welcome.privacyTitle": "Votre vie privée",
+  "welcome.privacy": "Vous ne voyez que les élèves partagés avec vous. Chaque élève a une liste d'activité récente qui montre qui a consulté ou modifié des choses, et seuls les aidants de cet élève peuvent la lire.",
+  "welcome.tour": "Faire la visite rapide",
+  "welcome.gotIt": "Compris"
 }
