@@ -1,4 +1,4 @@
-// Registry of the Grade 11 generators (MCR3U, MCF3M and MBF3C): one per micro-skill, each taking (tier, seed).
+// Registry of the Grade 11 generators (MCR3U, MCF3M, MBF3C and MEL3E): one per micro-skill, each taking (tier, seed).
 // Register a new Grade 11 generator here, under MS.G11.{COURSE}.{strand}{n}.{n}.{letter}.
 import type { Generator } from '../items/types.js';
 import { diffSquaresGen, discriminantGen, expandGen, factorGeneralGen, factorMonicGen, quadFormulaGen, solveFactorGen } from './algebra10.js';
@@ -6,6 +6,7 @@ import { annuity11, arithmetic11, compound11, geometric11, pascal11, recursive11
 import { distinguish11, growth11, rationalExp11 } from './expo11.js';
 import { cosineLawGen, sineLawGen } from './geometry10.js';
 import { vehicle11, zeroNeg11 } from './mbf11.js';
+import { lease11, net11, pay11, sale11, savings11, trip11, unit11 } from './mel11.js';
 import { quartiles9 } from './data9.js';
 import { borrowing9 } from './finance9.js';
 import { composite9 } from './geometry9.js';
@@ -78,4 +79,15 @@ export const GENERATORS_G11: Record<string, Generator> = {
   'MS.G11.MBF3C.C2.2.a': cosineLawGen('MS.G11.MBF3C.C2.2.a'),
   'MS.G11.MBF3C.D1.1.a': quartiles9('MS.G11.MBF3C.D1.1.a'),
   'MS.G11.MBF3C.D2.1.a': probRules12('MS.G11.MBF3C.D2.1.a'),
+  // MEL3E, Pay and Purchases (A), Saving and Borrowing (B) and Vehicles and Travel (C)
+  'MS.G11.MEL3E.A1.1.a': pay11('MS.G11.MEL3E.A1.1.a'),
+  'MS.G11.MEL3E.A2.1.a': net11('MS.G11.MEL3E.A2.1.a'),
+  'MS.G11.MEL3E.A3.1.a': sale11('MS.G11.MEL3E.A3.1.a'),
+  'MS.G11.MEL3E.A3.2.a': unit11('MS.G11.MEL3E.A3.2.a'),
+  'MS.G11.MEL3E.B1.1.a': savings11('MS.G11.MEL3E.B1.1.a'),
+  'MS.G11.MEL3E.B1.2.a': simpleCompound11('MS.G11.MEL3E.B1.2.a'),
+  'MS.G11.MEL3E.B2.1.a': borrowing9('MS.G11.MEL3E.B2.1.a'),
+  'MS.G11.MEL3E.C1.1.a': vehicle11('MS.G11.MEL3E.C1.1.a'),
+  'MS.G11.MEL3E.C1.2.a': lease11('MS.G11.MEL3E.C1.2.a'),
+  'MS.G11.MEL3E.C2.1.a': trip11('MS.G11.MEL3E.C2.1.a'),
 };

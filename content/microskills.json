@@ -3060,6 +3060,96 @@
    ]
   },
   {
+   "id": "MS.G11.MEL3E.A1.1.a",
+   "expectation": "MEL3E.A1",
+   "name": "Pay: hourly, overtime and commission",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.F1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MEL3E.A2.1.a",
+   "expectation": "MEL3E.A2",
+   "name": "Gross pay, deductions and net pay",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MEL3E.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MEL3E.A3.1.a",
+   "expectation": "MEL3E.A3",
+   "name": "Sale prices, tax and change",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.F1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MEL3E.A3.2.a",
+   "expectation": "MEL3E.A3",
+   "name": "Unit price and the best buy",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.F1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MEL3E.B1.1.a",
+   "expectation": "MEL3E.B1",
+   "name": "Simple interest on savings",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.F1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MEL3E.B1.2.a",
+   "expectation": "MEL3E.B1",
+   "name": "Simple and compound interest compared",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MEL3E.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MEL3E.B2.1.a",
+   "expectation": "MEL3E.B2",
+   "name": "The cost of loans and credit",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.F1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MEL3E.C1.1.a",
+   "expectation": "MEL3E.C1",
+   "name": "Fuel and the costs of operating a vehicle",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.F1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MEL3E.C1.2.a",
+   "expectation": "MEL3E.C1",
+   "name": "Buying against leasing a vehicle",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MEL3E.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MEL3E.C2.1.a",
+   "expectation": "MEL3E.C2",
+   "name": "Map scales and the cost of a trip",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.F1.1.a"
+   ]
+  },
+  {
    "id": "MS.G9.C2.1.a",
    "expectation": "MTH1W.C2.1",
    "name": "Code with variables, parameters, equations and inequalities",

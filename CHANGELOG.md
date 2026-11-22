@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.6.0] - 2026-11-22
+### Added
+- Grade 11 MEL3E (Mathematics for Work and Everyday Life): 10 new micro-skills (414 in all) and 3 lessons, choosable by course with its three strands.
+  - Pay and purchases: hourly pay, overtime and commission, gross pay, deductions and net pay, sale prices, tax and change, unit price and the best buy.
+  - Saving and borrowing: simple interest on savings, simple against compound interest, and the cost of loans and credit.
+  - Vehicles and travel: fuel and operating costs, buying against leasing, map scales, trip costs and driving against the bus.
+- Every new answer is recomputed by an independent, mutation-tested check.
+
+### Notes
+- Credit ratings and financial-institution services are described in lessons only; there is nothing to auto-check.
+- The Grade 12 college and workplace courses (MCT4C, MAP4C, MEL4E) still show "coming soon".
+
 ## [3.5.0] - 2026-11-22
 ### Added
 - Grade 11 MBF3C (Foundations for College Mathematics): 16 new micro-skills (404 in all) and 5 lessons, choosable by course with its four strands.
