@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.1.0] - 2026-11-22
+### Added
+- Grade 8 is now complete for everything the question player can handle: 6 new micro-skills and 3 lessons (341 micro-skills in all).
+  - Algebra: patterns with rational numbers, fractions and decimals, positive and negative (C1.2).
+  - Data: one-variable and two-variable data (D1.1), scatter plots, including plotting a point on the grid (D1.3), infographics about a trend (D1.4), and analysis of misleading graphs and cause against trend (D1.6).
+  - Spatial sense: build models from their views, with the fewest and the most cubes that fit (E1.2).
+- The Grade 8 quick checks for Algebra, Data and Spatial sense (and the Grade 9 ones) now include the new skills.
+- Every new answer is recomputed by an independent, mutation-tested check; the cube counts are checked by trying every arrangement.
+
 ## [3.0.0] - 2026-11-22
 ### Added
 - Interactive questions. Two new ways to answer, both graded, explained and available offline like typed answers:
