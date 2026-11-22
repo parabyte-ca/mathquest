@@ -153,8 +153,8 @@ test('placement test starts practice at the right level, and a quick check can c
   // One topic ticked: the quick check covers that topic, and practice then starts on it.
   await kid.goto('/app/learn');
   await expect(async () => {
-    await kid.getByLabel(/^E\./).check();
-    await expect(kid.getByLabel(/^E\./)).toBeChecked();
+    await kid.getByLabel(/E\. Spatial/).check();
+    await expect(kid.getByLabel(/E\. Spatial/)).toBeChecked();
   }).toPass();
   await kid.getByRole('button', { name: /Quick check/ }).click();
   await expect(kid.getByText('There is no pass or fail.')).toBeVisible();

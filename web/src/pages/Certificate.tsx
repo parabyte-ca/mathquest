@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import { api } from '../api';
 import { t, useLang } from '../i18n';
+import { EmojiIcon } from '../icons';
 
 interface Cert {
   student: { displayName: string; grade: number; language: 'en' | 'fr' };
@@ -39,7 +40,7 @@ export function Certificate({ go }: { go: (to: string) => void }) {
         </div>
       </section>
       <article class="certificate" lang={c.student.language} aria-labelledby="cert-h">
-        <p class="cert-icon" aria-hidden="true">{c.icon}</p>
+        <p class="cert-icon" aria-hidden="true"><EmojiIcon emoji={c.icon} size={56} /></p>
         <h1 id="cert-h">{L('Certificate of achievement', 'Certificat de réussite')}</h1>
         <p class="cert-line">{L('Proudly presented to', 'Fièrement remis à')}</p>
         <p class="cert-name">{c.student.displayName}</p>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { Glyph } from '../icons';
 import { api } from '../api';
 import type { Me, StudentInfo } from '../api';
 import { t, useLang } from '../i18n';
@@ -197,10 +198,10 @@ function FamilyGoals({ students, go }: { students: StudentInfo[]; go: (to: strin
       <ul class="plain">
         {goals.map((g) => (
           <li class="goal" key={g.id}>
-            <span aria-hidden="true">🏡</span> <strong>{g.title}</strong> {g.redeemed && <span class="badge">✅</span>}
+            <Glyph name="house" /> <strong>{g.title}</strong> {g.redeemed && <span class="badge"><Glyph name="tick" /></span>}
             <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
             <span class="muted small">{t('caregiver.familyProgress', { progress: g.progress, target: g.xpTarget })}</span>
-            {g.reached && !g.redeemed && <p class="note ok">🎁 {t('caregiver.familyReady')}</p>}
+            {g.reached && !g.redeemed && <p class="note ok"><Glyph name="gift" /> {t('caregiver.familyReady')}</p>}
             <div class="actions row-actions">
               {g.reached && !g.redeemed && <button type="button" onClick={() => void act('redeem', g.id)}>{t('caregiver.familyDone')}</button>}
               {g.reached && students.map((st) => <button type="button" class="secondary" key={st.id} onClick={() => go(`/app/certificate?student=${st.id}&kind=family&ref=${g.id}`)}>{t('caregiver.familyCert', { name: st.displayName })}</button>)}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { Glyph } from '../icons';
 import type { Text } from '../../../shared/items/types';
 import { api } from '../api';
 import { t, useLang } from '../i18n';
@@ -140,7 +141,7 @@ function Goals({ id, goals, onChange }: { id: string; goals: Goal[]; onChange: (
         {goals.filter((g) => !g.redeemed).concat(goals.filter((g) => g.redeemed)).map((g) => (
           <li class="goal" key={g.id}>
             <strong>{g.title}</strong>{' '}
-            {g.redeemed ? <span class="badge">✅ {t('goals.done')}</span> : g.reached ? <span class="badge">🎁 {t('goals.ready')}</span> : null}
+            {g.redeemed ? <span class="badge"><Glyph name="tick" /> {t('goals.done')}</span> : g.reached ? <span class="badge"><Glyph name="gift" /> {t('goals.ready')}</span> : null}
             <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
             <span class="muted small">{g.progress} / {g.xpTarget} XP</span>
             {g.note && <p class="muted small">📝 {g.note}</p>}

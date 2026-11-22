@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
+import { Glyph } from '../icons';
 import type { Given, Text } from '../../../shared/items/types';
 import { applyReward, RewardNote, type RewardResult } from '../rewards';
 import { BADGES } from '../../../shared/rewards';
@@ -112,7 +113,7 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
         <h1 id="done-title">{step.reason === 'limit' ? t('play.limitTitle') : t('play.doneTitle')}</h1>
         {step.reason === 'limit' && <p class="note">{t('play.limitBody')}</p>}
         <p>{t('play.doneBody', { correct: s.correct, answered: s.answered })}</p>
-        {s.masteredExpectations.length > 0 && <p class="note ok">⭐ {t('play.mastered', { n: s.masteredExpectations.length })}</p>}
+        {s.masteredExpectations.length > 0 && <p class="note ok"><Glyph name="star" /> {t('play.mastered', { n: s.masteredExpectations.length })}</p>}
         <div class="actions row-actions"><button type="button" onClick={() => go('/app/learn/map?grade=' + params.get('grade'))}>{t('learn.skillMap')}</button><button type="button" class="secondary" onClick={() => go('/app/learn')}>{t('nav.home')}</button></div>
       </section>
     );
@@ -156,7 +157,7 @@ export function Practice({ settings, go }: { settings: StudentSettings; go: (to:
             {!f.correct && f.why && <p><T2 x={f.why} /></p>}
             {!f.correct && f.step && <p><strong>{t('play.stepNote', { n: f.stepNumber ?? 1 })}</strong> <T2 x={f.step} /></p>}
             {!f.correct && f.correctAnswer && <p><strong>{t('play.correctAnswer')}</strong> <T2 x={f.correctAnswer} /></p>}
-            {result.masteredSkill && <p class="note ok">⭐ {t('play.skillMastered')}</p>}
+            {result.masteredSkill && <p class="note ok"><Glyph name="star" /> {t('play.skillMastered')}</p>}
             {result.reward && <RewardNote r={result.reward} badgeNames={BADGE_NAMES} />}
             {evKey && <p class="banner small">{t(evKey)}</p>}
             {f.usedHints > 0 && f.correct && <p class="muted small">{t('play.hintCredit')}</p>}

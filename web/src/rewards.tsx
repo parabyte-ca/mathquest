@@ -4,7 +4,7 @@ import { PALETTES } from '../../shared/palettes';
 import { COSMETICS, challengeById } from '../../shared/rewards';
 import { api } from './api';
 import { Avatar, FramePreview, PaletteSwatch } from './avatars';
-import { BadgeIcon } from './icons';
+import { BadgeIcon, EmojiIcon, Glyph } from './icons';
 import { t } from './i18n';
 import { tt } from './MathText';
 
@@ -81,7 +81,7 @@ export function RewardBar({ highContrast, go }: { highContrast: boolean; go: (to
       <span class="lvl">{t('rewards.level', { n: h.level })}</span>
       <span class="xpmeter" role="progressbar" aria-valuemin={0} aria-valuemax={h.need} aria-valuenow={h.into} aria-label={t('rewards.toNext')}><span style={{ width: `${pct}%` }} /></span>
       <span class="xpnum">{h.xp} XP</span>
-      <span class="streak" title={t('rewards.streak')}><span aria-hidden="true">🔥</span> {h.streak}</span>
+      <span class="streak" title={t('rewards.streak')}><Glyph name="flame" /> {h.streak}</span>
     </a>
   );
 }
@@ -99,13 +99,13 @@ export function RewardNote({ r, badgeNames }: { r: RewardResult; badgeNames: Rec
       <p class="gain"><strong>+{r.xp} XP</strong> <span class="muted small">{r.parts.filter((p) => p.xp > 0).map((p) => `${t(PART_KEY[p.kind] ?? 'rewards.part.correct')} +${p.xp}`).join(' · ')}</span></p>
       {r.leveledUp && <p class="banner">🎉 {t('rewards.levelUp', { n: r.level })}</p>}
       {r.newBadges.map((id) => <p class="banner" key={id}>{badgeNames[id] ? tt(badgeNames[id]!) : id} — {t('rewards.newBadge')}</p>)}
-      {r.freezeUsed && <p class="note">🧊 {t('rewards.freezeUsed')}</p>}
-      {r.freezeEarned && <p class="note ok">🧊 {t('rewards.freezeEarned')}</p>}
-      {r.streakGrew && r.streak > 1 && <p class="note ok">🔥 {t('rewards.streakGrew', { n: r.streak })}</p>}
-      {r.dailyGoalReached && <p class="note ok">⏱️ {t('rewards.dailyGoal')}</p>}
-      {r.goalsReached.map((g) => <p class="banner" key={g}>🎁 {t('rewards.goalReached', { goal: g })}</p>)}
-      {(r.challengesDone ?? []).map((id) => { const c = challengeById(id); return <p class="banner" key={id}>{c?.icon ?? '🏅'} {t('rewards.challengeDone', { name: c ? tt(c.name) : id })}</p>; })}
-      {(r.teamGoalsReached ?? []).map((g) => <p class="banner" key={g}>🏡 {t('rewards.teamReached', { goal: g })}</p>)}
+      {r.freezeUsed && <p class="note"><Glyph name="snow" /> {t('rewards.freezeUsed')}</p>}
+      {r.freezeEarned && <p class="note ok"><Glyph name="snow" /> {t('rewards.freezeEarned')}</p>}
+      {r.streakGrew && r.streak > 1 && <p class="note ok"><Glyph name="flame" /> {t('rewards.streakGrew', { n: r.streak })}</p>}
+      {r.dailyGoalReached && <p class="note ok"><Glyph name="clock" /> {t('rewards.dailyGoal')}</p>}
+      {r.goalsReached.map((g) => <p class="banner" key={g}><Glyph name="gift" /> {t('rewards.goalReached', { goal: g })}</p>)}
+      {(r.challengesDone ?? []).map((id) => { const c = challengeById(id); return <p class="banner" key={id}><EmojiIcon emoji={c?.icon ?? '🏅'} /> {t('rewards.challengeDone', { name: c ? tt(c.name) : id })}</p>; })}
+      {(r.teamGoalsReached ?? []).map((g) => <p class="banner" key={g}><Glyph name="house" /> {t('rewards.teamReached', { goal: g })}</p>)}
       {r.newCosmetics.length > 0 && <p class="note ok">✨ {t('rewards.unlocked', { n: r.newCosmetics.length })}</p>}
     </div>
   );
@@ -158,9 +158,9 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
         <p><strong>{t('rewards.level', { n: s.level })}</strong> · {s.xp} XP</p>
         <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={s.need} aria-valuenow={s.into} aria-label={t('rewards.toNext')}><span style={{ width: `${pct}%` }} /></div>
         <p class="muted small">{t('rewards.xpToNext', { n: s.need - s.into, next: s.level + 1 })}</p>
-        <p>🔥 {t('rewards.streakLine', { n: s.streak, best: s.bestStreak })} · 🧊 {t('rewards.freezes', { n: s.freezes })}</p>
+        <p><Glyph name="flame" /> {t('rewards.streakLine', { n: s.streak, best: s.bestStreak })} · <Glyph name="snow" /> {t('rewards.freezes', { n: s.freezes })}</p>
         <p class="muted small">{t('rewards.freezeHelp')}</p>
-        {s.dailyGoalMinutes > 0 && <p>⏱️ {t('rewards.todayLine', { min: s.minutesToday, goal: s.dailyGoalMinutes })}</p>}
+        {s.dailyGoalMinutes > 0 && <p><Glyph name="clock" /> {t('rewards.todayLine', { min: s.minutesToday, goal: s.dailyGoalMinutes })}</p>}
         <div class="actions row-actions"><button type="button" onClick={() => go('/app/learn')}>{t('nav.home')}</button></div>
       </section>
 
@@ -170,7 +170,7 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
           <ul class="plain">
             {s.goals.map((g) => (
               <li class="goal" key={g.id}>
-                <strong>{g.title}</strong> {g.redeemed ? <span class="badge">✅ {t('rewards.goalDone')}</span> : g.reached ? <span class="badge">🎁 {t('rewards.goalReadyShort')}</span> : null}
+                <strong>{g.title}</strong> {g.redeemed ? <span class="badge"><Glyph name="tick" /> {t('rewards.goalDone')}</span> : g.reached ? <span class="badge"><Glyph name="gift" /> {t('rewards.goalReadyShort')}</span> : null}
                 <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
                 <span class="muted small">{g.progress} / {g.xpTarget} XP</span>
                 {g.note && <p class="muted small">📝 {g.note}</p>}
@@ -187,7 +187,7 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
           <ul class="plain">
             {s.challenges.map((c) => (
               <li class="goal" key={c.id}>
-                <span aria-hidden="true">{c.icon}</span> <strong>{tt(c.name)}</strong> {c.done && <span class="badge">✅ {t('rewards.challengeDoneShort')}</span>}
+                <EmojiIcon emoji={c.icon} /> <strong>{tt(c.name)}</strong> {c.done && <span class="badge"><Glyph name="tick" /> {t('rewards.challengeDoneShort')}</span>}
                 <br /><span class="muted small">{tt(c.how)} {!c.done && t('rewards.challengeBonus', { xp: c.xp })}</span>
                 <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={c.target} aria-valuenow={c.progress} aria-label={tt(c.name)}><span style={{ width: `${Math.round((c.progress / c.target) * 100)}%` }} /></div>
                 <span class="muted small">{c.progress} / {c.target}</span>
@@ -204,7 +204,7 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
           <ul class="plain">
             {s.teamGoals.map((g) => (
               <li class="goal" key={g.id}>
-                <span aria-hidden="true">🏡</span> <strong>{g.title}</strong> {g.reached && <span class="badge">🎁 {t('rewards.teamReadyShort')}</span>}
+                <Glyph name="house" /> <strong>{g.title}</strong> {g.reached && <span class="badge"><Glyph name="gift" /> {t('rewards.teamReadyShort')}</span>}
                 <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={g.xpTarget} aria-valuenow={g.progress} aria-label={g.title}><span style={{ width: `${Math.round((g.progress / g.xpTarget) * 100)}%` }} /></div>
                 <span class="muted small">{t('rewards.teamProgress', { progress: g.progress, target: g.xpTarget })}</span>
               </li>
