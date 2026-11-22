@@ -16,12 +16,15 @@ import { obtuseLaws11, sineFunction11, sinusoid11 } from './trig11.js';
 import { growth11 } from './expo11.js';
 import { composite9 } from './geometry9.js';
 import { housing11, linearCompare11, mortgage11, optimal11 } from './map12.js';
+import { chance11, prop11, scale11, summary11, tax11 } from './mel12.js';
+import { quartiles9 } from './data9.js';
+import { imperialGen, imperialMetricGen } from './geometry10.js';
 import { rationalExp11 } from './expo11.js';
 import { exponentRules11 } from './mcf11.js';
 import { annuity11 } from './discrete11.js';
 import { budget9 } from './finance9.js';
 
-// Registry of the Grade 12 generators (MHF4U, MCV4U, MDM4U, MCT4C and MAP4C).
+// Registry of the Grade 12 generators (MHF4U, MCV4U, MDM4U, MCT4C, MAP4C and MEL4E).
 export const GENERATORS_G12: Record<string, Generator> = {
   // MHF4U, Exponential and Logarithmic Functions (A)
   'MS.G12.MHF4U.A1.1.a': logEval12('MS.G12.MHF4U.A1.1.a'),
@@ -113,4 +116,16 @@ export const GENERATORS_G12: Record<string, Generator> = {
   'MS.G12.MAP4C.D1.1.a': regression12('MS.G12.MAP4C.D1.1.a'),
   'MS.G12.MAP4C.D1.2.a': quartiles12('MS.G12.MAP4C.D1.2.a'),
   'MS.G12.MAP4C.D2.1.a': sampling12('MS.G12.MAP4C.D2.1.a', 'bias'),
+  // MEL4E, Reasoning with Data (A), Personal Finance (B) and Applications of Measurement (C)
+  'MS.G12.MEL4E.A1.1.a': summary11('MS.G12.MEL4E.A1.1.a'),
+  'MS.G12.MEL4E.A1.2.a': quartiles9('MS.G12.MEL4E.A1.2.a'),
+  'MS.G12.MEL4E.A2.1.a': probRules12('MS.G12.MEL4E.A2.1.a'),
+  'MS.G12.MEL4E.A2.2.a': chance11('MS.G12.MEL4E.A2.2.a'),
+  'MS.G12.MEL4E.B1.1.a': housing11('MS.G12.MEL4E.B1.1.a'),
+  'MS.G12.MEL4E.B2.1.a': budget9('MS.G12.MEL4E.B2.1.a'),
+  'MS.G12.MEL4E.B3.1.a': tax11('MS.G12.MEL4E.B3.1.a'),
+  'MS.G12.MEL4E.C1.1.a': imperialGen('MS.G12.MEL4E.C1.1.a'),
+  'MS.G12.MEL4E.C1.2.a': imperialMetricGen('MS.G12.MEL4E.C1.2.a'),
+  'MS.G12.MEL4E.C2.1.a': scale11('MS.G12.MEL4E.C2.1.a'),
+  'MS.G12.MEL4E.C3.1.a': prop11('MS.G12.MEL4E.C3.1.a'),
 };

@@ -1,5 +1,15 @@
 # Changelog
 
+## [3.9.0] - 2026-11-22
+### Added
+- Grade 12 MEL4E (Mathematics for Work and Everyday Life): 11 new micro-skills (458 in all) and 3 lessons, choosable by course with its three strands. Every Ontario Grade 11 and 12 course now has practice content.
+  - Reasoning with data: mean, median and the mark needed for a target average, quartiles and spread, rules of probability, and chance in games, raffles and insurance (expected value).
+  - Personal finance: owning against renting, household budgets, and filing an income tax return (taxable income, refund or amount owing, and a two-bracket tax).
+  - Applications of measurement: converting units within and between imperial and metric, scale drawings and a household improvement cost, and direct and inverse proportional reasoning.
+- Every new answer is recomputed by an independent, mutation-tested check.
+
+### Notes
+- Collecting data and the research parts of the courses stay in the lessons; there is nothing to auto-check.
 ## [3.8.0] - 2026-11-22
 ### Added
 - Grade 12 MAP4C (Data Management and Applications for College): 16 new micro-skills (447 in all) and 4 lessons, choosable by course with its four strands.

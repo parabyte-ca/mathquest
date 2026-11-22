@@ -4074,6 +4074,105 @@
    "prereqs": [
     "MS.G12.MAP4C.D1.2.a"
    ]
+  },
+  {
+   "id": "MS.G12.MEL4E.A1.1.a",
+   "expectation": "MEL4E.A1",
+   "name": "Mean and median",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.A1.2.a",
+   "expectation": "MEL4E.A1",
+   "name": "Quartiles and spread",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.A2.1.a",
+   "expectation": "MEL4E.A2",
+   "name": "Rules of probability",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.D2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.A2.2.a",
+   "expectation": "MEL4E.A2",
+   "name": "Chance in games, raffles and insurance",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MEL4E.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.B1.1.a",
+   "expectation": "MEL4E.B1",
+   "name": "Owning against renting accommodation",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MEL3E.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.B2.1.a",
+   "expectation": "MEL4E.B2",
+   "name": "Household budgets",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.F1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.B3.1.a",
+   "expectation": "MEL4E.B3",
+   "name": "Filing an income tax return",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MEL3E.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.C1.1.a",
+   "expectation": "MEL4E.C1",
+   "name": "Converting units within the imperial system",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.E2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.C1.2.a",
+   "expectation": "MEL4E.C1",
+   "name": "Converting between metric and imperial",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MEL4E.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.C2.1.a",
+   "expectation": "MEL4E.C2",
+   "name": "Scale drawings and household improvement costs",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.E1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MEL4E.C3.1.a",
+   "expectation": "MEL4E.C3",
+   "name": "Proportional reasoning",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MEL3E.A3.2.a"
+   ]
   }
  ]
 }

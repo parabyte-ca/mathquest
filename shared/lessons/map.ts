@@ -131,4 +131,7 @@ export const LESSON_BUCKET_OF: Record<string, LessonBucket> = {
   'L.g12.map-finance': 'g12',
   'L.g12.map-geometry': 'g12',
   'L.g12.map-data': 'g12',
+  'L.g12.mel4-data': 'g12',
+  'L.g12.mel4-finance': 'g12',
+  'L.g12.mel4-measure': 'g12',
 };
