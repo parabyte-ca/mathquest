@@ -4,9 +4,9 @@ import { answerCurrent, currentItem, db, fillAnswer, noHorizontalScroll, pagePro
 
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'];
 
-async function setup(browser: import('@playwright/test').Browser, baseURL: string, _page: Page, info: import('@playwright/test').TestInfo, tag: string, init?: () => void) {
+async function setup(browser: import('@playwright/test').Browser, baseURL: string, _page: Page, info: import('@playwright/test').TestInfo, tag: string, init?: () => void, caregiver = 'parent') {
   const username = `${tag}_${info.project.name}_${Math.floor(Date.now() / 1000).toString(36)}`; // unique per run, so repeats do not share history
-  const parent = await parentPage(browser, baseURL, `parent-${info.project.name}@e2e.test`);
+  const parent = await parentPage(browser, baseURL, `${caregiver}-${info.project.name}@e2e.test`); // approvals are limited to 10 per 10 minutes for each caregiver, so a spec with many students can use another one
   const kid = await studentOnNewDevice(browser, baseURL, parent, { username, grade: 5, addInit: init });
   return { kid, username, parent };
 }
@@ -412,7 +412,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
 });
 
 test('protractor lesson: a student draws an angle by moving the arm (slider or drag), and gets it checked', async ({ page, browser, baseURL }, info) => {
-  const { kid } = await setup(browser, baseURL!, page, info, 'pr');
+  const { kid } = await setup(browser, baseURL!, page, info, 'pr', undefined, 'interactive');
   await kid.goto('/app/learn/lesson?id=L.g5.protractor-use');
   await expect(kid.getByRole('heading', { name: /Using a protractor/ })).toBeVisible();
   await expect(kid.locator('svg.protractor').first()).toBeVisible();

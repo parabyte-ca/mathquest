@@ -23,10 +23,10 @@ Object.assign(process.env, {
 
 const { openDb, newId, nowIso } = await import('../server/db.js');
 const db = openDb(process.env.DB_PATH!);
-// One admin and one caregiver per viewport project, so each stays under the 5-per-hour sign-in limit.
+// One admin and one caregiver per viewport project, so each stays under the 5-per-hour sign-in limit (and 10 device approvals per 10 minutes).
 // The first-run tour is marked as seen for them, so it does not get in the way of other tests; the tour-* caregivers have not seen it.
 for (const vp of ['phone', 'tablet', 'desktop']) {
-  for (const [email, role, seen] of [[`admin-${vp}@e2e.test`, 'admin', true], [`parent-${vp}@e2e.test`, 'caregiver', true], [`tour-${vp}@e2e.test`, 'caregiver', false], [`offline-${vp}@e2e.test`, 'caregiver', true]] as const) {
+  for (const [email, role, seen] of [[`admin-${vp}@e2e.test`, 'admin', true], [`parent-${vp}@e2e.test`, 'caregiver', true], [`tour-${vp}@e2e.test`, 'caregiver', false], [`offline-${vp}@e2e.test`, 'caregiver', true], [`interactive-${vp}@e2e.test`, 'caregiver', true]] as const) {
     const id = newId();
     db.prepare("INSERT INTO users (id, email, role, status, created_at) VALUES (?,?,?,'active',?)").run(id, email, role, nowIso());
     if (seen) db.prepare("INSERT INTO tour_seen (subject_kind, subject_id, tour, seen_at) VALUES ('user', ?, 'caregiver', ?)").run(id, Date.now());
