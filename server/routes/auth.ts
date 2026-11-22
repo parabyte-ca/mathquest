@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { z } from 'zod';
 import { quoteNote } from '../note.js';
+import { renderEmail } from '../email.js';
 import type { Ctx, StudentRow, UserRow } from '../context.js';
 import { clientIp } from '../context.js';
 import { dummyVerify, randomToken, sha256, verifyPin } from '../crypto.js';
@@ -24,9 +25,19 @@ export async function sendSignInLink(ctx: Ctx, user: UserRow, opts: { nonce?: st
     .run(sha256(token), user.id, opts.nonce ? sha256(opts.nonce) : null, t + ctx.cfg.magicLinkTtlMs, t);
   const link = `${ctx.cfg.baseUrl}/app/verify?token=${token}`;
   const minutes = Math.round(ctx.cfg.magicLinkTtlMs / 60_000);
+  const subject = opts.invite ? 'You are invited to MathQuest' : 'Your MathQuest sign-in link';
+  const html = renderEmail({
+    lang: 'en', baseUrl: ctx.cfg.baseUrl, title: opts.invite ? 'You are invited to MathQuest' : 'Sign in to MathQuest',
+    preheader: `This link works once and expires in ${minutes} minutes.`,
+    intro: [opts.invite ? 'You have been invited to MathQuest, a friendly place to practise math.' : 'Use the button below to sign in.'],
+    sections: opts.invite && opts.note ? [{ quote: { text: opts.note, from: opts.from ? `A note from ${opts.from}` : 'A personal note' } }] : [],
+    button: { label: opts.invite ? 'Accept the invitation' : 'Sign in to MathQuest', url: link },
+    outro: [`The button works once and expires in ${minutes} minutes.`, 'If you did not ask for this, you can ignore this email.'],
+  });
   return ctx.mailer.send({
     to: user.email,
-    subject: opts.invite ? 'You are invited to MathQuest' : 'Your MathQuest sign-in link',
+    subject,
+    html,
     text:
       `${opts.invite ? 'You have been invited to MathQuest.\n\n' : ''}` +
       `${opts.invite && opts.note ? `${opts.from ? `A note from ${opts.from}` : 'A personal note'}:\n${quoteNote(opts.note)}\n\n` : ''}` +
@@ -142,10 +153,12 @@ async function notifyLockout(ctx: Ctx, student: StudentRow): Promise<void> {
     .prepare('SELECT u.email FROM student_caregivers sc JOIN users u ON u.id = sc.caregiver_id WHERE sc.student_id = ?')
     .all(student.id) as { email: string }[];
   for (const { email } of rows) {
+    const text = `There were 5 wrong PIN attempts for ${student.display_name}. Sign-in is paused for 15 minutes. If this was not them, you can change the PIN from your caregiver page.`;
     await ctx.mailer.send({
       to: email,
       subject: `MathQuest: ${student.display_name} was locked out`,
-      text: `There were 5 wrong PIN attempts for ${student.display_name}. Sign-in is paused for 15 minutes. If this was not them, you can change the PIN from your caregiver page.`,
+      text,
+      html: renderEmail({ lang: 'en', baseUrl: ctx.cfg.baseUrl, title: `${student.display_name} was locked out`, preheader: 'Sign-in is paused for 15 minutes.', intro: [text], button: { label: 'Open the caregiver page', url: `${ctx.cfg.baseUrl}/app` } }),
     });
   }
 }

@@ -34,6 +34,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 3.6.0 | Grade 11 MEL3E (shipped): pay and deductions, sale prices and unit prices, savings, loans, vehicle costs and leasing, map scales and trips: 10 skills, 3 lessons | M |
 | 3.7.0 | Grade 12 MCT4C (shipped): exponential and polynomial functions, formulas, trigonometry, forces, circle properties, arcs and sectors: 17 skills, 4 lessons | L |
 | 3.8.0 | Grade 12 MAP4C (shipped): exponents and models, annuities and mortgages, owning against renting, budgets, optimal dimensions, trigonometry, two-variable data and bias: 16 skills, 4 lessons | L |
+| 3.11.0 | Rich HTML emails in the look of the app: sign-in, invitation, lockout and weekly summary, with a labelled button instead of the bare link (shipped) | S |
 | 3.10.0 | Worksheet topic picker lists the Grade 10 to 12 course topics (shipped); the keyboard-only e2e test handles protractor questions | S |
 | 3.9.0 | Grade 12 MEL4E (shipped): mean and median, chance and expected value, housing, budgets and income tax, units, scale and proportional reasoning: 11 skills, 3 lessons. Every Ontario course is now built | M |
 
@@ -54,7 +55,6 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 2.18.0 | Caregiver notes and messages on goals (shipped) | S |
 | 2.11.0 | Weekly challenges, family goals, printable certificates and original SVG avatars (shipped). Caregiver notes and messages on goals remain below | M |
 | Unscheduled | Dashboard progress export as a PDF | S |
-| Unscheduled | Rich HTML magic-link and weekly emails with a labelled button instead of the bare link (see Requested) | S to M |
 
 ### Platform
 
@@ -81,7 +81,6 @@ Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completel
 
 ## Requested
 
-- Magic-link emails: show a short link label such as "Sign in" or "Click here" instead of the full hyperlink, and send them as rich HTML that reflects the look and feel of the app (logo, colours, a clear button, a plain-text fallback with the full link for mail clients that block links). Today `server/mail.ts` sends plain text only (the Resend call passes `text`, no `html`). Consider the weekly caregiver email and the other messages in the same template. Needs an accessible, tested layout (table-based, inline styles, dark-mode friendly, English and French) and a preview in the admin or a test send. Size: S to M.
 
 ## Noted earlier in this project (not yet scheduled)
 
