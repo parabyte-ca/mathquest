@@ -437,6 +437,39 @@ describe('quick checks by strand', () => {
     expect(rows.every((r) => r.done_at !== null)).toBe(true);
   });
 
+  it('checks a whole Grade 10 to 12 course within eight questions, with only that course\'s skills, and keeps courses apart', async () => {
+    const env = env0(11);
+    const s = await makeStudent(env, { grade: 11, allowed: { grades: [10, 11, 12], courses: ['MPM2D', 'MCR3U', 'MBF3C', 'MAP4C'] } });
+    for (const [grade, course] of [[10, 'MPM2D'], [11, 'MCR3U'], [11, 'MBF3C'], [12, 'MAP4C']] as const) {
+      const { count, result, ladderSize } = await runCheck(env, s, { grade, course }, true);
+      expect(count, course).toBeLessThanOrEqual(8);
+      expect(ladderSize).toBeGreaterThan(8);
+      for (const skill of result.ladder) expect(skill, course).toContain(`.${course}.`);
+      expect(result.startingIndex, course).toBeGreaterThanOrEqual(result.ladder.length - 4); // a strong student starts high
+    }
+    const rows = env.db.prepare('SELECT grade, strand FROM placement WHERE student_id = ? ORDER BY grade, strand').all(s.studentId);
+    expect(rows).toEqual([{ grade: 10, strand: 'MPM2D' }, { grade: 11, strand: 'MBF3C' }, { grade: 11, strand: 'MCR3U' }, { grade: 12, strand: 'MAP4C' }]);
+    const other = (env.db.prepare("SELECT COUNT(*) AS n FROM mastery WHERE student_id = ? AND skill_id LIKE 'MS.G11.MEL3E.%'").get(s.studentId) as { n: number }).n;
+    expect(other).toBe(0);
+  });
+
+  it('places a struggling student low in a course', async () => {
+    const env = env0(12);
+    const s = await makeStudent(env, { grade: 10, allowed: { grades: [10], courses: ['MFM2P'] } });
+    const { result } = await runCheck(env, s, { grade: 10, course: 'MFM2P' }, false);
+    expect(result.startingIndex).toBeLessThanOrEqual(1);
+  });
+
+  it('refuses a course check for a grade the student may not use, a made-up course, or a course below Grade 10', async () => {
+    const env = env0(13);
+    const s = await makeStudent(env, { grade: 10, allowed: { grades: [5, 9, 10], courses: ['MPM2D'] } });
+    await post(s, '/placement/start', { grade: 11, course: 'MCR3U' }).expect(403);
+    await post(s, '/placement/start', { grade: 10, course: 'NOPE1' }).expect(404);
+    await post(s, '/placement/start', { grade: 10, course: 'nope' }).expect(400);
+    await post(s, '/placement/start', { grade: 9, course: 'MPM2D' }).expect(400);
+    await post(s, '/placement/start', { grade: 10, course: 'MPM2D', strand: 'C' }).expect(200); // the course wins; the strand is ignored
+  });
+
   it('rejects a strand with no check and a strand that does not exist', async () => {
     const env = env0();
     const s = await makeStudent(env, { grade: 9, allowed: { grades: [5, 9], courses: [] } });

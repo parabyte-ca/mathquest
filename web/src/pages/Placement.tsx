@@ -11,7 +11,8 @@ export function Placement({ go }: { go: (to: string) => void }) {
   const params = new URLSearchParams(location.search);
   const grade = Number(params.get('grade') ?? 5);
   const strand = /^[B-F]$/.test(params.get('strand') ?? '') ? params.get('strand')! : 'B';
-  const course = /^[A-Z0-9]{5}$/.test(params.get('course') ?? '') ? `&course=${params.get('course')}` : ''; // Grade 9 and up practice by course
+  const courseCode = /^[A-Z0-9]{5}$/.test(params.get('course') ?? '') ? params.get('course')! : null;
+  const course = courseCode ? `&course=${courseCode}` : ''; // Grade 9 and up practice by course; Grades 10 to 12 are also checked by course
   const [item, setItem] = useState<PublicItem | null>(null);
   const [count, setCount] = useState(0);
   const [done, setDone] = useState<{ startingSkill: string | null } | null>(null);
@@ -22,7 +23,7 @@ export function Placement({ go }: { go: (to: string) => void }) {
   useEffect(() => {
     if (started.current) return;
     started.current = true;
-    void api<{ item: PublicItem }>('POST', '/learn/placement/start', { grade, strand }).then((r) => (r.ok ? setItem(r.data.item) : setError(r.status === 404 ? t('play.noContent') : t('common.error'))));
+    void api<{ item: PublicItem }>('POST', '/learn/placement/start', grade >= 10 && courseCode ? { grade, course: courseCode } : { grade, strand }).then((r) => (r.ok ? setItem(r.data.item) : setError(r.status === 404 ? t('play.noContent') : t('common.error'))));
   }, []);
 
   const submit = async (given: Given) => {
@@ -42,7 +43,7 @@ export function Placement({ go }: { go: (to: string) => void }) {
       <section class="card narrow" aria-labelledby="pl-done">
         <h1 id="pl-done">{t('placement.doneTitle')}</h1>
         <p>{t('placement.doneBody')}</p>
-        <button type="button" onClick={() => go(`/app/learn/practice?grade=${grade}${course}${strand === 'B' ? '' : `&strands=${strand}`}`)}>{t('learn.start')}</button>
+        <button type="button" onClick={() => go(`/app/learn/practice?grade=${grade}${course}${strand === 'B' || grade >= 10 ? '' : `&strands=${strand}`}`)}>{t('learn.start')}</button>
         <button type="button" class="secondary" onClick={() => go(`/app/learn/map?grade=${grade}${course}`)}>{t('learn.skillMap')}</button>
       </section>
     );

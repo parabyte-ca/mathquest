@@ -126,9 +126,9 @@ export function learnRoutes(ctx: Ctx): Router {
   }));
 
   r.post('/learn/placement/start', handle((req, res) => {
-    const body = z.object({ grade: z.number().int().min(5).max(12), strand: z.enum(['B', 'C', 'D', 'E', 'F']).optional() }).safeParse(req.body);
+    const body = z.object({ grade: z.number().int().min(5).max(12), strand: z.enum(['B', 'C', 'D', 'E', 'F']).optional(), course: z.string().regex(/^[A-Z0-9]{5}$/).optional() }).strict().safeParse(req.body);
     if (!body.success) throw new svc.LearnError('invalid_request');
-    return svc.placementStart(ctx, student(res), body.data.grade, body.data.strand);
+    return svc.placementStart(ctx, student(res), body.data.grade, body.data.strand, body.data.course);
   }));
 
   r.patch('/learn/settings', handle((req, res) => {

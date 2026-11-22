@@ -395,9 +395,13 @@ function placementLadder(grade: number, strand = 'B'): string[] {
   const file = JSON.parse(readFileSync(join(process.cwd(), 'content', 'placement.json'), 'utf8')) as { ladders: Record<string, string[]> };
   return (file.ladders[strand === 'B' ? String(grade) : `${grade}.${strand}`] ?? []).filter(hasGenerator);
 }
-export function placementStart(ctx: Ctx, student: StudentRow, grade: number, strand = 'B'): { item: PublicItem; ladderSize: number } {
+/** Grades 10 to 12 are checked by course instead: the quick check covers the whole course ("10.MPM2D"), and the course code is stored in the strand column. */
+export function placementStart(ctx: Ctx, student: StudentRow, grade: number, strand = 'B', course?: string): { item: PublicItem; ladderSize: number } {
   if (!allowedGrades(student).includes(grade)) throw new LearnError('grade_not_allowed', 403);
-  if (!(PLACEMENT_STRANDS as readonly string[]).includes(strand)) throw new LearnError('invalid_request');
+  if (course !== undefined) {
+    if (grade < 10 || !/^[A-Z0-9]{5}$/.test(course)) throw new LearnError('invalid_request');
+    strand = course;
+  } else if (!(PLACEMENT_STRANDS as readonly string[]).includes(strand)) throw new LearnError('invalid_request');
   const ladder = placementLadder(grade, strand);
   if (ladder.length === 0) throw new LearnError('no_content', 404);
   const state = startPlacement(ladder.length);

@@ -28,6 +28,16 @@ describe('content links', () => {
     }
   });
 
+  it('every Grade 10 to 12 course has a quick-check ladder holding exactly that course\'s skills', () => {
+    const courses = new Set(micro.map((m) => /^MS\.G(1[0-2])\.([A-Z0-9]{5})\./.exec(m.id)).filter(Boolean).map((m) => `${m![1]}.${m![2]}`));
+    expect(courses.size).toBe(12);
+    for (const key of courses) {
+      const [g, c] = key.split('.') as [string, string];
+      const expected = micro.map((m) => m.id).filter((id) => id.startsWith(`MS.G${g}.${c}.`));
+      expect([...(ladders[key] ?? [])].sort(), key).toEqual([...expected].sort());
+    }
+  });
+
   it('the Grade 5-6 Number placement ladders reach the new skills', () => {
     const covered = new Set(Object.values(ladders).flat());
     for (const id of ['MS.G5.B1.1.a', 'MS.G5.B2.6.a', 'MS.G5.B2.9.a', 'MS.G6.B1.4.a', 'MS.G6.B2.12.a']) expect(covered.has(id), id).toBe(true);

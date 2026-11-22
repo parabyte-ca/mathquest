@@ -16,7 +16,7 @@ The owner wants another parent to help test the app, so household and family acc
 | 2 | 3.15.0 (shipped) | Household activity log: caregivers see who viewed or changed their children's data and when (the admin still sees account events only). Passkeys as a second way to sign in are planned after this. | M |
 | 3 | 3.16.0 (shipped) | Brand refresh, part 1: the colour tokens (blue, orange, yellow, neutrals), the logo (the shield with the rocket and compass; check with the owner before adopting any refinement), Inter and Fira Code bundled, student side playful and caregiver side calmer, the palettes recolouring the accents (see the brand entry under Requested). | L |
 | 4 | 3.17.0 (shipped in part) | Brand refresh, part 2: the brand icons redrawn as SVG (line icons for navigation, filled icons for topics and rewards) and avatar frames as a new reward. | L |
-| 5 | later | Quick checks (placement ladders) for Grades 10 to 12; the shared-device "who is practising?" picker and a sibling comparison on the caregiver dashboard. | M |
+| 5 | 3.18.0 (quick checks shipped); later | The shared-device "who is practising?" picker and a sibling comparison on the caregiver dashboard. | M |
 
 Another parent can already test today without any of this: the admin invites their email from the Admin page, they sign in and add their own children, and the household isolation in 3.12.0 keeps their family apart from every other.
 
@@ -48,6 +48,7 @@ Another parent can already test today without any of this: the admin invites the
 | 3.6.0 | Grade 11 MEL3E (shipped): pay and deductions, sale prices and unit prices, savings, loans, vehicle costs and leasing, map scales and trips: 10 skills, 3 lessons | M |
 | 3.7.0 | Grade 12 MCT4C (shipped): exponential and polynomial functions, formulas, trigonometry, forces, circle properties, arcs and sectors: 17 skills, 4 lessons | L |
 | 3.8.0 | Grade 12 MAP4C (shipped): exponents and models, annuities and mortgages, owning against renting, budgets, optimal dimensions, trigonometry, two-variable data and bias: 16 skills, 4 lessons | L |
+| 3.18.0 | Quick checks (placement ladders) for Grade 10 to 12 courses (shipped): one per course, eight questions at most | S |
 | 3.17.0 | Brand refresh, part 2 (shipped in part): avatar frames as a new reward and SVG badge icons. Still open: vector logo and install icons, line icons for navigation | M |
 | 3.16.0 | Brand refresh, part 1 (shipped): colour tokens, orange next-action buttons, Inter and Fira Code bundled, logo in the top bar, every palette with its own orange and yellow | L |
 | 3.15.0 | Household activity log (shipped): per-student recent activity for the student's caregivers, 180-day retention, deleted with the student | M |
