@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.18.0] - 2026-11-22
+### Added
+- Quick checks for Grades 10 to 12. The "quick check" on the learning page now works for every Grade 10, 11 and 12 course (it used to answer "no content" there). Each check covers the whole course (12 courses in all, 10 to 30 skills each), takes at most eight questions, and starts practice at the right level: skills the student plainly knows are raised, nothing is ever lowered, and other courses are left alone.
+- Each course's skills are ordered from easiest to hardest by how many prerequisites sit below each one, and a test checks that every course ladder holds exactly that course's skills and never puts a skill before its own prerequisite.
+
+### Notes
+- The course is stored in the existing placement table, so there is no migration. The older checks by strand for Grades 5 to 9 are unchanged.
+
 ## [3.17.0] - 2026-11-22
 ### Added
 - Avatar frames, a new reward. A student can draw the brand's shield around their avatar: Blue shield (level 2), Silver shield (level 5), Gold shield (level 9) and Rocket trail (earned with the month-streak badge). "No frame" is the starting choice, so nothing changes for anyone until they pick one. The frame shows in the header and on the rewards page, with a "Frames" picker, in English and French. Frames are part of a student's export.

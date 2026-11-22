@@ -16,7 +16,7 @@ Snapshot at release 2.9.1 (21 November 2026). To refresh the table, run `python 
 | Expectation | `G7.C2.3` (Grade 7, Algebra, 2.3) | `content/curriculum.json` (built from `content/source/ontario` by `npm run curriculum:build`) |
 | Micro-skill | `MS.G7.C2.3.a` | `content/microskills.json` (name, expectation, tiers, prerequisites) |
 | Generator | `equations7` registered as `MS.G7.C2.3.a` | `shared/generators/grade7.ts` (one registry file per grade; `index.ts` gathers them) |
-| Placement ladder | `7` (Number) or `7.C` (strand C): ordered list of micro-skills, easiest first | `content/placement.json` (Grades 5 to 8, strands B to F) |
+| Placement ladder | `7` (Number) or `7.C` (strand C): ordered list of micro-skills, easiest first | `content/placement.json` (Grades 5 to 9, strands B to F; Grades 10 to 12 by course, `10.MPM2D`) |
 | Prerequisite chains | `fractions: G5.B1.3 -> ... -> G7.B2.8 -> G8.B2.6` | `content/prereq-chains.json` |
 | Lesson | `L.algebra7.equations-inequalities` lists the micro-skills it teaches | `shared/lessons/*.ts` |
 
@@ -45,7 +45,7 @@ Micro-skills, and expectations that have at least one, by grade and strand (stra
 | 12 (MAP4C) | | MAP4C A, B, C, D · 16 skills, 11 of 11 expectations in part (exponents, linear models, formulas, annuities, mortgages, renting, budgets, optimal dimensions, trigonometry, two-variable data, bias) | | | |
 | 12 (MEL4E) | | MEL4E A, B, C · 11 skills, 8 of 8 expectations in part (data, probability, housing, budgets, income tax, units, scale, proportional reasoning) | | | |
 
-463 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for every Grade 9 strand. Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practiced through the C1.3 pattern-rule skill.
+463 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, for every Grade 9 strand, and for every Grade 10 to 12 course (keyed `grade.course`, for example `10.MPM2D`). Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practiced through the C1.3 pattern-rule skill.
 
 ## 3. What is deliberately deferred
 
@@ -68,4 +68,4 @@ These need item types or tools the question player does not have yet. Build the 
 - Link each new micro-skill to the previous grade's micro-skill on the same chain, and to the same-grade skill it depends on.
 - Prefer exact answers: choose numbers so results are whole or have at most six decimal places, and use 3.14 for pi when the prompt says so.
 - Include at least one common misconception per item and word it kindly ("It looks like..."); a student must never be told they are careless.
-- Next up: a Grade 10, 11 and 12 quick check (placement ladders), then the richer-tools releases listed in the backlog.
+- Next up: the richer-tools releases listed in the backlog (the Grade 10 to 12 quick checks shipped in 3.18.0).
