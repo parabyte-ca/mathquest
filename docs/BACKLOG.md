@@ -28,7 +28,8 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 2.17.0 | Grade 9 completion (shipped): coding, linear against non-linear, data and modelling, geometry and measurement, financial literacy: 21 skills, 4 lessons, quick checks | L |
 | 3.1.0 | Grade 8 completion (shipped): rational patterns, two-variable data, scatter plots, infographics, analysis, models from views: 6 skills, 3 lessons | M |
 | 3.2.0 | Grade 12 MHF4U (shipped): logarithms, radians and trigonometric equations, polynomial and rational functions, rates of change and combining functions: 17 skills, 4 lessons | L |
-| Later | Grade 12 MCV4U (calculus and vectors), MDM4U (data management), then the college and workplace courses | L |
+| 3.3.0 | Grade 12 MCV4U (shipped): limits, derivatives and their rules, curves and optimization, vectors, lines and planes: 14 skills, 3 lessons | L |
+| Later | Grade 12 MDM4U (data management), then the college and workplace courses (MCT4C, MAP4C, MEL4E) | L |
 
 ### Richer item tools (each unlocks deferred expectations)
 

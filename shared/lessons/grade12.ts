@@ -78,4 +78,57 @@ export const GRADE12_LESSONS: Lesson[] = [
     ],
     tryIt: { skill: 'MS.G12.MHF4U.D1.1.a', tier: 1, seed: 3 },
   },
+  {
+    id: 'L.g12.derivatives',
+    skills: ['MS.G12.MCV4U.A1.1.a', 'MS.G12.MCV4U.A1.2.a', 'MS.G12.MCV4U.A2.1.a', 'MS.G12.MCV4U.A3.1.a', 'MS.G12.MCV4U.A3.2.a', 'MS.G12.MCV4U.A3.3.a'],
+    title: t('Limits and derivatives', 'Limites et dérivées'),
+    intro: t('A derivative measures how fast a function is changing at one point. It is the slope of the tangent line, and it is found as a limit.', 'Une dérivée mesure la vitesse à laquelle une fonction change en un point. C\'est la pente de la tangente, et on la trouve comme une limite.'),
+    definitions: [
+      d(['Limit', 'Limite'], ['The limit of f(x) as x approaches a is the value f(x) gets close to. If putting x = a in gives 0 ÷ 0, factor and cancel first.', 'La limite de f(x) quand x tend vers a est la valeur dont f(x) se rapproche. Si remplacer x = a donne 0 ÷ 0, factorise et simplifie d\'abord.']),
+      d(['First principles', 'Définition de la dérivée'], ['f′(x) is the limit as h goes to 0 of (f(x + h) − f(x)) ÷ h. Expand, simplify, divide by h, then let h go to 0.', 'f′(x) est la limite, quand h tend vers 0, de (f(x + h) − f(x)) ÷ h. Développe, simplifie, divise par h, puis laisse h tendre vers 0.']),
+      d(['Derivative rules', 'Règles de dérivation'], ['Power rule: the derivative of xⁿ is n xⁿ⁻¹. Product rule: (fg)′ = f′g + fg′. Quotient rule: (f ÷ g)′ = (f′g − fg′) ÷ g². Chain rule: differentiate the outside, keep the inside, and multiply by the derivative of the inside.', 'Règle de la puissance : la dérivée de xⁿ est n xⁿ⁻¹. Règle du produit : (fg)′ = f′g + fg′. Règle du quotient : (f ÷ g)′ = (f′g − fg′) ÷ g². Règle en chaîne : dérive l\'extérieur, garde l\'intérieur, et multiplie par la dérivée de l\'intérieur.']),
+      d(['Sine, cosine and the exponential', 'Sinus, cosinus et exponentielle'], ['The derivative of sin x is cos x, the derivative of cos x is −sin x, and the derivative of eˣ is eˣ.', 'La dérivée de sin x est cos x, la dérivée de cos x est −sin x, et la dérivée de eˣ est eˣ.']),
+    ],
+    examples: [
+      ex(['Example 1: a limit', 'Exemple 1 : une limite'], ['Find the limit as x approaches 3 of (x² − 9) ÷ (x − 3). Factor: (x − 3)(x + 3) ÷ (x − 3).', 'Trouve la limite quand x tend vers 3 de (x² − 9) ÷ (x − 3). Factorise : (x − 3)(x + 3) ÷ (x − 3).'], ['Cancel to get x + 3, and put in x = 3: the limit is 6.', 'Simplifie pour obtenir x + 3, et remplace x = 3 : la limite est 6.']),
+      ex(['Example 2: product rule', 'Exemple 2 : règle du produit'], ['For f(x) = (x + 2)(x − 5), f′(x) = (1)(x − 5) + (x + 2)(1).', 'Pour f(x) = (x + 2)(x − 5), f′(x) = (1)(x − 5) + (x + 2)(1).'], ['At x = 4 that is (−1) + 6 = 5.', 'En x = 4, cela donne (−1) + 6 = 5.']),
+      ex(['Example 3: chain rule', 'Exemple 3 : règle en chaîne'], ['For f(x) = (2x + 1)³, f′(x) = 3(2x + 1)² × 2.', 'Pour f(x) = (2x + 1)³, f′(x) = 3(2x + 1)² × 2.'], ['At x = 1 that is 3 × 9 × 2 = 54.', 'En x = 1, cela donne 3 × 9 × 2 = 54.']),
+    ],
+    tryIt: { skill: 'MS.G12.MCV4U.A3.1.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.g12.applications',
+    skills: ['MS.G12.MCV4U.B1.1.a', 'MS.G12.MCV4U.B2.1.a'],
+    title: t('Using derivatives: curves and optimization', 'Utiliser les dérivées : courbes et optimisation'),
+    intro: t('The first derivative tells where a function rises or falls, and the second derivative tells how it bends. Together they find the highest and lowest values.', 'La dérivée première indique où une fonction monte ou descend, et la dérivée seconde indique comment elle se courbe. Ensemble, elles trouvent les valeurs les plus hautes et les plus basses.'),
+    definitions: [
+      d(['Critical points', 'Points critiques'], ['Set f′(x) = 0. A local maximum is where f′ changes from positive to negative, and a local minimum is where it changes from negative to positive.', 'Pose f′(x) = 0. Un maximum local est là où f′ passe de positive à négative, et un minimum local est là où elle passe de négative à positive.']),
+      d(['Concavity and inflection', 'Concavité et inflexion'], ['Where f″ is positive the graph bends upward, and where f″ is negative it bends downward. A point of inflection is where the concavity changes, so f″ = 0 there.', 'Là où f″ est positive, le graphique se courbe vers le haut, et là où f″ est négative, il se courbe vers le bas. Un point d\'inflexion est là où la concavité change : f″ = 0 en ce point.']),
+      d(['Optimization', 'Optimisation'], ['Write what you want to maximize or minimize as a function of one variable, differentiate, set the derivative to 0, solve, and check that it is the largest or smallest value that makes sense.', 'Écris ce que tu veux maximiser ou minimiser comme une fonction d\'une seule variable, dérive, pose la dérivée égale à 0, résous, et vérifie que c\'est la plus grande ou la plus petite valeur qui a du sens.']),
+    ],
+    examples: [
+      ex(['Example 1: a critical point', 'Exemple 1 : un point critique'], ['For f(x) = x² − 6x + 1, f′(x) = 2x − 6. Set it to 0.', 'Pour f(x) = x² − 6x + 1, f′(x) = 2x − 6. Pose-la égale à 0.'], ['x = 3. The parabola opens upward, so this is the minimum.', 'x = 3. La parabole est ouverte vers le haut : c\'est le minimum.']),
+      ex(['Example 2: inflection', 'Exemple 2 : inflexion'], ['For f(x) = x³ − 6x² + 2, f″(x) = 6x − 12.', 'Pour f(x) = x³ − 6x² + 2, f″(x) = 6x − 12.'], ['It is 0 at x = 2, where the concavity changes: the point of inflection.', 'Elle est nulle en x = 2, où la concavité change : le point d\'inflexion.']),
+      ex(['Example 3: the largest area', 'Exemple 3 : la plus grande aire'], ['A rectangle has perimeter 40 m. With width w, the length is 20 − w and the area is A = w(20 − w).', 'Un rectangle a un périmètre de 40 m. Avec une largeur w, la longueur est 20 − w et l\'aire est A = w(20 − w).'], ['A′ = 20 − 2w = 0 gives w = 10, so the greatest area is 10 × 10 = 100 square metres.', 'A′ = 20 − 2w = 0 donne w = 10 : l\'aire maximale est 10 × 10 = 100 mètres carrés.']),
+    ],
+    tryIt: { skill: 'MS.G12.MCV4U.B1.1.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.g12.vectors',
+    skills: ['MS.G12.MCV4U.C1.1.a', 'MS.G12.MCV4U.C2.1.a', 'MS.G12.MCV4U.C2.2.a', 'MS.G12.MCV4U.C3.1.a', 'MS.G12.MCV4U.C4.1.a', 'MS.G12.MCV4U.C4.2.a'],
+    title: t('Vectors, lines and planes', 'Vecteurs, droites et plans'),
+    intro: t('A vector has a size and a direction. In coordinates it is a list of components, and the dot and cross products turn two vectors into a number or a new vector.', 'Un vecteur a une grandeur et une direction. En coordonnées, c\'est une liste de composantes, et les produits scalaire et vectoriel transforment deux vecteurs en un nombre ou en un nouveau vecteur.'),
+    definitions: [
+      d(['Magnitude and operations', 'Norme et opérations'], ['The magnitude of (a, b, c) is the square root of a² + b² + c². Add and subtract vectors component by component, and multiply every component by a scalar.', 'La norme de (a, b, c) est la racine carrée de a² + b² + c². Additionne et soustrais les vecteurs composante par composante, et multiplie chaque composante par un scalaire.']),
+      d(['Dot product', 'Produit scalaire'], ['a · b = a₁b₁ + a₂b₂ + a₃b₃. It is 0 when the vectors are perpendicular. Work is force · displacement, and the scalar projection of a on b is (a · b) ÷ |b|.', 'a · b = a₁b₁ + a₂b₂ + a₃b₃. Il égale 0 quand les vecteurs sont perpendiculaires. Le travail est force · déplacement, et la projection scalaire de a sur b est (a · b) ÷ |b|.']),
+      d(['Cross product', 'Produit vectoriel'], ['a × b = (a₂b₃ − a₃b₂, a₃b₁ − a₁b₃, a₁b₂ − a₂b₁). It is perpendicular to both vectors.', 'a × b = (a₂b₃ − a₃b₂, a₃b₁ − a₁b₃, a₁b₂ − a₂b₁). Il est perpendiculaire aux deux vecteurs.']),
+      d(['Lines and planes', 'Droites et plans'], ['A plane with normal (a, b, c) through a point P has equation ax + by + cz = D, where D = n · P. A line is r = P + t d. To find where a line meets a plane, put the line into the plane equation and solve for t.', 'Un plan de vecteur normal (a, b, c) passant par un point P a pour équation ax + by + cz = D, où D = n · P. Une droite est r = P + t d. Pour trouver où une droite rencontre un plan, remplace la droite dans l\'équation du plan et résous pour t.']),
+    ],
+    examples: [
+      ex(['Example 1: magnitude', 'Exemple 1 : norme'], ['For v = (2, 3, 6), the magnitude is the square root of 4 + 9 + 36.', 'Pour v = (2, 3, 6), la norme est la racine carrée de 4 + 9 + 36.'], ['That is the square root of 49, which is 7.', 'C\'est la racine carrée de 49, soit 7.']),
+      ex(['Example 2: perpendicular', 'Exemple 2 : perpendiculaires'], ['For (k, 6) and (3, 2) to be perpendicular, the dot product is 3k + 12 = 0.', 'Pour que (k, 6) et (3, 2) soient perpendiculaires, le produit scalaire est 3k + 12 = 0.'], ['So k = −4.', 'Donc k = −4.']),
+      ex(['Example 3: a line meets a plane', 'Exemple 3 : une droite rencontre un plan'], ['The line (1, 0, 2) + t(1, 1, 1) and the plane x + y + z = 9: put in 1 + t, t and 2 + t.', 'La droite (1, 0, 2) + t(1, 1, 1) et le plan x + y + z = 9 : remplace par 1 + t, t et 2 + t.'], ['3 + 3t = 9, so t = 2 and the point is (3, 2, 4).', '3 + 3t = 9, donc t = 2 et le point est (3, 2, 4).']),
+    ],
+    tryIt: { skill: 'MS.G12.MCV4U.C1.1.a', tier: 1, seed: 3 },
+  },
 ];

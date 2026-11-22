@@ -3261,6 +3261,135 @@
    "prereqs": [
     "MS.G12.MHF4U.D2.1.a"
    ]
+  },
+  {
+   "id": "MS.G12.MCV4U.A1.1.a",
+   "expectation": "MCV4U.A1",
+   "name": "Limits",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MHF4U.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.A1.2.a",
+   "expectation": "MCV4U.A1",
+   "name": "The derivative from first principles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.A2.1.a",
+   "expectation": "MCV4U.A2",
+   "name": "Derivatives of sinusoidal and exponential functions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.A1.2.a",
+    "MS.G12.MHF4U.B1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.A3.1.a",
+   "expectation": "MCV4U.A3",
+   "name": "Power, constant multiple and sum rules",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.A1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.A3.2.a",
+   "expectation": "MCV4U.A3",
+   "name": "The product and quotient rules",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.A3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.A3.3.a",
+   "expectation": "MCV4U.A3",
+   "name": "The chain rule",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.A3.2.a",
+    "MS.G12.MCV4U.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.B1.1.a",
+   "expectation": "MCV4U.B1",
+   "name": "Critical points and points of inflection",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.A3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.B2.1.a",
+   "expectation": "MCV4U.B2",
+   "name": "Optimization problems",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.C1.1.a",
+   "expectation": "MCV4U.C1",
+   "name": "Magnitude of a vector",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.E2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.C2.1.a",
+   "expectation": "MCV4U.C2",
+   "name": "Vector operations: sums and scalar multiples",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.C2.2.a",
+   "expectation": "MCV4U.C2",
+   "name": "Dot product, cross product and their applications",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.C3.1.a",
+   "expectation": "MCV4U.C3",
+   "name": "How lines and planes meet",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.C4.1.a",
+   "expectation": "MCV4U.C4",
+   "name": "Equations of planes and lines, and distance to a plane",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.C2.2.a",
+    "MS.G12.MCV4U.C3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MCV4U.C4.2.a",
+   "expectation": "MCV4U.C4",
+   "name": "Where a line meets a plane",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MCV4U.C4.1.a"
+   ]
   }
  ]
 }

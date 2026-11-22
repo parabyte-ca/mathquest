@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.3.0] - 2026-11-22
+### Added
+- Grade 12 MCV4U (Calculus and Vectors): 14 new micro-skills (372 in all) and 3 lessons, choosable by course with its three strands.
+  - Rate of change: limits, the derivative from first principles, derivatives of sine, cosine and the exponential, and the power, product, quotient and chain rules.
+  - Derivatives and their applications: critical points and points of inflection, and optimization (areas and revenue).
+  - Vectors: magnitude, sums and scalar multiples, the dot and cross products, work, projections and perpendicular vectors, how lines and planes meet, equations of planes and lines, distance to a plane, and where a line meets a plane.
+- Every new answer is recomputed by an independent, mutation-tested check: derivatives are checked numerically from the question text, and vector, line and plane answers by substitution.
+- A new test checks that every question shows the same numbers in English and in French.
+
+### Notes
+- MCV4U B2 covers optimization with areas and revenue only; related-rates problems are not built yet.
+- The other Grade 12 courses (MDM4U, MCT4C, MAP4C, MEL4E) still show "coming soon".
+
 ## [3.2.0] - 2026-11-22
 ### Added
 - Grade 12 begins with MHF4U (Advanced Functions): 17 new micro-skills (358 in all) and 4 lessons, choosable by course with its four strands.
