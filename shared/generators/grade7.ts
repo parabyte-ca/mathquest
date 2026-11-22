@@ -6,6 +6,7 @@ import { addSubFrac7, convert7, decimals7, divFrac7, exponent7, gcf7, intAddSub7
 import { budget7, capacity7, circleArea7, circumference7, compareAccounts7, cylinderSA7, cylinderVolume7, dilation7, exchange7, interest7, prismVolume7, solids7, transform7, units7 } from './spatial7.js';
 
 import { alterCode7, between7, equivalents7, largeNumbers7, patterns7, rounding7, subprograms7 } from './gaps7.js';
+import { slidePercent7 } from './interactive.js';
 import { circles7, decisions7, infographic7, misleading7, percentWhy7, sources7, views7 } from './gaps7b.js';
 
 export const GENERATORS_G7: Record<string, Generator> = {
@@ -13,6 +14,7 @@ export const GENERATORS_G7: Record<string, Generator> = {
   'MS.G7.B1.5.a': between7,
   'MS.G7.B1.6.a': rounding7,
   'MS.G7.B2.2.a': equivalents7,
+  'MS.G7.B2.2.b': slidePercent7,
   'MS.G7.C1.2.a': patterns7,
   'MS.G7.C3.1.a': subprograms7,
   'MS.G7.C3.2.a': alterCode7,

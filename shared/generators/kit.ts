@@ -1,5 +1,5 @@
 import { check, answerToGiven } from '../check.js';
-import type { Answer, Category, Format, Item, Text, Visual, WrongAnswer } from '../items/types.js';
+import type { Answer, Category, Format, Item, SliderSpec, Text, Visual, WrongAnswer } from '../items/types.js';
 
 export const t = (en: string, fr: string): Text => ({ en, fr });
 /** Wraps TeX in $...$ so the client renders it with KaTeX. */
@@ -26,6 +26,7 @@ export interface Spec {
   format: Format;
   prompt: Text;
   visual?: Visual;
+  slider?: SliderSpec;
   options?: Text[];
   right?: Text[];
   answer: Answer;
@@ -44,7 +45,7 @@ export function build(s: Spec): Item {
   return {
     id: `${s.skill}:${s.tier}:${s.seed}`,
     skill: s.skill, tier: s.tier, seed: s.seed, category: s.category, format: s.format,
-    prompt: s.prompt, visual: s.visual, options: s.options, right: s.right, answer: s.answer,
+    prompt: s.prompt, visual: s.visual, slider: s.slider, options: s.options, right: s.right, answer: s.answer,
     steps: s.steps,
     hints: [s.nudge, s.stepHint, join(s.steps)],
     wrong: dedupeWrong(s.answer, s.wrong ?? []),

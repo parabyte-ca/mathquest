@@ -8,6 +8,7 @@ import { probPercent6, range6, twoEvents6 } from './data56.js';
 import { chooseGraph6, discreteContinuous6, intervals6, misleading6 } from './data6.js';
 import { factors6, goals6, payments6, trade6 } from './finance6.js';
 import { addSub6, compareMixed, divideByTenths, divideDecimals, divisibility, fracDec6, integersLine, multiStep6, percentMental, primeFactors, ratiosPercents, roundDecimals, thousandths, timesTenths, wholeDivFraction, wholeTimesFraction, wholeToMillion } from './number6.js';
+import { slideInteger6 } from './interactive.js';
 import { infographic6, nets6, protractor6, views6 } from './shapes6.js';
 import { angles6, area6, fourQuadrants6, metricBoth6, quads6, simpleInterest6, surfaceArea6 } from './spatial56.js';
 import { combined6 } from './spatial6.js';
@@ -52,6 +53,7 @@ export const GENERATORS_G6: Record<string, Generator> = {
   'MS.G6.B2.5.c': subUnlike,
   'MS.G6.B1.1.a': wholeToMillion,
   'MS.G6.B1.2.a': integersLine,
+  'MS.G6.B1.2.b': slideInteger6,
   'MS.G6.B1.3.a': compareMixed,
   'MS.G6.B1.4.a': thousandths,
   'MS.G6.B1.5.a': roundDecimals,

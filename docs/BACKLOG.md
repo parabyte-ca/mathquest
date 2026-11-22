@@ -32,7 +32,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 
 | Release | Scope | Unlocks |
 |---|---|---|
-| 3.0.0 | Protractor, sliders, draggable lines and curves | Angles, graphs, transformation parameters |
+| 3.0.0 | Protractor and sliders (shipped); draggable lines and curves still to come | Angles, graphs, transformation parameters |
 | 3.1.0 | Data items: tables, scatter plots, misleading graphs, infographics | Data strand D1, Grades 5 to 8 |
 | 3.2.0 | Code snippets: predict the output, fix the bug | C3 coding, Grades 5 to 9 |
 | 3.3.0 | Nets, 3-D and top/front/side views, compass constructions | E1.2, E2.4 and similar |

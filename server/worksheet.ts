@@ -43,6 +43,9 @@ export interface WorksheetInput {
 
 export const MAX_TOPICS = 6;
 
+/** Questions answered by moving a slider or an on-screen protractor cannot be answered on paper, so a sheet leaves those skills out. */
+const printable = (skill: string): boolean => hasGenerator(skill) && !['slider', 'angle'].includes(generate(skill, 1, 1).format);
+
 /**
  * A printable set of questions for one or more expectations. Questions take the topics in turn, and within a topic its micro-skills
  * in turn, at the chosen tier (or tiers 1, 2, 3 in turn for "mixed"), with seed + i, so the same seed always reprints the same sheet
@@ -51,7 +54,7 @@ export const MAX_TOPICS = 6;
 export function buildWorksheet(ctx: Ctx, input: WorksheetInput): WorksheetItem[] {
   const focuses = [...new Set(Array.isArray(input.focus) ? input.focus : [input.focus])].slice(0, MAX_TOPICS);
   const lists = focuses
-    .map((f) => (ctx.db.prepare('SELECT id FROM microskill WHERE expectation = ? ORDER BY rowid').all(f) as { id: string }[]).map((m) => m.id).filter(hasGenerator))
+    .map((f) => (ctx.db.prepare('SELECT id FROM microskill WHERE expectation = ? ORDER BY rowid').all(f) as { id: string }[]).map((m) => m.id).filter(printable))
     .filter((l) => l.length > 0);
   if (lists.length === 0) return [];
   const out: WorksheetItem[] = [];

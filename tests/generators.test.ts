@@ -75,7 +75,7 @@ describe('generators: structure, determinism and the deterministic answer check'
             } else if (a.kind === 'point') {
               expect(it.visual?.type).toBe('plane');
             }
-            expect(it.format).toBe(a.kind === 'choice' ? 'choice' : a.kind);
+            expect(a.kind === 'number' ? ['number', 'slider', 'angle'] : [a.kind === 'choice' ? 'choice' : a.kind]).toContain(it.format);
           }
         });
 

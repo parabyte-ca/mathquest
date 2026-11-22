@@ -12,6 +12,7 @@ import { budgets5, credit5, taxes5, transfers5 } from './finance5.js';
 import { compareLike, compareUnlike, equivalentFraction, mixedNumbers, nameFraction } from './fractions.js';
 import { addSub5, compareWhole, composeWhole, divide3by2, facts5, mentalMath5, multiStep5, multiply2x2, properties5, ratios5, roundTenth, unitFractions5 } from './number5.js';
 import { congruent5, infographic5, protractor5, views5 } from './shapes5.js';
+import { drawAngle5, readAngle5 } from './interactive.js';
 import { compareAngles5, metricUnits5, transformations5 } from './spatial5.js';
 import { areaParTri5, bestValue5, metricDown5, salesTax5, samePerimeter5, triangles5 } from './spatial56.js';
 
@@ -32,6 +33,8 @@ export const GENERATORS_G5: Record<string, Generator> = {
   'MS.G5.E1.2.a': congruent5,
   'MS.G5.E1.3.a': views5,
   'MS.G5.E2.4.a': protractor5,
+  'MS.G5.E2.4.b': readAngle5,
+  'MS.G5.E2.4.c': drawAngle5,
   'MS.G5.D1.2.a': relFrequency5,
   'MS.G5.D1.3.a': chooseGraph5,
   'MS.G5.D1.6.a': analyse5,

@@ -41,6 +41,7 @@ export const LESSON_BUCKET_OF: Record<string, LessonBucket> = {
   'L.decimals.place-value': 'g56',
   'L.decimals.links': 'g56',
   'L.coordinates.plot': 'g56',
+  'L.g5.protractor-use': 'g56',
   'L.number7.integers': 'g7',
   'L.number7.powers-roots': 'g7',
   'L.number7.factors-fractions': 'g7',

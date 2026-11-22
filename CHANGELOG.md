@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.0.0] - 2026-11-22
+### Added
+- Interactive questions. Two new ways to answer, both graded, explained and available offline like typed answers:
+  - Protractor: read the measure of an angle shown on a protractor (including a base arm on the left), or draw an angle by dragging the arm, or by using the slider below it, which also works with a keyboard.
+  - Slider: move a marker to a value, on a number line or a percent scale.
+- Four new micro-skills (335 in all): read an angle on a protractor and draw one (Grade 5), place integers on a number line with a slider (Grade 6), and show a fraction or decimal as a percent with a slider (Grade 7), with a new lesson on using a protractor.
+- Angle answers accept a small number of degrees either way (2 or 3, by difficulty).
+
+### Notes
+- Worksheets leave out slider and protractor skills, since those cannot be answered on paper.
+- More interactive skills (graphs, transformations, slopes) can now be added as ordinary generators.
+
 ## [2.19.0] - 2026-11-22
 ### Added
 - Worksheets can mix up to six topics on one sheet: add topics one at a time, and the questions take the topics in turn.

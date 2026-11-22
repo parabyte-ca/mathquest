@@ -23,7 +23,7 @@ export type Given =
 
 /** The correct answer (or a mapped wrong answer) in the same shapes. */
 export type Answer =
-  | { kind: 'number'; value: number; tolerance?: number }
+  | { kind: 'number'; value: number; tolerance?: number; /** Accept any value within this many units of `value` (degrees, for an angle). */ absTolerance?: number }
   | { kind: 'expression'; expr: string; vars: string[] }
   | { kind: 'fraction'; n: number; d: number; mustReduce?: boolean }
   | { kind: 'mixed'; whole: number; n: number; d: number }
@@ -40,9 +40,23 @@ export type Visual =
   | { type: 'numberLine'; min: number; max: number; ticks: number; marks?: { at: number; label?: string }[] }
   | { type: 'areaModel'; rows: number; cols: number; shaded: number }
   | { type: 'plane'; size: number; points?: { x: number; y: number; label?: string }[]; click?: boolean }
-  | { type: 'blocks'; tenths: number; hundredths: number };
+  | { type: 'blocks'; tenths: number; hundredths: number }
+  /** A protractor. `angle` is the arm to show, measured from the base arm; `flip` puts the base arm on the left (read the other scale). */
+  | { type: 'protractor'; angle?: number; flip?: boolean };
 
-export type Format = 'number' | 'expression' | 'fraction' | 'mixed' | 'choice' | 'multi' | 'order' | 'match' | 'point';
+/**
+ * 'slider' and 'angle' are answered by moving a control rather than typing, but they are checked as numbers (with the answer's tolerance):
+ * 'slider' is a range with a step, and 'angle' is drawing an arm on a protractor.
+ */
+export type Format = 'number' | 'expression' | 'fraction' | 'mixed' | 'choice' | 'multi' | 'order' | 'match' | 'point' | 'slider' | 'angle';
+
+export interface SliderSpec {
+  min: number;
+  max: number;
+  step: number;
+  /** Written after the value, such as "%" or "°". */
+  unit?: string;
+}
 
 export interface WrongAnswer {
   answer: Answer;
@@ -61,6 +75,8 @@ export interface Item {
   format: Format;
   prompt: Text;
   visual?: Visual;
+  /** slider: the range the student moves. */
+  slider?: SliderSpec;
   /** choice/multi: options. order: the pieces to arrange. match: left column. */
   options?: Text[];
   /** match: right column. */
@@ -82,13 +98,14 @@ export interface PublicItem {
   format: Format;
   prompt: Text;
   visual?: Visual;
+  slider?: SliderSpec;
   options?: Text[];
   right?: Text[];
 }
 
 export const toPublic = (i: Item): PublicItem => ({
   id: i.id, skill: i.skill, tier: i.tier, category: i.category, format: i.format, prompt: i.prompt,
-  visual: i.visual, options: i.options, right: i.right,
+  visual: i.visual, slider: i.slider, options: i.options, right: i.right,
 });
 
 export type Generator = (tier: number, seed: number) => Item;

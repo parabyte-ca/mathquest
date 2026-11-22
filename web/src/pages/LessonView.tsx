@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
-import type { Given, Item } from '../../../shared/items/types';
+import { toPublic, type Given, type Item } from '../../../shared/items/types';
 import type { Lesson } from '../../../shared/lessons/types';
 import { check } from '../../../shared/check';
 import { generateLoaded, loadGenerators } from '../generators';
@@ -115,7 +115,7 @@ function TryItBody({ item, settings }: { item: Item; settings: StudentSettings }
       <h2>{t('lesson.tryTitle')}</h2>
       <p class="muted">{t('lesson.tryIntro')}</p>
       <p class="prompt"><T2 x={item.prompt} /></p>
-      <ItemInput key={item.id} item={{ id: item.id, skill: item.skill, tier: item.tier, category: item.category, format: item.format, prompt: item.prompt, visual: item.visual, options: item.options, right: item.right }} disabled={result === 'right'} onSubmit={submit} />
+      <ItemInput key={item.id} item={toPublic(item)} disabled={result === 'right'} onSubmit={submit} />
       <div role="status" aria-live="polite" class="trybox">
         {result === 'right' && <p class="note ok">✓ {t('lesson.right')} <T2 x={item.praise ?? { en: '', fr: '' }} /></p>}
         {result === 'again' && <p class="note">{t('lesson.again')}</p>}

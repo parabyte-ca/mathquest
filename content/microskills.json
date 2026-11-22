@@ -277,6 +277,15 @@
    "prereqs": []
   },
   {
+   "id": "MS.G6.B1.2.b",
+   "expectation": "G6.B1.2",
+   "name": "Place integers on a number line with a slider",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G6.B1.2.a"
+   ]
+  },
+  {
    "id": "MS.G6.B1.3.a",
    "expectation": "G6.B1.3",
    "name": "Compare and order integers, decimals and fractions",
@@ -826,6 +835,24 @@
    "tiers": 3,
    "prereqs": [
     "MS.G5.E2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G5.E2.4.b",
+   "expectation": "G5.E2.4",
+   "name": "Read the measure of an angle on a protractor",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E2.4.a"
+   ]
+  },
+  {
+   "id": "MS.G5.E2.4.c",
+   "expectation": "G5.E2.4",
+   "name": "Draw an angle of a given size with a protractor",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G5.E2.4.b"
    ]
   },
   {
@@ -1424,6 +1451,15 @@
    "tiers": 3,
    "prereqs": [
     "MS.G7.B2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G7.B2.2.b",
+   "expectation": "G7.B2.2",
+   "name": "Show fractions and decimals as percents with a slider",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.B2.2.a"
    ]
   },
   {
