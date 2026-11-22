@@ -3,7 +3,10 @@ import type { Config } from './config.js';
 export interface MailMessage {
   to: string;
   subject: string;
+  /** The plain-text copy: the reference version, with full links. */
   text: string;
+  /** An optional rich version, sent alongside the text. */
+  html?: string;
 }
 export interface Mailer {
   /** Resolves true when the provider accepted the message. Never throws. */
@@ -23,7 +26,7 @@ export class ResendMailer implements Mailer {
       const res = await fetch(`${this.cfg.resendApiBase}/emails`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${this.cfg.resendApiKey}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ from: this.cfg.mailFrom, to: [msg.to], subject: msg.subject, text: msg.text }),
+        body: JSON.stringify({ from: this.cfg.mailFrom, to: [msg.to], subject: msg.subject, text: msg.text, ...(msg.html ? { html: msg.html } : {}) }),
       });
       if (res.ok) return true;
       // Resend's error body names the problem (unverified domain, key restricted to another domain, ...).

@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.11.0] - 2026-11-22
+### Added
+- Emails now come as rich HTML in the look of the app (the app's blue, the MathQuest wordmark and logo, a card layout) with a labelled button, such as "Sign in to MathQuest" or "Accept the invitation", instead of the bare link. This covers the sign-in link, caregiver invitations (with the personal note shown as a quotation), the lockout notice and the weekly summary, which now lists each student in its own section.
+- A dark version for mail clients that support it, a hidden preview line, and a width that fits a phone.
+
+### Changed
+- Every email still carries a plain-text copy with the full link, for clients that block HTML or links. The weekly summary text is unchanged.
+
+### Security
+- Everything a person types (names, notes, goal titles) is escaped in the HTML, and a button only ever links to an http or https address. Tests cover both.
+
 ## [3.10.0] - 2026-11-22
 ### Added
 - The worksheet topic picker now lists the Grade 10 to 12 course topics (MPM2D, MFM2P, MCR3U, MCF3M, MBF3C, MEL3E, MHF4U, MCV4U, MDM4U, MCT4C, MAP4C, MEL4E), grouped by grade and course after the grade-level topics. Up to six topics, course or grade-level, can still be mixed on one sheet.
