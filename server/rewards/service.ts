@@ -269,23 +269,54 @@ export interface GoalView {
   createdAt: number;
   reachedAt: number | null;
   redeemedAt: number | null;
+  note: string;
 }
 
 export function listGoals(ctx: Ctx, studentId: string, includeArchived = false): GoalView[] {
   const xp = getState(ctx, studentId).xp;
   const rows = ctx.db
-    .prepare(`SELECT id, title, xp_target, baseline_xp, created_at, reached_at, redeemed_at FROM goal WHERE student_id = ? ${includeArchived ? '' : 'AND archived = 0'} ORDER BY created_at DESC`)
-    .all(studentId) as { id: string; title: string; xp_target: number; baseline_xp: number; created_at: number; reached_at: number | null; redeemed_at: number | null }[];
+    .prepare(`SELECT id, title, xp_target, baseline_xp, created_at, reached_at, redeemed_at, note FROM goal WHERE student_id = ? ${includeArchived ? '' : 'AND archived = 0'} ORDER BY created_at DESC`)
+    .all(studentId) as { id: string; title: string; xp_target: number; baseline_xp: number; created_at: number; reached_at: number | null; redeemed_at: number | null; note: string | null }[];
   return rows.map((g) => ({
-    id: g.id, title: g.title, xpTarget: g.xp_target, progress: Math.max(0, Math.min(g.xp_target, xp - g.baseline_xp)),
+    id: g.id, title: g.title, note: g.note ?? '', xpTarget: g.xp_target, progress: Math.max(0, Math.min(g.xp_target, xp - g.baseline_xp)),
     reached: g.reached_at !== null, redeemed: g.redeemed_at !== null, createdAt: g.created_at, reachedAt: g.reached_at, redeemedAt: g.redeemed_at,
   }));
 }
 
-export function createGoal(ctx: Ctx, studentId: string, userId: string, title: string, xpTarget: number): string {
+export function createGoal(ctx: Ctx, studentId: string, userId: string, title: string, xpTarget: number, note = ''): string {
   const id = newId();
-  ctx.db.prepare('INSERT INTO goal (id, student_id, created_by, title, xp_target, baseline_xp, created_at) VALUES (?,?,?,?,?,?,?)').run(id, studentId, userId, title, xpTarget, getState(ctx, studentId).xp, ctx.now());
+  ctx.db.prepare('INSERT INTO goal (id, student_id, created_by, title, xp_target, baseline_xp, created_at, note) VALUES (?,?,?,?,?,?,?,?)').run(id, studentId, userId, title, xpTarget, getState(ctx, studentId).xp, ctx.now(), note || null);
   return id;
+}
+
+/** Sets or clears the note on a goal that is still open. */
+export function setGoalNote(ctx: Ctx, studentId: string, goalId: string, note: string): void {
+  const r = ctx.db.prepare('UPDATE goal SET note = ? WHERE id = ? AND student_id = ? AND archived = 0').run(note || null, goalId, studentId);
+  if (r.changes !== 1) throw new RewardError('not_found', 404);
+}
+
+export const MESSAGE_LIMIT_PER_DAY = 5;
+export interface MessageView { id: string; from: string; body: string; createdAt: number; read: boolean }
+const msgView = (m: { id: string; from_name: string; body: string; created_at: number; read_at: number | null }): MessageView => ({ id: m.id, from: m.from_name, body: m.body, createdAt: m.created_at, read: m.read_at !== null });
+
+/** Messages a caregiver sent this student, newest first (the caregiver's history view). */
+export function listMessages(ctx: Ctx, studentId: string): MessageView[] {
+  return (ctx.db.prepare("SELECT m.id, COALESCE(NULLIF(u.display_name, ''), 'Caregiver') AS from_name, m.body, m.created_at, m.read_at FROM student_message m JOIN users u ON u.id = m.from_user WHERE m.student_id = ? ORDER BY m.created_at DESC LIMIT 20").all(studentId) as Parameters<typeof msgView>[0][]).map(msgView);
+}
+/** Messages the student has not dismissed yet, newest first. */
+export function unreadMessages(ctx: Ctx, studentId: string): MessageView[] {
+  return (ctx.db.prepare("SELECT m.id, COALESCE(NULLIF(u.display_name, ''), 'Caregiver') AS from_name, m.body, m.created_at, m.read_at FROM student_message m JOIN users u ON u.id = m.from_user WHERE m.student_id = ? AND m.read_at IS NULL ORDER BY m.created_at DESC LIMIT 3").all(studentId) as Parameters<typeof msgView>[0][]).map(msgView);
+}
+export function sendMessage(ctx: Ctx, studentId: string, userId: string, body: string): string {
+  const recent = (ctx.db.prepare('SELECT COUNT(*) AS n FROM student_message WHERE student_id = ? AND from_user = ? AND created_at >= ?').get(studentId, userId, ctx.now() - 86_400_000) as { n: number }).n;
+  if (recent >= MESSAGE_LIMIT_PER_DAY) throw new RewardError('too_many_messages', 429);
+  const id = newId();
+  ctx.db.prepare('INSERT INTO student_message (id, student_id, from_user, body, created_at) VALUES (?,?,?,?,?)').run(id, studentId, userId, body, ctx.now());
+  return id;
+}
+export function markMessageRead(ctx: Ctx, studentId: string, messageId: string): void {
+  const r = ctx.db.prepare('UPDATE student_message SET read_at = COALESCE(read_at, ?) WHERE id = ? AND student_id = ?').run(ctx.now(), messageId, studentId);
+  if (r.changes !== 1) throw new RewardError('not_found', 404);
 }
 
 export function redeemGoal(ctx: Ctx, studentId: string, goalId: string, userId: string): void {
@@ -327,6 +358,7 @@ export function summary(ctx: Ctx, student: StudentRow) {
     goals: listGoals(ctx, student.id),
     challenges: challengeViews(ctx, student.id),
     teamGoals: familyGoalsForStudent(ctx, student.id),
+    messages: unreadMessages(ctx, student.id),
   };
 }
 

@@ -413,3 +413,63 @@ describe('family goals and certificates', () => {
     void s;
   });
 });
+
+describe('caregiver notes and messages', () => {
+  async function setup() {
+    const env = mk(8);
+    const s = await makeStudent(env);
+    const email = (env.db.prepare("SELECT u.email FROM users u JOIN student_caregivers sc ON sc.caregiver_id = u.id WHERE sc.student_id = ? AND sc.role = 'owner'").get(s.studentId) as { email: string }).email;
+    const cg = await signIn(env, email);
+    return { env, s, cg };
+  }
+  const send = (cg: Awaited<ReturnType<typeof signIn>>, method: 'post' | 'patch', url: string, body: object = {}) => cg.agent[method](url).set('x-csrf-token', cg.csrf).send(body);
+
+  it('shows a goal note to the student, lets the caregiver edit or clear it, and rejects a note that is too long', async () => {
+    const { s, cg } = await setup();
+    const made = await send(cg, 'post', `/api/students/${s.studentId}/goals`, { title: 'Pizza night', xpTarget: 500, note: "Pizza from Mario's on Friday" }).expect(201);
+    expect((await s.agent.get('/api/learn/rewards').expect(200)).body.goals[0].note).toBe("Pizza from Mario's on Friday");
+    await send(cg, 'patch', `/api/students/${s.studentId}/goals/${made.body.id}`, { note: 'Saturday instead' }).expect(200);
+    expect((await cg.agent.get(`/api/students/${s.studentId}/goals`).expect(200)).body.goals[0].note).toBe('Saturday instead');
+    await send(cg, 'patch', `/api/students/${s.studentId}/goals/${made.body.id}`, { note: '' }).expect(200);
+    expect((await s.agent.get('/api/learn/rewards').expect(200)).body.goals[0].note).toBe('');
+    await send(cg, 'patch', `/api/students/${s.studentId}/goals/${made.body.id}`, { note: 'x'.repeat(161) }).expect(400);
+    await send(cg, 'patch', `/api/students/${s.studentId}/goals/nope`, { note: 'hi' }).expect(404);
+  });
+
+  it('delivers a message to the student until they dismiss it, and the caregiver sees it was read', async () => {
+    const { s, cg } = await setup();
+    await send(cg, 'post', `/api/students/${s.studentId}/messages`, { body: 'Proud of your streak!' }).expect(201);
+    let unread = (await s.agent.get('/api/learn/messages').expect(200)).body.messages;
+    expect(unread).toHaveLength(1);
+    expect(unread[0].body).toBe('Proud of your streak!');
+    expect((await cg.agent.get(`/api/students/${s.studentId}/messages`).expect(200)).body.messages[0].read).toBe(false);
+    await s.agent.post(`/api/learn/messages/${unread[0].id}/read`).set('x-csrf-token', s.csrf).send({}).expect(200);
+    unread = (await s.agent.get('/api/learn/messages').expect(200)).body.messages;
+    expect(unread).toHaveLength(0);
+    expect((await cg.agent.get(`/api/students/${s.studentId}/messages`).expect(200)).body.messages[0].read).toBe(true);
+  });
+
+  it('limits messages to five a day, rejects empty or long ones, and keeps them private to the right people', async () => {
+    const { env, s, cg } = await setup();
+    await send(cg, 'post', `/api/students/${s.studentId}/messages`, { body: '   ' }).expect(400);
+    await send(cg, 'post', `/api/students/${s.studentId}/messages`, { body: 'x'.repeat(201) }).expect(400);
+    for (let i = 0; i < 5; i++) await send(cg, 'post', `/api/students/${s.studentId}/messages`, { body: `Hello ${i}` }).expect(201);
+    await send(cg, 'post', `/api/students/${s.studentId}/messages`, { body: 'One too many' }).expect(429);
+    // another caregiver cannot read or send; another student cannot dismiss someone else's message
+    const other = await makeStudent(env);
+    await other.cg.agent.get(`/api/students/${s.studentId}/messages`).expect(404);
+    await send(other.cg, 'post', `/api/students/${s.studentId}/messages`, { body: 'hi' }).expect(404);
+    const mine = (await s.agent.get('/api/learn/messages').expect(200)).body.messages[0].id as string;
+    await other.agent.post(`/api/learn/messages/${mine}/read`).set('x-csrf-token', other.csrf).send({}).expect(404);
+    expect((await s.agent.get('/api/learn/messages').expect(200)).body.messages).toHaveLength(3); // the newest three
+  });
+
+  it('shows message text as plain text only (the page never renders it as HTML)', async () => {
+    const { s, cg } = await setup();
+    await send(cg, 'post', `/api/students/${s.studentId}/messages`, { body: '<img src=x onerror=alert(1)>' }).expect(201);
+    const body = (await s.agent.get('/api/learn/messages').expect(200)).body.messages[0].body;
+    expect(body).toBe('<img src=x onerror=alert(1)>');
+    const src = (await import('node:fs')).readFileSync('web/src/pages/LearnHome.tsx', 'utf8');
+    expect(src).not.toMatch(/dangerouslySetInnerHTML/);
+  });
+});

@@ -11,6 +11,10 @@ export function LearnHome({ me, go }: { me: Extract<Me, { kind: 'student' }>; go
   const [course, setCourse] = useState<string | null>(null);
   const [strands, setStrands] = useState<string[]>([]);
   const [mix, setMix] = useState(true);
+  const [msgs, setMsgs] = useState<{ id: string; from: string; body: string }[]>([]);
+
+  useEffect(() => { void api<{ messages: { id: string; from: string; body: string }[] }>('GET', '/learn/messages').then((r) => { if (r.ok) setMsgs(r.data.messages); }); }, []);
+  const dismiss = async (id: string) => { setMsgs((m) => m.filter((x) => x.id !== id)); await api('POST', `/learn/messages/${id}/read`, {}); };
 
   useEffect(() => {
     void api<LearnOptions>('GET', '/learn/options').then((r) => {
@@ -36,6 +40,14 @@ export function LearnHome({ me, go }: { me: Extract<Me, { kind: 'student' }>; go
 
   return (
     <>
+      {msgs.length > 0 && (
+        <section class="card" aria-label={t('msg.region')}>
+          {msgs.map((m) => (
+            <p class="banner" key={m.id}>💌 <strong>{t('msg.from', { name: m.from })}:</strong> {m.body}{' '}
+              <button type="button" class="secondary small" onClick={() => dismiss(m.id)}>{t('msg.dismiss')}</button></p>
+          ))}
+        </section>
+      )}
       <section class="card" aria-labelledby="learn-title">
         <h1 id="learn-title">{t('student.welcome', { name: me.student.displayName })}</h1>
         <p class="muted">{t('learn.intro')}</p>
