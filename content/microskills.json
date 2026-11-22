@@ -1673,6 +1673,16 @@
    ]
   },
   {
+   "id": "MS.G8.C1.2.a",
+   "expectation": "G8.C1.2",
+   "name": "Represent patterns with rational numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.C1.2.a",
+    "MS.G8.B2.5.a"
+   ]
+  },
+  {
    "id": "MS.G8.C1.3.a",
    "expectation": "G8.C1.3",
    "name": "Pattern rules and unknown terms with integers and decimals",
@@ -1740,12 +1750,51 @@
    ]
   },
   {
+   "id": "MS.G8.D1.3.a",
+   "expectation": "G8.D1.3",
+   "name": "Scatter plots",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.D1.1.a",
+    "MS.G8.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G8.D1.4.a",
+   "expectation": "G8.D1.4",
+   "name": "Infographics with two-variable data",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.D1.4.a",
+    "MS.G8.D1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.D1.1.a",
+   "expectation": "G8.D1.1",
+   "name": "One-variable and two-variable data",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.D1.1.a"
+   ]
+  },
+  {
    "id": "MS.G8.D1.5.a",
    "expectation": "G8.D1.5",
    "name": "Describe correlation: strong, weak, none, positive, negative, outliers",
    "tiers": 3,
    "prereqs": [
     "MS.G8.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G8.D1.6.a",
+   "expectation": "G8.D1.6",
+   "name": "Analysis: misleading graphs and scatter plots",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.D1.6.a",
+    "MS.G8.D1.3.a"
    ]
   },
   {
@@ -1774,6 +1823,15 @@
    "tiers": 3,
    "prereqs": [
     "MS.G6.E2.3.a"
+   ]
+  },
+  {
+   "id": "MS.G8.E1.2.a",
+   "expectation": "G8.E1.2",
+   "name": "Build models from views",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.E1.2.a"
    ]
   },
   {

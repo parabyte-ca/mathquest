@@ -2,5 +2,6 @@
 import type { Lesson } from './types.js';
 import { NUMBER8_LESSONS } from './number8.js';
 import { STRAND8_LESSONS } from './strands8.js';
+import { GAPS8_LESSONS } from './gaps8.js';
 
-export const LESSONS_G8: Lesson[] = [...NUMBER8_LESSONS, ...STRAND8_LESSONS];
+export const LESSONS_G8: Lesson[] = [...NUMBER8_LESSONS, ...STRAND8_LESSONS, ...GAPS8_LESSONS];
