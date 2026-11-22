@@ -84,7 +84,7 @@ Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completel
 - Grade 7 items that need richer tools: coding (C3), infographics and misleading graphs (D1.1, D1.4, D1.6), top, front, side and perspective views (E1.2), constructing circles (E2.4), reliable sources and decision factors (F1.2, F1.4).
 - Grade 5-6 strand items that need richer tools: coding (C3), modelling (C4), data collection and infographics (D1), nets and 3-D views (E1.2, E2.5), transformations (E1.5), taxes and budgets (F1).
 - Grades 7 to 12 content, in grade order. Grade 7 Number shipped in 2.5.0 and Grade 7 strands C to F in 2.5.1; Grade 8 shipped in 2.7.0 (Number), 2.7.1 (C and D) and 2.7.2 (E and F); next is Grade 9 (MTH1W).
-- Admin usage view: add a per-skill bank-size summary (the "failed" label is now translated).
+- Admin usage view: per-skill bank-size summary (shipped in 2.19.0). Next: fix the thin skills it flags.
 - Let the question writer produce non-numeric formats (choice, fraction) once the verifier can re-compute them.
 - Refresh the `ontario-math-curriculum` skill and create a `mathquest` skill.
 
@@ -94,10 +94,10 @@ Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completel
 - Caregiver notes on a goal, and a message from the caregiver that the student sees.
 - Weekly email: a "send me a test email" button and a choice of day.
 - Dashboard: compare against the previous week, and export progress as a PDF.
-- Worksheets: choose several topics on one sheet; add a solution page with the worked steps.
+- Worksheets: several topics and a worked-solutions page (shipped in 2.19.0).
 
 ## Phase 5 follow-ups (from 2.4.0)
 - Offline practice follow-ups: spaced-review items and lessons offline, pack size and refresh by topic, a clearer "expires soon" reminder, and a caregiver view of answers waiting on a device.
-- Split the lesson try-it code from the lesson text so a lesson loads less than 585 kB.
+- Lesson text now loads by grade group (shipped in 2.19.0).
 - Walkthrough: a short "what is new" card after an upgrade; a tour for the admin pages.
 - Updates page: show the agent's cron schedule and a "check again" button.

@@ -17,6 +17,7 @@ export function Worksheet({ go }: { go: (to: string) => void }) {
   const [sheet, setSheet] = useState<Sheet | null>(null);
   const [error, setError] = useState('');
   const [key, setKey] = useState(true);
+  const [solutions, setSolutions] = useState(false);
   const lang = getLang();
   const tx = (x: Text): string => x[lang];
 
@@ -37,6 +38,7 @@ export function Worksheet({ go }: { go: (to: string) => void }) {
         <h1>{t('ws.ready')}</h1>
         <p class="muted">{t('ws.printHelp')}</p>
         <label class="check"><input type="checkbox" checked={key} onChange={() => setKey(!key)} /> {t('ws.includeKey')}</label>
+        <label class="check"><input type="checkbox" checked={solutions} onChange={() => setSolutions(!solutions)} /> {t('ws.includeSolutions')}</label>
         <div class="actions row-actions">
           <button type="button" onClick={() => window.print()}>{t('ws.print')}</button>
           <button type="button" class="secondary" onClick={() => go(`/app/progress?student=${q.get('student')}`)}>{t('common.back')}</button>
@@ -70,6 +72,20 @@ export function Worksheet({ go }: { go: (to: string) => void }) {
             <h2 id="key-title">{t('ws.key')}</h2>
             <ol>
               {sheet.items.map((it) => <li key={it.n}><MathText text={tx(it.answer)} /></li>)}
+            </ol>
+          </section>
+        )}
+        {solutions && (
+          <section class="key" aria-labelledby="sol-title">
+            <h2 id="sol-title">{t('ws.solutions')}</h2>
+            <ol>
+              {sheet.items.map((it) => (
+                <li key={it.n}>
+                  <MathText text={tx(it.prompt)} />
+                  <ol class="opts worked">{it.steps.map((st, i) => <li key={i}><MathText text={tx(st)} /></li>)}</ol>
+                  <p><strong>{t('ws.answerLabel')}:</strong> <MathText text={tx(it.answer)} /></p>
+                </li>
+              ))}
             </ol>
           </section>
         )}

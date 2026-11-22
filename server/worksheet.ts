@@ -35,24 +35,31 @@ export interface WorksheetItem {
 }
 
 export interface WorksheetInput {
-  focus: string; // expectation code
+  focus: string | string[]; // one expectation code, or several to mix on one sheet
   tier: number | 'mixed';
   count: number;
   seed: number;
 }
 
+export const MAX_TOPICS = 6;
+
 /**
- * A printable set of questions for one expectation. Item i comes from the expectation's micro-skills in turn, at the chosen tier
- * (or tiers 1, 2, 3 in turn for "mixed"), with seed + i, so the same seed always reprints the same sheet and answer key.
+ * A printable set of questions for one or more expectations. Questions take the topics in turn, and within a topic its micro-skills
+ * in turn, at the chosen tier (or tiers 1, 2, 3 in turn for "mixed"), with seed + i, so the same seed always reprints the same sheet
+ * and answer key. Topics without practice content are left out.
  */
 export function buildWorksheet(ctx: Ctx, input: WorksheetInput): WorksheetItem[] {
-  const micros = (ctx.db.prepare('SELECT id FROM microskill WHERE expectation = ? ORDER BY rowid').all(input.focus) as { id: string }[]).map((m) => m.id).filter(hasGenerator);
-  if (micros.length === 0) return [];
+  const focuses = [...new Set(Array.isArray(input.focus) ? input.focus : [input.focus])].slice(0, MAX_TOPICS);
+  const lists = focuses
+    .map((f) => (ctx.db.prepare('SELECT id FROM microskill WHERE expectation = ? ORDER BY rowid').all(f) as { id: string }[]).map((m) => m.id).filter(hasGenerator))
+    .filter((l) => l.length > 0);
+  if (lists.length === 0) return [];
   const out: WorksheetItem[] = [];
   const seen = new Set<string>();
   for (let i = 0, tries = 0; out.length < input.count && tries < input.count * 6; i++, tries++) {
     const tier = input.tier === 'mixed' ? 1 + (out.length % 3) : input.tier;
-    const item = generate(micros[out.length % micros.length]!, tier, input.seed + i);
+    const list = lists[out.length % lists.length]!;
+    const item = generate(list[Math.floor(out.length / lists.length) % list.length]!, tier, input.seed + i);
     const key = JSON.stringify([item.prompt.en, item.options]);
     if (seen.has(key)) continue; // no two identical questions on one sheet
     seen.add(key);

@@ -58,3 +58,27 @@ describe('lessons', () => {
     for (const x of texts()) for (const lang of ['en', 'fr'] as const) expect(speakable(x[lang], lang)).not.toMatch(/[\\^{}$]|\bfrac\b/);
   });
 });
+
+describe('lessons by grade group', () => {
+  it('put every lesson in exactly one group, and each lesson only in a group for its own grade', async () => {
+    const { LESSON_BUCKETS } = await import('../shared/lessons/index.js');
+    const range: Record<string, number[]> = { g56: [5, 6], g7: [7], g8: [8], g9: [9], g10: [10], g11: [11] };
+    const seen = new Set<string>();
+    for (const [bucket, lessons] of Object.entries(LESSON_BUCKETS)) {
+      for (const l of lessons) {
+        expect(seen.has(l.id), `${l.id} is in two groups`).toBe(false);
+        seen.add(l.id);
+        for (const s of l.skills) {
+          const grade = Number(/^MS\.G(\d+)\./.exec(s)?.[1]);
+          expect(range[bucket], `${l.id} (${s}) is in group ${bucket}`).toContain(grade);
+        }
+      }
+    }
+    expect(seen.size).toBe(LESSONS.length);
+  });
+
+  it('keep the id-to-group map in step with the lessons (run npm run gen:lessons after adding one)', async () => {
+    const { lessonMapSource } = await import('../scripts/gen-lesson-map.js');
+    expect(readFileSync('shared/lessons/map.ts', 'utf8')).toBe(lessonMapSource());
+  });
+});

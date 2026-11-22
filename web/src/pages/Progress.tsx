@@ -201,6 +201,7 @@ function Messages({ id }: { id: string }) {
 function WorksheetBuilder({ id, grade, go }: { id: string; grade: number; go: (to: string) => void }) {
   const [exps, setExps] = useState<Expectation[]>([]);
   const [focus, setFocus] = useState('');
+  const [picked, setPicked] = useState<string[]>([]);
   const [tier, setTier] = useState('mixed');
   const [count, setCount] = useState(12);
   useEffect(() => {
@@ -211,10 +212,12 @@ function WorksheetBuilder({ id, grade, go }: { id: string; grade: number; go: (t
       if (first) setFocus(first.code);
     });
   }, [id]);
+  const topics = picked.length ? picked : focus ? [focus] : [];
+  const addTopic = () => { if (focus && picked.length < 6 && !picked.includes(focus)) setPicked([...picked, focus]); };
   const open = (e: Event) => {
     e.preventDefault();
     const seed = 1 + Math.floor(Math.random() * 1_000_000_000);
-    go(`/app/worksheet?student=${encodeURIComponent(id)}&focus=${encodeURIComponent(focus)}&tier=${tier}&count=${count}&seed=${seed}`);
+    go(`/app/worksheet?student=${encodeURIComponent(id)}&focus=${encodeURIComponent(topics.join(','))}&tier=${tier}&count=${count}&seed=${seed}`);
   };
   const grades = [...new Set(exps.map((e) => e.grade))];
   return (
@@ -230,6 +233,15 @@ function WorksheetBuilder({ id, grade, go }: { id: string; grade: number; go: (t
             </optgroup>
           ))}
         </select>
+        <button type="button" class="secondary small" disabled={!focus || picked.length >= 6 || picked.includes(focus)} onClick={addTopic}>{t('ws.addTopic')}</button>
+        {picked.length > 0 && (
+          <div>
+            <p class="muted small">{t('ws.topics')}. {t('ws.topicsMax')}</p>
+            <ul class="plain">
+              {picked.map((c) => <li key={c}>{c} <button type="button" class="secondary small" aria-label={t('ws.removeTopic', { code: c })} onClick={() => setPicked(picked.filter((x) => x !== c))}>✕</button></li>)}
+            </ul>
+          </div>
+        )}
         <label for="ws-tier">{t('ws.tier')}</label>
         <select id="ws-tier" value={tier} onChange={(e) => setTier((e.target as HTMLSelectElement).value)}>
           <option value="mixed">{t('ws.mixed')}</option>
@@ -237,7 +249,7 @@ function WorksheetBuilder({ id, grade, go }: { id: string; grade: number; go: (t
         </select>
         <label for="ws-count">{t('ws.count')}</label>
         <input id="ws-count" type="number" min={4} max={30} value={count} onInput={(e) => setCount(Number((e.target as HTMLInputElement).value))} />
-        <button type="submit" disabled={!focus}>{t('ws.open')}</button>
+        <button type="submit" disabled={topics.length === 0}>{t('ws.open')}</button>
       </form>
     </section>
   );
