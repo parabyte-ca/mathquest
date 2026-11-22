@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.19.0] - 2026-11-22
+### Added
+- Worksheets can mix up to six topics on one sheet: add topics one at a time, and the questions take the topics in turn.
+- Worked solutions: a new option prints every question again with its worked steps and answer, on its own page after the answer key.
+- Admin: "Bank sizes by skill" shows how many different questions each skill can give at each difficulty (out of 40 tries) and what the Claude bank holds for it, and flags thin skills (fewer than 12 different questions at some difficulty).
+
+### Changed
+- Lessons now load one group of grades at a time (Grades 5 and 6, 7, 8, 9, 10, 11), so opening a lesson fetches about 90 kB at most instead of about 250 kB. `npm run gen:lessons` refreshes the lesson index after a lesson is added; a test fails if it is out of date.
+
 ## [2.18.0] - 2026-11-21
 ### Added
 - Caregiver notes on goals: add a short note when you set a goal ("Pizza from Mario's on Friday"), or edit it later. The student sees it under the goal.
