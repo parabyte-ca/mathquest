@@ -54,6 +54,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 2.18.0 | Caregiver notes and messages on goals (shipped) | S |
 | 2.11.0 | Weekly challenges, family goals, printable certificates and original SVG avatars (shipped). Caregiver notes and messages on goals remain below | M |
 | Unscheduled | Dashboard progress export as a PDF | S |
+| Unscheduled | Rich HTML magic-link and weekly emails with a labelled button instead of the bare link (see Requested) | S to M |
 
 ### Platform
 
@@ -79,6 +80,8 @@ Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completel
 - Check each new feature on the real server (install button, offline round trip, weekly email).
 
 ## Requested
+
+- Magic-link emails: show a short link label such as "Sign in" or "Click here" instead of the full hyperlink, and send them as rich HTML that reflects the look and feel of the app (logo, colours, a clear button, a plain-text fallback with the full link for mail clients that block links). Today `server/mail.ts` sends plain text only (the Resend call passes `text`, no `html`). Consider the weekly caregiver email and the other messages in the same template. Needs an accessible, tested layout (table-based, inline styles, dark-mode friendly, English and French) and a preview in the admin or a test send. Size: S to M.
 
 ## Noted earlier in this project (not yet scheduled)
 
