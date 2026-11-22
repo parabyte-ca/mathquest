@@ -129,6 +129,8 @@ math { font-size: 1.15em; }
 .vis .seg.fill2 { fill: var(--segfill2); }
 .vis .grid { stroke: var(--line); stroke-width: 1; }
 .vis .axis { stroke: var(--ink); stroke-width: 2; }
+.vis .curve { fill: none; stroke: var(--segfill); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+.vis .axlabel { fill: var(--ink); font-size: 13px; font-weight: 700; }
 .vis .tick, .vis .vlabel { fill: var(--ink); font-size: 12px; }
 .vis .vlabel { font-size: 14px; font-weight: 700; }
 .vis .pt { fill: var(--segfill2); stroke: var(--ink); stroke-width: 2; }

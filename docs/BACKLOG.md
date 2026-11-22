@@ -6,6 +6,20 @@ Items waiting for a phase or a slot. Newest first within each section. Move an i
 
 Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session, M two or three, L a multi-part build. Content releases go in grade order; the other tracks slot in between. Version numbers are targets and may shift.
 
+### Priorities (set 22 November 2026)
+
+The owner wants another parent to help test the app, so household and family accounts come first, then the brand refresh, then the quick checks. Version numbers are targets.
+
+| Order | Release | Scope | Size |
+|---|---|---|---|
+| 1 | 3.14.0 | Household and family accounts, part 1: a co-owner role so two parents are equals (both can delete, share and change a PIN, and neither can remove the other), ownership transfer, a caregiver can leave a shared child, caregiver account deletion with a full data export first, and a clear "invite a parent" path with a first-sign-in welcome. | L |
+| 2 | 3.15.0 | Household activity log: caregivers see who viewed or changed their children's data and when (the admin still sees account events only). Passkeys as a second way to sign in are planned after this. | M |
+| 3 | 3.16.0 | Brand refresh, part 1: the colour tokens (blue, orange, yellow, neutrals), the logo (the shield with the rocket and compass; check with the owner before adopting any refinement), Inter and Fira Code bundled, student side playful and caregiver side calmer, the palettes recolouring the accents (see the brand entry under Requested). | L |
+| 4 | 3.17.0 | Brand refresh, part 2: the brand icons redrawn as SVG (line icons for navigation, filled icons for topics and rewards) and avatar frames as a new reward. | L |
+| 5 | later | Quick checks (placement ladders) for Grades 10 to 12; the shared-device "who is practising?" picker and a sibling comparison on the caregiver dashboard. | M |
+
+Another parent can already test today without any of this: the admin invites their email from the Admin page, they sign in and add their own children, and the household isolation in 3.12.0 keeps their family apart from every other.
+
 ### Content, in grade order
 
 | Release | Scope | Size |
@@ -34,6 +48,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 3.6.0 | Grade 11 MEL3E (shipped): pay and deductions, sale prices and unit prices, savings, loans, vehicle costs and leasing, map scales and trips: 10 skills, 3 lessons | M |
 | 3.7.0 | Grade 12 MCT4C (shipped): exponential and polynomial functions, formulas, trigonometry, forces, circle properties, arcs and sectors: 17 skills, 4 lessons | L |
 | 3.8.0 | Grade 12 MAP4C (shipped): exponents and models, annuities and mortgages, owning against renting, budgets, optimal dimensions, trigonometry, two-variable data and bias: 16 skills, 4 lessons | L |
+| 3.13.0 | Grade 10 completion (shipped): MPM2D B3 verifying figures (midsegments, medians and the centroid, diagonals of a quadrilateral) and MFM2P C3 reading graphs, with a new read-only graph picture: 5 skills, 2 lessons. Every Grade 10 expectation now has practice | M |
 | 3.12.0 | Household isolation (shipped): admin sees accounts only, usernames unique per household, owner-only delete, share and PIN, family goals stay in one household, same answer when sharing whether or not an address has an account; cross-household tests on every route | M |
 | 3.11.0 | Rich HTML emails in the look of the app: sign-in, invitation, lockout and weekly summary, with a labelled button instead of the bare link (shipped) | S |
 | 3.10.0 | Worksheet topic picker lists the Grade 10 to 12 course topics (shipped); the keyboard-only e2e test handles protractor questions | S |
@@ -82,13 +97,24 @@ Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completel
 
 ## Requested
 
+- Household and family accounts (priority 1, notes from 22 November 2026). Today each child has one owner plus optional co-caregivers, and there is no household entity. Wanted:
+  - A **co-owner** role so two parents are equals. Owners can delete, share, change a PIN and add other owners; nobody can remove the last owner; an owner can step down.
+  - **Ownership transfer** to another caregiver who already shares the child, with a confirmation email to both.
+  - **Leave a shared child** for a co-caregiver, without the owner having to unshare.
+  - **Account deletion** for a caregiver, after a full export (their students, progress, goals, messages) they can download. Define what happens to children they own when other owners exist (they stay) and when none do (they are deleted after a clear warning and a waiting period).
+  - **Invite a parent** from the caregiver page (today only the admin can invite someone with no child to share), with a welcome on first sign-in that explains devices and PINs.
+  - **Activity log** per child, readable by that child's caregivers (priority 2): who viewed or changed what and when. Student sign-ins, goals, messages, worksheets and exports are already recorded in the audit log; the caregiver view and a retention rule are what is missing.
+  - **Passkeys** as a second way to sign in, so a mailbox is not the only key to a household (after the activity log).
+  - Keep the 3.12.0 rules: the admin sees accounts only, usernames are unique per household, a refused share reveals nothing about other families. Extend `tests/household-isolation.test.ts` for every new route (co-owners, transfer, leave, delete and export).
+
 - Brand refresh (decisions made 22 November 2026, nothing built yet). Logo: the shield with the rocket and compass (version 2). If it is refined, check with the owner before adopting. Student side playful (gems, flames, filled topic and reward icons), caregiver side calmer. Line icons for navigation, filled icons for topics and rewards. Palette: blue #1565C0, orange #F57C00, yellow #FBC02D; navy text on orange and a deeper green for text so contrast passes. Redraw the icons as SVG (the sheet icons are raster and some labels have typos), bundle Inter and Fira Code with the app, and keep a high-contrast mode. The mockup is a private artifact; swap the colour tokens first, then icons and logo. Size: M to L.
   - Customization rewards (a student unlocks 10 avatars and 6 colour palettes by level or badge; `shared/rewards.ts`, `shared/palettes.ts`, `web/src/avatars.tsx`, `web/src/rewards.tsx`). What the brand changes:
     - **Classic is the base.** Classic applies no overrides, so it becomes the brand look the moment the base tokens change, for every student who equipped it. Keep the ids (`palette-classic` and the rest) so equipped choices and unlock levels carry over; only the values change.
-    - **The new colours need a home in every palette.** The five unlockable palettes (Sunrise, Forest, Ocean, Twilight, Candy) override `--brand` and friends only. Orange (the next action), yellow (reward) and their soft tints are new variables; a palette that does not define them would show brand orange and yellow inside a green or pink page. Each palette needs its own orange, yellow and text-on-orange. Sunrise (#a8420a) sits close to the brand orange and Candy is pink, so decide whether those palettes recolour the accents too or keep the brand's orange and yellow fixed.
+    - **Decided (22 November 2026): unlockable palettes recolour the accents too, and avatar frames are a new reward.** The points below are written with those two decisions in mind.
+    - **The new colours need a home in every palette.** The five unlockable palettes (Sunrise, Forest, Ocean, Twilight, Candy) override `--brand` and friends only. Orange (the next action), yellow (reward) and their soft tints are new variables; a palette that does not define them would show brand orange and yellow inside a green or pink page. Each palette needs its own orange, yellow and text-on-orange. Decided: every palette defines its own orange, yellow and soft tints (Sunrise's accent must stay distinguishable from its brand colour, and Candy's pink page gets its own warm accents), so each palette reads as one whole look. The brand palette (Classic) keeps #F57C00 and #FBC02D.
     - **Contrast tests grow.** `tests/palettes.test.ts` checks each palette pair for 4.5:1. Add navy-on-orange, text on the soft tints and the dark Twilight orange. Navy on #F57C00 is 5.6, white on it only 2.7.
     - **Icons do not recolour.** The brand topic and reward icons carry their own blue, orange and yellow. Keep them on light tiles (as in the mockup) so a palette changes the page and the buttons but never repaints an icon, or redraw the SVGs so only the blue part follows `--brand`.
-    - **Avatars.** The 10 avatars stay, restyled in the brand's filled style. `avatar-rocket` (unlocked by a 7 day streak) now echoes the logo's rocket, so keep it special: for example give it the shield frame. A new cosmetic kind, a **frame** (the brand shield, a gold shield for a badge), would give students something new to earn without touching the existing unlocks.
+    - **Avatars.** The 10 avatars stay, restyled in the brand's filled style. `avatar-rocket` (unlocked by a 7 day streak) now echoes the logo's rocket, so keep it special: for example give it the shield frame. New cosmetic kind, **frame** (decided: yes), drawn around the avatar in the brand's shield shape: for example a blue shield from level 1, then silver, gold and a rocket-trail frame earned by level or badge, so students have something new to earn without touching the existing unlocks. Needs: a `frame` kind in `shared/rewards.ts` COSMETICS with unlocks, a `frame` column on `reward_state` (migration), the picker on the rewards page, the frame drawn in `web/src/avatars.tsx`, French names, and tests for unlock rules and for every frame being known to the renderer.
     - **Themes.** The student themes `playful`, `hud` and `pro` become: playful = the brand student look, pro = the calmer look (also the caregiver default), hud unchanged. Palettes only apply on the student side, so caregivers always get the brand blue.
     - **High contrast** still wins over any palette and drops orange and yellow for black, white and one bright accent. Dark mode: only Twilight is dark today, so a light palette on a dark device needs a decision (keep it light, or add dark values).
     - **Not affected:** XP, levels, badges' rules, the unlock levels, and the saved choices in `reward_state`.

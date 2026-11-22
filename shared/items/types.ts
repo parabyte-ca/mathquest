@@ -41,6 +41,8 @@ export type Visual =
   | { type: 'areaModel'; rows: number; cols: number; shaded: number }
   | { type: 'plane'; size: number; points?: { x: number; y: number; label?: string }[]; click?: boolean }
   | { type: 'blocks'; tenths: number; hundredths: number }
+  /** A read-only graph of one curve: axes with a grid, tick labels every xstep and ystep, and the curve drawn through `pts`. */
+  | { type: 'graph'; xmin: number; xmax: number; ymin: number; ymax: number; xstep: number; ystep: number; xlabel: string; ylabel: string; pts: [number, number][] }
   /** A protractor. `angle` is the arm to show, measured from the base arm; `flip` puts the base arm on the left (read the other scale). */
   | { type: 'protractor'; angle?: number; flip?: boolean };
 

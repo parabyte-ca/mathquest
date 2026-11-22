@@ -2,6 +2,8 @@
 import type { Generator } from '../items/types.js';
 import { commonFactorGen, completeSquareGen, diffSquaresGen, discriminantGen, expandGen, factorGeneralGen, factorMonicGen, quadFormulaGen, solveFactorGen } from './algebra10.js';
 import { cosineLawGen, distanceGen, circleGen, imperialGen, imperialMetricGen, midpointGen, similarGen, sineLawGen, trigAngleGen, trigProblemGen, trigSideGen } from './geometry10.js';
+import { graphFeatures10, graphValues10 } from './graphs10.js';
+import { diagonals10, median10, midsegment10 } from './figures10.js';
 import { equationFromVertexGen, maxMinGen, openingGen, projectileGen, secondDifferenceGen, vertexXGen, yInterceptGen, zerosGen } from './parabola10.js';
 import { eliminationGen, fractionEqGen, intersectionGen, lineEquationGen, meaningGen, rearrangeGen, slopeGen, substitutionGen, systemProblemGen } from './linear10.js';
 
@@ -34,6 +36,9 @@ export const GENERATORS_G10: Record<string, Generator> = {
   'MS.G10.MPM2D.A4.2.a': projectileGen('MS.G10.MPM2D.A4.2.a'),
   'MS.G10.MPM2D.B2.1.a': midpointGen('MS.G10.MPM2D.B2.1.a'),
   'MS.G10.MPM2D.B2.2.a': distanceGen('MS.G10.MPM2D.B2.2.a'),
+  'MS.G10.MPM2D.B3.1.a': midsegment10('MS.G10.MPM2D.B3.1.a'),
+  'MS.G10.MPM2D.B3.2.a': median10('MS.G10.MPM2D.B3.2.a'),
+  'MS.G10.MPM2D.B3.3.a': diagonals10('MS.G10.MPM2D.B3.3.a'),
   'MS.G10.MPM2D.B2.3.a': circleGen('MS.G10.MPM2D.B2.3.a'),
   'MS.G10.MPM2D.C1.1.a': similarGen('MS.G10.MPM2D.C1.1.a'),
   'MS.G10.MPM2D.C2.1.a': trigSideGen('MS.G10.MPM2D.C2.1.a'),
@@ -55,6 +60,8 @@ export const GENERATORS_G10: Record<string, Generator> = {
   'MS.G10.MFM2P.A3.2.a': imperialMetricGen('MS.G10.MFM2P.A3.2.a'),
   'MS.G10.MFM2P.C2.1.a': zerosGen('MS.G10.MFM2P.C2.1.a'),
   'MS.G10.MFM2P.C2.2.a': yInterceptGen('MS.G10.MFM2P.C2.2.a'),
+  'MS.G10.MFM2P.C3.1.a': graphFeatures10('MS.G10.MFM2P.C3.1.a'),
+  'MS.G10.MFM2P.C3.2.a': graphValues10('MS.G10.MFM2P.C3.2.a'),
   'MS.G10.MFM2P.C1.1.a': expandGen('MS.G10.MFM2P.C1.1.a', false),
   'MS.G10.MFM2P.C1.2.a': commonFactorGen('MS.G10.MFM2P.C1.2.a'),
   'MS.G10.MFM2P.C1.3.a': trinomialOrSquares('MS.G10.MFM2P.C1.3.a'),

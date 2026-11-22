@@ -418,7 +418,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await parent.emulateMedia({ media: 'screen' });
 });
 
-test('protractor lesson: a student draws an angle by moving the arm (slider or drag), and gets it checked', async ({ page, browser, baseURL }, info) => {
+test('protractor lesson: a student draws an angle by moving the arm (slider or drag), and gets it checked; the graph and figure lessons show their pictures with a text equivalent', async ({ page, browser, baseURL }, info) => {
   const { kid } = await setup(browser, baseURL!, page, info, 'pr', undefined, 'interactive');
   await kid.goto('/app/learn/lesson?id=L.g5.protractor-use');
   await expect(kid.getByRole('heading', { name: /Using a protractor/ })).toBeVisible();
@@ -460,4 +460,38 @@ test('protractor lesson: a student draws an angle by moving the arm (slider or d
   await kid.locator('#angle-range').fill(String(angle));
   await kid.getByRole('button', { name: 'Check' }).click();
   await expect(kid.getByText("That's right!")).toBeVisible();
+
+  // the other new pictures (one sign-in for all of them: the server limits sign-in links per address)
+  await kid.goto('/app/learn/lesson?id=L.g10.read-graphs');
+  await expect(kid.getByRole('heading', { name: /Reading and interpreting graphs/ })).toBeVisible();
+  const graph = kid.locator('svg.graph').first();
+  await expect(graph).toBeVisible();
+  const label = (await graph.getAttribute('aria-label')) ?? '';
+  expect(label).toContain('Graph of h (m) against t (s)');
+  expect(label).toContain('t = 2, h = 45'); // the top of the curve is in the text equivalent
+  expect(label).toContain('t = 5, h = 0');
+  await expect(graph.locator('path.curve')).toHaveCount(1);
+  await expect(graph.locator('text.axlabel')).toHaveCount(2);
+  expect((await graph.boundingBox())!.width).toBeGreaterThan(200);
+  let axe = await new AxeBuilder({ page: kid }).withTags(AXE_TAGS).analyze();
+  expect(axe.violations.map((v) => v.id)).toEqual([]);
+
+  await kid.goto('/app/learn/lesson?id=L.g10.verify-figures');
+  await expect(kid.getByRole('heading', { name: /Verifying properties of triangles and quadrilaterals/ })).toBeVisible();
+  await expect(kid.locator('svg.plane').first()).toBeVisible();
+  await expect(kid.locator('svg.plane').first().locator('circle.pt')).toHaveCount(3);
+  axe = await new AxeBuilder({ page: kid }).withTags(AXE_TAGS).analyze();
+  expect(axe.violations.map((v) => v.id)).toEqual([]);
+
+  // a guided question from the graph lesson shows the same kind of graph
+  await kid.goto('/app/learn/lesson?id=L.g10.read-graphs');
+  for (let i = 0; i < 3; i++) {
+    await kid.getByRole('button', { name: 'Next', exact: true }).click();
+    await kid.getByRole('button', { name: 'Next step' }).click();
+  }
+  await kid.getByRole('button', { name: 'Try one with me' }).click();
+  await expect(kid.locator('form.answer')).toBeVisible();
+  await expect(kid.locator('svg.graph').first()).toBeVisible();
+  axe = await new AxeBuilder({ page: kid }).withTags(AXE_TAGS).analyze();
+  expect(axe.violations.map((v) => v.id)).toEqual([]);
 });

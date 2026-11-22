@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.13.0] - 2026-11-22
+### Added
+- Grade 10 is now complete: 5 new micro-skills (463 in all) and 2 lessons.
+  - MPM2D B3, verifying properties of figures with coordinates: the midsegment of a triangle (half the third side), medians and the centroid, and the diagonals of a quadrilateral (name a parallelogram, rectangle, rhombus or square from whether its diagonals bisect each other, are equal or are perpendicular). Each figure is drawn on a grid with its labelled vertices.
+  - MFM2P C3, interpreting graphs of a quadratic relation: the greatest height, when it is reached, the starting height, a height at a time, when it lands, and how long it stays above a height, all read from a graph of a ball, a jet of water or a model rocket.
+- A new read-only graph picture: a smooth curve on a grid with labelled ticks and axis names, drawn from the same numbers as the question. For screen readers it comes with a text equivalent that lists the values at each whole number, and it appears in worksheets and lessons too.
+- Every new answer is recomputed from the picture's own points by an independent, mutation-tested check, so a picture that disagrees with its question is caught. An end-to-end test opens both lessons, checks the axis names, the text equivalent and the accessibility scan.
+
+### Notes
+- Dragging a point or a curve (to draw a line or a parabola) is still on the backlog.
+
 ## [3.12.0] - 2026-11-22
 ### Security
 - Each household is now kept apart from every other. A caregiver reaches only themselves, their own students and the caregivers they share a student with.
