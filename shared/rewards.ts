@@ -174,7 +174,7 @@ export const newBadgeIds = (s: Stats, have: Set<string>): string[] => BADGES.fil
 
 export interface Cosmetic {
   id: string;
-  kind: 'avatar' | 'palette';
+  kind: 'avatar' | 'palette' | 'frame';
   icon: string;
   name: Text;
   /** Reached by level, or by earning a badge. */
@@ -198,9 +198,16 @@ export const COSMETICS: Cosmetic[] = [
   { id: 'palette-ocean', kind: 'palette', icon: '🌊', name: t('Ocean', 'Océan'), unlock: { level: 6 } },
   { id: 'palette-twilight', kind: 'palette', icon: '🌌', name: t('Twilight', 'Crépuscule'), unlock: { level: 8 } },
   { id: 'palette-candy', kind: 'palette', icon: '🍬', name: t('Candy', 'Bonbon'), unlock: { level: 10 } },
+  // Frames are drawn around the avatar in the brand's shield shape. "No frame" is the default, so nothing changes for anyone until they choose one.
+  { id: 'frame-none', kind: 'frame', icon: '⭕', name: t('No frame', 'Sans cadre'), unlock: { level: 1 } },
+  { id: 'frame-blue', kind: 'frame', icon: '🛡️', name: t('Blue shield', 'Écu bleu'), unlock: { level: 2 } },
+  { id: 'frame-silver', kind: 'frame', icon: '🥈', name: t('Silver shield', 'Écu argenté'), unlock: { level: 5 } },
+  { id: 'frame-gold', kind: 'frame', icon: '🥇', name: t('Gold shield', 'Écu doré'), unlock: { level: 9 } },
+  { id: 'frame-rocket', kind: 'frame', icon: '🚀', name: t('Rocket trail', 'Traînée de fusée'), unlock: { badge: 'streak-30' } },
 ];
 export const cosmeticById = (id: string): Cosmetic | undefined => COSMETICS.find((c) => c.id === id);
 export const DEFAULT_AVATAR = 'avatar-fox';
 export const DEFAULT_PALETTE = 'palette-classic';
+export const DEFAULT_FRAME = 'frame-none';
 
 export const isUnlocked = (c: Cosmetic, level: number, badges: Set<string>): boolean => ('level' in c.unlock ? level >= c.unlock.level : badges.has(c.unlock.badge));

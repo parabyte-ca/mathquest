@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.17.0] - 2026-11-22
+### Added
+- Avatar frames, a new reward. A student can draw the brand's shield around their avatar: Blue shield (level 2), Silver shield (level 5), Gold shield (level 9) and Rocket trail (earned with the month-streak badge). "No frame" is the starting choice, so nothing changes for anyone until they pick one. The frame shows in the header and on the rewards page, with a "Frames" picker, in English and French. Frames are part of a student's export.
+- The 16 badges are now filled SVG icons on round medals in the brand's blue, orange and yellow, drawn for this app so they look the same on every device; a locked badge is a grey medal with a padlock. The old emoji remain as a fallback.
+
+### Notes
+- Migration 13 adds `reward_state.frame`. Existing students keep "no frame".
+- The avatars were already SVG. A vector logo, the install icons and line icons for the navigation are still to do; any change to the logo will be checked with the owner first.
+
 ## [3.16.0] - 2026-11-22
 ### Changed
 - The app has the new brand colours: a deeper blue (#1565C0) for the app, links and buttons, orange (#F57C00) for the next action (Check, Next, Continue) with navy text because white on orange fails contrast, and yellow for rewards. Light and dark modes both pass the contrast checks, and high contrast still wins, using one bright accent.

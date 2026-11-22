@@ -151,6 +151,29 @@ describe('rewards through the learning flow', () => {
     await s.agent.post('/api/learn/rewards/equip').set('x-csrf-token', s.csrf).send({ id: 'avatar-dragon' }).expect(200);
   });
 
+  it('lets a student choose an avatar frame once it is unlocked, starting with none, and keeps it in the export', async () => {
+    const env = mk(7);
+    const s = await makeStudent(env);
+    const equip = (id: string) => s.agent.post('/api/learn/rewards/equip').set('x-csrf-token', s.csrf).send({ id });
+    const header = async () => (await s.agent.get('/api/learn/rewards/header').expect(200)).body;
+    expect((await header()).frame).toBe('frame-none'); // nothing changes for anyone until they choose
+    expect((await s.agent.get('/api/learn/rewards').expect(200)).body.frame).toBe('frame-none');
+    await equip('frame-blue').expect(403); // level 2
+    env.db.prepare('UPDATE reward_state SET xp = 400 WHERE student_id = ?').run(s.studentId);
+    const level = (await s.agent.get('/api/learn/rewards').expect(200)).body.level as number;
+    expect(level).toBeGreaterThanOrEqual(2);
+    await equip('frame-blue').expect(200);
+    expect((await header()).frame).toBe('frame-blue');
+    expect((await header()).avatar).toBe('avatar-fox'); // choosing a frame does not change the avatar
+    await equip('frame-rocket').expect(403); // needs the month-streak badge
+    env.db.prepare("INSERT INTO badge_earned (student_id, badge_id, at) VALUES (?, 'streak-30', 1)").run(s.studentId);
+    await equip('frame-rocket').expect(200);
+    await equip('frame-none').expect(200);
+    expect((await header()).frame).toBe('frame-none');
+    const row = env.db.prepare('SELECT frame FROM reward_state WHERE student_id = ?').get(s.studentId) as { frame: string };
+    expect(row.frame).toBe('frame-none');
+  });
+
   it('does not reward placement answers', () => {
     const env = mk(6);
     return makeStudent(env).then((s) => {

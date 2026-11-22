@@ -3,11 +3,12 @@ import type { Text } from '../../shared/items/types';
 import { PALETTES } from '../../shared/palettes';
 import { COSMETICS, challengeById } from '../../shared/rewards';
 import { api } from './api';
-import { Avatar, PaletteSwatch } from './avatars';
+import { Avatar, FramePreview, PaletteSwatch } from './avatars';
+import { BadgeIcon } from './icons';
 import { t } from './i18n';
 import { tt } from './MathText';
 
-export interface RewardHeader { level: number; xp: number; into: number; need: number; streak: number; avatar: string; palette: string }
+export interface RewardHeader { level: number; xp: number; into: number; need: number; streak: number; avatar: string; palette: string; frame: string }
 export interface RewardResult {
   xp: number;
   parts: { kind: string; xp: number }[];
@@ -49,7 +50,7 @@ export function useRewardHeader(): RewardHeader | null {
 /** Called after an answer: moves the header to the new totals without another request. */
 export function applyReward(r: RewardResult): void {
   if (!r) return;
-  publish({ level: r.level, xp: r.totalXp, into: r.into, need: r.need, streak: r.streak, avatar: header?.avatar ?? 'avatar-fox', palette: header?.palette ?? 'palette-classic' });
+  publish({ level: r.level, xp: r.totalXp, into: r.into, need: r.need, streak: r.streak, avatar: header?.avatar ?? 'avatar-fox', palette: header?.palette ?? 'palette-classic', frame: header?.frame ?? 'frame-none' });
 }
 export const refreshHeader = async (): Promise<void> => { const r = await api<RewardHeader>('GET', '/learn/rewards/header'); if (r.ok) publish(r.data); };
 
@@ -76,7 +77,7 @@ export function RewardBar({ highContrast, go }: { highContrast: boolean; go: (to
   const pct = Math.min(100, Math.round((h.into / h.need) * 100));
   return (
     <a class="rewardbar" data-tour="rewards" href="/app/learn/rewards" onClick={(e) => { e.preventDefault(); go('/app/learn/rewards'); }} aria-label={t('rewards.barLabel', { level: h.level, xp: h.xp, streak: h.streak })}>
-      <span class="avatar" aria-hidden="true"><Avatar id={h.avatar} size={32} /></span>
+      <span class="avatar" aria-hidden="true"><Avatar id={h.avatar} size={32} frame={h.frame} /></span>
       <span class="lvl">{t('rewards.level', { n: h.level })}</span>
       <span class="xpmeter" role="progressbar" aria-valuemin={0} aria-valuemax={h.need} aria-valuenow={h.into} aria-label={t('rewards.toNext')}><span style={{ width: `${pct}%` }} /></span>
       <span class="xpnum">{h.xp} XP</span>
@@ -114,9 +115,9 @@ export function RewardNote({ r, badgeNames }: { r: RewardResult; badgeNames: Rec
 
 interface Summary {
   xp: number; level: number; into: number; need: number; streak: number; bestStreak: number; freezes: number; practicedToday: boolean;
-  minutesToday: number; dailyGoalMinutes: number; avatar: string; palette: string;
+  minutesToday: number; dailyGoalMinutes: number; avatar: string; palette: string; frame: string;
   badges: { id: string; icon: string; name: Text; how: Text; earnedAt: number | null }[];
-  cosmetics: { id: string; kind: 'avatar' | 'palette'; icon: string; name: Text; unlocked: boolean; unlock: { level: number } | { badge: string } }[];
+  cosmetics: { id: string; kind: 'avatar' | 'palette' | 'frame'; icon: string; name: Text; unlocked: boolean; unlock: { level: number } | { badge: string } }[];
   goals: { id: string; title: string; note?: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }[];
   challenges: { id: string; icon: string; name: Text; how: Text; target: number; xp: number; progress: number; done: boolean }[];
   teamGoals: { id: string; title: string; xpTarget: number; progress: number; reached: boolean; redeemed: boolean }[];
@@ -137,12 +138,12 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
   if (!s) return <section class="card"><p role="status">{t('common.loading')}</p></section>;
   const pct = Math.min(100, Math.round((s.into / s.need) * 100));
   const lock = (c: Summary['cosmetics'][number]): string => ('level' in c.unlock ? t('rewards.unlockLevel', { n: c.unlock.level }) : t('rewards.unlockBadge', { name: tt(s.badges.find((b) => b.id === (c.unlock as { badge: string }).badge)?.name ?? { en: '', fr: '' }) }));
-  const group = (kind: 'avatar' | 'palette', equipped: string) => (
+  const group = (kind: 'avatar' | 'palette' | 'frame', equipped: string) => (
     <ul class="cosmetics plain">
       {s.cosmetics.filter((c) => c.kind === kind).map((c) => (
         <li key={c.id}>
           <button type="button" class={`cosmetic secondary${c.id === equipped ? ' on' : ''}`} disabled={!c.unlocked} aria-pressed={c.id === equipped} onClick={() => equip(c.id)}>
-            <span class="big" aria-hidden="true">{c.kind === 'avatar' ? <Avatar id={c.id} size={36} /> : <PaletteSwatch id={c.id} size={28} />}</span> {tt(c.name)}
+            <span class="big" aria-hidden="true">{c.kind === 'avatar' ? <Avatar id={c.id} size={36} /> : c.kind === 'frame' ? <FramePreview id={c.id} size={36} /> : <PaletteSwatch id={c.id} size={28} />}</span> {tt(c.name)}
             {!c.unlocked && <span class="muted small"> 🔒 {lock(c)}</span>}
           </button>
         </li>
@@ -153,7 +154,7 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
   return (
     <>
       <section class="card" aria-labelledby="rw-title">
-        <h1 id="rw-title"><span class="avatar-lg"><Avatar id={s.avatar} size={48} /></span> {t('rewards.title')}</h1>
+        <h1 id="rw-title"><span class="avatar-lg"><Avatar id={s.avatar} size={48} frame={s.frame} /></span> {t('rewards.title')}</h1>
         <p><strong>{t('rewards.level', { n: s.level })}</strong> · {s.xp} XP</p>
         <div class="xpmeter wide" role="progressbar" aria-valuemin={0} aria-valuemax={s.need} aria-valuenow={s.into} aria-label={t('rewards.toNext')}><span style={{ width: `${pct}%` }} /></div>
         <p class="muted small">{t('rewards.xpToNext', { n: s.need - s.into, next: s.level + 1 })}</p>
@@ -217,7 +218,7 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
         <ul class="badges plain">
           {s.badges.map((b) => (
             <li key={b.id} class={b.earnedAt ? 'earned' : 'locked'}>
-              <span class="big" aria-hidden="true">{b.earnedAt ? b.icon : '🔒'}</span>
+              <span class="big" aria-hidden="true"><BadgeIcon id={b.id} fallback={b.icon} locked={!b.earnedAt} /></span>
               <span><strong>{tt(b.name)}</strong><br /><span class="muted small">{tt(b.how)}</span></span>
               <span class="sr">{b.earnedAt ? t('rewards.earned') : t('rewards.notYet')}</span>
             </li>
@@ -231,6 +232,8 @@ export function Rewards({ go, highContrast }: { go: (to: string) => void; highCo
         <h2>{t('rewards.palettes')}</h2>
         {highContrast && <p class="note">{t('rewards.hcNote')}</p>}
         {group('palette', s.palette)}
+        <h2>{t('rewards.frames')}</h2>
+        {group('frame', s.frame)}
         <p role="status">{msg}</p>
       </section>
     </>

@@ -460,6 +460,14 @@ const MIGRATIONS: { id: number; name: string; sql: string; rebuildsReferencedTab
     UPDATE audit_log SET student_id = actor_id WHERE action = 'auth.student_login' AND actor_id IN (SELECT id FROM students);
     `,
   },
+  {
+    id: 13,
+    name: 'avatar-frames',
+    sql: `
+    -- The frame a student has drawn around their avatar; 'frame-none' until they choose one.
+    ALTER TABLE reward_state ADD COLUMN frame TEXT NOT NULL DEFAULT 'frame-none';
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

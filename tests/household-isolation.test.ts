@@ -278,6 +278,7 @@ describe('the upgrade that lets usernames repeat', () => {
     expect((db.prepare('SELECT COUNT(*) AS n FROM mastery').get() as { n: number }).n).toBe(0);
     expect((db.prepare('SELECT COUNT(*) AS n FROM student_caregivers').get() as { n: number }).n).toBe(0);
     migrate(db); // running it again changes nothing
-    expect((db.prepare('SELECT COUNT(*) AS n FROM schema_version').get() as { n: number }).n).toBe(12);
+    const v = db.prepare('SELECT COUNT(*) AS n, MAX(id) AS last FROM schema_version').get() as { n: number; last: number };
+    expect(v.n).toBe(v.last); // every migration applied, none skipped, however many there are
   });
 });

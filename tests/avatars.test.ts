@@ -25,3 +25,34 @@ describe('avatars and palette swatches', () => {
     expect(src).not.toMatch(/<script|<image|href=|xlink|javascript:/i);
   });
 });
+
+describe('avatar frames', () => {
+  const frames = COSMETICS.filter((x) => x.kind === 'frame');
+  it('has "no frame" as the starting choice and draws every other frame', () => {
+    expect(frames[0]!.id).toBe('frame-none');
+    for (const c of frames.filter((x) => x.id !== 'frame-none')) expect(src, c.id).toContain(`'${c.id}':`);
+  });
+  it('only draws frames that exist', () => {
+    const ids = new Set(frames.map((x) => x.id));
+    for (const m of src.matchAll(/'(frame-[a-z]+)':/g)) expect(ids.has(m[1]!), m[1]).toBe(true);
+  });
+  it('unlocks by level or badge, with the first real frame early and the rocket trail for a long streak', () => {
+    const by = Object.fromEntries(frames.map((f) => [f.id, f.unlock]));
+    expect(by['frame-none']).toEqual({ level: 1 });
+    expect(by['frame-blue']).toEqual({ level: 2 });
+    expect(by['frame-rocket']).toEqual({ badge: 'streak-30' });
+    const levels = ['frame-blue', 'frame-silver', 'frame-gold'].map((id) => (by[id] as { level: number }).level);
+    expect([...levels].sort((a, b) => a - b)).toEqual(levels);
+  });
+});
+
+describe('badge icons', () => {
+  const icons = readFileSync('web/src/icons.tsx', 'utf8');
+  it('draws every badge', async () => {
+    const { BADGES } = await import('../shared/rewards.js');
+    for (const b of BADGES) expect(icons, b.id).toMatch(new RegExp(`'?${b.id}'?:`));
+  });
+  it('is free of scripts, links and external images', () => {
+    expect(icons).not.toMatch(/<script|<image|href=|xlink|javascript:/i);
+  });
+});

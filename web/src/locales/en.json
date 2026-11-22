@@ -586,5 +586,6 @@
   "activity.goal.archive": "{actor} archived a goal.",
   "activity.message.send": "{actor} sent a message.",
   "activity.worksheet.create": "{actor} made a worksheet.",
-  "activity.auth.student_login": "{actor} signed in on a device."
+  "activity.auth.student_login": "{actor} signed in on a device.",
+  "rewards.frames": "Frames"
 }

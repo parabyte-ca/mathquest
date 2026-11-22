@@ -586,5 +586,6 @@
   "activity.goal.archive": "{actor} a archivé un objectif.",
   "activity.message.send": "{actor} a envoyé un message.",
   "activity.worksheet.create": "{actor} a créé une feuille d'exercices.",
-  "activity.auth.student_login": "{actor} s'est connecté sur un appareil."
+  "activity.auth.student_login": "{actor} s'est connecté sur un appareil.",
+  "rewards.frames": "Cadres"
 }
