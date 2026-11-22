@@ -22,10 +22,14 @@ export async function runBackup(db: DB, cfg: Pick<Config, 'dataDir' | 'backupRet
   return dest;
 }
 
+/** How long a student's activity is kept, in days. */
+export const ACTIVITY_DAYS = 180;
+
 export function purgeExpired(db: DB, now = Date.now()): void {
   db.prepare('DELETE FROM sessions WHERE expires_at < ?').run(now);
   db.prepare('DELETE FROM magic_tokens WHERE expires_at < ?').run(now - 86_400_000);
   db.prepare('DELETE FROM device_pairings WHERE expires_at < ?').run(now);
+  db.prepare('DELETE FROM audit_log WHERE student_id IS NOT NULL AND at < ?').run(new Date(now - ACTIVITY_DAYS * 86_400_000).toISOString());
   db.prepare('DELETE FROM pending_item WHERE issued_at < ?').run(now - 24 * 3_600_000);
 }
 

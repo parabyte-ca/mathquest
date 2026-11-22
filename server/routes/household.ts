@@ -5,6 +5,7 @@ import { z } from 'zod';
 import type { Ctx, StudentRow, UserRow } from '../context.js';
 import { requireUser } from '../context.js';
 import { audit } from '../audit.js';
+import { ACTIVITY_DAYS } from '../jobs.js';
 import { newId, nowIso } from '../db.js';
 import { caregiverExport } from '../export.js';
 import { DELETE_GRACE_MS, addLink, caregiversOf, deletePreview, linkRole, MAX_CAREGIVERS, notice, notifyShared, ownerIds } from '../household.js';
@@ -31,6 +32,30 @@ export function householdRoutes(ctx: Ctx): Router {
   });
 
   // Make a helper an owner, or step down from owner to helper. Owners never demote or remove each other: each owner can only step down themselves.
+  // What has happened on this student, newest first: who looked, changed or shared what, and when. Every caregiver on the student can read it; nobody else can.
+  r.get('/students/:id/activity', requireUser('caregiver'), (req, res) => {
+    const a = access(ctx, me(req), req.params.id as string);
+    if (!a) return void res.status(404).json({ error: 'not_found' });
+    const before = Number(req.query.before) || Number.MAX_SAFE_INTEGER;
+    const limit = Math.min(Number(req.query.limit) || 30, 100);
+    const rows = ctx.db.prepare('SELECT id, at, actor_kind AS actorKind, actor_id AS actorId, action, meta_json AS meta FROM audit_log WHERE student_id = ? AND id < ? ORDER BY id DESC LIMIT ?').all(a.student.id, before, limit + 1) as { id: number; at: string; actorKind: string; actorId: string | null; action: string; meta: string }[];
+    const on = new Map(caregiversOf(ctx.db, a.student.id, me(req).id).map((c) => [c.id, c]));
+    const who = (id: string | null) => (id && on.get(id) ? { name: on.get(id)!.displayName || on.get(id)!.email, you: on.get(id)!.you } : null);
+    const SHOWN = ['role', 'fields', 'xpTarget', 'count', 'focus'];
+    const entries = rows.slice(0, limit).map((e) => {
+      const meta = JSON.parse(e.meta) as Record<string, unknown>;
+      return {
+        id: e.id,
+        at: e.at,
+        action: e.action,
+        actor: e.actorKind === 'student' ? { name: a.student.display_name, student: true } : e.actorKind === 'system' ? { system: true } : (who(e.actorId) ?? { former: true }),
+        other: typeof meta.caregiver === 'string' ? who(meta.caregiver) ?? { former: true } : typeof meta.to === 'string' ? who(meta.to) ?? { former: true } : undefined,
+        detail: Object.fromEntries(Object.entries(meta).filter(([k]) => SHOWN.includes(k))),
+      };
+    });
+    res.json({ entries, more: rows.length > limit, keepDays: ACTIVITY_DAYS });
+  });
+
   r.patch('/students/:id/caregivers/:cid', requireUser('caregiver'), (req, res) => {
     const parsed = z.object({ role: z.enum(['owner', 'co']) }).strict().safeParse(req.body);
     if (!parsed.success) return void res.status(400).json({ error: 'invalid_request' });
@@ -89,6 +114,7 @@ export function householdRoutes(ctx: Ctx): Router {
       invited = true;
     }
     const added = mine.filter((s) => addLink(ctx.db, s, target!, parsed.data.role, user) === 'added');
+    for (const sid of added.map((x) => x.id)) audit(ctx.db, { kind: 'caregiver', id: user.id }, 'student.share', sid, { caregiver: target.id, role: parsed.data.role });
     audit(ctx.db, { kind: 'caregiver', id: user.id }, 'student.share', null, { caregiver: target.id, students: added.length, role: parsed.data.role, noteAttached: invited && !!parsed.data.note });
     if (invited) await sendSignInLink(ctx, target, { invite: true, note: parsed.data.note || undefined, from: nameOf(user) });
     else if (added.length > 0) await notifyShared(ctx, target, added[0]!, user, parsed.data.role).catch(() => undefined);

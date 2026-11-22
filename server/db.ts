@@ -446,6 +446,20 @@ const MIGRATIONS: { id: number; name: string; sql: string; rebuildsReferencedTab
     ALTER TABLE users ADD COLUMN delete_at INTEGER;
     `,
   },
+  {
+    id: 12,
+    name: 'student-activity',
+    sql: `
+    -- Which student an entry is about, so a student's caregivers can read their own family's activity. Deleting the student deletes it.
+    ALTER TABLE audit_log ADD COLUMN student_id TEXT REFERENCES students(id) ON DELETE CASCADE;
+    CREATE INDEX idx_audit_student ON audit_log(student_id, id);
+    UPDATE audit_log SET student_id = target
+      WHERE target IN (SELECT id FROM students)
+        AND (action LIKE 'student.%' OR action LIKE 'goal.%' OR action = 'message.send' OR action = 'worksheet.create')
+        AND action <> 'student.delete';
+    UPDATE audit_log SET student_id = actor_id WHERE action = 'auth.student_login' AND actor_id IN (SELECT id FROM students);
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

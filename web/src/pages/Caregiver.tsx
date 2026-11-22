@@ -86,6 +86,7 @@ function StudentRow({ s, onChange, go, first }: { s: StudentInfo; onChange: () =
         </form>
       )}
       <Caregivers s={s} onChange={onChange} />
+      <Activity s={s} />
     </li>
   );
 }
@@ -384,5 +385,43 @@ function Account({ me }: { me: Extract<Me, { kind: 'user' }> }) {
         </form>
       )}
     </section>
+  );
+}
+
+interface Ev { id: number; at: string; action: string; actor: { name?: string; you?: boolean; former?: boolean; student?: boolean; system?: boolean }; other?: { name?: string; former?: boolean }; detail: Record<string, unknown> }
+
+/** What has happened on one student: who looked, changed or shared what, and when. Loaded when opened. */
+function Activity({ s }: { s: StudentInfo }) {
+  const [open, setOpen] = useState(false);
+  const [events, setEvents] = useState<Ev[] | null>(null);
+  const [more, setMore] = useState(false);
+  const [days, setDays] = useState(180);
+  const load = async (before?: number) => {
+    const r = await api<{ entries: Ev[]; more: boolean; keepDays: number }>('GET', `/students/${s.id}/activity${before ? `?before=${before}` : ''}`);
+    if (!r.ok) return;
+    setEvents((old) => (before && old ? [...old, ...r.data.entries] : r.data.entries));
+    setMore(r.data.more);
+    setDays(r.data.keepDays);
+  };
+  useEffect(() => { if (open && events === null) void load(); }, [open]);
+  const name = (p?: { name?: string; former?: boolean }) => (p?.former || !p?.name ? t('activity.former') : p.name);
+  const line = (e: Ev) => {
+    const actor = e.actor.system ? t('activity.system') : e.actor.you ? t('activity.you') : e.actor.student ? e.actor.name! : name(e.actor);
+    const role = e.detail.role === 'owner' ? t('household.roleOwner') : t('household.roleCo');
+    const key = `activity.${e.action}`;
+    const text = t(key, { actor, other: name(e.other), role, fields: Array.isArray(e.detail.fields) ? e.detail.fields.join(', ') : '' });
+    return text === key ? `${actor}: ${e.action}` : text;
+  };
+  return (
+    <details class="household" open={open} onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}>
+      <summary>{t('activity.title')}</summary>
+      {events === null && <p role="status">{t('common.loading')}</p>}
+      {events?.length === 0 && <p class="muted">{t('activity.none')}</p>}
+      <ul class="plain">
+        {events?.map((e) => <li key={e.id}><span>{line(e)}</span> <span class="muted small"><time dateTime={e.at}>{new Date(e.at).toLocaleString()}</time></span></li>)}
+      </ul>
+      {more && events && <button type="button" class="secondary" onClick={() => void load(events[events.length - 1]!.id)}>{t('activity.more')}</button>}
+      <p class="muted small">{t('activity.keep', { days })}</p>
+    </details>
   );
 }

@@ -63,6 +63,7 @@ MathQuest can serve several families. The rule is that a person reaches only the
 - The install admin manages accounts (invite, disable, upgrades, question review). The admin has no way into a family's students, progress, goals, messages or worksheets, and the audit log shown to the admin lists account-level events only.
 - Usernames only have to be unique inside a household. A student signs in on a device a caregiver approved, and the name is looked up only among that caregiver's students. A name clash is refused when you create a student or share one, and says nothing about other families.
 - Sharing answers the same whether or not the address has an account, and an existing caregiver gets a short notice by email.
+- A student's activity log (who looked, changed or shared what, and when) is read only by the caregivers on that student, through the same gate as every student route. It holds no goal titles or message text, is kept 180 days, and is deleted with the student. The admin's audit view lists account events only.
 - Family goals count only the students their creator owns and are shown only to those students.
 - Shared on purpose: the question bank and the curriculum. They hold no student data.
 
