@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.8.0] - 2026-11-22
+### Added
+- Grade 12 MAP4C (Data Management and Applications for College): 16 new micro-skills (447 in all) and 4 lessons, choosable by course with its four strands.
+  - Mathematical models: rational exponents, exponent rules, exponential equations, comparing linear models (including the break-even point), and rearranging formulas.
+  - Personal finance: annuities, mortgages (interest paid, balance after a payment, the split of a payment), owning against renting, and budgets.
+  - Geometry and trigonometry: measurement problems, optimal dimensions of rectangles, right-triangle trigonometry and the sine and cosine laws with obtuse angles.
+  - Data management: the line of best fit, quartiles and outliers, and bias in data from the media and advertising.
+- Every new answer is recomputed by an independent, mutation-tested check; the optimal dimensions are checked by trying every whole-number rectangle.
+
+### Notes
+- Technology-based solving (TVM solver, amortization tables) and graph-reading tasks stay in the lessons; there is nothing to auto-check.
+- MEL4E still shows "coming soon".
+
 ## [3.7.0] - 2026-11-22
 ### Added
 - Grade 12 MCT4C (College Technology): 17 new micro-skills (431 in all) and 4 lessons, choosable by course with its four strands.

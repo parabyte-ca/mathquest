@@ -12,11 +12,16 @@ import { exactRad12, radians12, sinusoid12, trigEq12 } from './trig12.js';
 import { arc11, circle11, force11, polyEval11, rearrange11 } from './mct12.js';
 import { solveFactorGen } from './algebra10.js';
 import { cosineLawGen, sineLawGen, trigSideGen } from './geometry10.js';
-import { sineFunction11, sinusoid11 } from './trig11.js';
+import { obtuseLaws11, sineFunction11, sinusoid11 } from './trig11.js';
 import { growth11 } from './expo11.js';
 import { composite9 } from './geometry9.js';
+import { housing11, linearCompare11, mortgage11, optimal11 } from './map12.js';
+import { rationalExp11 } from './expo11.js';
+import { exponentRules11 } from './mcf11.js';
+import { annuity11 } from './discrete11.js';
+import { budget9 } from './finance9.js';
 
-// Registry of the Grade 12 generators (MHF4U, MCV4U, MDM4U and MCT4C).
+// Registry of the Grade 12 generators (MHF4U, MCV4U, MDM4U, MCT4C and MAP4C).
 export const GENERATORS_G12: Record<string, Generator> = {
   // MHF4U, Exponential and Logarithmic Functions (A)
   'MS.G12.MHF4U.A1.1.a': logEval12('MS.G12.MHF4U.A1.1.a'),
@@ -91,4 +96,21 @@ export const GENERATORS_G12: Record<string, Generator> = {
   'MS.G12.MCT4C.D2.1.a': composite9('MS.G12.MCT4C.D2.1.a'),
   'MS.G12.MCT4C.D3.1.a': circle11('MS.G12.MCT4C.D3.1.a'),
   'MS.G12.MCT4C.D3.2.a': arc11('MS.G12.MCT4C.D3.2.a'),
+  // MAP4C, Mathematical Models (A), Personal Finance (B), Geometry and Trigonometry (C) and Data Management (D)
+  'MS.G12.MAP4C.A1.1.a': rationalExp11('MS.G12.MAP4C.A1.1.a'),
+  'MS.G12.MAP4C.A1.2.a': exponentRules11('MS.G12.MAP4C.A1.2.a'),
+  'MS.G12.MAP4C.A1.3.a': expEq12('MS.G12.MAP4C.A1.3.a'),
+  'MS.G12.MAP4C.A2.1.a': linearCompare11('MS.G12.MAP4C.A2.1.a'),
+  'MS.G12.MAP4C.A3.1.a': rearrange11('MS.G12.MAP4C.A3.1.a'),
+  'MS.G12.MAP4C.B1.1.a': annuity11('MS.G12.MAP4C.B1.1.a'),
+  'MS.G12.MAP4C.B1.2.a': mortgage11('MS.G12.MAP4C.B1.2.a'),
+  'MS.G12.MAP4C.B2.1.a': housing11('MS.G12.MAP4C.B2.1.a'),
+  'MS.G12.MAP4C.B3.1.a': budget9('MS.G12.MAP4C.B3.1.a'),
+  'MS.G12.MAP4C.C1.1.a': composite9('MS.G12.MAP4C.C1.1.a'),
+  'MS.G12.MAP4C.C2.1.a': optimal11('MS.G12.MAP4C.C2.1.a'),
+  'MS.G12.MAP4C.C3.1.a': trigSideGen('MS.G12.MAP4C.C3.1.a'),
+  'MS.G12.MAP4C.C3.2.a': obtuseLaws11('MS.G12.MAP4C.C3.2.a'),
+  'MS.G12.MAP4C.D1.1.a': regression12('MS.G12.MAP4C.D1.1.a'),
+  'MS.G12.MAP4C.D1.2.a': quartiles12('MS.G12.MAP4C.D1.2.a'),
+  'MS.G12.MAP4C.D2.1.a': sampling12('MS.G12.MAP4C.D2.1.a', 'bias'),
 };
