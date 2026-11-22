@@ -1,4 +1,5 @@
 import type { Visual } from '../../shared/items/types';
+import { graphLayout, graphTable, type GraphVisual } from '../../shared/graphLayout';
 import { getLang } from './i18n';
 
 /** A text description for screen readers, so every picture has an equivalent. */
@@ -11,6 +12,10 @@ export function describeVisual(v: Visual): string {
     case 'areaModel': return fr ? `Grille de ${v.rows} sur ${v.cols}, ${v.shaded} cases ombrées.` : `${v.rows} by ${v.cols} grid with ${v.shaded} squares shaded.`;
     case 'plane': return fr ? `Plan de coordonnées${v.points?.length ? ` avec ${v.points.length} point(s)` : ''}.` : `Coordinate grid${v.points?.length ? ` with ${v.points.length} point(s)` : ''}.`;
     case 'protractor': return fr ? `Rapporteur d'angles${v.angle !== undefined ? `, avec un bras tracé${v.flip ? ' (bras de base à gauche)' : ''}` : ''}.` : `Protractor${v.angle !== undefined ? `, with an arm drawn${v.flip ? ' (base arm on the left)' : ''}` : ''}.`;
+    case 'graph': {
+      const rows = graphTable(v).map(([x, y]) => `${v.xlabel.split(' ')[0]} = ${x}, ${v.ylabel.split(' ')[0]} = ${y}`).join('; ');
+      return fr ? `Graphique de ${v.ylabel} en fonction de ${v.xlabel}, de ${v.xmin} à ${v.xmax}. Valeurs : ${rows}.` : `Graph of ${v.ylabel} against ${v.xlabel}, from ${v.xmin} to ${v.xmax}. Values: ${rows}.`;
+    }
     case 'blocks': return fr ? `${v.tenths} bandes de dixièmes et ${v.hundredths} petits carrés de centièmes.` : `${v.tenths} tenths strips and ${v.hundredths} hundredths squares.`;
   }
 }
@@ -62,6 +67,33 @@ function Plane({ v, onPick }: { v: Extract<Visual, { type: 'plane' }>; onPick?: 
           {p.label && <text class="vlabel" x={toX(p.x) + 10} y={toY(p.y) - 8}>{p.label}</text>}
         </g>
       ))}
+    </svg>
+  );
+}
+
+/** A read-only graph of one curve, with a grid, labelled ticks and axis names. */
+function Graph({ v }: { v: GraphVisual }) {
+  const L = graphLayout(v);
+  const x0 = L.toX(v.xmin), y0 = L.toY(v.ymin), x1 = L.toX(v.xmax), y1 = L.toY(v.ymax);
+  return (
+    <svg viewBox={`0 0 ${L.w} ${L.h}`} class="vis graph" role="img" aria-label={describeVisual(v)}>
+      {L.xticks.map((t) => (
+        <g key={`x${t.v}`}>
+          <line class="grid" x1={t.x} y1={y0} x2={t.x} y2={y1} />
+          <text class="tick" x={t.x} y={y0 + 16} text-anchor="middle">{t.v}</text>
+        </g>
+      ))}
+      {L.yticks.map((t) => (
+        <g key={`y${t.v}`}>
+          <line class="grid" x1={x0} y1={t.y} x2={x1} y2={t.y} />
+          <text class="tick" x={x0 - 8} y={t.y + 4} text-anchor="end">{t.v}</text>
+        </g>
+      ))}
+      <line class="axis" x1={x0} y1={y0} x2={x1} y2={y0} />
+      <line class="axis" x1={x0} y1={y0} x2={x0} y2={y1} />
+      <path class="curve" d={L.path} />
+      <text class="axlabel" x={(x0 + x1) / 2} y={L.h - 6} text-anchor="middle">{v.xlabel}</text>
+      <text class="axlabel" x={12} y={(y0 + y1) / 2} text-anchor="middle" transform={`rotate(-90 12 ${(y0 + y1) / 2})`}>{v.ylabel}</text>
     </svg>
   );
 }
@@ -160,6 +192,8 @@ export function Visual({ v, picked, onPick, onAngle }: { v: Visual; picked?: { x
       );
     case 'protractor':
       return <Protractor v={v} onAngle={onAngle} />;
+    case 'graph':
+      return <Graph v={v} />;
     case 'plane': {
       const pts = [...(v.points ?? []), ...(picked ? [{ x: picked.x, y: picked.y }] : [])];
       return <Plane v={{ ...v, points: pts }} onPick={v.click ? onPick : undefined} />;

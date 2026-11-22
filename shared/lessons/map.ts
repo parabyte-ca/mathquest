@@ -96,6 +96,8 @@ export const LESSON_BUCKET_OF: Record<string, LessonBucket> = {
   'L.g10.similar-trig': 'g10',
   'L.g10.laws': 'g10',
   'L.g10.imperial': 'g10',
+  'L.g10.verify-figures': 'g10',
+  'L.g10.read-graphs': 'g10',
   'L.g11.functions': 'g11',
   'L.g11.quadratic-expressions': 'g11',
   'L.g11.exponentials': 'g11',

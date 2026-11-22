@@ -34,6 +34,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 3.6.0 | Grade 11 MEL3E (shipped): pay and deductions, sale prices and unit prices, savings, loans, vehicle costs and leasing, map scales and trips: 10 skills, 3 lessons | M |
 | 3.7.0 | Grade 12 MCT4C (shipped): exponential and polynomial functions, formulas, trigonometry, forces, circle properties, arcs and sectors: 17 skills, 4 lessons | L |
 | 3.8.0 | Grade 12 MAP4C (shipped): exponents and models, annuities and mortgages, owning against renting, budgets, optimal dimensions, trigonometry, two-variable data and bias: 16 skills, 4 lessons | L |
+| 3.13.0 | Grade 10 completion (shipped): MPM2D B3 verifying figures (midsegments, medians and the centroid, diagonals of a quadrilateral) and MFM2P C3 reading graphs, with a new read-only graph picture: 5 skills, 2 lessons. Every Grade 10 expectation now has practice | M |
 | 3.12.0 | Household isolation (shipped): admin sees accounts only, usernames unique per household, owner-only delete, share and PIN, family goals stay in one household, same answer when sharing whether or not an address has an account; cross-household tests on every route | M |
 | 3.11.0 | Rich HTML emails in the look of the app: sign-in, invitation, lockout and weekly summary, with a labelled button instead of the bare link (shipped) | S |
 | 3.10.0 | Worksheet topic picker lists the Grade 10 to 12 course topics (shipped); the keyboard-only e2e test handles protractor questions | S |

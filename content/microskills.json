@@ -2423,6 +2423,36 @@
    ]
   },
   {
+   "id": "MS.G10.MPM2D.B3.1.a",
+   "expectation": "MPM2D.B3",
+   "name": "The midsegment of a triangle",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.B2.1.a",
+    "MS.G10.MPM2D.B2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.B3.2.a",
+   "expectation": "MPM2D.B3",
+   "name": "Medians and the centroid of a triangle",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.B2.1.a",
+    "MS.G10.MPM2D.B2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MPM2D.B3.3.a",
+   "expectation": "MPM2D.B3",
+   "name": "The diagonals of a quadrilateral",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.B2.1.a",
+    "MS.G10.MPM2D.B3.1.a"
+   ]
+  },
+  {
    "id": "MS.G10.MPM2D.C1.1.a",
    "expectation": "MPM2D.C1",
    "name": "Similar triangles",
@@ -2537,6 +2567,25 @@
    "tiers": 3,
    "prereqs": [
     "MS.G10.MFM2P.C2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.C3.1.a",
+   "expectation": "MFM2P.C3",
+   "name": "The key points of a quadratic graph",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.C2.1.a",
+    "MS.G10.MFM2P.C2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G10.MFM2P.C3.2.a",
+   "expectation": "MFM2P.C3",
+   "name": "Reading values and intervals from a graph",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.C3.1.a"
    ]
   },
   {
