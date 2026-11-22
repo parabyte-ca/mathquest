@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.15.0] - 2026-11-22
+### Added
+- Recent activity for each student, on the caregiver page: who looked at the progress, changed the profile, set a goal, sent a message, made a worksheet, shared, handed over, exported or left, and when a student signed in on a device or was locked out. Every caregiver on a student can read it, with names; a caregiver who has since left shows as "A former caregiver".
+- The log records what happened, never what was written: goal titles and message text stay in goals and messages.
+- Opening a student's progress is recorded at most once every 30 minutes per person. Inviting a co-parent now shows on every student it shared.
+- Activity is kept for 180 days, and is deleted with the student or the account.
+
+### Security
+- The log is read through the same single gate as every student route: another household, the admin and signed-out visitors get "not found" and see nothing. The admin's own audit log still lists account events only. Migration 12 adds `audit_log.student_id` (deleted with the student) and fills it in for existing entries.
+
+### Notes
+- Passkeys as a second way to sign in are next in the household work.
+
 ## [3.14.0] - 2026-11-22
 ### Added
 - Two parents as equals. A student can have several owners: any owner can change the PIN, share and delete, and owners cannot remove or demote each other. An owner can promote a helper, and can step down to helper, but a student always keeps at least one owner. Up to six caregivers per student.

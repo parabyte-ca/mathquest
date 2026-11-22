@@ -19,6 +19,10 @@ export function rewardRoutes(ctx: Ctx): Router {
   r.get('/students/:id/dashboard', (req, res) => {
     const a = access(ctx, me(req), req.params.id!);
     if (!a) return void res.status(404).json({ error: 'not_found' });
+    // Opening a student's progress is recorded (at most once every 30 minutes per person) so their other caregivers can see it.
+    const viewer = me(req);
+    const last = ctx.db.prepare("SELECT MAX(at) AS at FROM audit_log WHERE action = 'student.view' AND actor_id = ? AND student_id = ?").get(viewer.id, a.student.id) as { at: string | null };
+    if (viewer.role === 'caregiver' && (!last.at || Date.parse(last.at) < Date.now() - 30 * 60_000)) audit(ctx.db, { kind: 'caregiver', id: viewer.id }, 'student.view', a.student.id);
     res.json(dashboard(ctx, a.student));
   });
 

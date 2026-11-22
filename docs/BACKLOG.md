@@ -13,7 +13,7 @@ The owner wants another parent to help test the app, so household and family acc
 | Order | Release | Scope | Size |
 |---|---|---|---|
 | 1 | 3.14.0 (shipped) | Household and family accounts, part 1: a co-owner role so two parents are equals (both can delete, share and change a PIN, and neither can remove the other), ownership transfer, a caregiver can leave a shared child, caregiver account deletion with a full data export first, and a clear "invite a parent" path with a first-sign-in welcome. | L |
-| 2 | 3.15.0 | Household activity log: caregivers see who viewed or changed their children's data and when (the admin still sees account events only). Passkeys as a second way to sign in are planned after this. | M |
+| 2 | 3.15.0 (shipped) | Household activity log: caregivers see who viewed or changed their children's data and when (the admin still sees account events only). Passkeys as a second way to sign in are planned after this. | M |
 | 3 | 3.16.0 | Brand refresh, part 1: the colour tokens (blue, orange, yellow, neutrals), the logo (the shield with the rocket and compass; check with the owner before adopting any refinement), Inter and Fira Code bundled, student side playful and caregiver side calmer, the palettes recolouring the accents (see the brand entry under Requested). | L |
 | 4 | 3.17.0 | Brand refresh, part 2: the brand icons redrawn as SVG (line icons for navigation, filled icons for topics and rewards) and avatar frames as a new reward. | L |
 | 5 | later | Quick checks (placement ladders) for Grades 10 to 12; the shared-device "who is practising?" picker and a sibling comparison on the caregiver dashboard. | M |
@@ -48,6 +48,7 @@ Another parent can already test today without any of this: the admin invites the
 | 3.6.0 | Grade 11 MEL3E (shipped): pay and deductions, sale prices and unit prices, savings, loans, vehicle costs and leasing, map scales and trips: 10 skills, 3 lessons | M |
 | 3.7.0 | Grade 12 MCT4C (shipped): exponential and polynomial functions, formulas, trigonometry, forces, circle properties, arcs and sectors: 17 skills, 4 lessons | L |
 | 3.8.0 | Grade 12 MAP4C (shipped): exponents and models, annuities and mortgages, owning against renting, budgets, optimal dimensions, trigonometry, two-variable data and bias: 16 skills, 4 lessons | L |
+| 3.15.0 | Household activity log (shipped): per-student recent activity for the student's caregivers, 180-day retention, deleted with the student | M |
 | 3.14.0 | Household and family accounts, part 1 (shipped): co-owner role, ownership transfer, leave a shared student, invite a co-parent to every student, account export and deletion with a 14-day wait | L |
 | 3.13.0 | Grade 10 completion (shipped): MPM2D B3 verifying figures (midsegments, medians and the centroid, diagonals of a quadrilateral) and MFM2P C3 reading graphs, with a new read-only graph picture: 5 skills, 2 lessons. Every Grade 10 expectation now has practice | M |
 | 3.12.0 | Household isolation (shipped): admin sees accounts only, usernames unique per household, owner-only delete, share and PIN, family goals stay in one household, same answer when sharing whether or not an address has an account; cross-household tests on every route | M |
