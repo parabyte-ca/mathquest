@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.2.0] - 2026-11-22
+### Added
+- Grade 12 begins with MHF4U (Advanced Functions): 17 new micro-skills (358 in all) and 4 lessons, choosable by course with its four strands.
+  - Exponential and logarithmic functions: evaluating logarithms, the laws of logarithms, graphs of logarithmic functions, and solving exponential and logarithmic equations (rejecting extraneous roots).
+  - Trigonometric functions: radian measure and arc length, exact values in radians, features of sinusoidal functions, and solving trigonometric equations.
+  - Polynomial and rational functions: end behaviour and turning points, asymptotes and holes, the remainder and factor theorems, solving polynomial equations, and polynomial and rational inequalities.
+  - Characteristics of functions: average and instantaneous rates of change, sums, products and compositions of functions, and even and odd functions.
+- Every new answer is recomputed by an independent, mutation-tested check (equations are checked by substituting the answer; inequalities and trigonometric equations by brute force).
+
+### Notes
+- MHF4U D3 (comparing function families and modelling) is covered only in part, through even and odd functions.
+- The other Grade 12 courses (MCV4U, MDM4U, MCT4C, MAP4C, MEL4E) still show "coming soon".
+- Rounded answers from solving with logarithms are accepted within half a percent.
+
 ## [3.1.0] - 2026-11-22
 ### Added
 - Grade 8 is now complete for everything the question player can handle: 6 new micro-skills and 3 lessons (341 micro-skills in all).

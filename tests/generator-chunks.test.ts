@@ -8,10 +8,11 @@ import { GENERATORS_G8 } from '../shared/generators/grade8.js';
 import { GENERATORS_G9 } from '../shared/generators/grade9.js';
 import { GENERATORS_G10 } from '../shared/generators/grade10.js';
 import { GENERATORS_G11 } from '../shared/generators/grade11.js';
+import { GENERATORS_G12 } from '../shared/generators/grade12.js';
 import { generateLoaded, generatorLoaded, loadGenerators } from '../web/src/generators.js';
 
 // The web app loads the question generators one grade at a time (so a lesson or an offline pack does not download all of them).
-const GRADES = { 5: GENERATORS_G5, 6: GENERATORS_G6, 7: GENERATORS_G7, 8: GENERATORS_G8, 9: GENERATORS_G9, 10: GENERATORS_G10, 11: GENERATORS_G11 } as const;
+const GRADES = { 5: GENERATORS_G5, 6: GENERATORS_G6, 7: GENERATORS_G7, 8: GENERATORS_G8, 9: GENERATORS_G9, 10: GENERATORS_G10, 11: GENERATORS_G11, 12: GENERATORS_G12 } as const;
 
 describe('generators by grade', () => {
   it('splits the registry cleanly: each grade file holds only its own skills, and together they are the whole registry', () => {

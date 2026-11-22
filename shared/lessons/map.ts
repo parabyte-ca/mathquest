@@ -105,4 +105,8 @@ export const LESSON_BUCKET_OF: Record<string, LessonBucket> = {
   'L.g11.trig-laws': 'g11',
   'L.g11.mcf-quadratics': 'g11',
   'L.g11.mcf-exponents-finance': 'g11',
+  'L.g12.logs': 'g12',
+  'L.g12.trig': 'g12',
+  'L.g12.poly': 'g12',
+  'L.g12.functions': 'g12',
 };

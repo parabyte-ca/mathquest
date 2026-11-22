@@ -26,8 +26,8 @@ describe('lessons', () => {
     expect(missing).toEqual([]);
   });
 
-  it('give every Grade 7 to 11 micro-skill a lesson to fall back on', () => {
-    const missing = micro.filter((m) => /^MS\.G([789]|1[01])\./.test(m) && !lessonForSkill(m));
+  it('give every Grade 7 to 12 micro-skill a lesson to fall back on', () => {
+    const missing = micro.filter((m) => /^MS\.G([789]|1[012])\./.test(m) && !lessonForSkill(m));
     expect(missing).toEqual([]);
   });
 
@@ -62,7 +62,7 @@ describe('lessons', () => {
 describe('lessons by grade group', () => {
   it('put every lesson in exactly one group, and each lesson only in a group for its own grade', async () => {
     const { LESSON_BUCKETS } = await import('../shared/lessons/index.js');
-    const range: Record<string, number[]> = { g56: [5, 6], g7: [7], g8: [8], g9: [9], g10: [10], g11: [11] };
+    const range: Record<string, number[]> = { g56: [5, 6], g7: [7], g8: [8], g9: [9], g10: [10], g11: [11], g12: [12] };
     const seen = new Set<string>();
     for (const [bucket, lessons] of Object.entries(LESSON_BUCKETS)) {
       for (const l of lessons) {
