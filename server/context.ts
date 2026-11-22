@@ -12,6 +12,8 @@ export interface UserRow {
   status: 'invited' | 'active' | 'disabled';
   weekly_email: number;
   defaults_json: string;
+  /** When a requested account deletion will happen (ms), or null. */
+  delete_at: number | null;
 }
 export interface StudentRow {
   id: string;
@@ -49,6 +51,10 @@ export interface Ctx {
     studentIp: RateLimiter;
     pairIp: RateLimiter;
     approve: RateLimiter;
+    /** Sharing a child and inviting a parent send email, so each caregiver gets a few an hour. */
+    invite: RateLimiter;
+    /** Downloading the whole account is heavier than a page. */
+    exportAll: RateLimiter;
   };
 }
 
@@ -60,6 +66,8 @@ export function makeLimits(now: () => number): Ctx['limits'] {
     studentIp: new RateLimiter(40, 600_000, now),
     pairIp: new RateLimiter(10, H, now),
     approve: new RateLimiter(10, 600_000, now),
+    invite: new RateLimiter(10, H, now),
+    exportAll: new RateLimiter(5, H, now),
   };
 }
 

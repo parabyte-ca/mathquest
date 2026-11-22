@@ -10,6 +10,7 @@ import { originMiddleware, sessionMiddleware } from './session.js';
 import { authRoutes } from './routes/auth.js';
 import { deviceRoutes } from './routes/devices.js';
 import { studentRoutes } from './routes/students.js';
+import { householdRoutes } from './routes/household.js';
 import { rewardRoutes } from './routes/rewards.js';
 import { tourRoutes } from './routes/tours.js';
 import { aiRoutes } from './routes/ai.js';
@@ -80,6 +81,7 @@ export function createApp(deps: AppDeps): { app: Express; ctx: Ctx } {
   api.use(authRoutes(ctx));
   api.use(deviceRoutes(ctx));
   api.use(studentRoutes(ctx));
+  api.use(householdRoutes(ctx));
   api.use(rewardRoutes(ctx));
   api.use(tourRoutes(ctx));
   api.use(adminRoutes(ctx));

@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.14.0] - 2026-11-22
+### Added
+- Two parents as equals. A student can have several owners: any owner can change the PIN, share and delete, and owners cannot remove or demote each other. An owner can promote a helper, and can step down to helper, but a student always keeps at least one owner. Up to six caregivers per student.
+- Hand a student over to another caregiver already on them: they become an owner, you become a helper, and both of you get an email.
+- A helper can leave a shared student without asking the owner. An owner can leave when another owner remains.
+- "Who is on this student" on the caregiver page, with the actions each role may take.
+- "Invite a co-parent" on the caregiver page shares every student you own in one step, as owner or helper, with a single sign-in email. It answers the same whether or not the address has an account; a student whose username clashes with one the person already has is skipped quietly.
+- "Download my data": one file with your account, the students you can reach with your role on each, family goals and the messages you sent.
+- Delete your account. You see what happens to each student, type your email to confirm, and the account is deleted after 14 days; signing in and choosing Cancel stops it. Students only you own are deleted with the account; students with another owner stay with them. If someone is made a helper on one of your students during the wait, the deletion is cancelled and you are emailed rather than losing their data. The admin account is not deleted this way.
+
+### Security
+- The new routes sit behind the same single gate as every student route, are rate limited, and are in the cross-household test table. The admin audit log lists the new account events without any student detail. 
+
+### Notes
+- Activity log and passkeys are next (3.15.0). A dedicated first-sign-in welcome for invited parents is still on the backlog; they see the existing caregiver tour.
+
 ## [3.13.0] - 2026-11-22
 ### Added
 - Grade 10 is now complete: 5 new micro-skills (463 in all) and 2 lessons.

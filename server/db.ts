@@ -438,6 +438,14 @@ const MIGRATIONS: { id: number; name: string; sql: string; rebuildsReferencedTab
     CREATE INDEX idx_students_username ON students(username);
     `,
   },
+  {
+    id: 11,
+    name: 'account-deletion',
+    sql: `
+    -- A caregiver who asks to delete their account has a waiting period (they can still sign in and cancel); this is when it ends.
+    ALTER TABLE users ADD COLUMN delete_at INTEGER;
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

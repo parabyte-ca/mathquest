@@ -10,8 +10,8 @@ import { composeWeekly } from '../weekly.js';
 
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 
-/** The kinds of audit entry the admin can read: sign-ins, invitations, account changes, upgrades and question-bank review. */
-const ACCOUNT_AUDIT = ['auth.login', 'admin.%', 'caregiver.invite', 'user.%', 'upgrade.%', 'ai.%'];
+/** The kinds of audit entry the admin can read: sign-ins, invitations, account changes and deletions, upgrades and question-bank review. */
+const ACCOUNT_AUDIT = ['auth.login', 'admin.%', 'caregiver.invite', 'user.%', 'account.%', 'upgrade.%', 'ai.%'];
 
 export function adminRoutes(ctx: Ctx): Router {
   const r = Router();

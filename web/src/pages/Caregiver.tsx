@@ -32,8 +32,10 @@ export function Caregiver({ me, go }: { me: Extract<Me, { kind: 'user' }>; go: (
       </section>
       <AddStudent onAdded={load} />
       {students && students.length > 0 && <FamilyGoals students={students} go={go} />}
+      {students && students.some((s) => s.linkRole === 'owner') && <InviteParent />}
       <Devices devices={devices} onChange={load} />
       <Defaults me={me} />
+      <Account me={me} />
     </>
   );
 }
@@ -42,9 +44,10 @@ function StudentRow({ s, onChange, go, first }: { s: StudentInfo; onChange: () =
   const [email, setEmail] = useState('');
   const [personal, setPersonal] = useState('');
   const [note, setNote] = useState('');
+  const [shareRole, setShareRole] = useState<'co' | 'owner'>('co');
   const share = async (e: Event) => {
     e.preventDefault();
-    const r = await api<{ error?: string }>('POST', `/students/${s.id}/caregivers`, { email, note: personal.trim() || undefined });
+    const r = await api<{ error?: string }>('POST', `/students/${s.id}/caregivers`, { email, role: shareRole, note: personal.trim() || undefined });
     setNote(r.ok ? t('caregiver.shareDone') : r.data.error === 'note_has_link' ? t('invite.noteLink') : t('common.error'));
     if (r.ok) { setEmail(''); setPersonal(''); }
   };
@@ -70,6 +73,11 @@ function StudentRow({ s, onChange, go, first }: { s: StudentInfo; onChange: () =
         <form class="inline" data-tour={first ? 'share' : undefined} onSubmit={share}>
           <label for={`share-${s.id}`}>{t('caregiver.share')}</label>
           <input id={`share-${s.id}`} type="email" placeholder={t('caregiver.shareEmail')} required value={email} onInput={(e) => setEmail((e.target as HTMLInputElement).value)} />
+          <label for={`role-${s.id}`}>{t('household.role')}</label>
+          <select id={`role-${s.id}`} value={shareRole} onChange={(e) => setShareRole((e.target as HTMLSelectElement).value as 'co' | 'owner')}>
+            <option value="co">{t('household.roleCo')}</option>
+            <option value="owner">{t('household.roleOwner')}</option>
+          </select>
           <label for={`pnote-${s.id}`}>{t('invite.note')}</label>
           <textarea id={`pnote-${s.id}`} rows={2} maxLength={500} value={personal} aria-describedby={`pnote-help-${s.id}`} onInput={(e) => setPersonal((e.target as HTMLTextAreaElement).value)} />
           <p class="muted small" id={`pnote-help-${s.id}`}>{t('invite.noteHelp', { n: 500 - personal.length })}</p>
@@ -77,6 +85,7 @@ function StudentRow({ s, onChange, go, first }: { s: StudentInfo; onChange: () =
           <span role="status">{note}</span>
         </form>
       )}
+      <Caregivers s={s} onChange={onChange} />
     </li>
   );
 }
@@ -249,6 +258,131 @@ function Defaults({ me }: { me: Extract<Me, { kind: 'user' }> }) {
         <button type="button" class="secondary" onClick={() => void sendTest()}>{t('caregiver.weeklyTest')}</button>
         <span role="status">{testMsg}</span>
       </div>
+    </section>
+  );
+}
+
+interface Cg { id: string; email: string; displayName: string; role: 'owner' | 'co'; you: boolean }
+interface Delta { students: { id: string; displayName: string; outcome: 'stays' | 'deleted' | 'transfer-needed' | 'leave' }[]; graceDays: number }
+
+/** Who is on one student, with the actions each role may take. */
+function Caregivers({ s, onChange }: { s: StudentInfo; onChange: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [list, setList] = useState<Cg[]>([]);
+  const [youRole, setYouRole] = useState<'owner' | 'co'>('co');
+  const [msg, setMsg] = useState('');
+  const load = async () => {
+    const r = await api<{ youRole: 'owner' | 'co'; caregivers: Cg[] }>('GET', `/students/${s.id}/caregivers`);
+    if (r.ok) { setList(r.data.caregivers); setYouRole(r.data.youRole); }
+  };
+  useEffect(() => { if (open) void load(); }, [open]);
+  const run = async (method: string, path: string, body: unknown, ok: string, confirmText?: string) => {
+    if (confirmText && !confirm(confirmText)) return;
+    const r = await api<{ error?: string }>(method, `/students/${s.id}${path}`, body);
+    setMsg(r.ok ? ok : r.data.error === 'last_owner' ? t('household.lastOwner') : t('common.error'));
+    await load();
+    onChange();
+  };
+  const owners = list.filter((c) => c.role === 'owner').length;
+  return (
+    <details class="household" open={open} onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}>
+      <summary>{t('household.who')}</summary>
+      <ul class="plain">
+        {list.map((c) => (
+          <li class="row" key={c.id}>
+            <span>{c.displayName || c.email}{c.you ? ` (${t('household.you')})` : ''} <span class="muted">{c.email}</span> <span class="badge">{c.role === 'owner' ? t('household.roleOwner') : t('household.roleCo')}</span></span>
+            <span class="actions">
+              {youRole === 'owner' && !c.you && c.role === 'co' && <button type="button" class="secondary" onClick={() => void run('PATCH', `/caregivers/${c.id}`, { role: 'owner' }, t('household.madeOwner'))}>{t('household.makeOwner')}</button>}
+              {youRole === 'owner' && !c.you && <button type="button" class="secondary" onClick={() => void run('POST', '/transfer', { caregiverId: c.id }, t('household.handedOver'), t('household.handOverConfirm', { name: c.displayName || c.email }))}>{t('household.handOver')}</button>}
+              {youRole === 'owner' && !c.you && c.role === 'co' && <button type="button" class="danger" onClick={() => void run('DELETE', `/caregivers/${c.id}`, undefined, t('household.removed'), t('household.removeConfirm', { name: c.displayName || c.email }))}>{t('household.remove')}</button>}
+              {c.you && c.role === 'owner' && owners > 1 && <button type="button" class="secondary" onClick={() => void run('PATCH', `/caregivers/${c.id}`, { role: 'co' }, t('household.steppedDown'), t('household.stepDownConfirm'))}>{t('household.stepDown')}</button>}
+              {c.you && (c.role === 'co' || owners > 1) && <button type="button" class="danger" onClick={() => void run('DELETE', `/caregivers/${c.id}`, undefined, t('household.left'), t('household.leaveConfirm', { name: s.displayName }))}>{t('household.leave')}</button>}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p class="muted small" role="status">{msg}</p>
+    </details>
+  );
+}
+
+/** Share every student you own with another parent in one step. */
+function InviteParent() {
+  const [email, setEmail] = useState('');
+  const [role, setRole] = useState<'co' | 'owner'>('owner');
+  const [note, setNote] = useState('');
+  const [msg, setMsg] = useState('');
+  const send = async (e: Event) => {
+    e.preventDefault();
+    const r = await api<{ error?: string }>('POST', '/me/invite-parent', { email, role, note: note.trim() || undefined });
+    setMsg(r.ok ? t('household.inviteDone') : r.data.error === 'note_has_link' ? t('invite.noteLink') : r.status === 429 ? t('household.tooMany') : t('common.error'));
+    if (r.ok) { setEmail(''); setNote(''); }
+  };
+  return (
+    <section class="card">
+      <h2>{t('household.invite')}</h2>
+      <p class="muted">{t('household.inviteHelp')}</p>
+      <form onSubmit={send}>
+        <label for="ip-email">{t('caregiver.shareEmail')}</label>
+        <input id="ip-email" type="email" required value={email} onInput={(e) => setEmail((e.target as HTMLInputElement).value)} />
+        <label for="ip-role">{t('household.role')}</label>
+        <select id="ip-role" value={role} onChange={(e) => setRole((e.target as HTMLSelectElement).value as 'co' | 'owner')}>
+          <option value="owner">{t('household.roleOwner')}</option>
+          <option value="co">{t('household.roleCo')}</option>
+        </select>
+        <label for="ip-note">{t('invite.note')}</label>
+        <textarea id="ip-note" rows={2} maxLength={500} value={note} onInput={(e) => setNote((e.target as HTMLTextAreaElement).value)} />
+        <button type="submit">{t('household.inviteSend')}</button>
+        <span role="status">{msg}</span>
+      </form>
+    </section>
+  );
+}
+
+/** Download everything, or ask for the account to be deleted after a waiting period. */
+function Account({ me }: { me: Extract<Me, { kind: 'user' }> }) {
+  const [deleteAt, setDeleteAt] = useState<number | null>(me.user.deleteAt ?? null);
+  const [preview, setPreview] = useState<Delta | null>(null);
+  const [confirmEmail, setConfirmEmail] = useState('');
+  const [msg, setMsg] = useState('');
+  const outcome = (o: string) => t(`household.out.${o}`);
+  const look = async () => {
+    const r = await api<Delta>('GET', '/me/delete-preview');
+    if (r.ok) setPreview(r.data);
+  };
+  const request = async (e: Event) => {
+    e.preventDefault();
+    const r = await api<{ error?: string; deleteAt?: number }>('POST', '/me/delete', { confirm: confirmEmail });
+    if (r.ok && r.data.deleteAt) { setDeleteAt(r.data.deleteAt); setPreview(null); setConfirmEmail(''); setMsg(''); }
+    else setMsg(r.data.error === 'transfer_needed' ? t('household.transferFirst') : r.data.error === 'confirm_email' ? t('household.confirmWrong') : t('common.error'));
+  };
+  const cancel = async () => {
+    const r = await api('POST', '/me/delete/cancel', {});
+    if (r.ok) setDeleteAt(null);
+  };
+  return (
+    <section class="card">
+      <h2>{t('household.account')}</h2>
+      <p class="muted">{t('household.exportHelp')}</p>
+      <p><a class="btn secondary" href="/api/me/export" download="mathquest-account.json">{t('household.exportAll')}</a></p>
+      {deleteAt !== null ? (
+        <div role="alert" class="notice">
+          <p>{t('household.deleting', { date: new Date(deleteAt).toLocaleDateString() })}</p>
+          <button type="button" onClick={() => void cancel()}>{t('household.cancelDelete')}</button>
+        </div>
+      ) : preview === null ? (
+        <button type="button" class="danger" onClick={() => void look()}>{t('household.delete')}</button>
+      ) : (
+        <form onSubmit={request}>
+          <p>{t('household.deleteHelp', { days: preview.graceDays })}</p>
+          <ul>{preview.students.map((s) => <li key={s.id}><strong>{s.displayName}</strong>: {outcome(s.outcome)}</li>)}</ul>
+          <label for="del-email">{t('household.typeEmail', { email: me.user.email })}</label>
+          <input id="del-email" type="email" autocomplete="off" value={confirmEmail} onInput={(e) => setConfirmEmail((e.target as HTMLInputElement).value)} />
+          <button type="submit" class="danger" disabled={preview.students.some((s) => s.outcome === 'transfer-needed')}>{t('household.deleteSend')}</button>
+          <button type="button" class="secondary" onClick={() => setPreview(null)}>{t('common.cancel')}</button>
+          <span role="status">{msg}</span>
+        </form>
+      )}
     </section>
   );
 }
