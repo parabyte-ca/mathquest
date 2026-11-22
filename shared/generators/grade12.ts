@@ -9,8 +9,14 @@ import { chainRule12, curveFeatures12, firstPrinciples12, limits12, optimize12, 
 import { configs12, lineMeetsPlane12, lineplane12, magnitude12, vecApps12, vecOps12 } from './vec12.js';
 import { combine12, rateOfChange12, symmetry12 } from './rate12.js';
 import { exactRad12, radians12, sinusoid12, trigEq12 } from './trig12.js';
+import { arc11, circle11, force11, polyEval11, rearrange11 } from './mct12.js';
+import { solveFactorGen } from './algebra10.js';
+import { cosineLawGen, sineLawGen, trigSideGen } from './geometry10.js';
+import { sineFunction11, sinusoid11 } from './trig11.js';
+import { growth11 } from './expo11.js';
+import { composite9 } from './geometry9.js';
 
-// Registry of the Grade 12 generators (MHF4U, MCV4U and MDM4U).
+// Registry of the Grade 12 generators (MHF4U, MCV4U, MDM4U and MCT4C).
 export const GENERATORS_G12: Record<string, Generator> = {
   // MHF4U, Exponential and Logarithmic Functions (A)
   'MS.G12.MHF4U.A1.1.a': logEval12('MS.G12.MHF4U.A1.1.a'),
@@ -67,4 +73,22 @@ export const GENERATORS_G12: Record<string, Generator> = {
   'MS.G12.MDM4U.D2.1.a': regression12('MS.G12.MDM4U.D2.1.a'),
   'MS.G12.MDM4U.D2.2.a': residuals12('MS.G12.MDM4U.D2.2.a'),
   'MS.G12.MDM4U.D3.1.a': marginError12('MS.G12.MDM4U.D3.1.a'),
+  // MCT4C, Exponential (A), Polynomial (B), Trigonometric (C) and Geometry (D)
+  'MS.G12.MCT4C.A1.1.a': growth11('MS.G12.MCT4C.A1.1.a'),
+  'MS.G12.MCT4C.A2.1.a': expEq12('MS.G12.MCT4C.A2.1.a'),
+  'MS.G12.MCT4C.A2.2.a': logEval12('MS.G12.MCT4C.A2.2.a'),
+  'MS.G12.MCT4C.B1.1.a': polyEval11('MS.G12.MCT4C.B1.1.a'),
+  'MS.G12.MCT4C.B1.2.a': polyFeatures12('MS.G12.MCT4C.B1.2.a'),
+  'MS.G12.MCT4C.B3.1.a': solveFactorGen('MS.G12.MCT4C.B3.1.a'),
+  'MS.G12.MCT4C.B3.2.a': polyEq12('MS.G12.MCT4C.B3.2.a'),
+  'MS.G12.MCT4C.B3.3.a': rearrange11('MS.G12.MCT4C.B3.3.a'),
+  'MS.G12.MCT4C.C1.1.a': trigSideGen('MS.G12.MCT4C.C1.1.a'),
+  'MS.G12.MCT4C.C1.2.a': sineLawGen('MS.G12.MCT4C.C1.2.a'),
+  'MS.G12.MCT4C.C1.3.a': cosineLawGen('MS.G12.MCT4C.C1.3.a'),
+  'MS.G12.MCT4C.C2.1.a': sineFunction11('MS.G12.MCT4C.C2.1.a'),
+  'MS.G12.MCT4C.C3.1.a': sinusoid11('MS.G12.MCT4C.C3.1.a'),
+  'MS.G12.MCT4C.D1.1.a': force11('MS.G12.MCT4C.D1.1.a'),
+  'MS.G12.MCT4C.D2.1.a': composite9('MS.G12.MCT4C.D2.1.a'),
+  'MS.G12.MCT4C.D3.1.a': circle11('MS.G12.MCT4C.D3.1.a'),
+  'MS.G12.MCT4C.D3.2.a': arc11('MS.G12.MCT4C.D3.2.a'),
 };

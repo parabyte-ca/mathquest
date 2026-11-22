@@ -123,4 +123,8 @@ export const LESSON_BUCKET_OF: Record<string, LessonBucket> = {
   'L.g12.counting-probability': 'g12',
   'L.g12.distributions': 'g12',
   'L.g12.data-analysis': 'g12',
+  'L.g12.mct-exponents': 'g12',
+  'L.g12.mct-polynomials': 'g12',
+  'L.g12.mct-trig': 'g12',
+  'L.g12.mct-geometry': 'g12',
 };
