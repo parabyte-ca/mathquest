@@ -15,6 +15,7 @@ import { Lazy } from './lazy';
 import { startTour, TourHost } from './tour';
 import { InstallButton, OfflineBanner, registerServiceWorker, useOnline } from './pwa';
 import { forgetStudent } from './offlineStore';
+import { Icon } from './icons';
 
 const loadAdmin = () => import('./pages/Admin').then((m) => m.Admin);
 const loadProgress = () => import('./pages/Progress').then((m) => m.Progress);
@@ -73,6 +74,9 @@ function App() {
 
 function Shell(p: { path: string; me: Me | null | undefined; signOut: () => void; go: (to: string) => void; children: preact.ComponentChildren }) {
   const isAdmin = p.me?.kind === 'user' && p.me.user.role === 'admin';
+  // The student side is playful (rounder, brighter); the caregiver side is calmer. Styles hang off this one attribute.
+  const side = p.me?.kind === 'student' || p.path.startsWith('/app/student') || p.path.startsWith('/app/learn') ? 'student' : 'caregiver';
+  useEffect(() => { document.documentElement.setAttribute('data-side', side); }, [side]);
   return (
     <>
       <a class="skip" href="#main">Skip to content</a>
@@ -81,9 +85,9 @@ function Shell(p: { path: string; me: Me | null | undefined; signOut: () => void
         <nav aria-label="Main">
           {isAdmin && <a href="/app/admin" onClick={(e) => { e.preventDefault(); p.go('/app/admin'); }}>{t('nav.admin')}</a>}
           <InstallButton />
-          {p.me && <button type="button" class="link" onClick={() => { p.go(p.me!.kind === 'student' ? '/app/learn' : '/app'); startTour(p.me!.kind === 'student' ? 'student' : 'caregiver'); }}>{t('nav.help')}</button>}
-          <button type="button" class="link" onClick={() => setLang(getLang() === 'en' ? 'fr' : 'en')} lang={getLang() === 'en' ? 'fr' : 'en'}>{t('nav.language')}</button>
-          {p.me && <button type="button" class="link" onClick={p.signOut}>{t('nav.signOut')}</button>}
+          {p.me && <button type="button" class="link" onClick={() => { p.go(p.me!.kind === 'student' ? '/app/learn' : '/app'); startTour(p.me!.kind === 'student' ? 'student' : 'caregiver'); }}><Icon name="help" /> {t('nav.help')}</button>}
+          <button type="button" class="link" onClick={() => setLang(getLang() === 'en' ? 'fr' : 'en')} lang={getLang() === 'en' ? 'fr' : 'en'}><Icon name="language" /> {t('nav.language')}</button>
+          {p.me && <button type="button" class="link" onClick={p.signOut}><Icon name="signout" /> {t('nav.signOut')}</button>}
         </nav>
       </header>
       <OfflineBanner />

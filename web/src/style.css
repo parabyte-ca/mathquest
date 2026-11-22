@@ -347,3 +347,24 @@ ul.certlist { display: grid; gap: 0.5rem; }
 .rewardbar .avatar { display: inline-flex; align-items: center; font-size: 1rem; }
 .avatar-lg { display: inline-flex; vertical-align: middle; margin-right: 0.25rem; }
 .cosmetic .big { display: inline-flex; align-items: center; }
+
+/* ── icons ─────────────────────────────────────────────────────────────────── */
+.icon, .glyph { flex: none; vertical-align: -0.2em; }
+button .icon, .btn .icon { margin-right: 0.35rem; }
+.bar nav .icon { margin-right: 0.3rem; }
+label.check .glyph { margin: 0 0.1rem; }
+
+/* ── two looks, one brand ──────────────────────────────────────────────────────
+   Students get a playful look (rounder shapes, a blue-to-yellow meter, bolder headings); caregivers get a calmer one (flatter,
+   tighter, no gradients). Colours, type and icons are the same on both. High contrast turns the extras off. */
+html[data-side='student'] .card { border-radius: 20px; }
+html[data-side='student'] button, html[data-side='student'] .btn { border-radius: 14px; }
+html[data-side='student'] h1, html[data-side='student'] h2 { font-weight: 800; }
+html[data-side='student'] .xpmeter > span { background: linear-gradient(90deg, var(--brand), var(--yellow)); }
+html[data-side='student'] .rewardbar { background: var(--blue-soft); }
+html[data-side='student'] .cosmetic.on { outline-color: var(--orange); }
+html[data-side='caregiver'] .card { border-radius: 10px; }
+html[data-side='caregiver'] button, html[data-side='caregiver'] .btn { border-radius: 8px; }
+html[data-side='caregiver'] h1, html[data-side='caregiver'] h2 { font-weight: 700; }
+html.hc[data-side] .xpmeter > span { background: var(--segfill); }
+html.hc[data-side] .rewardbar { background: var(--soft); }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'preact/hooks';
+import { Icon } from './icons';
 import { t, useLang } from './i18n';
 
 /** Registers the service worker that keeps the app shell available offline. Safe to call anywhere: it does nothing where unsupported. */
@@ -66,7 +67,7 @@ export function InstallButton() {
   };
   return (
     <span class="install">
-      <button type="button" class="link" onClick={() => void click()} aria-expanded={deferred ? undefined : help}>{t('install.button')}</button>
+      <button type="button" class="link" onClick={() => void click()} aria-expanded={deferred ? undefined : help}><Icon name="install" /> {t('install.button')}</button>
       {help && !deferred && (
         <div class="installhelp" role="dialog" aria-label={t('install.title')}>
           <p><strong>{t('install.title')}</strong></p>

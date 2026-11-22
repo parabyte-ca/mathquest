@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.19.0] - 2026-11-22
+### Changed
+- The brand refresh is finished. The install icons (home screen, app launcher, iPhone) and the browser tab icon now show the logo, and so do the sign-in emails, which use the same image. The logo is the supplied image, unchanged; it is a small picture, so the largest icon is a little soft.
+- Line icons on the navigation (Help, Language, Sign out, Install) and on the learning page buttons (Start, Practice without internet, Quick check, Skill map, My rewards, Settings). The words are still there, so nothing changes for screen readers.
+- Filled icons in the brand's colours replace the emoji for topics (Number, Algebra, Data, Spatial Sense, Financial Literacy), streaks, streak freezes, goals, stars, gifts, ticks, the family goal, weekly challenges and certificates.
+- The student side is playful (rounder cards and buttons, a blue-to-yellow progress meter, bolder headings) and the caregiver side is calmer (flatter, tighter, no gradients). Colours, type and icons are the same on both. High contrast turns the extras off.
+- "Start practice" is now the orange next-action button. The browser theme colour matches the brand blue.
+
+### Notes
+- Tests check that every icon a page asks for is drawn, that every challenge emoji has a drawing, that the install icons are the sizes the manifest promises, and that there are no scripts or links inside the icons.
+
 ## [3.18.0] - 2026-11-22
 ### Added
 - Quick checks for Grades 10 to 12. The "quick check" on the learning page now works for every Grade 10, 11 and 12 course (it used to answer "no content" there). Each check covers the whole course (12 courses in all, 10 to 30 skills each), takes at most eight questions, and starts practice at the right level: skills the student plainly knows are raised, nothing is ever lowered, and other courses are left alone.
