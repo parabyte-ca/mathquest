@@ -2913,6 +2913,153 @@
    ]
   },
   {
+   "id": "MS.G11.MBF3C.A1.1.a",
+   "expectation": "MBF3C.A1",
+   "name": "Expanding products of binomials",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.A1.2.a",
+   "expectation": "MBF3C.A1",
+   "name": "Factoring trinomials x² + bx + c",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MFM2P.C1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.A1.3.a",
+   "expectation": "MBF3C.A1",
+   "name": "Solving quadratic equations by factoring",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.A1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.A1.4.a",
+   "expectation": "MBF3C.A1",
+   "name": "Vertex form and standard form",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.A1.1.a",
+    "MS.G10.MPM2D.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.A2.1.a",
+   "expectation": "MBF3C.A2",
+   "name": "Zero and negative exponents",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.A2.2.a",
+   "expectation": "MBF3C.A2",
+   "name": "Exponent rules on numbers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.A2.1.a",
+    "MS.G9.B2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.A2.3.a",
+   "expectation": "MBF3C.A2",
+   "name": "Exponential growth and decay applications",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.A2.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.B1.1.a",
+   "expectation": "MBF3C.B1",
+   "name": "Simple and compound interest compared",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.F1.4.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.B1.2.a",
+   "expectation": "MBF3C.B1",
+   "name": "Compound interest",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.B2.1.a",
+   "expectation": "MBF3C.B2",
+   "name": "The cost of borrowing and buying on credit",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.F1.3.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.B3.1.a",
+   "expectation": "MBF3C.B3",
+   "name": "The costs of owning and operating a vehicle",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.F1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.C1.1.a",
+   "expectation": "MBF3C.C1",
+   "name": "Design problems with composite shapes",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.E1.5.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.C2.1.a",
+   "expectation": "MBF3C.C2",
+   "name": "The sine law in acute triangles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G10.MPM2D.C3.1.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.C2.2.a",
+   "expectation": "MBF3C.C2",
+   "name": "The cosine law in acute triangles",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MBF3C.C2.1.a",
+    "MS.G10.MPM2D.C3.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.D1.1.a",
+   "expectation": "MBF3C.D1",
+   "name": "Quartiles and spread in one-variable data",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G11.MBF3C.D2.1.a",
+   "expectation": "MBF3C.D2",
+   "name": "Probability rules",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.D2.1.a"
+   ]
+  },
+  {
    "id": "MS.G9.C2.1.a",
    "expectation": "MTH1W.C2.1",
    "name": "Code with variables, parameters, equations and inequalities",

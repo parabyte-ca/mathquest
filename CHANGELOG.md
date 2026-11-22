@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.5.0] - 2026-11-22
+### Added
+- Grade 11 MBF3C (Foundations for College Mathematics): 16 new micro-skills (404 in all) and 5 lessons, choosable by course with its four strands.
+  - Mathematical models: expanding and factoring, solving by factoring, vertex and standard form, zero and negative exponents, exponent rules, and growth and decay.
+  - Personal finance: simple and compound interest, the cost of borrowing, and the costs of owning and operating a vehicle (fuel, yearly cost, cost per kilometre).
+  - Geometry and trigonometry: design measurements with composite shapes, and the sine and cosine laws in acute triangles.
+  - Data and probability: quartiles and spread, and the rules of probability.
+- Every new answer is recomputed by an independent, mutation-tested check.
+
+### Notes
+- MBF3C B2 covers the cost of credit; C1 covers 2-D design measurements. 3-D design drawings stay "coming soon".
+- MEL3E and the Grade 12 college and workplace courses (MCT4C, MAP4C, MEL4E) still show "coming soon".
+
 ## [3.4.0] - 2026-11-22
 ### Added
 - Grade 12 MDM4U (Data Management): 16 new micro-skills (388 in all) and 3 lessons, choosable by course with its four strands.
