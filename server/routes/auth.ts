@@ -103,11 +103,11 @@ export function authRoutes(ctx: Ctx): Router {
       : undefined;
     if (!device) return void res.status(403).json({ error: 'device_not_approved' });
 
-    const student = ctx.db.prepare('SELECT * FROM students WHERE username = ?').get(parsed.data.username) as StudentRow | undefined;
-    const linked =
-      student &&
-      ctx.db.prepare('SELECT 1 FROM student_caregivers WHERE student_id = ? AND caregiver_id = ?').get(student.id, device.approved_by);
-    if (!student || !linked) {
+    // The username is looked up only among the students of the caregiver who approved this device, so two families can use the same name.
+    const student = ctx.db
+      .prepare('SELECT s.* FROM students s JOIN student_caregivers sc ON sc.student_id = s.id WHERE s.username = ? AND sc.caregiver_id = ?')
+      .get(parsed.data.username, device.approved_by) as StudentRow | undefined;
+    if (!student) {
       dummyVerify(parsed.data.pin);
       return void invalid();
     }

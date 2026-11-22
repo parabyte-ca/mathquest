@@ -34,6 +34,7 @@ Agreed 21 November 2026 (after 2.7.0 / 2.6.0 shipped). Sizes: S about a session,
 | 3.6.0 | Grade 11 MEL3E (shipped): pay and deductions, sale prices and unit prices, savings, loans, vehicle costs and leasing, map scales and trips: 10 skills, 3 lessons | M |
 | 3.7.0 | Grade 12 MCT4C (shipped): exponential and polynomial functions, formulas, trigonometry, forces, circle properties, arcs and sectors: 17 skills, 4 lessons | L |
 | 3.8.0 | Grade 12 MAP4C (shipped): exponents and models, annuities and mortgages, owning against renting, budgets, optimal dimensions, trigonometry, two-variable data and bias: 16 skills, 4 lessons | L |
+| 3.12.0 | Household isolation (shipped): admin sees accounts only, usernames unique per household, owner-only delete, share and PIN, family goals stay in one household, same answer when sharing whether or not an address has an account; cross-household tests on every route | M |
 | 3.11.0 | Rich HTML emails in the look of the app: sign-in, invitation, lockout and weekly summary, with a labelled button instead of the bare link (shipped) | S |
 | 3.10.0 | Worksheet topic picker lists the Grade 10 to 12 course topics (shipped); the keyboard-only e2e test handles protractor questions | S |
 | 3.9.0 | Grade 12 MEL4E (shipped): mean and median, chance and expected value, housing, budgets and income tax, units, scale and proportional reasoning: 11 skills, 3 lessons. Every Ontario course is now built | M |
@@ -80,6 +81,8 @@ Owner priority (set 21 November 2026): fill out Grades 6, 10, 7 and 11 completel
 - Check each new feature on the real server (install button, offline round trip, weekly email).
 
 ## Requested
+
+- Brand refresh (decisions made 22 November 2026, nothing built yet). Logo: the shield with the rocket and compass (version 2). If it is refined, check with the owner before adopting. Student side playful (gems, flames, filled topic and reward icons), caregiver side calmer. Line icons for navigation, filled icons for topics and rewards. Palette: blue #1565C0, orange #F57C00, yellow #FBC02D; navy text on orange and a deeper green for text so contrast passes. Redraw the icons as SVG (the sheet icons are raster and some labels have typos), bundle Inter and Fira Code with the app, and keep a high-contrast mode. The mockup is a private artifact; swap the colour tokens first, then icons and logo. Size: M to L.
 
 
 ## Noted earlier in this project (not yet scheduled)

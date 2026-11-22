@@ -10,6 +10,9 @@ import { composeWeekly } from '../weekly.js';
 
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 
+/** The kinds of audit entry the admin can read: sign-ins, invitations, account changes, upgrades and question-bank review. */
+const ACCOUNT_AUDIT = ['auth.login', 'admin.%', 'caregiver.invite', 'user.%', 'upgrade.%', 'ai.%'];
+
 export function adminRoutes(ctx: Ctx): Router {
   const r = Router();
 
@@ -92,7 +95,9 @@ export function adminRoutes(ctx: Ctx): Router {
 
   r.get('/admin/audit', (req, res) => {
     const limit = Math.min(Number(req.query.limit) || 100, 500);
-    res.json({ entries: ctx.db.prepare('SELECT id, at, actor_kind AS actorKind, actor_id AS actorId, action, target, meta_json AS meta FROM audit_log ORDER BY id DESC LIMIT ?').all(limit) });
+    // Account-level events only. What families do (students, goals, messages, devices, worksheets) is never shown to the admin.
+    const where = ACCOUNT_AUDIT.map(() => 'action LIKE ?').join(' OR ');
+    res.json({ entries: ctx.db.prepare(`SELECT id, at, actor_kind AS actorKind, actor_id AS actorId, action, target, meta_json AS meta FROM audit_log WHERE ${where} ORDER BY id DESC LIMIT ?`).all(...ACCOUNT_AUDIT, limit) });
   });
 
   return r;

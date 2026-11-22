@@ -52,6 +52,18 @@ npm run build
 npm run audit:secrets -- --require-client
 ```
 
+## Households (many families on one install)
+
+MathQuest can serve several families. The rule is that a person reaches only themselves, their own students and the caregivers they share a student with. `tests/household-isolation.test.ts` checks it on every route with three households and an admin.
+
+- A caregiver reaches a student only through a link in `student_caregivers`, as `owner` or `co`. An unknown id and another family's student both answer 404, so ids cannot be probed.
+- A co-caregiver can view, set goals, message, make worksheets, approve devices and export. Only the owner deletes a student, shares or unshares, and changes a PIN.
+- The install admin manages accounts (invite, disable, upgrades, question review). The admin has no way into a family's students, progress, goals, messages or worksheets, and the audit log shown to the admin lists account-level events only.
+- Usernames only have to be unique inside a household. A student signs in on a device a caregiver approved, and the name is looked up only among that caregiver's students. A name clash is refused when you create a student or share one, and says nothing about other families.
+- Sharing answers the same whether or not the address has an account, and an existing caregiver gets a short notice by email.
+- Family goals count only the students their creator owns and are shown only to those students.
+- Shared on purpose: the question bank and the curriculum. They hold no student data.
+
 ## If a secret is ever exposed
 
 1. Revoke it at the provider first (Resend: API Keys; Anthropic: Console, API keys), then create a new one.

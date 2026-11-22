@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.12.0] - 2026-11-22
+### Security
+- Each household is now kept apart from every other. A caregiver reaches only themselves, their own students and the caregivers they share a student with.
+- The install admin manages accounts only (invite, disable, upgrades, question review) and can no longer open any student's progress, goals, messages, worksheets or export. The audit log shown to the admin lists account-level events only. Students the admin has no link to answer "not found", as for any other outsider.
+- Sharing a student answers the same whether or not the address already has an account, and an address that belongs to an admin is never linked. An existing caregiver now gets a short email saying a student was shared with them.
+- Family goals count only the students their creator owns, and a student sees only their owner's goals, so one household's progress no longer feeds another's.
+
+### Changed
+- Student usernames only have to be unique inside a household, so two families can both have "sam". A student signs in on a device a caregiver approved, and the name is looked up only among that caregiver's students. Creating a student, or sharing one with a caregiver who already has a different student of that name, is refused when the names clash, without saying anything about other families. The students table is rebuilt to allow this (migration 10), and all data is kept.
+- An additional (co) caregiver can view, set goals, message, make worksheets, approve devices and export, but cannot delete a student, share or unshare, or change a PIN.
+
+### Added
+- `tests/household-isolation.test.ts`: three households and an admin, every student route checked for who gets in and who gets "not found", the upgrade checked with data in place, and eleven protections each broken on purpose to confirm a test notices.
+
 ## [3.11.0] - 2026-11-22
 ### Added
 - Emails now come as rich HTML in the look of the app (the app's blue, the MathQuest wordmark and logo, a card layout) with a labelled button, such as "Sign in to MathQuest" or "Accept the invitation", instead of the bare link. This covers the sign-in link, caregiver invitations (with the personal note shown as a quotation), the lockout notice and the weekly summary, which now lists each student in its own section.
