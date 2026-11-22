@@ -131,4 +131,58 @@ export const GRADE12_LESSONS: Lesson[] = [
     ],
     tryIt: { skill: 'MS.G12.MCV4U.C1.1.a', tier: 1, seed: 3 },
   },
+  {
+    id: 'L.g12.counting-probability',
+    skills: ['MS.G12.MDM4U.A1.1.a', 'MS.G12.MDM4U.A1.2.a', 'MS.G12.MDM4U.A2.1.a', 'MS.G12.MDM4U.A2.2.a'],
+    title: t('Probability rules and counting', 'Règles de probabilité et dénombrement'),
+    intro: t('Probability measures how likely an event is, from 0 to 1. Counting methods tell you how many outcomes there are, so you can find probabilities without listing them all.', 'La probabilité mesure la vraisemblance d\'un événement, de 0 à 1. Les méthodes de dénombrement indiquent combien il y a d\'issues, ce qui permet de trouver des probabilités sans toutes les énumérer.'),
+    definitions: [
+      d(['Rules of probability', 'Règles de probabilité'], ['The complement: P(not A) = 1 − P(A). For two events: P(A or B) = P(A) + P(B) − P(A and B). For independent events: P(A and B) = P(A) × P(B).', 'Le complément : P(non A) = 1 − P(A). Pour deux événements : P(A ou B) = P(A) + P(B) − P(A et B). Pour des événements indépendants : P(A et B) = P(A) × P(B).']),
+      d(['Conditional probability', 'Probabilité conditionnelle'], ['P(A | B) = P(A and B) ÷ P(B), the probability of A once B is known. When objects are drawn without replacement, the second probability changes: it is a conditional probability.', 'P(A | B) = P(A et B) ÷ P(B), la probabilité de A quand on sait que B s\'est produit. Quand on tire des objets sans remise, la deuxième probabilité change : c\'est une probabilité conditionnelle.']),
+      d(['Permutations and combinations', 'Arrangements et combinaisons'], ['A permutation counts ordered selections: P(n, k) = n! ÷ (n − k)!. A combination ignores order: C(n, k) = n! ÷ (k! (n − k)!). Letters with repeats: divide n! by the factorial of each repeat.', 'Un arrangement compte les choix ordonnés : P(n, k) = n! ÷ (n − k)!. Une combinaison ignore l\'ordre : C(n, k) = n! ÷ (k! (n − k)!). Lettres répétées : divise n! par la factorielle de chaque répétition.']),
+      d(['Pascal\'s triangle', 'Triangle de Pascal'], ['Row n lists C(n, 0), C(n, 1), ... C(n, n). Each entry is the sum of the two above it, and row n adds to 2ⁿ.', 'La rangée n liste C(n, 0), C(n, 1), ... C(n, n). Chaque terme est la somme des deux termes au-dessus, et la rangée n a pour somme 2ⁿ.']),
+    ],
+    examples: [
+      ex(['Example 1: either event', 'Exemple 1 : l\'un ou l\'autre'], ['P(A) = 0.5, P(B) = 0.4, P(A and B) = 0.2. Then P(A or B) = 0.5 + 0.4 − 0.2.', 'P(A) = 0,5, P(B) = 0,4, P(A et B) = 0,2. Alors P(A ou B) = 0,5 + 0,4 − 0,2.'], ['That is 0.7.', 'Cela donne 0,7.']),
+      ex(['Example 2: without replacement', 'Exemple 2 : sans remise'], ['A bag has 3 red and 2 blue marbles. Two are drawn. The first is red with probability 3/5.', 'Un sac contient 3 billes rouges et 2 bleues. On en tire deux. La première est rouge avec une probabilité de 3/5.'], ['Then 2 reds are left among 4, so both are red with probability 3/5 × 2/4 = 0.3.', 'Il reste alors 2 rouges parmi 4 : les deux sont rouges avec une probabilité de 3/5 × 2/4 = 0,3.']),
+      ex(['Example 3: committees', 'Exemple 3 : comités'], ['Choose a committee of 3 from 6 people. Order does not matter, so use C(6, 3).', 'Choisis un comité de 3 personnes parmi 6. L\'ordre ne compte pas : utilise C(6, 3).'], ['6! ÷ (3! 3!) = 20.', '6! ÷ (3! 3!) = 20.']),
+    ],
+    tryIt: { skill: 'MS.G12.MDM4U.A1.1.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.g12.distributions',
+    skills: ['MS.G12.MDM4U.B1.1.a', 'MS.G12.MDM4U.B1.2.a', 'MS.G12.MDM4U.B1.3.a', 'MS.G12.MDM4U.B2.1.a', 'MS.G12.MDM4U.B2.2.a'],
+    title: t('Probability distributions', 'Lois de probabilité'),
+    intro: t('A probability distribution lists every value a random variable can take with its probability. Its expected value is the long-run average.', 'Une loi de probabilité liste chaque valeur qu\'une variable aléatoire peut prendre avec sa probabilité. Son espérance est la moyenne à long terme.'),
+    definitions: [
+      d(['Expected value', 'Espérance'], ['E(X) = the sum of each value times its probability. A game is fair when the entry fee equals the expected winnings.', 'E(X) = la somme de chaque valeur fois sa probabilité. Un jeu est équitable quand le droit d\'entrée égale les gains espérés.']),
+      d(['Binomial distribution', 'Loi binomiale'], ['n independent trials, each with success probability p: P(X = k) = C(n, k) pᵏ qⁿ⁻ᵏ, with mean np and standard deviation the square root of npq.', 'n essais indépendants, chacun avec une probabilité de succès p : P(X = k) = C(n, k) pᵏ qⁿ⁻ᵏ, de moyenne np et d\'écart-type la racine carrée de npq.']),
+      d(['Hypergeometric distribution', 'Loi hypergéométrique'], ['Drawing n items without replacement from N items, K of which are special: P(X = k) = C(K, k) C(N − K, n − k) ÷ C(N, n), and the mean is nK ÷ N.', 'On tire n articles sans remise parmi N articles, dont K sont spéciaux : P(X = k) = C(K, k) C(N − K, n − k) ÷ C(N, n), et la moyenne est nK ÷ N.']),
+      d(['Normal distribution', 'Loi normale'], ['z = (x − mean) ÷ standard deviation. About 68% of values are within 1 standard deviation, 95% within 2 and 99.7% within 3. A binomial with large n can be approximated by a normal with mean np and standard deviation √(npq), using a continuity correction of 0.5.', 'z = (x − moyenne) ÷ écart-type. Environ 68 % des valeurs sont à moins de 1 écart-type, 95 % à moins de 2 et 99,7 % à moins de 3. Une loi binomiale avec un grand n peut être approximée par une loi normale de moyenne np et d\'écart-type √(npq), avec une correction de continuité de 0,5.']),
+    ],
+    examples: [
+      ex(['Example 1: expected value', 'Exemple 1 : espérance'], ['A game pays 20 dollars with probability 0.25 and nothing otherwise.', 'Un jeu verse 20 dollars avec une probabilité de 0,25, et rien sinon.'], ['E = 20 × 0.25 = 5 dollars, so 5 dollars is the fair entry fee.', 'E = 20 × 0,25 = 5 dollars : 5 dollars est le droit d\'entrée équitable.']),
+      ex(['Example 2: binomial', 'Exemple 2 : binomiale'], ['Toss a fair coin 4 times. P(exactly 2 heads) = C(4, 2) × (1/2)⁴.', 'On lance une pièce équilibrée 4 fois. P(exactement 2 faces) = C(4, 2) × (1/2)⁴.'], ['6 ÷ 16 = 0.375.', '6 ÷ 16 = 0,375.']),
+      ex(['Example 3: z-score', 'Exemple 3 : cote z'], ['Scores have mean 70 and standard deviation 8. A score of 86 has z = (86 − 70) ÷ 8.', 'Les notes ont une moyenne de 70 et un écart-type de 8. Une note de 86 a z = (86 − 70) ÷ 8.'], ['z = 2, which is two standard deviations above the mean.', 'z = 2, soit deux écarts-types au-dessus de la moyenne.']),
+    ],
+    tryIt: { skill: 'MS.G12.MDM4U.B1.1.a', tier: 1, seed: 3 },
+  },
+  {
+    id: 'L.g12.data-analysis',
+    skills: ['MS.G12.MDM4U.C1.1.a', 'MS.G12.MDM4U.C2.1.a', 'MS.G12.MDM4U.D1.1.a', 'MS.G12.MDM4U.D1.2.a', 'MS.G12.MDM4U.D2.1.a', 'MS.G12.MDM4U.D2.2.a', 'MS.G12.MDM4U.D3.1.a'],
+    title: t('Collecting and analysing data', 'Recueillir et analyser des données'),
+    intro: t('Good conclusions need good data. How a sample is chosen decides whether it can be trusted, and spread and correlation describe what the data show.', 'De bonnes conclusions demandent de bonnes données. La façon de choisir un échantillon décide si on peut s\'y fier, et l\'étalement et la corrélation décrivent ce que les données montrent.'),
+    definitions: [
+      d(['Sampling and bias', 'Échantillonnage et biais'], ['Simple random, systematic (every kth), stratified (random from each group), cluster (whole randomly chosen groups) and multi-stage samples aim to represent the population. A convenience or voluntary sample usually does not. Bias comes from who is chosen, who answers, how a question is worded and how things are measured.', 'Les échantillons aléatoire simple, systématique (un sur k), stratifié (au hasard dans chaque groupe), par grappes (groupes entiers choisis au hasard) et à plusieurs degrés visent à représenter la population. Un échantillon de commodité ou volontaire ne le fait généralement pas. Le biais vient de qui est choisi, de qui répond, de la formulation d\'une question et de la façon de mesurer.']),
+      d(['Spread', 'Étalement'], ['Variance is the mean of the squared deviations (divide by n for a population, n − 1 for a sample), and standard deviation is its square root. The IQR is Q3 − Q1, and a value is an outlier if it is beyond Q1 − 1.5 × IQR or Q3 + 1.5 × IQR.', 'La variance est la moyenne des carrés des écarts (divise par n pour une population, n − 1 pour un échantillon), et l\'écart-type en est la racine carrée. L\'EIQ est Q3 − Q1, et une valeur est aberrante si elle dépasse Q1 − 1,5 × EIQ ou Q3 + 1,5 × EIQ.']),
+      d(['Regression and residuals', 'Régression et résidus'], ['The least-squares line has slope r × s_y ÷ s_x. r² is the fraction of the variation in y explained by the line. A residual is actual y minus predicted y, and the residuals of a least-squares line add to zero.', 'La droite des moindres carrés a pour pente r × s_y ÷ s_x. r² est la fraction de la variation de y expliquée par la droite. Un résidu est le y réel moins le y prédit, et les résidus d\'une droite des moindres carrés ont pour somme zéro.']),
+      d(['Margin of error', 'Marge d\'erreur'], ['For a poll of n people the margin of error is about 1 ÷ √n. The true percent is likely to be within that many percentage points of the poll result.', 'Pour un sondage auprès de n personnes, la marge d\'erreur est d\'environ 1 ÷ √n. Le vrai pourcentage se trouve probablement à ce nombre de points de pourcentage du résultat du sondage.']),
+    ],
+    examples: [
+      ex(['Example 1: stratified or cluster', 'Exemple 1 : stratifié ou par grappes'], ['A sample takes some students at random from each grade.', 'Un échantillon prend des élèves au hasard dans chaque niveau.'], ['That is stratified. If whole classes were chosen instead, it would be a cluster sample.', 'C\'est stratifié. Si on avait choisi des classes entières, ce serait un échantillon par grappes.']),
+      ex(['Example 2: outlier fence', 'Exemple 2 : clôture des valeurs aberrantes'], ['If Q1 = 12 and Q3 = 20, then IQR = 8.', 'Si Q1 = 12 et Q3 = 20, alors EIQ = 8.'], ['The upper fence is 20 + 1.5 × 8 = 32, so a value of 40 is an outlier.', 'La clôture supérieure est 20 + 1,5 × 8 = 32 : une valeur de 40 est aberrante.']),
+      ex(['Example 3: margin of error', 'Exemple 3 : marge d\'erreur'], ['A poll of 400 people finds 55% support.', 'Un sondage auprès de 400 personnes révèle 55 % d\'appui.'], ['The margin of error is 100 ÷ 20 = 5 points, so the support is likely between 50% and 60%.', 'La marge d\'erreur est de 100 ÷ 20 = 5 points : l\'appui se situe probablement entre 50 % et 60 %.']),
+    ],
+    tryIt: { skill: 'MS.G12.MDM4U.C2.1.a', tier: 1, seed: 3 },
+  },
 ];

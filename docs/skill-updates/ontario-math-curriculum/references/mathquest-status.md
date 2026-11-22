@@ -39,9 +39,10 @@ Micro-skills, and expectations that have at least one, by grade and strand (stra
 | 11 (other courses) | not yet | | | | |
 | 12 (MHF4U) | | MHF4U A, C, D · 13 skills, 10 of 10 expectations (logarithms, polynomial and rational functions, rates of change; D3 in part) | | | MHF4U B (trigonometry) · 4 skills, 3 of 3 |
 | 12 (MCV4U) | | MCV4U A, B · 8 skills, 5 of 5 expectations (limits, derivative rules, curves, optimization) | | | MCV4U C (vectors) · 6 skills, 4 of 4 |
+| 12 (MDM4U) | | MDM4U A, B, C, D · 16 skills, 9 of 11 expectations (counting, probability, distributions, sampling, statistics; E culminating investigation is a project) | | | |
 | 12 (other courses) | not yet | | | | |
 
-372 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for every Grade 9 strand. Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practiced through the C1.3 pattern-rule skill.
+388 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for every Grade 9 strand. Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practiced through the C1.3 pattern-rule skill.
 
 ## 3. What is deliberately deferred
 
@@ -64,4 +65,4 @@ These need item types or tools the question player does not have yet. Build the 
 - Link each new micro-skill to the previous grade's micro-skill on the same chain, and to the same-grade skill it depends on.
 - Prefer exact answers: choose numbers so results are whole or have at most six decimal places, and use 3.14 for pi when the prompt says so.
 - Include at least one common misconception per item and word it kindly ("It looks like..."); a student must never be told they are careless.
-- Next up: the rest of Grade 12 (MDM4U, then the college and workplace courses), then a Grade 10 and 11 quick check and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then the richer-tools releases listed in the backlog.
+- Next up: the college and workplace courses (Grade 11 MBF3C and MEL3E, Grade 12 MCT4C, MAP4C and MEL4E), then a Grade 10 and 11 quick check and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then the richer-tools releases listed in the backlog.

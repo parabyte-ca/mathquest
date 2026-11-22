@@ -3390,6 +3390,154 @@
    "prereqs": [
     "MS.G12.MCV4U.C4.1.a"
    ]
+  },
+  {
+   "id": "MS.G12.MDM4U.A1.1.a",
+   "expectation": "MDM4U.A1",
+   "name": "The rules of probability",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G8.D2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.A1.2.a",
+   "expectation": "MDM4U.A1",
+   "name": "Conditional probability and dependent events",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.A2.1.a",
+   "expectation": "MDM4U.A2",
+   "name": "Permutations and combinations",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G11.MCR3U.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.A2.2.a",
+   "expectation": "MDM4U.A2",
+   "name": "Pascal's triangle and binomial coefficients",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.A2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.B1.1.a",
+   "expectation": "MDM4U.B1",
+   "name": "Expected value",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.A1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.B1.2.a",
+   "expectation": "MDM4U.B1",
+   "name": "Binomial distributions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.A2.1.a",
+    "MS.G12.MDM4U.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.B1.3.a",
+   "expectation": "MDM4U.B1",
+   "name": "Hypergeometric distributions",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.A2.1.a",
+    "MS.G12.MDM4U.B1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.B2.1.a",
+   "expectation": "MDM4U.B2",
+   "name": "The normal distribution and z-scores",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.B2.2.a",
+   "expectation": "MDM4U.B2",
+   "name": "The normal approximation to the binomial",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.B1.2.a",
+    "MS.G12.MDM4U.B2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.C1.1.a",
+   "expectation": "MDM4U.C1",
+   "name": "Sources of bias in studies",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G7.D1.6.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.C2.1.a",
+   "expectation": "MDM4U.C2",
+   "name": "Sampling techniques",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.C1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.D1.1.a",
+   "expectation": "MDM4U.D1",
+   "name": "Measures of spread: variance and standard deviation",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.D1.2.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.D1.2.a",
+   "expectation": "MDM4U.D1",
+   "name": "Quartiles, the interquartile range and outliers",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.D2.1.a",
+   "expectation": "MDM4U.D2",
+   "name": "Regression, correlation and the line of best fit",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G9.D1.3.a",
+    "MS.G12.MDM4U.D1.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.D2.2.a",
+   "expectation": "MDM4U.D2",
+   "name": "Residuals",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.D2.1.a"
+   ]
+  },
+  {
+   "id": "MS.G12.MDM4U.D3.1.a",
+   "expectation": "MDM4U.D3",
+   "name": "Margin of error and statistical claims",
+   "tiers": 3,
+   "prereqs": [
+    "MS.G12.MDM4U.C2.1.a"
+   ]
   }
  ]
 }

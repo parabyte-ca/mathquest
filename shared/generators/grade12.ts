@@ -3,12 +3,14 @@
 import type { Generator } from '../items/types.js';
 import { expEq12, logEq12, logEval12, logGraph12, logLaws12 } from './logs12.js';
 import { factorThm12, inequality12, polyEq12, polyFeatures12, rational12 } from './poly12.js';
+import { binomial12, conditional12, counting12, expected12, hyper12, normal12, normalApprox12, pascal12, probRules12, sampling12 } from './prob12.js';
+import { marginError12, quartiles12, regression12, residuals12, spread12 } from './stats12.js';
 import { chainRule12, curveFeatures12, firstPrinciples12, limits12, optimize12, powerRule12, productQuotient12, trigExpDeriv12 } from './calc12.js';
 import { configs12, lineMeetsPlane12, lineplane12, magnitude12, vecApps12, vecOps12 } from './vec12.js';
 import { combine12, rateOfChange12, symmetry12 } from './rate12.js';
 import { exactRad12, radians12, sinusoid12, trigEq12 } from './trig12.js';
 
-// Registry of the Grade 12 generators (MHF4U and MCV4U).
+// Registry of the Grade 12 generators (MHF4U, MCV4U and MDM4U).
 export const GENERATORS_G12: Record<string, Generator> = {
   // MHF4U, Exponential and Logarithmic Functions (A)
   'MS.G12.MHF4U.A1.1.a': logEval12('MS.G12.MHF4U.A1.1.a'),
@@ -47,4 +49,22 @@ export const GENERATORS_G12: Record<string, Generator> = {
   'MS.G12.MCV4U.C3.1.a': configs12('MS.G12.MCV4U.C3.1.a'),
   'MS.G12.MCV4U.C4.1.a': lineplane12('MS.G12.MCV4U.C4.1.a'),
   'MS.G12.MCV4U.C4.2.a': lineMeetsPlane12('MS.G12.MCV4U.C4.2.a'),
+  // MDM4U, Counting and Probability (A) and Probability Distributions (B)
+  'MS.G12.MDM4U.A1.1.a': probRules12('MS.G12.MDM4U.A1.1.a'),
+  'MS.G12.MDM4U.A1.2.a': conditional12('MS.G12.MDM4U.A1.2.a'),
+  'MS.G12.MDM4U.A2.1.a': counting12('MS.G12.MDM4U.A2.1.a'),
+  'MS.G12.MDM4U.A2.2.a': pascal12('MS.G12.MDM4U.A2.2.a'),
+  'MS.G12.MDM4U.B1.1.a': expected12('MS.G12.MDM4U.B1.1.a'),
+  'MS.G12.MDM4U.B1.2.a': binomial12('MS.G12.MDM4U.B1.2.a'),
+  'MS.G12.MDM4U.B1.3.a': hyper12('MS.G12.MDM4U.B1.3.a'),
+  'MS.G12.MDM4U.B2.1.a': normal12('MS.G12.MDM4U.B2.1.a'),
+  'MS.G12.MDM4U.B2.2.a': normalApprox12('MS.G12.MDM4U.B2.2.a'),
+  // MDM4U, Organization of Data for Analysis (C) and Statistical Analysis (D)
+  'MS.G12.MDM4U.C1.1.a': sampling12('MS.G12.MDM4U.C1.1.a', 'bias'),
+  'MS.G12.MDM4U.C2.1.a': sampling12('MS.G12.MDM4U.C2.1.a', 'technique'),
+  'MS.G12.MDM4U.D1.1.a': spread12('MS.G12.MDM4U.D1.1.a'),
+  'MS.G12.MDM4U.D1.2.a': quartiles12('MS.G12.MDM4U.D1.2.a'),
+  'MS.G12.MDM4U.D2.1.a': regression12('MS.G12.MDM4U.D2.1.a'),
+  'MS.G12.MDM4U.D2.2.a': residuals12('MS.G12.MDM4U.D2.2.a'),
+  'MS.G12.MDM4U.D3.1.a': marginError12('MS.G12.MDM4U.D3.1.a'),
 };

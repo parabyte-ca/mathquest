@@ -112,4 +112,7 @@ export const LESSON_BUCKET_OF: Record<string, LessonBucket> = {
   'L.g12.derivatives': 'g12',
   'L.g12.applications': 'g12',
   'L.g12.vectors': 'g12',
+  'L.g12.counting-probability': 'g12',
+  'L.g12.distributions': 'g12',
+  'L.g12.data-analysis': 'g12',
 };
