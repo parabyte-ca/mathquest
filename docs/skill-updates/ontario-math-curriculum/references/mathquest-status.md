@@ -43,9 +43,9 @@ Micro-skills, and expectations that have at least one, by grade and strand (stra
 | 12 (MDM4U) | | MDM4U A, B, C, D · 16 skills, 9 of 11 expectations (counting, probability, distributions, sampling, statistics; E culminating investigation is a project) | | | |
 | 12 (MCT4C) | | MCT4C A, B, D · 12 skills, 7 of 8 expectations (exponentials, polynomials and formulas, forces, design, circle properties; B2 connecting representations is in lessons only) | | | MCT4C C (trigonometry) · 5 skills, 3 of 3 |
 | 12 (MAP4C) | | MAP4C A, B, C, D · 16 skills, 11 of 11 expectations in part (exponents, linear models, formulas, annuities, mortgages, renting, budgets, optimal dimensions, trigonometry, two-variable data, bias) | | | |
-| 12 (MEL4E) | not yet | | | | |
+| 12 (MEL4E) | | MEL4E A, B, C · 11 skills, 8 of 8 expectations in part (data, probability, housing, budgets, income tax, units, scale, proportional reasoning) | | | |
 
-447 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for every Grade 9 strand. Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practiced through the C1.3 pattern-rule skill.
+458 micro-skills in all. Placement ladders exist for Grades 5 to 8, one per strand, and for every Grade 9 strand. Every micro-skill has a lesson (a test enforces it for Grades 5 to 8). Some expectations are covered inside a neighbour's micro-skill: Grade 7 C1.2 is practiced through the C1.3 pattern-rule skill.
 
 ## 3. What is deliberately deferred
 
@@ -68,4 +68,4 @@ These need item types or tools the question player does not have yet. Build the 
 - Link each new micro-skill to the previous grade's micro-skill on the same chain, and to the same-grade skill it depends on.
 - Prefer exact answers: choose numbers so results are whole or have at most six decimal places, and use 3.14 for pi when the prompt says so.
 - Include at least one common misconception per item and word it kindly ("It looks like..."); a student must never be told they are careless.
-- Next up: the Grade 12 workplace course (MEL4E), then a Grade 10 and 11 quick check and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then the richer-tools releases listed in the backlog.
+- Next up: a Grade 10, 11 and 12 quick check (placement ladders), the worksheet topic picker for course content, and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then a Grade 10 and 11 quick check and the Grade 10 gaps (B3 proofs, MFM2P C3 graph reading), then the richer-tools releases listed in the backlog.
