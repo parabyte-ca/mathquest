@@ -7,7 +7,7 @@ import { t } from './kit.js';
 import { quad } from './algebra10.js';
 
 const nonzero = (r: () => number, lo: number, hi: number): number => { let v = 0; while (v === 0) v = randInt(r, lo, hi); return v; };
-const money = (f: F, x: number): string => `${f.N(r6(x))} ${f.t('dollars', 'dollars')}`;
+const money = (f: F, x: number): string => f.D(r6(x));
 
 /** MCF3M.A1: perfect square trinomials */
 export const perfectSquare11 = (id: string): Generator => choiceGen(id, (tier, r) => {

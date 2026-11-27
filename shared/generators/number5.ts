@@ -144,7 +144,7 @@ export const multiStep5 = numGen('MS.G5.B2.1.a', (tier, r) => {
   const n = randInt(r, 2, 6), price = randInt(r, 120, 480) / 100, pen = randInt(r, 80, 250) / 100;
   const total = r6(n * price + pen);
   return {
-    prompt: bi((f) => f.t(`${n} notebooks cost ${f.N(price)} dollars each and a pen costs ${f.N(pen)} dollars. How many dollars is that in all?`, `${n} cahiers coûtent ${f.N(price)} dollars chacun et un stylo coûte ${f.N(pen)} dollars. Combien de dollars cela fait-il en tout ?`)),
+    prompt: bi((f) => f.t(`${n} notebooks cost ${f.D(price)} each and a pen costs ${f.D(pen)}. How many dollars is that in all?`, `${n} cahiers coûtent ${f.D(price)} chacun et un stylo coûte ${f.D(pen)}. Combien de dollars cela fait-il en tout ?`)),
     answer: total, category: 'AP',
     wrong: [[r6(price + pen), t('It looks like only one notebook was counted. Multiply the price by the number of notebooks first.', 'Il semble qu\'un seul cahier a été compté. Multiplie d\'abord le prix par le nombre de cahiers.'), 0], [r6(n * (price + pen)), t('It looks like the pen was multiplied too. There is only one pen.', 'Il semble que le stylo a aussi été multiplié. Il n\'y a qu\'un seul stylo.'), 1]],
     steps: [bi((f) => f.t(`Notebooks: ${n} × ${f.N(price)} = ${f.N(r6(n * price))}.`, `Cahiers : ${n} × ${f.N(price)} = ${f.N(r6(n * price))}.`)), bi((f) => f.t(`Add the pen: ${f.N(r6(n * price))} + ${f.N(pen)} = ${f.N(total)}.`, `Ajoute le stylo : ${f.N(r6(n * price))} + ${f.N(pen)} = ${f.N(total)}.`))],
@@ -411,7 +411,7 @@ export const ratios5 = numGen('MS.G5.B2.9.a', (tier, r) => {
     const n = randInt(r, 2, 6);
     const total = randInt(r, 2, 9);
     return {
-      prompt: t(`${n} pens cost ${total} dollars. How many dollars do ${n * k} pens cost at the same rate?`, `${n} stylos coûtent ${total} dollars. Combien de dollars coûtent ${n * k} stylos au même taux ?`),
+      prompt: t(`${n} pens cost $\\dollar ${total}$. How many dollars do ${n * k} pens cost at the same rate?`, `${n} stylos coûtent $${total}\\ \\dollar$. Combien de dollars coûtent ${n * k} stylos au même taux ?`),
       answer: total * k, category: 'AP',
       wrong: [[total + (n * k - n), t('It looks like the difference in pens was added to the cost. Rates grow by multiplying, not adding.', 'Il semble que la différence de stylos a été ajoutée au coût. Les taux augmentent par multiplication, pas par addition.'), 1]],
       steps: [t(`${n * k} pens is ${k} times as many as ${n} pens.`, `${n * k} stylos, c'est ${k} fois plus que ${n} stylos.`), t(`So the cost is ${k} times as much: ${total} × ${k} = ${total * k}.`, `Donc le coût est ${k} fois plus grand : ${total} × ${k} = ${total * k}.`)],

@@ -6,7 +6,7 @@ import { bi, choiceGen, keepWrong as wr, mc, numGen, r6, type F } from './dsl.js
 import { t } from './kit.js';
 
 const tierGen = (g1: Generator, g2: Generator, g3: Generator): Generator => (tier, seed) => (tier === 1 ? g1 : tier === 2 ? g2 : g3)(tier, seed);
-const money = (f: F, x: number): string => `${f.N(r6(x))} ${f.t('dollars', 'dollars')}`;
+const money = (f: F, x: number): string => f.D(r6(x));
 const pct = (f: F, x: number): string => f.m(`${f.n(r6(x))}\\%`);
 const SIZES: [number, number][] = [[20, 5], [25, 5], [40, 5], [50, 10], [80, 5], [125, 5], [200, 10], [250, 10], [400, 20]];
 
@@ -263,7 +263,7 @@ export const decisions7 = (() => {
       prompt: bi((f) => f.t(`A pack of ${f.N(qa)} pencils costs ${money(f, qa * ua)} and a pack of ${f.N(qb)} costs ${money(f, qb * ub)}. What is the lower price per pencil, in dollars?`, `Un paquet de ${f.N(qa)} crayons coûte ${money(f, qa * ua)} et un paquet de ${f.N(qb)} coûte ${money(f, qb * ub)}. Quel est le prix le plus bas par crayon, en dollars ?`)),
       answer: better, category: 'AP',
       wrong: wr(better, [[better === ub ? ua : ub, t('That is the price per pencil of the other pack. The question asks for the lower price per pencil.', 'C\'est le prix par crayon de l\'autre paquet. La question demande le prix par crayon le plus bas.'), 1], [r6(qa * ua), t('That is the price of a whole pack, not of one pencil.', 'C\'est le prix d\'un paquet entier, pas d\'un crayon.'), 0], [r6(qb * ub), t('That is the price of a whole pack, not of one pencil.', 'C\'est le prix d\'un paquet entier, pas d\'un crayon.'), 0]]),
-      steps: [bi((f) => f.t(`Divide each price by its number of pencils: ${f.N(ua)} and ${f.N(ub)} dollars each.`, `Divise chaque prix par son nombre de crayons : ${f.N(ua)} et ${f.N(ub)} dollars chacun.`)), bi((f) => f.t(`The lower price per pencil is ${f.N(better)} dollars.`, `Le prix le plus bas par crayon est ${f.N(better)} dollars.`))],
+      steps: [bi((f) => f.t(`Divide each price by its number of pencils: ${f.N(ua)} and ${f.D(ub)} each.`, `Divise chaque prix par son nombre de crayons : ${f.N(ua)} et ${f.D(ub)} chacun.`)), bi((f) => f.t(`The lower price per pencil is ${f.D(better)}.`, `Le prix le plus bas par crayon est ${f.D(better)}.`))],
       nudge: t('Divide each pack\'s price by the number of pencils in it, then compare.', 'Divise le prix de chaque paquet par le nombre de crayons qu\'il contient, puis compare.'),
     };
   });
@@ -287,7 +287,7 @@ export const decisions7 = (() => {
       prompt: bi((f) => f.t(`Backpack A costs ${money(f, ca)} and lasts ${f.N(ya)} years. Backpack B costs ${money(f, cb)} and lasts ${f.N(yb)} years. What is the lower cost per year, in dollars?`, `Le sac à dos A coûte ${money(f, ca)} et dure ${f.N(ya)} ans. Le sac à dos B coûte ${money(f, cb)} et dure ${f.N(yb)} ans. Quel est le coût annuel le plus bas, en dollars ?`)),
       answer: best, category: 'AP',
       wrong: wr(best, [[best === pa ? pb : pa, t('That is the cost per year of the other backpack. The question asks for the lower one.', 'C\'est le coût annuel de l\'autre sac à dos. La question demande le plus bas.'), 1], [Math.min(ca, cb), t('The cheaper price does not mean the cheaper cost: the backpack must also last. Divide by the years.', 'Le prix le plus bas n\'est pas le coût le plus bas : le sac doit aussi durer. Divise par les années.'), 0], [r6(Math.min(ca, cb) / Math.max(ya, yb)), t('Divide each price by its own number of years.', 'Divise chaque prix par son propre nombre d\'années.'), 0]]),
-      steps: [bi((f) => f.t(`A: ${f.m(`${f.n(ca)} \\div ${f.n(ya)}`)} = ${f.N(pa)} per year. B: ${f.m(`${f.n(cb)} \\div ${f.n(yb)}`)} = ${f.N(pb)} per year.`, `A : ${f.m(`${f.n(ca)} \\div ${f.n(ya)}`)} = ${f.N(pa)} par an. B : ${f.m(`${f.n(cb)} \\div ${f.n(yb)}`)} = ${f.N(pb)} par an.`)), bi((f) => f.t(`The lower cost is ${f.N(best)} dollars per year.`, `Le coût le plus bas est ${f.N(best)} dollars par an.`))],
+      steps: [bi((f) => f.t(`A: ${f.m(`${f.n(ca)} \\div ${f.n(ya)}`)} = ${f.N(pa)} per year. B: ${f.m(`${f.n(cb)} \\div ${f.n(yb)}`)} = ${f.N(pb)} per year.`, `A : ${f.m(`${f.n(ca)} \\div ${f.n(ya)}`)} = ${f.N(pa)} par an. B : ${f.m(`${f.n(cb)} \\div ${f.n(yb)}`)} = ${f.N(pb)} par an.`)), bi((f) => f.t(`The lower cost is ${f.D(best)} per year.`, `Le coût le plus bas est ${f.D(best)} par an.`))],
       nudge: t('Divide each price by the years it lasts, then compare the yearly costs.', 'Divise chaque prix par les années de durée de vie, puis compare les coûts annuels.'),
     };
   });

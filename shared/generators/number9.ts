@@ -286,7 +286,7 @@ const falling = numGen('MS.G9.B3.3.a', (_tier, r) => {
   const per = r6(Math.abs(rate));
   const ans = r6(-per * days);
   return {
-    prompt: bi((f) => f.t(`A stock's price changes by ${f.N(-per)} dollars each day. What is the total change in price after ${f.N(days)} days, in dollars?`, `Le prix d'une action change de ${f.N(-per)} dollars chaque jour. Quel est le changement total du prix après ${f.N(days)} jours, en dollars ?`)),
+    prompt: bi((f) => f.t(`A stock's price changes by ${f.D(-per)} each day. What is the total change in price after ${f.N(days)} days, in dollars?`, `Le prix d'une action change de ${f.D(-per)} chaque jour. Quel est le changement total du prix après ${f.N(days)} jours, en dollars ?`)),
     answer: ans, category: 'TH',
     wrong: wr(ans, [[r6(per * days), t('The price is falling, so the total change is negative.', 'Le prix baisse : le changement total est négatif.'), 1], [r6(-per + days), t('The daily change repeats every day: multiply it by the number of days.', 'Le changement quotidien se répète chaque jour : multiplie-le par le nombre de jours.'), 1]]),
     steps: [bi((f) => f.t(`Total change = rate × days = ${f.N(-per)} × ${f.N(days)}.`, `Changement total = taux × jours = ${f.N(-per)} × ${f.N(days)}.`)), bi((f) => `${f.N(-per)} × ${f.N(days)} = ${f.N(ans)}.`)],
@@ -345,10 +345,10 @@ const percentChange = numGen('MS.G9.B3.5.a', (_tier, r) => {
   const up = r() < 0.5;
   const nw = r6(old * (1 + (up ? pct : -pct) / 100));
   return {
-    prompt: bi((f) => f.t(`A price ${up ? 'rises' : 'falls'} from ${f.N(old)} dollars to ${f.N(nw)} dollars. What is the percent ${up ? 'increase' : 'decrease'}? Type the number only.`, `Un prix ${up ? 'monte' : 'baisse'} de ${f.N(old)} dollars à ${f.N(nw)} dollars. Quel est le pourcentage de ${up ? 'hausse' : 'baisse'} ? Écris seulement le nombre.`)),
+    prompt: bi((f) => f.t(`A price ${up ? 'rises' : 'falls'} from ${f.D(old)} to ${f.D(nw)}. What is the percent ${up ? 'increase' : 'decrease'}? Type the number only.`, `Un prix ${up ? 'monte' : 'baisse'} de ${f.D(old)} à ${f.D(nw)}. Quel est le pourcentage de ${up ? 'hausse' : 'baisse'} ? Écris seulement le nombre.`)),
     answer: pct, category: 'AP',
     wrong: wr(pct, [[r6((Math.abs(nw - old) / nw) * 100), t('The percent change is based on the original price, not the new price.', 'Le pourcentage de variation se calcule sur le prix de départ, pas sur le nouveau prix.'), 1], [Math.abs(nw - old), t('That is the change in dollars, not in percent.', 'C\'est le changement en dollars, pas en pourcentage.'), 0]]),
-    steps: [bi((f) => f.t(`Change: ${f.N(Math.abs(nw - old))} dollars.`, `Changement : ${f.N(Math.abs(nw - old))} dollars.`)), bi((f) => f.t(`${f.N(Math.abs(nw - old))} ÷ ${f.N(old)} × ${f.N(100)} = ${f.N(pct)}%.`, `${f.N(Math.abs(nw - old))} ÷ ${f.N(old)} × ${f.N(100)} = ${f.N(pct)} %.`))],
+    steps: [bi((f) => f.t(`Change: ${f.D(Math.abs(nw - old))}.`, `Changement : ${f.D(Math.abs(nw - old))}.`)), bi((f) => f.t(`${f.N(Math.abs(nw - old))} ÷ ${f.N(old)} × ${f.N(100)} = ${f.N(pct)}%.`, `${f.N(Math.abs(nw - old))} ÷ ${f.N(old)} × ${f.N(100)} = ${f.N(pct)} %.`))],
     nudge: t('Divide the change by the original price and multiply by 100.', 'Divise le changement par le prix de départ et multiplie par 100.'),
   };
 });

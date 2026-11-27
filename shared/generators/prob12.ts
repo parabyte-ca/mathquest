@@ -174,7 +174,7 @@ export const expected12 = (id: string): Generator => numGen(id, (tier, r) => {
   if (tier === 2) {
     const prize = randInt(r, 2, 10) * 10, pWin = pick(r, [0.1, 0.2, 0.25, 0.4, 0.5]), cost = randInt(r, 2, 6), ans = r6(prize * pWin - cost);
     return {
-      prompt: bi((f) => f.t(`A game costs ${f.N(cost)} dollars to play. You win ${f.N(prize)} dollars (before the cost) with probability ${f.N(pWin)} and nothing otherwise. What is your expected gain per game, in dollars?`, `Un jeu coûte ${f.N(cost)} dollars pour jouer. Tu gagnes ${f.N(prize)} dollars (avant le coût) avec une probabilité de ${f.N(pWin)}, et rien sinon. Quel est ton gain espéré par partie, en dollars ?`)),
+      prompt: bi((f) => f.t(`A game costs ${f.D(cost)} to play. You win ${f.D(prize)} (before the cost) with probability ${f.N(pWin)} and nothing otherwise. What is your expected gain per game, in dollars?`, `Un jeu coûte ${f.D(cost)} pour jouer. Tu gagnes ${f.D(prize)} (avant le coût) avec une probabilité de ${f.N(pWin)}, et rien sinon. Quel est ton gain espéré par partie, en dollars ?`)),
       answer: ans, category: 'AP',
       wrong: wr(ans, [[r6(prize * pWin), same('Subtract the cost of playing.', 'Soustrais le coût de la partie.'), 1], [r6(prize * pWin + cost), same('The cost is subtracted from the expected winnings.', 'Le coût se soustrait des gains espérés.'), 1], [r6(prize - cost), same('You only win with a probability; weight the prize by it.', 'Tu ne gagnes qu\'avec une certaine probabilité : pondère le gain par celle-ci.'), 0]]),
       steps: [bi((f) => f.t(`Expected winnings: ${f.m(`${f.n(prize)} \\times ${f.n(pWin)} = ${f.n(r6(prize * pWin))}`)}.`, `Gains espérés : ${f.m(`${f.n(prize)} \\times ${f.n(pWin)} = ${f.n(r6(prize * pWin))}`)}.`)), bi((f) => f.t(`Subtract the cost: ${f.m(`${f.n(r6(prize * pWin))} - ${f.n(cost)}`)} = ${f.N(ans)}.`, `Soustrais le coût : ${f.m(`${f.n(r6(prize * pWin))} - ${f.n(cost)}`)} = ${f.N(ans)}.`))],
@@ -183,10 +183,10 @@ export const expected12 = (id: string): Generator => numGen(id, (tier, r) => {
   }
   const prize = randInt(r, 2, 8) * 10, pWin = pick(r, [0.1, 0.2, 0.25, 0.4, 0.5]), ans = r6(prize * pWin);
   return {
-    prompt: bi((f) => f.t(`A game pays ${f.N(prize)} dollars with probability ${f.N(pWin)} and nothing otherwise. What entry fee, in dollars, makes the game fair (an expected gain of zero)?`, `Un jeu verse ${f.N(prize)} dollars avec une probabilité de ${f.N(pWin)}, et rien sinon. Quel droit d'entrée, en dollars, rend le jeu équitable (un gain espéré de zéro) ?`)),
+    prompt: bi((f) => f.t(`A game pays ${f.D(prize)} with probability ${f.N(pWin)} and nothing otherwise. What entry fee, in dollars, makes the game fair (an expected gain of zero)?`, `Un jeu verse ${f.D(prize)} avec une probabilité de ${f.N(pWin)}, et rien sinon. Quel droit d'entrée, en dollars, rend le jeu équitable (un gain espéré de zéro) ?`)),
     answer: ans, category: 'TH',
     wrong: wr(ans, [[prize, same('You would lose on average if you paid the whole prize. The fair fee is the expected winnings.', 'Tu perdrais en moyenne en payant tout le gain. Le droit équitable égale les gains espérés.'), 0], [r6(prize * (1 - pWin)), same('Use the probability of winning, not of losing.', 'Utilise la probabilité de gagner, et non de perdre.'), 1]]),
-    steps: [same('A game is fair when the entry fee equals the expected winnings.', 'Un jeu est équitable quand le droit d\'entrée égale les gains espérés.'), bi((f) => f.t(`${f.m(`${f.n(prize)} \\times ${f.n(pWin)}`)} = ${f.N(ans)} dollars.`, `${f.m(`${f.n(prize)} \\times ${f.n(pWin)}`)} = ${f.N(ans)} dollars.`))],
+    steps: [same('A game is fair when the entry fee equals the expected winnings.', 'Un jeu est équitable quand le droit d\'entrée égale les gains espérés.'), bi((f) => f.t(`${f.m(`${f.n(prize)} \\times ${f.n(pWin)}`)} = ${f.D(ans)}.`, `${f.m(`${f.n(prize)} \\times ${f.n(pWin)}`)} = ${f.D(ans)}.`))],
     nudge: same('The fair fee is the expected value of the winnings.', 'Le droit équitable est la valeur espérée des gains.'),
   };
 });

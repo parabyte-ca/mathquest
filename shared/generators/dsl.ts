@@ -17,6 +17,19 @@ export function numTex(x: number, lang: Lang): string {
   return v < 0 ? `-${body}` : body;
 }
 
+/** The TeX for an amount of money (not wrapped). `\dollar` is a macro for the dollar sign (see shared/tex.ts): it goes before the amount in English and after it, with a space, in French. */
+export function dollarTex(x: number, lang: Lang, cents = false): string {
+  const v = Math.round(x * 100) / 100;
+  let body: string;
+  if (Number.isInteger(v) && !cents) body = numTex(v, lang);
+  else {
+    const [i, d] = Math.abs(v).toFixed(2).split('.') as [string, string];
+    const int = Math.abs(v) >= 10000 ? i.replace(/\B(?=(\d{3})+(?!\d))/g, '\\,') : i;
+    body = `${v < 0 ? '-' : ''}${int}${lang === 'fr' ? '{,}' : '.'}${d}`;
+  }
+  return lang === 'fr' ? `${body}\\ \\dollar` : `\\dollar ${body}`;
+}
+
 export interface F {
   lang: Lang;
   /** A number as TeX (not wrapped). Use inside f.m(...). */
@@ -25,6 +38,8 @@ export interface F {
   m: (tex: string) => string;
   /** One number, wrapped: $1\,234$. */
   N: (x: number) => string;
+  /** An amount of money, wrapped, with the dollar sign the Canadian way: $\dollar 45.50$ in English, $45{,}50\ \dollar$ in French. Whole amounts have no cents unless `cents` is true. */
+  D: (x: number, cents?: boolean) => string;
   /** Picks the English or French words. */
   t: (en: string, fr: string) => string;
 }
@@ -34,6 +49,7 @@ export const fmt = (lang: Lang): F => ({
   n: (x) => numTex(x, lang),
   m: (s) => `$${s}$`,
   N: (x) => `$${numTex(x, lang)}$`,
+  D: (x, cents) => `$${dollarTex(x, lang, cents)}$`,
   t: (en, fr) => (lang === 'en' ? en : fr),
 });
 

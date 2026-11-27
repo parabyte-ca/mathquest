@@ -153,10 +153,24 @@ export function latexToSpeech(tex: string, lang: Lang): string {
   return out.join(' ').replace(/\s+,/g, ',').replace(/\s{2,}/g, ' ').trim();
 }
 
+/** Reads an amount written with the `\dollar` macro: "twelve dollars and fifty cents", "douze dollars et cinquante cents". */
+export function moneyWords(tex: string, lang: Lang): string {
+  const amount = tex.replace(/\\dollar\s?/g, '').replace(/\\\s*$/, '').replace(/\\,/g, '').trim();
+  const m = /^(\d+)(?:(?:\.|\{,\})(\d{1,2}))?$/.exec(amount);
+  if (!m) return `${latexToSpeech(amount, lang)} dollars`;
+  const dollars = Number(m[1]);
+  const cents = m[2] ? Number(m[2].padEnd(2, '0')) : 0;
+  const d = `${numberWords(dollars, lang)} ${dollars === 1 || (lang === 'fr' && dollars === 0) ? 'dollar' : 'dollars'}`;
+  if (!cents) return d;
+  return `${d} ${lang === 'en' ? 'and' : 'et'} ${numberWords(cents, lang)} ${cents === 1 ? 'cent' : 'cents'}`;
+}
+
 /** Speaks a whole learner-facing string: text outside $...$ is kept, math inside is converted. */
 export function speakable(text: string, lang: Lang): string {
   return text
-    .replace(/\$([^$]+)\$/g, (_m, tex: string) => ` ${latexToSpeech(tex, lang)} `)
+    .replace(/\$([^$]+)\$/g, (_m, tex: string) =>
+      /\\dollar/.test(tex) ? ` ${moneyWords(tex, lang)} ` : ` ${latexToSpeech(tex, lang)} `,
+    )
     .replace(/[*_`#]/g, '')
     .replace(/\s{2,}/g, ' ')
     .trim();

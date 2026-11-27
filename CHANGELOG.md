@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.24.0] - 2026-11-27
+### Changed
+- Amounts of money now use the dollar sign everywhere, the Canadian way: "$45.50" in English and "45,50 $" in French, in practice, lessons, worksheets and answer keys. About 460 questions and answer steps (budgets, e-transfers, fuel, cars, mortgages, interest, taxes, pay) no longer write "45.50 dollars". Whole amounts have no cents ("$45") and amounts with cents always show two ("$12.50", "$1.00").
+- Phrases with no amount keep the word ("How many dollars are left?", "in dollars"), and so do named currencies ("US dollars", "Canadian dollars", "dollars canadiens"), where the sign alone would not say which dollar.
+- A question that mixes a formula with the unit, such as a taxi charge C = 3n + 52, still ends "dollars".
+- Amounts are read aloud as dollars and cents ("twelve dollars and fifty cents", "douze dollars et cinquante cents") by the voice reader.
+
+### Notes
+- The dollar sign is written in questions as a small TeX macro (`\dollar`, defined in `shared/tex.ts`) instead of a literal "$", because a literal "$" starts and ends maths in the question text. Authors write `f.D(amount)`; `f.D(amount, true)` always shows cents. Before the maths library has loaded, a plain dollar sign shows.
+- Tests check the formatting in both languages, that no question, step or option in the whole bank still ends an amount with the word "dollars", that every amount draws without a maths error, that the English and French questions show the same amounts, and the spoken form.
+
 ## [3.23.0] - 2026-11-27
 ### Added
 - A tiled background for every colour palette, drawn to match its name and shown behind the student pages: Classic has maths symbols, Sunrise a sun, gulls and clouds, Forest pine trees and a toadstool, Ocean waves, fish and bubbles, Twilight stars and a crescent moon, and Candy lollipops, wrapped sweets and sprinkles. Equipping a palette brings its background with it, with the same unlock levels as before.

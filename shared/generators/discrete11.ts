@@ -7,7 +7,7 @@ import { t } from './kit.js';
 
 const nonzero = (r: () => number, lo: number, hi: number): number => { let v = 0; while (v === 0) v = randInt(r, lo, hi); return v; };
 const choose = (n: number, k: number): number => { let v = 1; for (let i = 1; i <= k; i++) v = (v * (n - k + i)) / i; return Math.round(v); };
-const money = (f: F, x: number): string => `${f.N(r6(x))} ${f.t('dollars', 'dollars')}`;
+const money = (f: F, x: number): string => f.D(r6(x));
 
 /** MCR3U.C1: Pascal's triangle, binomial expansion */
 export const pascal11 = (id: string): Generator => numGen(id, (tier, r) => {
