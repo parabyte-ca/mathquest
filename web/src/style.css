@@ -252,9 +252,11 @@ label.switch { align-items: flex-start; gap: 0.75rem; }
 .badge { white-space: nowrap; }
 
 /* ── rewards ─────────────────────────────────────────────────────────────────── */
-.rewardbar { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; padding: 0.35rem 1rem 0.35rem 0.4rem; margin: 0 0 1rem; background: var(--card); border-radius: 999px; box-shadow: var(--shadow); color: var(--text); text-decoration: none; }
+.rewardbar { display: flex; align-items: center; gap: 0.5rem; flex-wrap: nowrap; padding: 0.35rem 1rem 0.35rem 0.4rem; margin: 0 0 1rem; background: var(--card); border-radius: 999px; box-shadow: var(--shadow); color: var(--text); text-decoration: none; }
 .rewardbar .avatar { font-size: 1.5rem; line-height: 1; }
-.rewardbar .lvl { font-weight: 800; }
+.rewardbar .lvl { font-weight: 800; white-space: nowrap; }
+.rewardbar .xpmeter { flex: 1 1 3rem; width: auto; min-width: 2.5rem; max-width: 12rem; }
+.rewardbar .xpnum, .rewardbar .streak { white-space: nowrap; }
 .rewardbar .xpnum, .rewardbar .streak { font-size: 0.9rem; font-weight: 600; }
 .xpmeter { display: inline-block; width: 8rem; max-width: 40vw; height: 0.75rem; border-radius: 99px; background: var(--seg); border: 1px solid var(--line); overflow: hidden; vertical-align: middle; }
 .xpmeter.wide { display: block; width: 100%; max-width: 30rem; margin: 0.4rem 0; }
@@ -375,6 +377,10 @@ html[data-side='caregiver'] button, html[data-side='caregiver'] .btn { border-ra
 html[data-side='caregiver'] .menubtn { border-radius: 50%; }
 html[data-side='caregiver'] h1, html[data-side='caregiver'] h2 { font-weight: 700; }
 html.hc[data-side] .xpmeter > span { background: var(--segfill); }
+
+/* ── the tiled background that goes with the equipped palette (set by applyPalette; absent in high contrast and with "Plain background") ── */
+html[data-pattern] body { background-image: var(--tile), linear-gradient(180deg, var(--soft) 0, transparent 420px); background-repeat: repeat, no-repeat; background-size: var(--tile-size), auto; background-attachment: scroll; }
+@media print { html[data-pattern] body { background-image: none; } }
 
 /* ── the menu button and its sheet ─────────────────────────────────────────── */
 .menuwrap { position: relative; }

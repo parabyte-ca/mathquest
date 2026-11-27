@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.23.0] - 2026-11-27
+### Added
+- A tiled background for every colour palette, drawn to match its name and shown behind the student pages: Classic has maths symbols, Sunrise a sun, gulls and clouds, Forest pine trees and a toadstool, Ocean waves, fish and bubbles, Twilight stars and a crescent moon, and Candy lollipops, wrapped sweets and sprinkles. Equipping a palette brings its background with it, with the same unlock levels as before.
+- Each tile is a small original drawing in the palette's colours, drawn faint so text, which always sits on solid cards, keeps the contrast the palette tests check. Nothing is fetched from another site and they work offline.
+- A "Plain background" switch in the student's display settings turns the pattern off. High contrast always removes it, and it is never printed.
+
+### Changed
+- The rewards pill no longer wraps onto a second line on a phone; the XP meter shrinks to fit.
+
+### Notes
+- Caregiver pages never show a pattern. Tests check that every palette has one tile, that each is faint (every shape at 45% opacity or less), well formed and free of scripts, links and images, that each draws what its name says, and that the plain setting and high contrast remove it; the end-to-end suite checks every palette and both switches in a browser.
+
 ## [3.22.0] - 2026-11-27
 ### Changed
 - A softer, more cohesive look across the app. Surfaces are separated by gentle shadows and tints instead of thin outlines and hard divider lines; cards, buttons, inputs and choices are rounder, and the page has a faint blue-to-white gradient. The student side is the roundest (pill buttons, 24 px cards) and the caregiver side is calmer (tighter corners, lighter shadows).

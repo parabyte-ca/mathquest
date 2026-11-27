@@ -43,6 +43,7 @@ export function Settings({ settings, onChange, go }: { settings: StudentSettings
       {toggle('highContrast', t('settings.contrast'))}
       {toggle('dyslexiaFont', t('settings.dyslexia'), t('settings.dyslexiaHelp'))}
       {toggle('reducedMotion', t('settings.motion'), t('settings.motionHelp'))}
+      {toggle('plainBackground', t('settings.plain'), t('settings.plainHelp'))}
       <button type="button" onClick={() => go('/app/learn')}>{t('common.back')}</button>
     </section>
   );

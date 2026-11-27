@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import type { Text } from '../../shared/items/types';
 import { PALETTES } from '../../shared/palettes';
+import { backgroundById, backgroundUrl } from '../../shared/backgrounds';
 import { COSMETICS, challengeById } from '../../shared/rewards';
 import { api } from './api';
 import { Avatar, FramePreview, PaletteSwatch } from './avatars';
@@ -54,25 +55,38 @@ export function applyReward(r: RewardResult): void {
 }
 export const refreshHeader = async (): Promise<void> => { const r = await api<RewardHeader>('GET', '/learn/rewards/header'); if (r.ok) publish(r.data); };
 
-/** Applies the equipped palette as CSS variables, unless high contrast is on (which has its own colours). */
-export function applyPalette(id: string, highContrast: boolean): void {
+/**
+ * Applies the equipped palette as CSS variables, and its tiled background, unless high contrast is on (which has its own colours and
+ * never has a pattern). The background alone is left out when the student has chosen a plain one.
+ */
+export function applyPalette(id: string, highContrast: boolean, plainBackground = false): void {
   const el = document.documentElement;
   for (const p of PALETTES) for (const k of Object.keys(p.vars)) el.style.removeProperty(k);
+  for (const k of ['--tile', '--tile-size']) el.style.removeProperty(k);
   el.removeAttribute('data-palette');
+  el.removeAttribute('data-pattern');
+  if (highContrast) return;
   const p = PALETTES.find((x) => x.id === id);
-  if (!p || highContrast) return;
-  for (const [k, v] of Object.entries(p.vars)) el.style.setProperty(k, v);
-  el.setAttribute('data-palette', id);
+  if (p) {
+    for (const [k, v] of Object.entries(p.vars)) el.style.setProperty(k, v);
+    el.setAttribute('data-palette', id);
+  }
+  const b = backgroundById(id);
+  if (b && !plainBackground) {
+    el.style.setProperty('--tile', backgroundUrl(b));
+    el.style.setProperty('--tile-size', `${b.w}px ${b.h}px`);
+    el.setAttribute('data-pattern', id);
+  }
 }
 
 // ── the strip at the top of every student page ─────────────────────────────────────
 
-export function RewardBar({ highContrast, go }: { highContrast: boolean; go: (to: string) => void }) {
+export function RewardBar({ highContrast, plainBackground, go }: { highContrast: boolean; plainBackground: boolean; go: (to: string) => void }) {
   const h = useRewardHeader();
   useEffect(() => {
-    if (h) applyPalette(h.palette, highContrast);
-    return () => applyPalette('palette-classic', false);
-  }, [h?.palette, highContrast]);
+    if (h) applyPalette(h.palette, highContrast, plainBackground);
+    return () => applyPalette('palette-classic', false, true);
+  }, [h?.palette, highContrast, plainBackground]);
   if (!h) return null;
   const pct = Math.min(100, Math.round((h.into / h.need) * 100));
   return (

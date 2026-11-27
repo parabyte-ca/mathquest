@@ -608,5 +608,7 @@
   "household.pickAll": "Select all",
   "household.pickNone": "Clear",
   "household.confirmShare": "Share {names} with {email} as {role}? They will be able to see progress, goals and messages.",
-  "nav.menu": "Menu"
+  "nav.menu": "Menu",
+  "settings.plain": "Plain background",
+  "settings.plainHelp": "Turns off the pattern behind the pages."
 }

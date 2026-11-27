@@ -597,4 +597,14 @@ describe('student settings', () => {
     expect(me.body.student.settings.voice).toBe(true);
     expect(me.body.student.grade).toBe(5);
   });
+
+  it('keeps the choice of a plain background, and accepts only true or false', async () => {
+    const env = env0();
+    const s = await makeStudent(env);
+    const patch = (body: object) => s.agent.patch('/api/learn/settings').set('x-csrf-token', s.csrf).send(body);
+    expect((await patch({ plainBackground: true }).expect(200)).body.settings.plainBackground).toBe(true);
+    expect((await s.agent.get('/api/me').expect(200)).body.student.settings.plainBackground).toBe(true);
+    await patch({ plainBackground: 'yes' }).expect(400);
+    expect((await patch({ plainBackground: false }).expect(200)).body.settings.plainBackground).toBe(false);
+  });
 });

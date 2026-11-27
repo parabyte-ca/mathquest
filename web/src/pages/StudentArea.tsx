@@ -53,7 +53,7 @@ export function StudentArea({ me, path, go }: { me: Extract<Me, { kind: 'student
   })();
   return (
     <>
-      <RewardBar highContrast={hc} go={go} />
+      <RewardBar highContrast={hc} plainBackground={!!settings.plainBackground} go={go} />
       {sent && path !== '/app/learn/offline' && (
         <p class="note ok syncnote" role="status">{t('offlinep.synced', { correct: sent.correct, answered: sent.answered, xp: sent.xp })} <button type="button" class="link" onClick={() => setSent(null)}>{t('install.close')}</button></p>
       )}
