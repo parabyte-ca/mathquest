@@ -608,5 +608,7 @@
   "household.pickAll": "Tout sélectionner",
   "household.pickNone": "Effacer",
   "household.confirmShare": "Partager {names} avec {email} comme {role}? Cette personne pourra voir la progression, les objectifs et les messages.",
-  "nav.menu": "Menu"
+  "nav.menu": "Menu",
+  "settings.plain": "Arrière-plan uni",
+  "settings.plainHelp": "Désactive le motif derrière les pages."
 }

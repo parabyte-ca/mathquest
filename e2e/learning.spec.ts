@@ -341,10 +341,26 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   for (const name of ['Twilight', 'Candy', 'Forest']) {
     await kid.getByRole('button', { name: new RegExp(name) }).click();
     await expect(kid.locator('html')).toHaveAttribute('data-palette', `palette-${name.toLowerCase()}`);
+    await expect(kid.locator('html')).toHaveAttribute('data-pattern', `palette-${name.toLowerCase()}`); // each palette brings its own tiled background
+    expect(await kid.evaluate(() => getComputedStyle(document.body).backgroundImage)).toContain('data:image/svg+xml');
     await scanOf(kid, `palette ${name}`);
   }
   await kid.getByRole('button', { name: /Classic/ }).click();
   await expect(kid.locator('html')).not.toHaveAttribute('data-palette', /.+/);
+  await expect(kid.locator('html')).toHaveAttribute('data-pattern', 'palette-classic');
+
+  // "Plain background" and high contrast both take the pattern away, and give it back when switched off
+  await kid.goto('/app/learn/settings');
+  await expect(kid.locator('html')).toHaveAttribute('data-pattern', 'palette-classic');
+  await kid.getByLabel('Plain background').check();
+  await expect(kid.locator('html')).not.toHaveAttribute('data-pattern', /.+/);
+  expect(await kid.evaluate(() => getComputedStyle(document.body).backgroundImage)).not.toContain('data:image/svg+xml');
+  await kid.getByLabel('Plain background').uncheck();
+  await expect(kid.locator('html')).toHaveAttribute('data-pattern', 'palette-classic');
+  await kid.getByLabel('High contrast').check();
+  await expect(kid.locator('html')).not.toHaveAttribute('data-pattern', /.+/);
+  await kid.getByLabel('High contrast').uncheck();
+  await expect(kid.locator('html')).toHaveAttribute('data-pattern', 'palette-classic');
   expect(pageProblems.get(kid) ?? []).toEqual([]);
 
   // the caregiver reads progress, sets a goal, and marks it done once the student has earned it

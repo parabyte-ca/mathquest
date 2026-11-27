@@ -23,6 +23,7 @@ const settings = z
     highContrast: z.boolean().optional(),
     dyslexiaFont: z.boolean().optional(),
     reducedMotion: z.boolean().optional(),
+    plainBackground: z.boolean().optional(),
   })
   .strict();
 const allowed = z.object({ grades: z.array(z.number().int().min(5).max(12)).max(8), courses: z.array(z.string().regex(/^[A-Z0-9]{5}$/)).max(20) }).strict();

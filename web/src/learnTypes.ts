@@ -38,6 +38,7 @@ export interface StudentSettings {
   autoRead?: boolean;
   theme?: string;
   highContrast?: boolean;
+  plainBackground?: boolean;
   dyslexiaFont?: boolean;
   reducedMotion?: boolean;
 }

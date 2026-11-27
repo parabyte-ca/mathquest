@@ -16,6 +16,7 @@ const settingsSchema = z
     highContrast: z.boolean(),
     dyslexiaFont: z.boolean(),
     reducedMotion: z.boolean(),
+    plainBackground: z.boolean(),
   })
   .partial()
   .strict();
