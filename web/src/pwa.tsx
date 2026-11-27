@@ -67,7 +67,7 @@ export function InstallButton() {
   };
   return (
     <span class="install">
-      <button type="button" class="link" onClick={() => void click()} aria-expanded={deferred ? undefined : help}><Icon name="install" /> {t('install.button')}</button>
+      <button type="button" data-keep={deferred ? undefined : ""} onClick={() => void click()} aria-expanded={deferred ? undefined : help}><Icon name="install" /> {t('install.button')}</button>
       {help && !deferred && (
         <div class="installhelp" role="dialog" aria-label={t('install.title')}>
           <p><strong>{t('install.title')}</strong></p>

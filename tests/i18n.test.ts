@@ -7,7 +7,7 @@ const F = load('fr');
 const placeholders = (s: string): string[] => [...s.matchAll(/\{(\w+)\}/g)].map((m) => m[1]!).sort();
 
 /** Words that are the same in both languages. Anything else identical in French is probably an untranslated string. */
-const SAME_IN_BOTH = new Set(['app.name', 'placement.progress', 'play.question', 'progress.minutes', 'progress.questions', 'rewards.avatars', 'activity.system', 'updates.versionNotes']);
+const SAME_IN_BOTH = new Set(['app.name', 'placement.progress', 'play.question', 'progress.minutes', 'progress.questions', 'rewards.avatars', 'activity.system', 'nav.menu', 'updates.versionNotes']);
 
 describe('locale files', () => {
   it('have the same keys in English and French', () => {

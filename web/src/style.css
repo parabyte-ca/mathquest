@@ -18,6 +18,9 @@
   --warn: #8a4b00;
   --line: #d5dbe6;
   --focus: #ffb703;
+  --chip: color-mix(in srgb, var(--text) 6%, var(--card));
+  --shadow: 0 10px 28px rgba(21, 101, 192, 0.1), 0 1px 2px rgba(21, 101, 192, 0.06);
+  --shadow-soft: 0 1px 2px rgba(21, 101, 192, 0.08), 0 4px 12px rgba(21, 101, 192, 0.05);
   --font: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: 'Fira Code Variable', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
   font-family: var(--font);
@@ -40,11 +43,13 @@
     --ok: #6fdc9b;
     --warn: #ffc266;
     --line: #2b3852;
+    --shadow: 0 10px 28px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--bg); color: var(--text); font-size: 1rem; }
+body { margin: 0; background: var(--bg) linear-gradient(180deg, var(--soft) 0, transparent 420px) no-repeat; color: var(--text); font-size: 1rem; min-height: 100vh; }
 h1 { font-size: 1.5rem; margin: 0 0 0.5rem; }
 h2 { font-size: 1.2rem; margin: 0 0 0.5rem; }
 h1.page { padding: 0 1rem; max-width: 52rem; margin: 1rem auto 0; }
@@ -54,20 +59,19 @@ a { color: var(--brand); }
 .skip { position: absolute; left: -999px; top: 0; background: var(--card); padding: 0.5rem 1rem; z-index: 10; }
 .skip:focus { left: 0; }
 
-.bar { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--card); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-.bar nav { display: flex; align-items: center; gap: 0.25rem; flex-wrap: wrap; }
-.bar nav a, .bar button.link { min-height: 44px; display: inline-flex; align-items: center; padding: 0 0.75rem; }
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.6rem 1rem; max-width: 52rem; margin: 0 auto; position: relative; z-index: 6; }
 .brand { font-weight: 800; font-size: 1.25rem; text-decoration: none; color: var(--text); min-height: 44px; display: inline-flex; align-items: center; }
 
 main { padding: 1rem; max-width: 52rem; margin: 0 auto; }
-.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; margin: 0 0 1rem; }
+.card { background: var(--card); border-radius: 16px; padding: 1rem; margin: 0 0 1rem; box-shadow: var(--shadow-soft); }
 .card.narrow { max-width: 30rem; margin-left: auto; margin-right: auto; }
 
 label { display: block; font-weight: 600; margin: 0.75rem 0 0.25rem; }
 label.check { display: flex; align-items: center; gap: 0.5rem; min-height: 44px; }
 input, select, button, .btn { font: inherit; }
-input:not([type='checkbox']), select, textarea { width: 100%; min-height: 44px; padding: 0.5rem 0.75rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--text); }
-input[type='checkbox'] { width: 24px; height: 24px; }
+input:not([type='checkbox']), select, textarea { width: 100%; min-height: 44px; padding: 0.5rem 0.75rem; border: 2px solid transparent; border-radius: 12px; background: var(--chip); color: var(--text); }
+input:not([type='checkbox']):focus, select:focus, textarea:focus { border-color: var(--brand); outline: none; }
+input[type='checkbox'] { width: 24px; height: 24px; accent-color: var(--brand); }
 button, .btn { min-height: 44px; min-width: 44px; padding: 0.5rem 1rem; border: 0; border-radius: 8px; background: var(--brand); color: var(--brand-text); font-weight: 700; cursor: pointer; margin-top: 0.75rem; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
 /* The next action (start, check, continue) is orange; everything else stays blue. Navy text, because white on orange fails contrast. */
 button.go, .btn.go { background: var(--orange); color: var(--on-orange); }
@@ -84,13 +88,13 @@ form.inline button { margin-top: 0; }
 
 ul.plain { list-style: none; margin: 0; padding: 0; }
 ul.plain.small { font-size: 0.9rem; color: var(--muted); }
-li.row { padding: 0.75rem 0; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
+li.row { padding: 0.75rem 0; border-top: 1px solid color-mix(in srgb, var(--text) 8%, transparent); display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: space-between; align-items: center; }
 li.row > form { flex-basis: 100%; }
 .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .muted { color: var(--muted); }
-.badge { margin-left: 0.5rem; padding: 0.1rem 0.5rem; border-radius: 99px; border: 1px solid var(--line); font-size: 0.8rem; color: var(--muted); }
+.badge { margin-left: 0.5rem; padding: 0.1rem 0.6rem; border-radius: 99px; background: var(--chip); font-size: 0.8rem; color: var(--muted); }
 
-.note { padding: 0.5rem 0.75rem; border-radius: 8px; border: 1px solid var(--line); }
+.note { padding: 0.5rem 0.75rem; border-radius: 12px; background: var(--chip); }
 .note:empty { display: none; }
 .note.ok { color: var(--ok); }
 .note.warn { color: var(--warn); }
@@ -120,7 +124,7 @@ html.rm *, html.rm *::before, html.rm *::after { animation: none !important; tra
 .eyebrow { text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8rem; color: var(--muted); margin: 0 0 0.25rem; }
 .lead { font-size: 1.1rem; }
 .grow-1 { flex: 1; }
-button.secondary { background: transparent; color: var(--brand); border: 2px solid var(--brand); }
+button.secondary { background: var(--soft); color: var(--brand); border: 0; }
 button.small { min-height: 44px; padding: 0.25rem 0.75rem; margin-top: 0; }
 button.icon { min-width: 44px; padding: 0; margin-top: 0; }
 .row-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; margin-top: 0.5rem; }
@@ -198,7 +202,7 @@ ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; 
 
 .helpers { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-top: 0.5rem; }
 .hint { background: var(--soft); border-left: 4px solid var(--brand); padding: 0.5rem 0.75rem; border-radius: 6px; margin: 0.5rem 0; }
-.banner { background: var(--soft); border: 1px solid var(--line); padding: 0.5rem 0.75rem; border-radius: 8px; margin: 0.5rem 0; font-weight: 600; }
+.banner { background: var(--soft); padding: 0.5rem 0.75rem; border-radius: 12px; margin: 0.5rem 0; font-weight: 600; }
 .feedback { margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 12px; border: 2px solid var(--line); background: var(--soft); }
 .feedback.good { border-color: var(--good); }
 .feedback.tip { border-color: var(--tip); }
@@ -218,8 +222,10 @@ ul.plain { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; 
 .def h2 { margin-bottom: 0.15rem; }
 .trybox { min-height: 2rem; }
 
-fieldset.strands { border: 1px solid var(--line); border-radius: 10px; margin: 1rem 0; padding: 0.5rem 0.75rem; }
-fieldset.strands legend { font-weight: 700; padding: 0 0.25rem; }
+fieldset.strands { border: 0; margin: 1rem 0; padding: 0; }
+fieldset.strands legend { font-weight: 700; padding: 0 0 0.25rem; }
+fieldset.strands label.check { background: var(--chip); border-radius: 16px; padding: 0.25rem 0.9rem; margin: 0.4rem 0; }
+fieldset.strands label.check:has(input:checked) { background: var(--soft); box-shadow: inset 0 0 0 2px var(--brand); }
 label.switch { align-items: flex-start; gap: 0.75rem; }
 
 .legend { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; list-style: none; padding: 0; margin: 0.5rem 0; font-size: 0.85rem; }
@@ -246,7 +252,7 @@ label.switch { align-items: flex-start; gap: 0.75rem; }
 .badge { white-space: nowrap; }
 
 /* ── rewards ─────────────────────────────────────────────────────────────────── */
-.rewardbar { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; padding: 0.4rem 1rem; background: var(--soft); border-bottom: 1px solid var(--line); color: var(--text); text-decoration: none; min-height: 44px; }
+.rewardbar { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; padding: 0.35rem 1rem 0.35rem 0.4rem; margin: 0 0 1rem; background: var(--card); border-radius: 999px; box-shadow: var(--shadow); color: var(--text); text-decoration: none; }
 .rewardbar .avatar { font-size: 1.5rem; line-height: 1; }
 .rewardbar .lvl { font-weight: 800; }
 .rewardbar .xpnum, .rewardbar .streak { font-size: 0.9rem; font-weight: 600; }
@@ -357,14 +363,31 @@ label.check .glyph { margin: 0 0.1rem; }
 /* ── two looks, one brand ──────────────────────────────────────────────────────
    Students get a playful look (rounder shapes, a blue-to-yellow meter, bolder headings); caregivers get a calmer one (flatter,
    tighter, no gradients). Colours, type and icons are the same on both. High contrast turns the extras off. */
-html[data-side='student'] .card { border-radius: 20px; }
-html[data-side='student'] button, html[data-side='student'] .btn { border-radius: 14px; }
+html[data-side='student'] .card { border-radius: 24px; box-shadow: var(--shadow); }
+html[data-side='student'] button, html[data-side='student'] .btn { border-radius: 999px; }
+html[data-side='student'] .menubtn { border-radius: 50%; }
+html[data-side='student'] input:not([type='checkbox']), html[data-side='student'] select, html[data-side='student'] textarea { border-radius: 16px; }
 html[data-side='student'] h1, html[data-side='student'] h2 { font-weight: 800; }
 html[data-side='student'] .xpmeter > span { background: linear-gradient(90deg, var(--brand), var(--yellow)); }
-html[data-side='student'] .rewardbar { background: var(--blue-soft); }
 html[data-side='student'] .cosmetic.on { outline-color: var(--orange); }
-html[data-side='caregiver'] .card { border-radius: 10px; }
-html[data-side='caregiver'] button, html[data-side='caregiver'] .btn { border-radius: 8px; }
+html[data-side='caregiver'] .card { border-radius: 16px; }
+html[data-side='caregiver'] button, html[data-side='caregiver'] .btn { border-radius: 12px; }
+html[data-side='caregiver'] .menubtn { border-radius: 50%; }
 html[data-side='caregiver'] h1, html[data-side='caregiver'] h2 { font-weight: 700; }
 html.hc[data-side] .xpmeter > span { background: var(--segfill); }
-html.hc[data-side] .rewardbar { background: var(--soft); }
+
+/* ── the menu button and its sheet ─────────────────────────────────────────── */
+.menuwrap { position: relative; }
+.menubtn { width: 44px; height: 44px; min-width: 44px; padding: 0; margin: 0; background: var(--card); color: var(--brand); box-shadow: var(--shadow-soft); border-radius: 50%; }
+.sheet { position: absolute; right: 0; top: calc(100% + 0.5rem); z-index: 30; min-width: 14.5rem; padding: 0.5rem; background: var(--card); border-radius: 22px; box-shadow: 0 18px 40px rgba(10, 30, 60, 0.22); display: grid; gap: 0.15rem; }
+.sheet button, .sheet a { display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; width: 100%; min-height: 48px; padding: 0 0.9rem; margin: 0; background: transparent; color: var(--text); font-weight: 600; text-decoration: none; border-radius: 14px; }
+.sheet button:hover, .sheet a:hover, .sheet button:focus-visible, .sheet a:focus-visible { background: var(--soft); color: var(--brand); }
+.sheet .install { display: block; }
+.sheet .installhelp { position: static; width: auto; margin: 0.25rem 0; border: 0; box-shadow: none; background: var(--soft); border-radius: 14px; }
+
+/* high contrast keeps hard edges instead of shadows and tints */
+html.hc .card, html.hc .rewardbar, html.hc .menubtn, html.hc .sheet { border: 2px solid #fff; box-shadow: none; }
+html.hc input:not([type='checkbox']), html.hc select, html.hc textarea { border: 2px solid #fff; }
+html.hc button.secondary { border: 2px solid var(--brand); background: transparent; }
+html.hc fieldset.strands label.check { border: 2px solid #fff; }
+html.hc body, body.hc { background-image: none; }

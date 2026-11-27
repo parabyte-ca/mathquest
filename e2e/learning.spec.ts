@@ -1,6 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { answerCurrent, currentItem, db, fillAnswer, noHorizontalScroll, pageProblems, parentPage, studentId, studentOnNewDevice, waitForNewItem } from './helpers';
+import { answerCurrent, currentItem, db, fillAnswer, noHorizontalScroll, openMenu, pageProblems, parentPage, studentId, studentOnNewDevice, waitForNewItem } from './helpers';
 
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'];
 
@@ -193,6 +193,7 @@ test('voice reads lessons and questions naturally (math as words, in French too)
   await expect(kid.locator('.caption')).toBeVisible(); // spoken words are also shown on screen
 
   // French
+  await openMenu(kid);
   await kid.getByRole('button', { name: 'Français' }).click();
   await kid.getByRole('button', { name: /Lire à voix haute/ }).first().click();
   spoken = await kid.evaluate(() => (window as unknown as { __spoken: { text: string; lang: string }[] }).__spoken);
