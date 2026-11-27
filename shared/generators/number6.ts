@@ -272,7 +272,7 @@ export const multiStep6 = numGen('MS.G6.B2.1.a', (tier, r) => {
     const n = randInt(r, 3, 6), p = randInt(r, 125, 275) / 100, pay = 20;
     const cost = r6(n * p);
     return {
-      prompt: bi((f) => f.t(`Ava buys ${n} juices at ${f.N(p)} dollars each and pays with a 20 dollar bill. How many dollars of change does she get?`, `Ava achète ${n} jus à ${f.N(p)} dollars chacun et paie avec un billet de 20 dollars. Combien de dollars lui rend-on ?`)),
+      prompt: bi((f) => f.t(`Ava buys ${n} juices at ${f.D(p)} each and pays with a ${f.D(20)} bill. How many dollars of change does she get?`, `Ava achète ${n} jus à ${f.D(p)} chacun et paie avec un billet de ${f.D(20)}. Combien de dollars lui rend-on ?`)),
       answer: r6(pay - cost), category: 'AP',
       wrong: [[cost, t('It looks like the total cost was given. The question asks for the change, so subtract the cost from 20.', 'Il semble que le coût total a été donné. La question demande la monnaie rendue : soustrais le coût de 20.'), 1], [r6(pay - p), t('It looks like only one juice was subtracted. Find the cost of all the juices first.', 'Il semble qu\'un seul jus a été soustrait. Trouve d\'abord le coût de tous les jus.'), 0]],
       steps: [bi((f) => f.t(`Cost: ${n} × ${f.N(p)} = ${f.N(cost)}.`, `Coût : ${n} × ${f.N(p)} = ${f.N(cost)}.`)), bi((f) => f.t(`Change: 20 − ${f.N(cost)} = ${f.N(r6(pay - cost))}.`, `Monnaie : 20 − ${f.N(cost)} = ${f.N(r6(pay - cost))}.`))],
@@ -293,7 +293,7 @@ export const multiStep6 = numGen('MS.G6.B2.1.a', (tier, r) => {
   const pct = pick(r, [10, 20, 25, 50]), price = randInt(r, 2, 12) * 20;
   const off = (price * pct) / 100;
   return {
-    prompt: bi((f) => f.t(`A jacket costs ${f.N(price)} dollars. It is on sale for ${pct}% off. What is the sale price in dollars?`, `Un manteau coûte ${f.N(price)} dollars. Il est en solde à ${pct} % de rabais. Quel est le prix en solde, en dollars ?`)),
+    prompt: bi((f) => f.t(`A jacket costs ${f.D(price)}. It is on sale for ${pct}% off. What is the sale price in dollars?`, `Un manteau coûte ${f.D(price)}. Il est en solde à ${pct} % de rabais. Quel est le prix en solde, en dollars ?`)),
     answer: price - off, category: 'AP',
     wrong: [[off, t('It looks like the amount of the discount was given. The sale price is what you pay after taking it off.', 'Il semble que le montant du rabais a été donné. Le prix en solde est ce qu\'on paie après l\'avoir retiré.'), 1]],
     steps: [t(`${pct}% of ${price} is ${off}.`, `${pct} % de ${price}, c'est ${off}.`), t(`Sale price: ${price} − ${off} = ${price - off}.`, `Prix en solde : ${price} − ${off} = ${price - off}.`)],
@@ -597,7 +597,7 @@ export const ratiosPercents: Generator = (tier, seed) => {
       return build({
         skill: 'MS.G6.B2.12.a', tier, seed, category: 'AP', format: 'choice',
         prompt: t('Which is the better buy (the lower price for each one)?', 'Quel est le meilleur achat (le prix le plus bas pour chacun) ?'),
-        options: opts.map(([s, p]) => bi((f) => f.t(`${s} for ${f.N(p)} dollars`, `${s} pour ${f.N(p)} dollars`))), answer: { kind: 'choice', index: best },
+        options: opts.map(([s, p]) => bi((f) => f.t(`${s} for ${f.D(p)}`, `${s} pour ${f.D(p)}`))), answer: { kind: 'choice', index: best },
         steps: [t('Find the price for one item in each: divide the price by the number of items.', 'Trouve le prix d\'un article dans chaque cas : divise le prix par le nombre d\'articles.'), t('The lower price for one item is the better buy.', 'Le prix le plus bas pour un article est le meilleur achat.')],
         nudge: t('Compare the price for one item, not the total price.', 'Compare le prix d\'un article, pas le prix total.'), stepHint: t('Divide each price by the number of items.', 'Divise chaque prix par le nombre d\'articles.'),
         wrong: [{ answer: { kind: 'choice', index: 1 - best }, stepIndex: 0, why: t('It looks like the total prices were compared. The packs are different sizes, so compare the price for one item (the unit rate).', 'Il semble que les prix totaux ont été comparés. Les emballages n\'ont pas la même taille : compare le prix d\'un article (le taux unitaire).') }],

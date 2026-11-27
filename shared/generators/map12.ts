@@ -5,7 +5,7 @@ import type { Generator } from '../items/types.js';
 import { bi, keepWrong as wr, numGen, r6, type F } from './dsl.js';
 import { t } from './kit.js';
 
-const dollars = (f: F, x: number): string => `${f.N(r6(x))} ${f.t('dollars', 'dollars')}`;
+const dollars = (f: F, x: number): string => f.D(r6(x));
 
 /** MAP4C.A2: compare two linear models by their initial value and rate of change */
 export const linearCompare11 = (id: string): Generator => numGen(id, (tier, r) => {

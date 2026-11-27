@@ -151,7 +151,7 @@ export const percentChange7 = numGen('MS.G7.B2.3.a', (tier, r) => {
   const story = tier === 3;
   return {
     prompt: story
-      ? bi((f) => (up ? f.t(`A bike costs ${f.N(base)} dollars. The price goes up by ${f.N(p)}%. What is the new price, in dollars?`, `Un vélo coûte ${f.N(base)} dollars. Le prix augmente de ${f.N(p)} %. Quel est le nouveau prix, en dollars ?`) : f.t(`A bike costs ${f.N(base)} dollars. It is on sale for ${f.N(p)}% off. What is the sale price, in dollars?`, `Un vélo coûte ${f.N(base)} dollars. Il est en solde à ${f.N(p)} % de rabais. Quel est le prix de solde, en dollars ?`)))
+      ? bi((f) => (up ? f.t(`A bike costs ${f.D(base)}. The price goes up by ${f.N(p)}%. What is the new price, in dollars?`, `Un vélo coûte ${f.D(base)}. Le prix augmente de ${f.N(p)} %. Quel est le nouveau prix, en dollars ?`) : f.t(`A bike costs ${f.D(base)}. It is on sale for ${f.N(p)}% off. What is the sale price, in dollars?`, `Un vélo coûte ${f.D(base)}. Il est en solde à ${f.N(p)} % de rabais. Quel est le prix de solde, en dollars ?`)))
       : bi((f) => (up ? f.t(`Increase ${f.N(base)} by ${f.N(p)}%.`, `Augmente ${f.N(base)} de ${f.N(p)} %.`) : f.t(`Decrease ${f.N(base)} by ${f.N(p)}%.`, `Diminue ${f.N(base)} de ${f.N(p)} %.`))),
     answer: ans, category: story ? 'AP' : 'KU',
     wrong: [[change, t('That is only the amount of the change. Add it to (or subtract it from) the original number.', 'C\'est seulement le montant du changement. Additionne-le au nombre de départ (ou soustrais-le).'), 1]],
@@ -434,10 +434,10 @@ export const proportional7 = numGen('MS.G7.B2.10.a', (tier, r) => {
   const cost = r6(u * q1);
   const ans = r6(u * q2);
   return {
-    prompt: bi((f) => f.t(`${f.N(q1)} notebooks cost ${f.N(cost)} dollars. At the same price, how much do ${f.N(q2)} notebooks cost, in dollars?`, `${f.N(q1)} cahiers coûtent ${f.N(cost)} dollars. Au même prix, combien coûtent ${f.N(q2)} cahiers, en dollars ?`)),
+    prompt: bi((f) => f.t(`${f.N(q1)} notebooks cost ${f.D(cost)}. At the same price, how much do ${f.N(q2)} notebooks cost, in dollars?`, `${f.N(q1)} cahiers coûtent ${f.D(cost)}. Au même prix, combien coûtent ${f.N(q2)} cahiers, en dollars ?`)),
     answer: ans, category: 'AP',
     wrong: [[r6(cost + (q2 - q1)), t('It looks like the extra notebooks were added as ones. Each notebook costs the same amount, so use the price of one notebook.', 'Il semble que les cahiers en plus ont été ajoutés comme des unités. Chaque cahier coûte le même montant : utilise le prix d\'un cahier.'), 0]],
-    steps: [bi((f) => f.t(`Cost of one notebook: ${f.N(cost)} ÷ ${f.N(q1)} = ${f.N(u)} dollars.`, `Coût d\'un cahier : ${f.N(cost)} ÷ ${f.N(q1)} = ${f.N(u)} dollars.`)), bi((f) => f.t(`${f.N(q2)} notebooks: ${f.N(q2)} × ${f.N(u)} = ${f.N(ans)} dollars.`, `${f.N(q2)} cahiers : ${f.N(q2)} × ${f.N(u)} = ${f.N(ans)} dollars.`))],
+    steps: [bi((f) => f.t(`Cost of one notebook: ${f.N(cost)} ÷ ${f.N(q1)} = ${f.D(u)}.`, `Coût d\'un cahier : ${f.N(cost)} ÷ ${f.N(q1)} = ${f.D(u)}.`)), bi((f) => f.t(`${f.N(q2)} notebooks: ${f.N(q2)} × ${f.N(u)} = ${f.D(ans)}.`, `${f.N(q2)} cahiers : ${f.N(q2)} × ${f.N(u)} = ${f.D(ans)}.`))],
     nudge: t('Find the cost of one notebook first (the unit rate).', 'Trouve d\'abord le coût d\'un cahier (le taux unitaire).'),
   };
 });

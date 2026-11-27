@@ -5,7 +5,7 @@ import type { Generator } from '../items/types.js';
 import { bi, keepWrong as wr, numGen, r6, type F } from './dsl.js';
 import { t } from './kit.js';
 
-const dollars = (f: F, x: number): string => `${f.N(r6(x))} ${f.t('dollars', 'dollars')}`;
+const dollars = (f: F, x: number): string => f.D(r6(x));
 const list = (f: F, xs: number[]): string => xs.map((x) => f.N(x)).join(', ');
 
 /** MEL4E.A1: mean, median, and the mark needed for a target average */
@@ -65,7 +65,7 @@ export const chance11 = (id: string): Generator => numGen(id, (tier, r) => {
       prompt: bi((f) => f.t(`A raffle sells ${f.N(n)} tickets at ${dollars(f, cost)} each, and there is one prize of ${dollars(f, prize)}. What is the expected value of buying one ticket, in dollars? (A negative number means you expect to lose money.)`, `Une tombola vend ${f.N(n)} billets à ${dollars(f, cost)} chacun, et il y a un seul prix de ${dollars(f, prize)}. Quelle est la valeur espérée de l'achat d'un billet, en dollars ? (Un nombre négatif signifie qu'on s'attend à perdre de l'argent.)`)),
       answer: ans, category: 'TH',
       wrong: wr(ans, [[k, t('That is the expected prize only. Subtract the cost of the ticket.', 'C\'est seulement le prix espéré. Soustrais le coût du billet.'), 1], [r6(prize - cost), t('You only win the prize with probability 1 out of the number of tickets.', 'Tu ne gagnes le prix qu\'avec une probabilité de 1 sur le nombre de billets.'), 0], [r6(cost - k), t('Expected value = expected winnings − cost, so a loss is negative.', 'Valeur espérée = gains espérés − coût : une perte est négative.'), 1]]),
-      steps: [bi((f) => f.t(`Expected prize: ${f.m(`\\frac{1}{${f.n(n)}} \\times ${f.n(prize)}`)} = ${dollars(f, k)}.`, `Prix espéré : ${f.m(`\\frac{1}{${f.n(n)}} \\times ${f.n(prize)}`)} = ${dollars(f, k)}.`)), bi((f) => f.t(`Expected value: ${f.m(`${f.n(k)} - ${f.n(cost)}`)} = ${f.N(ans)} dollars.`, `Valeur espérée : ${f.m(`${f.n(k)} - ${f.n(cost)}`)} = ${f.N(ans)} dollars.`))],
+      steps: [bi((f) => f.t(`Expected prize: ${f.m(`\\frac{1}{${f.n(n)}} \\times ${f.n(prize)}`)} = ${dollars(f, k)}.`, `Prix espéré : ${f.m(`\\frac{1}{${f.n(n)}} \\times ${f.n(prize)}`)} = ${dollars(f, k)}.`)), bi((f) => f.t(`Expected value: ${f.m(`${f.n(k)} - ${f.n(cost)}`)} = ${f.D(ans)}.`, `Valeur espérée : ${f.m(`${f.n(k)} - ${f.n(cost)}`)} = ${f.D(ans)}.`))],
       nudge: t('Find the average prize per ticket, then subtract what the ticket costs.', 'Trouve le prix moyen par billet, puis soustrais le coût du billet.'),
     };
   }
@@ -138,7 +138,7 @@ export const scale11 = (id: string): Generator => numGen(id, (tier, r) => {
   return {
     prompt: bi((f) => f.t(`A floor is ${f.N(L)} m by ${f.N(W)} m. Tile costs ${dollars(f, c)} per m², and ${f.m('10\\%')} extra must be bought for cuts and waste. What is the total cost of the tile, in dollars?`, `Un plancher mesure ${f.N(L)} m sur ${f.N(W)} m. Les carreaux coûtent ${dollars(f, c)} le m², et ${f.m('10\\%')} de plus doit être acheté pour les coupes et les pertes. Quel est le coût total des carreaux, en dollars ?`)),
     answer: ans, category: 'AP', tolerance: 0.006,
-    wrong: wr(ans, [[r6(L * W * c), t('Add the 10% extra: multiply the area by 1.1.', 'Ajoute les 10 % de plus : multiplie l\'aire par 1,1.'), 1], [r6(2 * (L + W) * 1.1 * c), t('Cost depends on the area, not the perimeter.', 'Le coût dépend de l\'aire, pas du périmètre.'), 0], [r6(L * W * c + 10), t('The extra is 10% of the tile, not 10 dollars.', 'Le surplus est de 10 % des carreaux, pas 10 dollars.'), 1]]),
+    wrong: wr(ans, [[r6(L * W * c), t('Add the 10% extra: multiply the area by 1.1.', 'Ajoute les 10 % de plus : multiplie l\'aire par 1,1.'), 1], [r6(2 * (L + W) * 1.1 * c), t('Cost depends on the area, not the perimeter.', 'Le coût dépend de l\'aire, pas du périmètre.'), 0], [r6(L * W * c + 10), t('The extra is 10% of the tile, not $\\dollar 10$.', 'Le surplus est de 10 % des carreaux, pas $10\\ \\dollar$.'), 1]]),
     steps: [bi((f) => f.t(`Area: ${f.m(`${f.n(L)} \\times ${f.n(W)}`)} = ${f.N(L * W)} m². With the extra: ${f.m(`${f.n(L * W)} \\times 1.1`)} = ${f.N(r6(L * W * 1.1))} m².`, `Aire : ${f.m(`${f.n(L)} \\times ${f.n(W)}`)} = ${f.N(L * W)} m². Avec le surplus : ${f.m(`${f.n(L * W)} \\times 1.1`)} = ${f.N(r6(L * W * 1.1))} m².`)), bi((f) => f.t(`Cost: ${f.m(`${f.n(r6(L * W * 1.1))} \\times ${f.n(c)}`)} = ${dollars(f, ans)}.`, `Coût : ${f.m(`${f.n(r6(L * W * 1.1))} \\times ${f.n(c)}`)} = ${dollars(f, ans)}.`))],
     nudge: t('Find the area, add 10%, then multiply by the price per square metre.', 'Trouve l\'aire, ajoute 10 %, puis multiplie par le prix au mètre carré.'),
   };

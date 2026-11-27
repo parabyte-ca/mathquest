@@ -401,10 +401,10 @@ export const proportions8 = numGen('MS.G8.B2.8.a', (tier, r) => {
     const u2 = r6(u1 + randInt(r, 5, 30) / 100);
     const q1 = randInt(r, 4, 12), q2 = randInt(r, 4, 12);
     return {
-      prompt: bi((f) => f.t(`Pack A has ${f.N(q1)} pencils for ${f.N(r6(u1 * q1))} dollars. Pack B has ${f.N(q2)} pencils for ${f.N(r6(u2 * q2))} dollars. How many dollars less per pencil does the better buy cost?`, `Le paquet A contient ${f.N(q1)} crayons pour ${f.N(r6(u1 * q1))} dollars. Le paquet B contient ${f.N(q2)} crayons pour ${f.N(r6(u2 * q2))} dollars. Combien de dollars de moins par crayon la meilleure affaire coûte-t-elle ?`)),
+      prompt: bi((f) => f.t(`Pack A has ${f.N(q1)} pencils for ${f.D(r6(u1 * q1))}. Pack B has ${f.N(q2)} pencils for ${f.D(r6(u2 * q2))}. How many dollars less per pencil does the better buy cost?`, `Le paquet A contient ${f.N(q1)} crayons pour ${f.D(r6(u1 * q1))}. Le paquet B contient ${f.N(q2)} crayons pour ${f.D(r6(u2 * q2))}. Combien de dollars de moins par crayon la meilleure affaire coûte-t-elle ?`)),
       answer: r6(u2 - u1), category: 'AP',
       wrong: [[r6(u1), t('That is the unit price of the better buy, not the difference. Subtract the two unit prices.', 'C\'est le prix unitaire de la meilleure affaire, pas la différence. Soustrais les deux prix unitaires.'), 1]] as Wrong,
-      steps: [bi((f) => f.t(`Unit prices: A is ${f.N(r6(u1 * q1))} ÷ ${f.N(q1)} = ${f.N(u1)} and B is ${f.N(r6(u2 * q2))} ÷ ${f.N(q2)} = ${f.N(u2)} dollars each.`, `Prix unitaires : A est ${f.N(r6(u1 * q1))} ÷ ${f.N(q1)} = ${f.N(u1)} et B est ${f.N(r6(u2 * q2))} ÷ ${f.N(q2)} = ${f.N(u2)} dollar chacun.`)), bi((f) => f.t(`Difference: ${f.N(u2)} − ${f.N(u1)} = ${f.N(r6(u2 - u1))} dollars.`, `Différence : ${f.N(u2)} − ${f.N(u1)} = ${f.N(r6(u2 - u1))} dollar.`))],
+      steps: [bi((f) => f.t(`Unit prices: A is ${f.N(r6(u1 * q1))} ÷ ${f.N(q1)} = ${f.N(u1)} and B is ${f.N(r6(u2 * q2))} ÷ ${f.N(q2)} = ${f.D(u2)} each.`, `Prix unitaires : A est ${f.N(r6(u1 * q1))} ÷ ${f.N(q1)} = ${f.N(u1)} et B est ${f.N(r6(u2 * q2))} ÷ ${f.N(q2)} = ${f.D(u2)} chacun.`)), bi((f) => f.t(`Difference: ${f.N(u2)} − ${f.N(u1)} = ${f.D(r6(u2 - u1))}.`, `Différence : ${f.N(u2)} − ${f.N(u1)} = ${f.D(r6(u2 - u1))}.`))],
       nudge: t('Find the price of one pencil in each pack, then compare.', 'Trouve le prix d\'un crayon dans chaque paquet, puis compare.'),
     };
   }

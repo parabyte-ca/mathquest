@@ -5,7 +5,7 @@ import type { Generator } from '../items/types.js';
 import { bi, keepWrong as wr, numGen, r6, type F } from './dsl.js';
 import { t } from './kit.js';
 
-const dollars = (f: F, x: number): string => `${f.N(r6(x))} ${f.t('dollars', 'dollars')}`;
+const dollars = (f: F, x: number): string => f.D(r6(x));
 
 /** MBF3C.A2: zero and negative exponents */
 export const zeroNeg11 = (id: string): Generator => numGen(id, (tier, r) => {
@@ -66,7 +66,7 @@ export const vehicle11 = (id: string): Generator => numGen(id, (tier, r) => {
   if (tier === 1) {
     const km = randInt(r, 2, 16) * 50, use = pick(r, [6, 7, 8, 9, 10, 12]), ans = r6(((km * use) / 100) * price);
     return {
-      prompt: bi((f) => f.t(`A car uses ${f.N(use)} litres of fuel per 100 km. Fuel costs ${f.N(price)} dollars per litre. How much does the fuel cost for a ${f.N(km)} km trip, in dollars?`, `Une voiture consomme ${f.N(use)} litres de carburant aux 100 km. Le carburant coûte ${f.N(price)} dollars le litre. Combien coûte le carburant pour un trajet de ${f.N(km)} km, en dollars ?`)),
+      prompt: bi((f) => f.t(`A car uses ${f.N(use)} litres of fuel per 100 km. Fuel costs ${f.D(price)} per litre. How much does the fuel cost for a ${f.N(km)} km trip, in dollars?`, `Une voiture consomme ${f.N(use)} litres de carburant aux 100 km. Le carburant coûte ${f.D(price)} le litre. Combien coûte le carburant pour un trajet de ${f.N(km)} km, en dollars ?`)),
       answer: ans, category: 'AP',
       wrong: wr(ans, [
         [r6(km * use * price), t('The rate is per 100 km, so divide the distance by 100 first.', 'La consommation est aux 100 km : divise d\'abord la distance par 100.'), 0],
@@ -84,7 +84,7 @@ export const vehicle11 = (id: string): Generator => numGen(id, (tier, r) => {
     const monthly = randInt(r, 6, 20) * 10, maint = randInt(r, 3, 12) * 100, km = randInt(r, 4, 20) * 1000, use = pick(r, [6, 8, 10]);
     const fuel = r6(((km * use) / 100) * price), ans = r6(monthly * 12 + maint + fuel);
     return {
-      prompt: bi((f) => f.t(`Insurance for a car costs ${dollars(f, monthly)} per month. Maintenance costs ${dollars(f, maint)} per year. The car is driven ${f.N(km)} km a year and uses ${f.N(use)} litres per 100 km, with fuel at ${f.N(price)} dollars per litre. What is the total yearly cost of insurance, maintenance and fuel, in dollars?`, `L'assurance d'une voiture coûte ${dollars(f, monthly)} par mois. L'entretien coûte ${dollars(f, maint)} par année. La voiture roule ${f.N(km)} km par année et consomme ${f.N(use)} litres aux 100 km, avec du carburant à ${f.N(price)} dollars le litre. Quel est le coût annuel total de l'assurance, de l'entretien et du carburant, en dollars ?`)),
+      prompt: bi((f) => f.t(`Insurance for a car costs ${dollars(f, monthly)} per month. Maintenance costs ${dollars(f, maint)} per year. The car is driven ${f.N(km)} km a year and uses ${f.N(use)} litres per 100 km, with fuel at ${f.D(price)} per litre. What is the total yearly cost of insurance, maintenance and fuel, in dollars?`, `L'assurance d'une voiture coûte ${dollars(f, monthly)} par mois. L'entretien coûte ${dollars(f, maint)} par année. La voiture roule ${f.N(km)} km par année et consomme ${f.N(use)} litres aux 100 km, avec du carburant à ${f.D(price)} le litre. Quel est le coût annuel total de l'assurance, de l'entretien et du carburant, en dollars ?`)),
       answer: ans, category: 'AP',
       wrong: wr(ans, [
         [r6(monthly + maint + fuel), t('Insurance is charged each month, so multiply it by 12 to get the yearly cost.', 'L\'assurance est facturée chaque mois : multiplie-la par 12 pour obtenir le coût annuel.'), 0],
@@ -113,7 +113,7 @@ export const vehicle11 = (id: string): Generator => numGen(id, (tier, r) => {
     ]),
     steps: [
       bi((f) => f.t(`Yearly total: ${f.m(`${f.n(pay)} \\times 12 + ${f.n(ins)} + ${f.n(maint)} + ${f.n(fuel)}`)} = ${dollars(f, total)}.`, `Total annuel : ${f.m(`${f.n(pay)} \\times 12 + ${f.n(ins)} + ${f.n(maint)} + ${f.n(fuel)}`)} = ${dollars(f, total)}.`)),
-      bi((f) => f.t(`Per kilometre: ${f.m(`${f.n(total)} \\div ${f.n(km)}`)} = ${f.N(r6(cpk))} dollars.`, `Par kilomètre : ${f.m(`${f.n(total)} \\div ${f.n(km)}`)} = ${f.N(r6(cpk))} dollars.`)),
+      bi((f) => f.t(`Per kilometre: ${f.m(`${f.n(total)} \\div ${f.n(km)}`)} = ${f.D(r6(cpk))}.`, `Par kilomètre : ${f.m(`${f.n(total)} \\div ${f.n(km)}`)} = ${f.D(r6(cpk))}.`)),
     ],
     nudge: t('Add the yearly costs (the loan is monthly, so multiply by 12), then divide by the kilometres driven.', 'Additionne les coûts annuels (le prêt est mensuel : multiplie par 12), puis divise par les kilomètres parcourus.'),
   };

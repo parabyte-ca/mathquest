@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
+import { TEX_MACROS, rawTex } from '../../shared/tex';
 import type { Text } from '../../shared/items/types';
 import { getLang } from './i18n';
 import { speakable } from '../../shared/mathspeech';
@@ -9,7 +10,7 @@ const loadKatex = (): Promise<Katex> => (katexPromise ??= import('katex').then((
 
 /** Renders one TeX snippet to MathML (native, screen-reader friendly, no inline styles so the strict CSP holds). */
 function render(katex: Katex, tex: string): string {
-  return katex.renderToString(tex, { output: 'mathml', throwOnError: false, strict: 'ignore', trust: false });
+  return katex.renderToString(tex, { output: 'mathml', throwOnError: false, strict: 'ignore', trust: false, macros: { ...TEX_MACROS } });
 }
 
 /** Text with $...$ math. Plain text shows immediately; math upgrades to KaTeX once it has loaded. */
@@ -23,7 +24,7 @@ export function MathText({ text, class: cls }: { text: string; class?: string })
     <span class={cls}>
       {parts.map((p, i) =>
         p.startsWith('$') && p.endsWith('$') && p.length > 2 ? (
-          katex ? <span key={i} class="tex" dangerouslySetInnerHTML={{ __html: render(katex, p.slice(1, -1)) }} /> : <span key={i} class="tex-raw">{p.slice(1, -1)}</span>
+          katex ? <span key={i} class="tex" dangerouslySetInnerHTML={{ __html: render(katex, p.slice(1, -1)) }} /> : <span key={i} class="tex-raw">{rawTex(p.slice(1, -1))}</span>
         ) : (
           <span key={i}>{p}</span>
         ),

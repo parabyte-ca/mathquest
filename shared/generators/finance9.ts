@@ -6,7 +6,7 @@ import { bi, choiceGen, keepWrong as wr, mc, numGen, r6, type F } from './dsl.js
 import { t } from './kit.js';
 
 const tierGen = (g1: Generator, g2: Generator, g3: Generator): Generator => (tier, seed) => (tier === 1 ? g1 : tier === 2 ? g2 : g3)(tier, seed);
-const $$ = (f: F, x: number): string => `${f.N(r6(x))} ${f.t('dollars', 'dollars')}`;
+const $$ = (f: F, x: number): string => f.D(r6(x));
 const pc = (f: F, x: number): string => f.m(`${f.n(x)}\\%`);
 
 /** MTH1W.F1.1: past and present financial situations */
@@ -66,9 +66,9 @@ export const depreciation9 = (id: string): Generator => {
   const graph = choiceGen(id, (_tier, r) => {
     const DESC: [string, string, string, string][] = [
       ['A car loses 15% of its value every year.', 'Une voiture perd 15 % de sa valeur chaque année.', 'A curve that falls quickly at first and then flattens out', 'Une courbe qui descend vite au début puis s\'aplatit'],
-      ['A computer loses the same 200 dollars of value every year.', 'Un ordinateur perd les mêmes 200 dollars de valeur chaque année.', 'A straight line that goes down at a steady rate', 'Une droite qui descend à un rythme constant'],
+      ['A computer loses the same $\\dollar 200$ of value every year.', 'Un ordinateur perd les mêmes $200\\ \\dollar$ de valeur chaque année.', 'A straight line that goes down at a steady rate', 'Une droite qui descend à un rythme constant'],
       ['A painting gains 8% of its value every year.', 'Un tableau gagne 8 % de sa valeur chaque année.', 'A curve that rises slowly at first and then more and more steeply', 'Une courbe qui monte lentement au début puis de plus en plus vite'],
-      ['A house gains the same 10 000 dollars of value every year.', 'Une maison gagne les mêmes 10 000 dollars de valeur chaque année.', 'A straight line that goes up at a steady rate', 'Une droite qui monte à un rythme constant'],
+      ['A house gains the same $\\dollar 10\\,000$ of value every year.', 'Une maison gagne les mêmes $10\\,000\\ \\dollar$ de valeur chaque année.', 'A straight line that goes up at a steady rate', 'Une droite qui monte à un rythme constant'],
     ];
     const i = randInt(r, 0, DESC.length - 1), d = DESC[i]!;
     const m = mc(r, t(d[2], d[3]), DESC.filter((_, j) => j !== i).map((x): [Text, Text] => [t(x[2], x[3]), t('Think about whether the change is the same amount each year (a straight line) or the same percent (a curve), and whether the value rises or falls.', 'Demande-toi si le changement est le même montant chaque année (une droite) ou le même pourcentage (une courbe), et si la valeur monte ou descend.')]));

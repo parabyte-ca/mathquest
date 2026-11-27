@@ -9,7 +9,7 @@ const optionText = (it: Item): string => it.options![(it.answer as { index: numb
 const g = (skill: string, tier: number, seed: number): Item => generate(`MS.G12.MDM4U.${skill}.a`, tier, seed);
 const close = (a: number, b: number, tol = 1e-6): void => expect(Math.abs(a - b)).toBeLessThanOrEqual(tol * Math.max(1, Math.abs(b)));
 /** Every $...$ token that is a plain number. */
-const nums = (s: string): number[] => [...s.replace(/\\,/g, '').replace(/\{,\}/g, '.').matchAll(/\$(-?\d+(?:\.\d+)?)\$/g)].map((m) => Number(m[1]));
+const nums = (s: string): number[] => [...s.replace(/\\,/g, '').replace(/\{,\}/g, '.').matchAll(/\$(?:\\dollar )?(-?\d+(?:\.\d+)?)(?:\\ \\dollar)?\$/g)].map((m) => Number(m[1]));
 const plain = (s: string): string => s.replace(/\$/g, '').replace(/\\left|\\right|\\,/g, '').replace(/\{,\}/g, '.');
 
 /** Pascal's triangle by addition, so the counting formulas are never used to check themselves. */

@@ -400,10 +400,10 @@ export const budget7 = numGen('MS.G7.F1.3.a', (tier, r) => {
   if (tier === 1) {
     const income = randInt(r, 20, 40) * 100, rent = randInt(r, 6, 12) * 100, food = randInt(r, 3, 6) * 100, other = randInt(r, 1, 4) * 100;
     return {
-      prompt: bi((f) => f.t(`Sam earns ${f.N(income)} dollars a month. Rent is ${f.N(rent)}, food is ${f.N(food)} and other costs are ${f.N(other)}. How much is left each month, in dollars?`, `Sam gagne ${f.N(income)} dollars par mois. Le loyer est de ${f.N(rent)}, la nourriture de ${f.N(food)} et les autres frais de ${f.N(other)}. Combien reste-t-il chaque mois, en dollars ?`)),
+      prompt: bi((f) => f.t(`Sam earns ${f.D(income)} a month. Rent is ${f.N(rent)}, food is ${f.N(food)} and other costs are ${f.N(other)}. How much is left each month, in dollars?`, `Sam gagne ${f.D(income)} par mois. Le loyer est de ${f.N(rent)}, la nourriture de ${f.N(food)} et les autres frais de ${f.N(other)}. Combien reste-t-il chaque mois, en dollars ?`)),
       answer: income - rent - food - other, category: 'AP',
       wrong: [[rent + food + other, t('That is the total spent. The amount left is the income minus the total spent.', 'C\'est le total dépensé. Ce qui reste, c\'est le revenu moins le total dépensé.'), 1]] as Wrong,
-      steps: [bi((f) => f.t(`Total spent: ${f.N(rent)} + ${f.N(food)} + ${f.N(other)} = ${f.N(rent + food + other)}.`, `Total dépensé : ${f.N(rent)} + ${f.N(food)} + ${f.N(other)} = ${f.N(rent + food + other)}.`)), bi((f) => f.t(`Left over: ${f.N(income)} − ${f.N(rent + food + other)} = ${f.N(income - rent - food - other)} dollars.`, `Reste : ${f.N(income)} − ${f.N(rent + food + other)} = ${f.N(income - rent - food - other)} dollars.`))],
+      steps: [bi((f) => f.t(`Total spent: ${f.N(rent)} + ${f.N(food)} + ${f.N(other)} = ${f.N(rent + food + other)}.`, `Total dépensé : ${f.N(rent)} + ${f.N(food)} + ${f.N(other)} = ${f.N(rent + food + other)}.`)), bi((f) => f.t(`Left over: ${f.N(income)} − ${f.N(rent + food + other)} = ${f.D(income - rent - food - other)}.`, `Reste : ${f.N(income)} − ${f.N(rent + food + other)} = ${f.D(income - rent - food - other)}.`))],
       nudge: t('Add up everything spent, then subtract from the income.', 'Additionne toutes les dépenses, puis soustrais-les du revenu.'),
     };
   }
@@ -412,10 +412,10 @@ export const budget7 = numGen('MS.G7.F1.3.a', (tier, r) => {
     const needs = pick(r, [50, 55, 60]), wants = pick(r, [20, 25, 30]);
     const save = 100 - needs - wants;
     return {
-      prompt: bi((f) => f.t(`Alex earns ${f.N(income)} dollars a month and budgets ${f.N(needs)}% for needs and ${f.N(wants)}% for wants. The rest goes to savings. How many dollars are saved each month?`, `Alex gagne ${f.N(income)} dollars par mois et prévoit ${f.N(needs)} % pour les besoins et ${f.N(wants)} % pour les désirs. Le reste va à l'épargne. Combien de dollars sont épargnés chaque mois ?`)),
+      prompt: bi((f) => f.t(`Alex earns ${f.D(income)} a month and budgets ${f.N(needs)}% for needs and ${f.N(wants)}% for wants. The rest goes to savings. How many dollars are saved each month?`, `Alex gagne ${f.D(income)} par mois et prévoit ${f.N(needs)} % pour les besoins et ${f.N(wants)} % pour les désirs. Le reste va à l'épargne. Combien de dollars sont épargnés chaque mois ?`)),
       answer: (income * save) / 100, category: 'AP',
       wrong: [[save, t('That is the percent saved, not the dollars. Find that percent of the income.', 'C\'est le pourcentage épargné, pas les dollars. Trouve ce pourcentage du revenu.'), 1]] as Wrong,
-      steps: [bi((f) => f.t(`Savings percent: 100 − ${f.N(needs)} − ${f.N(wants)} = ${f.N(save)}%.`, `Pourcentage d\'épargne : 100 − ${f.N(needs)} − ${f.N(wants)} = ${f.N(save)} %.`)), bi((f) => f.t(`${f.N(save)}% of ${f.N(income)} = ${f.N((income * save) / 100)} dollars.`, `${f.N(save)} % de ${f.N(income)} = ${f.N((income * save) / 100)} dollars.`))],
+      steps: [bi((f) => f.t(`Savings percent: 100 − ${f.N(needs)} − ${f.N(wants)} = ${f.N(save)}%.`, `Pourcentage d\'épargne : 100 − ${f.N(needs)} − ${f.N(wants)} = ${f.N(save)} %.`)), bi((f) => f.t(`${f.N(save)}% of ${f.N(income)} = ${f.D((income * save) / 100)}.`, `${f.N(save)} % de ${f.N(income)} = ${f.D((income * save) / 100)}.`))],
       nudge: t('Find the percent left for savings first, then that percent of the income.', 'Trouve d\'abord le pourcentage qui reste pour l\'épargne, puis ce pourcentage du revenu.'),
     };
   }
@@ -423,10 +423,10 @@ export const budget7 = numGen('MS.G7.F1.3.a', (tier, r) => {
   const pct = pick(r, [10, 20, 25, 50]);
   const newRent = rent + (rent * pct) / 100;
   return {
-    prompt: bi((f) => f.t(`A budget has an income of ${f.N(income)} dollars, rent of ${f.N(rent)} and other costs of ${f.N(other)}. The rent goes up by ${f.N(pct)}%. How much is left each month after the increase, in dollars?`, `Un budget comporte un revenu de ${f.N(income)} dollars, un loyer de ${f.N(rent)} et d'autres frais de ${f.N(other)}. Le loyer augmente de ${f.N(pct)} %. Combien reste-t-il chaque mois après l'augmentation, en dollars ?`)),
+    prompt: bi((f) => f.t(`A budget has an income of ${f.D(income)}, rent of ${f.N(rent)} and other costs of ${f.N(other)}. The rent goes up by ${f.N(pct)}%. How much is left each month after the increase, in dollars?`, `Un budget comporte un revenu de ${f.D(income)}, un loyer de ${f.N(rent)} et d'autres frais de ${f.N(other)}. Le loyer augmente de ${f.N(pct)} %. Combien reste-t-il chaque mois après l'augmentation, en dollars ?`)),
     answer: income - newRent - other, category: 'TH',
     wrong: [[income - rent - other, t('It looks like the old rent was used. The budget has to be adjusted for the increase.', 'Il semble que l\'ancien loyer a été utilisé. Le budget doit être ajusté pour tenir compte de l\'augmentation.'), 0]] as Wrong,
-    steps: [bi((f) => f.t(`New rent: ${f.N(rent)} + ${f.N(pct)}% of ${f.N(rent)} = ${f.N(rent)} + ${f.N((rent * pct) / 100)} = ${f.N(newRent)}.`, `Nouveau loyer : ${f.N(rent)} + ${f.N(pct)} % de ${f.N(rent)} = ${f.N(rent)} + ${f.N((rent * pct) / 100)} = ${f.N(newRent)}.`)), bi((f) => f.t(`Left: ${f.N(income)} − ${f.N(newRent)} − ${f.N(other)} = ${f.N(income - newRent - other)} dollars.`, `Reste : ${f.N(income)} − ${f.N(newRent)} − ${f.N(other)} = ${f.N(income - newRent - other)} dollars.`))],
+    steps: [bi((f) => f.t(`New rent: ${f.N(rent)} + ${f.N(pct)}% of ${f.N(rent)} = ${f.N(rent)} + ${f.N((rent * pct) / 100)} = ${f.N(newRent)}.`, `Nouveau loyer : ${f.N(rent)} + ${f.N(pct)} % de ${f.N(rent)} = ${f.N(rent)} + ${f.N((rent * pct) / 100)} = ${f.N(newRent)}.`)), bi((f) => f.t(`Left: ${f.N(income)} − ${f.N(newRent)} − ${f.N(other)} = ${f.D(income - newRent - other)}.`, `Reste : ${f.N(income)} − ${f.N(newRent)} − ${f.N(other)} = ${f.D(income - newRent - other)}.`))],
     nudge: t('Work out the new rent first, then redo the budget.', 'Calcule d\'abord le nouveau loyer, puis refais le budget.'),
   };
 });
@@ -438,10 +438,10 @@ export const interest7 = numGen('MS.G7.F1.5.a', (tier, r) => {
     const rate = randInt(r, 2, 6), years = randInt(r, 1, 5);
     const I = (P * rate * years) / 100;
     return {
-      prompt: bi((f) => f.t(`You save ${f.N(P)} dollars at ${f.N(rate)}% simple interest per year for ${f.N(years)} years. How much interest do you earn, in dollars?`, `Tu épargnes ${f.N(P)} dollars à un taux d'intérêt simple de ${f.N(rate)} % par année pendant ${f.N(years)} ans. Combien d'intérêt gagnes-tu, en dollars ?`)),
+      prompt: bi((f) => f.t(`You save ${f.D(P)} at ${f.N(rate)}% simple interest per year for ${f.N(years)} years. How much interest do you earn, in dollars?`, `Tu épargnes ${f.D(P)} à un taux d'intérêt simple de ${f.N(rate)} % par année pendant ${f.N(years)} ans. Combien d'intérêt gagnes-tu, en dollars ?`)),
       answer: I, category: 'AP',
       wrong: [[(P * rate) / 100, t('That is the interest for one year only. Simple interest is the same each year, so multiply by the number of years.', 'C\'est l\'intérêt d\'une seule année. L\'intérêt simple est le même chaque année : multiplie par le nombre d\'années.'), 1]] as Wrong,
-      steps: [bi((f) => f.t(`One year: ${f.N(rate)}% of ${f.N(P)} = ${f.N((P * rate) / 100)} dollars.`, `Une année : ${f.N(rate)} % de ${f.N(P)} = ${f.N((P * rate) / 100)} dollars.`)), bi((f) => f.t(`${f.N(years)} years: ${f.N((P * rate) / 100)} × ${f.N(years)} = ${f.N(I)} dollars.`, `${f.N(years)} ans : ${f.N((P * rate) / 100)} × ${f.N(years)} = ${f.N(I)} dollars.`))],
+      steps: [bi((f) => f.t(`One year: ${f.N(rate)}% of ${f.N(P)} = ${f.D((P * rate) / 100)}.`, `Une année : ${f.N(rate)} % de ${f.N(P)} = ${f.D((P * rate) / 100)}.`)), bi((f) => f.t(`${f.N(years)} years: ${f.N((P * rate) / 100)} × ${f.N(years)} = ${f.D(I)}.`, `${f.N(years)} ans : ${f.N((P * rate) / 100)} × ${f.N(years)} = ${f.D(I)}.`))],
       nudge: t('Find one year of interest, then multiply by the number of years.', 'Trouve l\'intérêt d\'une année, puis multiplie par le nombre d\'années.'),
     };
   }
@@ -449,20 +449,20 @@ export const interest7 = numGen('MS.G7.F1.5.a', (tier, r) => {
     const rate = randInt(r, 3, 12), years = randInt(r, 2, 5);
     const I = (P * rate * years) / 100;
     return {
-      prompt: bi((f) => f.t(`You borrow ${f.N(P)} dollars at ${f.N(rate)}% simple interest per year and pay it all back after ${f.N(years)} years. How much do you pay back in total, in dollars?`, `Tu empruntes ${f.N(P)} dollars à un taux d'intérêt simple de ${f.N(rate)} % par année et tu rembourses le tout après ${f.N(years)} ans. Combien rembourses-tu au total, en dollars ?`)),
+      prompt: bi((f) => f.t(`You borrow ${f.D(P)} at ${f.N(rate)}% simple interest per year and pay it all back after ${f.N(years)} years. How much do you pay back in total, in dollars?`, `Tu empruntes ${f.D(P)} à un taux d'intérêt simple de ${f.N(rate)} % par année et tu rembourses le tout après ${f.N(years)} ans. Combien rembourses-tu au total, en dollars ?`)),
       answer: P + I, category: 'AP',
       wrong: [[I, t('That is only the interest. You pay back the amount you borrowed as well.', 'C\'est seulement l\'intérêt. Tu rembourses aussi le montant emprunté.'), 1]] as Wrong,
-      steps: [bi((f) => f.t(`Interest: ${f.N(P)} × ${f.N(rate)}% × ${f.N(years)} = ${f.N(I)} dollars.`, `Intérêt : ${f.N(P)} × ${f.N(rate)} % × ${f.N(years)} = ${f.N(I)} dollars.`)), bi((f) => f.t(`Total: ${f.N(P)} + ${f.N(I)} = ${f.N(P + I)} dollars.`, `Total : ${f.N(P)} + ${f.N(I)} = ${f.N(P + I)} dollars.`))],
+      steps: [bi((f) => f.t(`Interest: ${f.N(P)} × ${f.N(rate)}% × ${f.N(years)} = ${f.D(I)}.`, `Intérêt : ${f.N(P)} × ${f.N(rate)} % × ${f.N(years)} = ${f.D(I)}.`)), bi((f) => f.t(`Total: ${f.N(P)} + ${f.N(I)} = ${f.D(P + I)}.`, `Total : ${f.N(P)} + ${f.N(I)} = ${f.D(P + I)}.`))],
       nudge: t('Find the interest, then add it to the amount borrowed.', 'Trouve l\'intérêt, puis ajoute-le au montant emprunté.'),
     };
   }
   const rate = pick(r, [2, 4, 5, 10]);
   const total = r6((P / 100) * ((100 + rate) ** 2 / 100));
   return {
-    prompt: bi((f) => f.t(`You save ${f.N(P)} dollars at ${f.N(rate)}% interest compounded once a year. How much is in the account after 2 years, in dollars?`, `Tu épargnes ${f.N(P)} dollars à un taux d'intérêt de ${f.N(rate)} % composé une fois par année. Combien y a-t-il dans le compte après 2 ans, en dollars ?`)),
+    prompt: bi((f) => f.t(`You save ${f.D(P)} at ${f.N(rate)}% interest compounded once a year. How much is in the account after 2 years, in dollars?`, `Tu épargnes ${f.D(P)} à un taux d'intérêt de ${f.N(rate)} % composé une fois par année. Combien y a-t-il dans le compte après 2 ans, en dollars ?`)),
     answer: total, category: 'TH',
     wrong: [[r6(P + (P * rate * 2) / 100), t('That is simple interest. With compound interest, the second year\'s interest is worked out on the new, larger amount.', 'C\'est de l\'intérêt simple. Avec l\'intérêt composé, l\'intérêt de la deuxième année est calculé sur le nouveau montant, plus grand.'), 1]] as Wrong,
-    steps: [bi((f) => f.t(`After year 1: ${f.N(P)} × ${f.N(1 + rate / 100)} = ${f.N(r6(P * (1 + rate / 100)))} dollars.`, `Après l\'année 1 : ${f.N(P)} × ${f.N(1 + rate / 100)} = ${f.N(r6(P * (1 + rate / 100)))} dollars.`)), bi((f) => f.t(`After year 2: ${f.N(r6(P * (1 + rate / 100)))} × ${f.N(1 + rate / 100)} = ${f.N(total)} dollars.`, `Après l\'année 2 : ${f.N(r6(P * (1 + rate / 100)))} × ${f.N(1 + rate / 100)} = ${f.N(total)} dollars.`))],
+    steps: [bi((f) => f.t(`After year 1: ${f.N(P)} × ${f.N(1 + rate / 100)} = ${f.D(r6(P * (1 + rate / 100)))}.`, `Après l\'année 1 : ${f.N(P)} × ${f.N(1 + rate / 100)} = ${f.D(r6(P * (1 + rate / 100)))}.`)), bi((f) => f.t(`After year 2: ${f.N(r6(P * (1 + rate / 100)))} × ${f.N(1 + rate / 100)} = ${f.D(total)}.`, `Après l\'année 2 : ${f.N(r6(P * (1 + rate / 100)))} × ${f.N(1 + rate / 100)} = ${f.D(total)}.`))],
     nudge: t('Work out the first year, then earn interest on the new amount.', 'Calcule la première année, puis gagne de l\'intérêt sur le nouveau montant.'),
   };
 });
@@ -474,10 +474,10 @@ export const compareAccounts7 = numGen('MS.G7.F1.6.a', (tier, r) => {
     const a = randInt(r, 2, 4), b = a + randInt(r, 1, 3), years = randInt(r, 2, 5);
     const diff = (P * (b - a) * years) / 100;
     return {
-      prompt: bi((f) => f.t(`Account A pays ${f.N(a)}% simple interest per year and Account B pays ${f.N(b)}%. You save ${f.N(P)} dollars for ${f.N(years)} years. How many more dollars of interest does Account B pay?`, `Le compte A verse un intérêt simple de ${f.N(a)} % par année et le compte B, ${f.N(b)} %. Tu épargnes ${f.N(P)} dollars pendant ${f.N(years)} ans. Combien de dollars d'intérêt de plus le compte B verse-t-il ?`)),
+      prompt: bi((f) => f.t(`Account A pays ${f.N(a)}% simple interest per year and Account B pays ${f.N(b)}%. You save ${f.D(P)} for ${f.N(years)} years. How many more dollars of interest does Account B pay?`, `Le compte A verse un intérêt simple de ${f.N(a)} % par année et le compte B, ${f.N(b)} %. Tu épargnes ${f.D(P)} pendant ${f.N(years)} ans. Combien de dollars d'intérêt de plus le compte B verse-t-il ?`)),
       answer: diff, category: 'AP',
       wrong: [[b - a, t('That is the difference in the rates. Find the difference in dollars: apply the rate difference to the amount and the years.', 'C\'est la différence des taux. Trouve la différence en dollars : applique la différence des taux au montant et aux années.'), 1]] as Wrong,
-      steps: [bi((f) => f.t(`Interest A: ${f.N(P)} × ${f.N(a)}% × ${f.N(years)} = ${f.N((P * a * years) / 100)}. Interest B: ${f.N(P)} × ${f.N(b)}% × ${f.N(years)} = ${f.N((P * b * years) / 100)}.`, `Intérêt A : ${f.N(P)} × ${f.N(a)} % × ${f.N(years)} = ${f.N((P * a * years) / 100)}. Intérêt B : ${f.N(P)} × ${f.N(b)} % × ${f.N(years)} = ${f.N((P * b * years) / 100)}.`)), bi((f) => f.t(`Difference: ${f.N((P * b * years) / 100)} − ${f.N((P * a * years) / 100)} = ${f.N(diff)} dollars.`, `Différence : ${f.N((P * b * years) / 100)} − ${f.N((P * a * years) / 100)} = ${f.N(diff)} dollars.`))],
+      steps: [bi((f) => f.t(`Interest A: ${f.N(P)} × ${f.N(a)}% × ${f.N(years)} = ${f.N((P * a * years) / 100)}. Interest B: ${f.N(P)} × ${f.N(b)}% × ${f.N(years)} = ${f.N((P * b * years) / 100)}.`, `Intérêt A : ${f.N(P)} × ${f.N(a)} % × ${f.N(years)} = ${f.N((P * a * years) / 100)}. Intérêt B : ${f.N(P)} × ${f.N(b)} % × ${f.N(years)} = ${f.N((P * b * years) / 100)}.`)), bi((f) => f.t(`Difference: ${f.N((P * b * years) / 100)} − ${f.N((P * a * years) / 100)} = ${f.D(diff)}.`, `Différence : ${f.N((P * b * years) / 100)} − ${f.N((P * a * years) / 100)} = ${f.D(diff)}.`))],
       nudge: t('Work out the interest each account pays, then subtract.', 'Calcule l\'intérêt que verse chaque compte, puis soustrais.'),
     };
   }
@@ -485,10 +485,10 @@ export const compareAccounts7 = numGen('MS.G7.F1.6.a', (tier, r) => {
     const a = randInt(r, 4, 8), b = a + randInt(r, 2, 6), years = randInt(r, 2, 4);
     const diff = (P * (b - a) * years) / 100;
     return {
-      prompt: bi((f) => f.t(`You borrow ${f.N(P)} dollars for ${f.N(years)} years. Loan A charges ${f.N(a)}% simple interest per year and Loan B charges ${f.N(b)}%. How many more dollars does Loan B cost in interest?`, `Tu empruntes ${f.N(P)} dollars pendant ${f.N(years)} ans. Le prêt A porte un intérêt simple de ${f.N(a)} % par année et le prêt B, ${f.N(b)} %. Combien de dollars d'intérêt de plus le prêt B coûte-t-il ?`)),
+      prompt: bi((f) => f.t(`You borrow ${f.D(P)} for ${f.N(years)} years. Loan A charges ${f.N(a)}% simple interest per year and Loan B charges ${f.N(b)}%. How many more dollars does Loan B cost in interest?`, `Tu empruntes ${f.D(P)} pendant ${f.N(years)} ans. Le prêt A porte un intérêt simple de ${f.N(a)} % par année et le prêt B, ${f.N(b)} %. Combien de dollars d'intérêt de plus le prêt B coûte-t-il ?`)),
       answer: diff, category: 'AP',
       wrong: [[(P * b * years) / 100, t('That is the whole interest on Loan B. The question asks how much more it costs than Loan A.', 'C\'est tout l\'intérêt du prêt B. La question demande combien il coûte de plus que le prêt A.'), 1]] as Wrong,
-      steps: [bi((f) => f.t(`The rates differ by ${f.N(b)} − ${f.N(a)} = ${f.N(b - a)}%.`, `Les taux diffèrent de ${f.N(b)} − ${f.N(a)} = ${f.N(b - a)} %.`)), bi((f) => f.t(`${f.N(b - a)}% of ${f.N(P)} for ${f.N(years)} years: ${f.N(P)} × ${f.N(b - a)}% × ${f.N(years)} = ${f.N(diff)} dollars.`, `${f.N(b - a)} % de ${f.N(P)} pendant ${f.N(years)} ans : ${f.N(P)} × ${f.N(b - a)} % × ${f.N(years)} = ${f.N(diff)} dollars.`))],
+      steps: [bi((f) => f.t(`The rates differ by ${f.N(b)} − ${f.N(a)} = ${f.N(b - a)}%.`, `Les taux diffèrent de ${f.N(b)} − ${f.N(a)} = ${f.N(b - a)} %.`)), bi((f) => f.t(`${f.N(b - a)}% of ${f.N(P)} for ${f.N(years)} years: ${f.N(P)} × ${f.N(b - a)}% × ${f.N(years)} = ${f.D(diff)}.`, `${f.N(b - a)} % de ${f.N(P)} pendant ${f.N(years)} ans : ${f.N(P)} × ${f.N(b - a)} % × ${f.N(years)} = ${f.D(diff)}.`))],
       nudge: t('You can work with the difference in the rates, or find both interests and subtract.', 'Tu peux utiliser la différence des taux, ou trouver les deux intérêts et soustraire.'),
     };
   }
@@ -497,10 +497,10 @@ export const compareAccounts7 = numGen('MS.G7.F1.6.a', (tier, r) => {
   const simple = (P2 * rate * 2) / 100;
   const comp = r6((P2 / 100) * ((100 + rate) ** 2 / 100) - P2);
   return {
-    prompt: bi((f) => f.t(`Two accounts each start with ${f.N(P2)} dollars and pay ${f.N(rate)}% a year. Account A pays simple interest and Account B compounds once a year. How many more dollars of interest does Account B pay after 2 years?`, `Deux comptes commencent chacun avec ${f.N(P2)} dollars et versent ${f.N(rate)} % par année. Le compte A verse un intérêt simple et le compte B, un intérêt composé une fois par année. Combien de dollars d'intérêt de plus le compte B verse-t-il après 2 ans ?`)),
+    prompt: bi((f) => f.t(`Two accounts each start with ${f.D(P2)} and pay ${f.N(rate)}% a year. Account A pays simple interest and Account B compounds once a year. How many more dollars of interest does Account B pay after 2 years?`, `Deux comptes commencent chacun avec ${f.D(P2)} et versent ${f.N(rate)} % par année. Le compte A verse un intérêt simple et le compte B, un intérêt composé une fois par année. Combien de dollars d'intérêt de plus le compte B verse-t-il après 2 ans ?`)),
     answer: r6(comp - simple), category: 'TH',
     wrong: [[comp, t('That is all the interest Account B pays. The question asks how much more it pays than Account A.', 'C\'est tout l\'intérêt que verse le compte B. La question demande combien il verse de plus que le compte A.'), 1]] as Wrong,
-    steps: [bi((f) => f.t(`Account A: ${f.N(P2)} × ${f.N(rate)}% × 2 = ${f.N(simple)}. Account B: year 1 interest ${f.N((P2 * rate) / 100)}, then ${f.N(rate)}% of ${f.N(P2 + (P2 * rate) / 100)} the next year, which gives ${f.N(comp)} in total.`, `Compte A : ${f.N(P2)} × ${f.N(rate)} % × 2 = ${f.N(simple)}. Compte B : intérêt de l\'année 1 ${f.N((P2 * rate) / 100)}, puis ${f.N(rate)} % de ${f.N(P2 + (P2 * rate) / 100)} l\'année suivante, ce qui donne ${f.N(comp)} au total.`)), bi((f) => f.t(`Difference: ${f.N(comp)} − ${f.N(simple)} = ${f.N(r6(comp - simple))} dollars.`, `Différence : ${f.N(comp)} − ${f.N(simple)} = ${f.N(r6(comp - simple))} dollars.`))],
+    steps: [bi((f) => f.t(`Account A: ${f.N(P2)} × ${f.N(rate)}% × 2 = ${f.N(simple)}. Account B: year 1 interest ${f.N((P2 * rate) / 100)}, then ${f.N(rate)}% of ${f.N(P2 + (P2 * rate) / 100)} the next year, which gives ${f.N(comp)} in total.`, `Compte A : ${f.N(P2)} × ${f.N(rate)} % × 2 = ${f.N(simple)}. Compte B : intérêt de l\'année 1 ${f.N((P2 * rate) / 100)}, puis ${f.N(rate)} % de ${f.N(P2 + (P2 * rate) / 100)} l\'année suivante, ce qui donne ${f.N(comp)} au total.`)), bi((f) => f.t(`Difference: ${f.N(comp)} − ${f.N(simple)} = ${f.D(r6(comp - simple))}.`, `Différence : ${f.N(comp)} − ${f.N(simple)} = ${f.D(r6(comp - simple))}.`))],
     nudge: t('Find the total interest in each account after 2 years, then subtract.', 'Trouve l\'intérêt total de chaque compte après 2 ans, puis soustrais.'),
   };
 });

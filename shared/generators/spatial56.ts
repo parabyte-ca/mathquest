@@ -372,7 +372,7 @@ export const salesTax5 = numGen('MS.G5.F1.2.a', (tier, r) => {
     const a = r6(price() + randInt(r, 0, 3) * 0.25);
     const b = r6(price() + randInt(r, 0, 3) * 0.25);
     return {
-      prompt: bi((f) => f.t(`A notebook costs ${money(f, a)} dollars and a pen costs ${money(f, b)} dollars. What is the total cost before tax, in dollars?`, `Un cahier coûte ${money(f, a)} dollars et un stylo coûte ${money(f, b)} dollars. Quel est le coût total avant les taxes, en dollars ?`)),
+      prompt: bi((f) => f.t(`A notebook costs ${f.D(a, true)} and a pen costs ${f.D(b, true)}. What is the total cost before tax, in dollars?`, `Un cahier coûte ${f.D(a, true)} et un stylo coûte ${f.D(b, true)}. Quel est le coût total avant les taxes, en dollars ?`)),
       answer: r6(a + b),
       steps: [t('Add the prices of the items.', 'Additionne les prix des articles.'), bi((f) => `${money(f, a)} + ${money(f, b)} = ${money(f, a + b)}.`)],
       nudge: t('Add the two prices, lining up the decimal points.', 'Additionne les deux prix en alignant les virgules.'),
@@ -383,10 +383,10 @@ export const salesTax5 = numGen('MS.G5.F1.2.a', (tier, r) => {
     const sub = randInt(r, 5, 60);
     const tax = r6(sub * 0.13);
     return {
-      prompt: bi((f) => f.t(`Items cost ${money(f, sub)} dollars before tax. The sales tax is 13%. What is the total cost including tax, in dollars?`, `Des articles coûtent ${money(f, sub)} dollars avant les taxes. La taxe de vente est de 13 %. Quel est le coût total, taxes comprises, en dollars ?`)),
+      prompt: bi((f) => f.t(`Items cost ${f.D(sub, true)} before tax. The sales tax is 13%. What is the total cost including tax, in dollars?`, `Des articles coûtent ${f.D(sub, true)} avant les taxes. La taxe de vente est de 13 %. Quel est le coût total, taxes comprises, en dollars ?`)),
       answer: r6(sub + tax),
       wrong: [[tax, t('It looks like only the tax was given. The total is the price plus the tax.', 'Il semble que seule la taxe a été donnée. Le total est le prix plus la taxe.'), 1]],
-      steps: [bi((f) => f.t(`Tax: 13% of ${money(f, sub)} = ${f.N(sub)} × 0.13 = ${money(f, tax)} dollars.`, `Taxe : 13 % de ${money(f, sub)} = ${f.N(sub)} × 0,13 = ${money(f, tax)} dollars.`)), bi((f) => `${money(f, sub)} + ${money(f, tax)} = ${money(f, sub + tax)}.`)],
+      steps: [bi((f) => f.t(`Tax: 13% of ${money(f, sub)} = ${f.N(sub)} × 0.13 = ${f.D(tax, true)}.`, `Taxe : 13 % de ${money(f, sub)} = ${f.N(sub)} × 0,13 = ${f.D(tax, true)}.`)), bi((f) => `${money(f, sub)} + ${money(f, tax)} = ${money(f, sub + tax)}.`)],
       nudge: t('Find 13% of the price, then add it to the price.', 'Trouve 13 % du prix, puis ajoute-le au prix.'),
       tolerance: 0.005,
     };
@@ -398,10 +398,10 @@ export const salesTax5 = numGen('MS.G5.F1.2.a', (tier, r) => {
   const sub = qa * pa + qb * pb;
   const total = r6(sub * 1.13);
   return {
-    prompt: bi((f) => f.t(`Sam buys ${f.N(qa)} items at ${money(f, pa)} dollars each and ${f.N(qb)} items at ${money(f, pb)} dollars each. The sales tax is 13%. What is the total cost, in dollars?`, `Sam achète ${f.N(qa)} articles à ${money(f, pa)} dollars chacun et ${f.N(qb)} articles à ${money(f, pb)} dollars chacun. La taxe de vente est de 13 %. Quel est le coût total, en dollars ?`)),
+    prompt: bi((f) => f.t(`Sam buys ${f.N(qa)} items at ${f.D(pa, true)} each and ${f.N(qb)} items at ${f.D(pb, true)} each. The sales tax is 13%. What is the total cost, in dollars?`, `Sam achète ${f.N(qa)} articles à ${f.D(pa, true)} chacun et ${f.N(qb)} articles à ${f.D(pb, true)} chacun. La taxe de vente est de 13 %. Quel est le coût total, en dollars ?`)),
     answer: total,
     wrong: [[sub, t('It looks like the tax was left out. Add 13% of the subtotal.', 'Il semble que la taxe a été oubliée. Ajoute 13 % du sous-total.'), 2]],
-    steps: [bi((f) => f.t(`Subtotal: ${f.N(qa)} × ${money(f, pa)} + ${f.N(qb)} × ${money(f, pb)} = ${money(f, sub)} dollars.`, `Sous-total : ${f.N(qa)} × ${money(f, pa)} + ${f.N(qb)} × ${money(f, pb)} = ${money(f, sub)} dollars.`)), bi((f) => f.t(`Tax: ${f.N(sub)} × 0.13 = ${money(f, sub * 0.13)} dollars.`, `Taxe : ${f.N(sub)} × 0,13 = ${money(f, sub * 0.13)} dollars.`)), bi((f) => `${money(f, sub)} + ${money(f, sub * 0.13)} = ${money(f, total)}.`)],
+    steps: [bi((f) => f.t(`Subtotal: ${f.N(qa)} × ${money(f, pa)} + ${f.N(qb)} × ${money(f, pb)} = ${f.D(sub, true)}.`, `Sous-total : ${f.N(qa)} × ${money(f, pa)} + ${f.N(qb)} × ${money(f, pb)} = ${f.D(sub, true)}.`)), bi((f) => f.t(`Tax: ${f.N(sub)} × 0.13 = ${f.D(sub * 0.13, true)}.`, `Taxe : ${f.N(sub)} × 0,13 = ${f.D(sub * 0.13, true)}.`)), bi((f) => `${money(f, sub)} + ${money(f, sub * 0.13)} = ${money(f, total)}.`)],
     nudge: t('Find the subtotal first, then the tax, then add them.', 'Trouve d\'abord le sous-total, puis la taxe, puis additionne-les.'),
     category: 'AP',
     tolerance: 0.005,
@@ -419,11 +419,11 @@ export const bestValue5 = choiceGen('MS.G5.F1.5.a', (tier, r) => {
   const p1 = r6(q1 * u1);
   const p2 = r6(q2 * u2);
   const better = u1 < u2 ? 0 : 1;
-  const m = mc(r, bi((f) => f.t(better === 0 ? `Pack A (${f.N(q1)} for ${money(f, p1)} dollars)` : `Pack B (${f.N(q2)} for ${money(f, p2)} dollars)`, better === 0 ? `Emballage A (${f.N(q1)} pour ${money(f, p1)} dollars)` : `Emballage B (${f.N(q2)} pour ${money(f, p2)} dollars)`)), [[bi((f) => f.t(better === 0 ? `Pack B (${f.N(q2)} for ${money(f, p2)} dollars)` : `Pack A (${f.N(q1)} for ${money(f, p1)} dollars)`, better === 0 ? `Emballage B (${f.N(q2)} pour ${money(f, p2)} dollars)` : `Emballage A (${f.N(q1)} pour ${money(f, p1)} dollars)`)), t('It looks like the packs were compared by total price. Compare the price for ONE item (the unit rate) instead.', 'Il semble que les emballages ont été comparés selon le prix total. Compare plutôt le prix pour UN article (le taux unitaire).')]]);
+  const m = mc(r, bi((f) => f.t(better === 0 ? `Pack A (${f.N(q1)} for ${f.D(p1, true)})` : `Pack B (${f.N(q2)} for ${f.D(p2, true)})`, better === 0 ? `Emballage A (${f.N(q1)} pour ${f.D(p1, true)})` : `Emballage B (${f.N(q2)} pour ${f.D(p2, true)})`)), [[bi((f) => f.t(better === 0 ? `Pack B (${f.N(q2)} for ${f.D(p2, true)})` : `Pack A (${f.N(q1)} for ${f.D(p1, true)})`, better === 0 ? `Emballage B (${f.N(q2)} pour ${f.D(p2, true)})` : `Emballage A (${f.N(q1)} pour ${f.D(p1, true)})`)), t('It looks like the packs were compared by total price. Compare the price for ONE item (the unit rate) instead.', 'Il semble que les emballages ont été comparés selon le prix total. Compare plutôt le prix pour UN article (le taux unitaire).')]]);
   return {
-    prompt: bi((f) => f.t(`Pack A has ${f.N(q1)} juice boxes for ${money(f, p1)} dollars. Pack B has ${f.N(q2)} juice boxes for ${money(f, p2)} dollars. Which is the better buy?`, `L\'emballage A contient ${f.N(q1)} boîtes de jus pour ${money(f, p1)} dollars. L\'emballage B contient ${f.N(q2)} boîtes de jus pour ${money(f, p2)} dollars. Lequel est le meilleur achat ?`)),
+    prompt: bi((f) => f.t(`Pack A has ${f.N(q1)} juice boxes for ${f.D(p1, true)}. Pack B has ${f.N(q2)} juice boxes for ${f.D(p2, true)}. Which is the better buy?`, `L\'emballage A contient ${f.N(q1)} boîtes de jus pour ${f.D(p1, true)}. L\'emballage B contient ${f.N(q2)} boîtes de jus pour ${f.D(p2, true)}. Lequel est le meilleur achat ?`)),
     options: m.options, correct: m.correct, why: m.why,
-    steps: [bi((f) => f.t(`Pack A: ${money(f, p1)} ÷ ${f.N(q1)} = ${money(f, u1)} dollars per box.`, `Emballage A : ${money(f, p1)} ÷ ${f.N(q1)} = ${money(f, u1)} dollars par boîte.`)), bi((f) => f.t(`Pack B: ${money(f, p2)} ÷ ${f.N(q2)} = ${money(f, u2)} dollars per box.`, `Emballage B : ${money(f, p2)} ÷ ${f.N(q2)} = ${money(f, u2)} dollars par boîte.`)), bi((f) => f.t(`The lower price per box is the better buy: ${better === 0 ? 'Pack A' : 'Pack B'}.`, `Le prix le plus bas par boîte est le meilleur achat : ${better === 0 ? 'emballage A' : 'emballage B'}.`))],
+    steps: [bi((f) => f.t(`Pack A: ${money(f, p1)} ÷ ${f.N(q1)} = ${f.D(u1, true)} per box.`, `Emballage A : ${money(f, p1)} ÷ ${f.N(q1)} = ${f.D(u1, true)} par boîte.`)), bi((f) => f.t(`Pack B: ${money(f, p2)} ÷ ${f.N(q2)} = ${f.D(u2, true)} per box.`, `Emballage B : ${money(f, p2)} ÷ ${f.N(q2)} = ${f.D(u2, true)} par boîte.`)), bi((f) => f.t(`The lower price per box is the better buy: ${better === 0 ? 'Pack A' : 'Pack B'}.`, `Le prix le plus bas par boîte est le meilleur achat : ${better === 0 ? 'emballage A' : 'emballage B'}.`))],
     nudge: t('Find the price for one box in each pack, then compare.', 'Trouve le prix d\'une boîte dans chaque emballage, puis compare.'),
     category: 'AP',
   };
@@ -435,7 +435,7 @@ export const simpleInterest6 = numGen('MS.G6.F1.4.a', (tier, r) => {
   const rate = randInt(r, 2, 8);
   if (tier === 1) {
     return {
-      prompt: bi((f) => f.t(`You put ${f.N(P)} dollars in an account that pays ${f.m(`${f.n(rate)}\\%`)} simple interest per year. How many dollars of interest do you earn in 1 year?`, `Tu déposes ${f.N(P)} dollars dans un compte qui verse ${f.m(`${f.n(rate)}\\%`)} d\'intérêt simple par année. Combien de dollars d\'intérêt gagnes-tu en 1 an ?`)),
+      prompt: bi((f) => f.t(`You put ${f.D(P)} in an account that pays ${f.m(`${f.n(rate)}\\%`)} simple interest per year. How many dollars of interest do you earn in 1 year?`, `Tu déposes ${f.D(P)} dans un compte qui verse ${f.m(`${f.n(rate)}\\%`)} d\'intérêt simple par année. Combien de dollars d\'intérêt gagnes-tu en 1 an ?`)),
       answer: (P * rate) / 100,
       wrong: [[rate, t('It looks like the rate was given as dollars. Find the percent of the amount.', 'Il semble que le taux a été donné en dollars. Trouve le pourcentage du montant.'), 0]],
       steps: [bi((f) => f.t(`Interest = ${f.m(`${f.n(rate)}\\%`)} of ${f.N(P)}.`, `Intérêt = ${f.m(`${f.n(rate)}\\%`)} de ${f.N(P)}.`)), bi((f) => `${f.N(P)} × ${f.N(rate / 100)} = ${f.N((P * rate) / 100)}.`)],
@@ -445,18 +445,18 @@ export const simpleInterest6 = numGen('MS.G6.F1.4.a', (tier, r) => {
   const yrs = randInt(r, 2, 5);
   if (tier === 2) {
     return {
-      prompt: bi((f) => f.t(`You put ${f.N(P)} dollars in an account that pays ${f.m(`${f.n(rate)}\\%`)} simple interest per year. How many dollars of interest do you earn in ${f.N(yrs)} years?`, `Tu déposes ${f.N(P)} dollars dans un compte qui verse ${f.m(`${f.n(rate)}\\%`)} d\'intérêt simple par année. Combien de dollars d\'intérêt gagnes-tu en ${f.N(yrs)} ans ?`)),
+      prompt: bi((f) => f.t(`You put ${f.D(P)} in an account that pays ${f.m(`${f.n(rate)}\\%`)} simple interest per year. How many dollars of interest do you earn in ${f.N(yrs)} years?`, `Tu déposes ${f.D(P)} dans un compte qui verse ${f.m(`${f.n(rate)}\\%`)} d\'intérêt simple par année. Combien de dollars d\'intérêt gagnes-tu en ${f.N(yrs)} ans ?`)),
       answer: (P * rate * yrs) / 100,
       wrong: [[(P * rate) / 100, t('It looks like only one year of interest was counted. Simple interest is the same amount every year, so multiply by the number of years.', 'Il semble que seulement un an d\'intérêt a été compté. L\'intérêt simple est le même chaque année : multiplie par le nombre d\'années.'), 1]],
-      steps: [bi((f) => f.t(`One year: ${f.m(`${f.n(rate)}\\%`)} of ${f.N(P)} = ${f.N((P * rate) / 100)} dollars.`, `Un an : ${f.m(`${f.n(rate)}\\%`)} de ${f.N(P)} = ${f.N((P * rate) / 100)} dollars.`)), bi((f) => `${f.N((P * rate) / 100)} × ${f.N(yrs)} = ${f.N((P * rate * yrs) / 100)}.`)],
+      steps: [bi((f) => f.t(`One year: ${f.m(`${f.n(rate)}\\%`)} of ${f.N(P)} = ${f.D((P * rate) / 100)}.`, `Un an : ${f.m(`${f.n(rate)}\\%`)} de ${f.N(P)} = ${f.D((P * rate) / 100)}.`)), bi((f) => `${f.N((P * rate) / 100)} × ${f.N(yrs)} = ${f.N((P * rate * yrs) / 100)}.`)],
       nudge: t('Find one year of interest, then multiply by the number of years.', 'Trouve l\'intérêt d\'un an, puis multiplie par le nombre d\'années.'),
     };
   }
   return {
-    prompt: bi((f) => f.t(`You borrow ${f.N(P)} dollars at ${f.m(`${f.n(rate)}\\%`)} simple interest per year and repay it all after ${f.N(yrs)} years. How many dollars do you repay in total?`, `Tu empruntes ${f.N(P)} dollars à ${f.m(`${f.n(rate)}\\%`)} d\'intérêt simple par année et tu rembourses le tout après ${f.N(yrs)} ans. Combien de dollars rembourses-tu au total ?`)),
+    prompt: bi((f) => f.t(`You borrow ${f.D(P)} at ${f.m(`${f.n(rate)}\\%`)} simple interest per year and repay it all after ${f.N(yrs)} years. How many dollars do you repay in total?`, `Tu empruntes ${f.D(P)} à ${f.m(`${f.n(rate)}\\%`)} d\'intérêt simple par année et tu rembourses le tout après ${f.N(yrs)} ans. Combien de dollars rembourses-tu au total ?`)),
     answer: P + (P * rate * yrs) / 100,
     wrong: [[(P * rate * yrs) / 100, t('It looks like only the interest was given. You repay the amount borrowed plus the interest.', 'Il semble que seul l\'intérêt a été donné. Tu rembourses le montant emprunté plus l\'intérêt.'), 1]],
-    steps: [bi((f) => f.t(`Interest: ${f.N(P)} × ${f.N(rate / 100)} × ${f.N(yrs)} = ${f.N((P * rate * yrs) / 100)} dollars.`, `Intérêt : ${f.N(P)} × ${f.N(rate / 100)} × ${f.N(yrs)} = ${f.N((P * rate * yrs) / 100)} dollars.`)), bi((f) => f.t(`Total repaid: ${f.N(P)} + ${f.N((P * rate * yrs) / 100)} = ${f.N(P + (P * rate * yrs) / 100)} dollars.`, `Total remboursé : ${f.N(P)} + ${f.N((P * rate * yrs) / 100)} = ${f.N(P + (P * rate * yrs) / 100)} dollars.`))],
+    steps: [bi((f) => f.t(`Interest: ${f.N(P)} × ${f.N(rate / 100)} × ${f.N(yrs)} = ${f.D((P * rate * yrs) / 100)}.`, `Intérêt : ${f.N(P)} × ${f.N(rate / 100)} × ${f.N(yrs)} = ${f.D((P * rate * yrs) / 100)}.`)), bi((f) => f.t(`Total repaid: ${f.N(P)} + ${f.N((P * rate * yrs) / 100)} = ${f.D(P + (P * rate * yrs) / 100)}.`, `Total remboursé : ${f.N(P)} + ${f.N((P * rate * yrs) / 100)} = ${f.D(P + (P * rate * yrs) / 100)}.`))],
     nudge: t('Find the interest first, then add it to the amount borrowed.', 'Trouve d\'abord l\'intérêt, puis ajoute-le au montant emprunté.'),
     category: 'AP',
   };
