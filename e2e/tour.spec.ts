@@ -1,6 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
-import { noHorizontalScroll, pageProblems, signInCaregiver, studentOnNewDevice } from './helpers';
+import { noHorizontalScroll, openMenu, pageProblems, signInCaregiver, studentOnNewDevice } from './helpers';
 
 const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'];
 const scan = async (page: Page, label: string) => {
@@ -38,6 +38,7 @@ test('the caregiver tour appears once, can be stepped through, skipped and repla
   await expect(page.locator('.tour')).toHaveCount(0);
 
   // replay from Help: focus moves to the tour, Escape closes it
+  await openMenu(page);
   await page.getByRole('button', { name: 'Help' }).click();
   await expect(page.locator('#tour-title')).toBeFocused();
   await page.keyboard.press('Escape');
@@ -62,6 +63,7 @@ test('the student tour appears on the first visit, is skippable, and is remember
   await kid.reload();
   await expect(kid.getByRole('heading', { name: /Welcome, Robin/ })).toBeVisible();
   await expect(kid.locator('.tour')).toHaveCount(0);
+  await openMenu(kid);
   await kid.getByRole('button', { name: 'Help' }).click();
   await expect(kid.locator('#tour-title')).toBeFocused();
   for (let i = 0; i < 7; i++) await kid.getByRole('button', { name: 'Next' }).click();
@@ -71,7 +73,9 @@ test('the student tour appears on the first visit, is skippable, and is remember
   expect(pageProblems.get(kid) ?? []).toEqual([]);
 
   // the French tour is complete too
+  await openMenu(kid);
   await kid.getByRole('button', { name: 'Aide' }).or(kid.getByRole('button', { name: 'Help' })).click();
+  await openMenu(kid);
   await kid.getByRole('button', { name: 'Français' }).click();
   await expect(kid.locator('#tour-title')).toHaveText('Bienvenue !');
   await expect(kid.locator('.tour .eyebrow')).toContainText('Étape 1 sur 8');

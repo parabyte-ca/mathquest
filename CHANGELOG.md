@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.22.0] - 2026-11-27
+### Changed
+- A softer, more cohesive look across the app. Surfaces are separated by gentle shadows and tints instead of thin outlines and hard divider lines; cards, buttons, inputs and choices are rounder, and the page has a faint blue-to-white gradient. The student side is the roundest (pill buttons, 24 px cards) and the caregiver side is calmer (tighter corners, lighter shadows).
+- The level, XP and streak strip is now a floating pill inside the page, as wide as the card below it, instead of a square band wedged against it.
+- Help, Language, Sign out, Install and (for the admin) Admin move behind one round menu button in the header, so the header is a single slim row. The menu opens a soft sheet with an icon beside each item; Escape or a tap outside closes it and returns focus to the button, and choosing an item closes it. It works by keyboard and with a screen reader (the button says whether it is open).
+- Topic choices are rounded tiles that highlight when ticked, "Practice without internet", "Quick check" and the other secondary buttons are soft tonal buttons, and the colour palettes carry through every new surface. High contrast keeps hard edges and turns the shadows and gradients off.
+
+### Notes
+- Tests check the new tonal button colours (brand text on the soft tint) in light, dark and every unlockable palette, and the end-to-end suite opens the menu, scans it for accessibility problems, and checks Escape and a tap outside.
+- Reward backgrounds (a tiled background for each palette), the dollar sign, worksheet marking and photo grading are planned next; see the backlog.
+
 ## [3.21.0] - 2026-11-22
 ### Security
 - "Invite a co-parent" no longer shares everything you own. You tick the students (none are ticked to begin with), and the server shares exactly those. A request with no list, an empty list, or a student that is not yours is refused and shares nothing and creates no account; one wrong id refuses the whole request. The role now defaults to Helper rather than Owner.

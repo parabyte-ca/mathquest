@@ -59,6 +59,8 @@ const LINE: Record<string, ComponentChildren> = {
   progress: <><path d="M4 20 L20 20" /><path d="M7 20 L7 12 M12 20 L12 6 M17 20 L17 10" /></>,
   print: <><path d="M7 9 L7 4 L17 4 L17 9" /><rect x="4" y="9" width="16" height="8" rx="2" /><path d="M7 14 L17 14 L17 20 L7 20 Z" /></>,
   back: <path d="M14 6 L8 12 L14 18" />,
+  menu: <path d="M5 8 L19 8 M5 12 L19 12 M5 16 L19 16" />,
+  close: <path d="M6 6 L18 18 M18 6 L6 18" />,
 };
 export const ICON_NAMES = Object.keys(LINE);
 

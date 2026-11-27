@@ -24,6 +24,7 @@ describe('icons', () => {
   });
   it('has a topic icon for strands B to F', () => {
     expect(STRAND).toEqual(['B', 'C', 'D', 'E', 'F']);
+    for (const n of ['menu', 'close']) expect(LINE, n).toContain(n); // the header menu button
   });
   it('replaces every challenge emoji with a drawing', () => {
     const map = src.slice(src.indexOf('const EMOJI_GLYPH'), src.indexOf('export function EmojiIcon'));

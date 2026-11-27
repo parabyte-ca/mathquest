@@ -607,5 +607,6 @@
   "household.pickOne": "Choose at least one student.",
   "household.pickAll": "Select all",
   "household.pickNone": "Clear",
-  "household.confirmShare": "Share {names} with {email} as {role}? They will be able to see progress, goals and messages."
+  "household.confirmShare": "Share {names} with {email} as {role}? They will be able to see progress, goals and messages.",
+  "nav.menu": "Menu"
 }

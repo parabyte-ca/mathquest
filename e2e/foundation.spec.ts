@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { existsSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { signInCaregiver as signInHelper, noHorizontalScroll as nhs, uniqueIp } from './helpers';
+import { signInCaregiver as signInHelper, noHorizontalScroll as nhs, openMenu, uniqueIp } from './helpers';
 
 const signIn = signInHelper;
 const noHorizontalScroll = nhs;
@@ -54,6 +54,7 @@ test('caregiver signs in by magic link, adds a student and approves their device
 
 test('the admin sees the Updates page and requests an upgrade through the request inbox', async ({ page }, info) => {
   await signIn(page, `admin-${info.project.name}@e2e.test`);
+  await openMenu(page);
   await page.getByRole('link', { name: 'Admin' }).click();
   await expect(page.getByRole('heading', { name: 'Updates', exact: true })).toBeVisible();
   await expect(page.getByText('Mock release notes', { exact: true })).toBeVisible();
@@ -76,6 +77,7 @@ test('a caregiver cannot open the admin page', async ({ page }, info) => {
   await signIn(page, `parent-${info.project.name}@e2e.test`);
   await page.goto('/app/admin');
   await expect(page.getByRole('heading', { name: 'Your students', exact: true })).toBeVisible();
+  await openMenu(page);
   await expect(page.getByRole('link', { name: 'Admin' })).toHaveCount(0);
 });
 
@@ -86,6 +88,21 @@ test('French UI, 44 px touch targets and no horizontal scroll on the sign-in pag
     const box = await b.boundingBox();
     if (box) expect(box.height).toBeGreaterThanOrEqual(44);
   }
+  // the header menu: one round button, a sheet of items, Escape and a tap outside both close it
+  const menu = page.getByRole('button', { name: 'Menu', exact: true });
+  await expect(menu).toHaveAttribute('aria-expanded', 'false');
+  await openMenu(page);
+  await expect(page.getByRole('button', { name: 'Français' })).toBeVisible();
+  const open = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
+  expect(open.violations.map((v) => `${v.id}: ${v.nodes[0]?.html.slice(0, 120)}`)).toEqual([]);
+  await noHorizontalScroll(page);
+  await page.keyboard.press('Escape');
+  await expect(menu).toHaveAttribute('aria-expanded', 'false');
+  await expect(menu).toBeFocused();
+  await openMenu(page);
+  await page.getByRole('heading', { level: 1 }).first().click({ position: { x: 2, y: 2 }, force: true });
+  await expect(menu).toHaveAttribute('aria-expanded', 'false');
+  await openMenu(page);
   await page.getByRole('button', { name: 'Français' }).click();
   await expect(page.getByRole('heading', { name: 'Connexion du parent ou tuteur' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.lang)).toBe('fr-CA');
@@ -109,6 +126,7 @@ test('the Updates page shows the upgrade steps, the last result and whether the 
   };
   try {
     await signIn(page, `admin-${info.project.name}@e2e.test`);
+    await openMenu(page);
     await page.getByRole('link', { name: 'Admin' }).click();
 
     // the helper checks in

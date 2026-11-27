@@ -16,6 +16,7 @@ import { startTour, TourHost } from './tour';
 import { InstallButton, OfflineBanner, registerServiceWorker, useOnline } from './pwa';
 import { forgetStudent } from './offlineStore';
 import { Icon } from './icons';
+import { NavMenu } from './NavMenu';
 
 const loadAdmin = () => import('./pages/Admin').then((m) => m.Admin);
 const loadProgress = () => import('./pages/Progress').then((m) => m.Progress);
@@ -83,11 +84,13 @@ function Shell(p: { path: string; me: Me | null | undefined; signOut: () => void
       <header class="bar">
         <a class="brand" href="/app" onClick={(e) => { e.preventDefault(); p.go('/app'); }}><img src="/brand/logo.png" alt="" width="30" height="30" />{t('app.name')}</a>
         <nav aria-label="Main">
-          {isAdmin && <a href="/app/admin" onClick={(e) => { e.preventDefault(); p.go('/app/admin'); }}>{t('nav.admin')}</a>}
-          <InstallButton />
-          {p.me && <button type="button" class="link" onClick={() => { p.go(p.me!.kind === 'student' ? '/app/learn' : '/app'); startTour(p.me!.kind === 'student' ? 'student' : 'caregiver'); }}><Icon name="help" /> {t('nav.help')}</button>}
-          <button type="button" class="link" onClick={() => setLang(getLang() === 'en' ? 'fr' : 'en')} lang={getLang() === 'en' ? 'fr' : 'en'}><Icon name="language" /> {t('nav.language')}</button>
-          {p.me && <button type="button" class="link" onClick={p.signOut}><Icon name="signout" /> {t('nav.signOut')}</button>}
+          <NavMenu>
+            {isAdmin && <a href="/app/admin" onClick={(e) => { e.preventDefault(); p.go('/app/admin'); }}>{t('nav.admin')}</a>}
+            <InstallButton />
+            {p.me && <button type="button" onClick={() => { p.go(p.me!.kind === 'student' ? '/app/learn' : '/app'); startTour(p.me!.kind === 'student' ? 'student' : 'caregiver'); }}><Icon name="help" /> {t('nav.help')}</button>}
+            <button type="button" onClick={() => setLang(getLang() === 'en' ? 'fr' : 'en')} lang={getLang() === 'en' ? 'fr' : 'en'}><Icon name="language" /> {t('nav.language')}</button>
+            {p.me && <button type="button" onClick={p.signOut}><Icon name="signout" /> {t('nav.signOut')}</button>}
+          </NavMenu>
         </nav>
       </header>
       <OfflineBanner />

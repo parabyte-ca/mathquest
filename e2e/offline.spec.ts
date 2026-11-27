@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { generate } from '../shared/generators/index';
-import { db, fillAnswer, noHorizontalScroll, pageProblems, signInCaregiver, studentId, studentOnNewDevice } from './helpers';
+import { db, fillAnswer, noHorizontalScroll, openMenu, pageProblems, signInCaregiver, studentId, studentOnNewDevice } from './helpers';
 
 test('the app can be installed, keeps its shell offline, says so politely, and never stores API data', async ({ page, context }) => {
   const problems: string[] = [];
@@ -141,6 +141,7 @@ test('an "Install the app" button appears when the browser can install the app, 
   // browsers that can prompt: the button uses the saved prompt, then goes away
   await page.goto('/app');
   await expect(page.getByRole('button', { name: 'Send sign-in link' })).toBeVisible();
+  await openMenu(page);
   await expect(page.getByRole('button', { name: 'Install the app' })).toHaveCount(0);
   await page.evaluate(() => {
     const ev = new Event('beforeinstallprompt', { cancelable: true }) as Event & { prompt: () => Promise<void>; userChoice: Promise<{ outcome: string }> };
@@ -148,6 +149,7 @@ test('an "Install the app" button appears when the browser can install the app, 
     ev.userChoice = Promise.resolve({ outcome: 'accepted' });
     window.dispatchEvent(ev);
   });
+  await openMenu(page);
   const install = page.getByRole('button', { name: 'Install the app' });
   await expect(install).toBeVisible();
   const scan = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();
@@ -155,11 +157,13 @@ test('an "Install the app" button appears when the browser can install the app, 
   await install.click();
   await expect.poll(() => page.evaluate(() => (window as unknown as { __prompted?: number }).__prompted)).toBe(1);
   await expect(install).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Menu', exact: true })).toHaveAttribute('aria-expanded', 'false'); // choosing an item closes the sheet
 
   // iPhones cannot be prompted: the button explains the Share menu
   const ctx = await browser.newContext({ baseURL, userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1' });
   const phone = await ctx.newPage();
   await phone.goto('/app');
+  await openMenu(phone);
   await phone.getByRole('button', { name: 'Install the app' }).click();
   await expect(phone.getByRole('dialog', { name: 'Install MathQuest on this device' })).toContainText('Add to Home Screen');
   const scan2 = await new AxeBuilder({ page: phone }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']).analyze();

@@ -607,5 +607,6 @@
   "household.pickOne": "Choisissez au moins un élève.",
   "household.pickAll": "Tout sélectionner",
   "household.pickNone": "Effacer",
-  "household.confirmShare": "Partager {names} avec {email} comme {role}? Cette personne pourra voir la progression, les objectifs et les messages."
+  "household.confirmShare": "Partager {names} avec {email} comme {role}? Cette personne pourra voir la progression, les objectifs et les messages.",
+  "nav.menu": "Menu"
 }
