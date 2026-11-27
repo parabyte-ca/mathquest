@@ -6,7 +6,7 @@ import { audit } from '../audit.js';
 import { access } from './students.js';
 import { listMessages, markMessageRead, sendMessage, setGoalNote, archiveFamilyGoal, archiveGoal, createFamilyGoal, createGoal, listFamilyGoals, listGoals, localDay, redeemFamilyGoal, redeemGoal, RewardError, summary } from '../rewards/service.js';
 import { dashboard } from '../rewards/dashboard.js';
-import { buildWorksheet, MAX_TOPICS } from '../worksheet.js';
+import { buildWorksheet, markedSheet, markWorksheet, MAX_TOPICS, WorksheetError } from '../worksheet.js';
 
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 const tx = (en: string, fr: string): { en: string; fr: string } => ({ en, fr });
@@ -59,7 +59,37 @@ export function rewardRoutes(ctx: Ctx): Router {
     if (items.length === 0) return void res.status(404).json({ error: 'no_content' });
     const topics = q.data.focus.map((code) => ({ code, text: (ctx.db.prepare('SELECT text FROM curriculum_expectation WHERE code = ?').get(code) as { text: string } | undefined)?.text ?? '' }));
     audit(ctx.db, { kind: 'caregiver', id: me(req).id }, 'worksheet.create', a.student.id, { focus: q.data.focus.join(','), count: items.length });
-    res.json({ student: { displayName: a.student.display_name, grade: a.student.grade, language: a.student.language }, focus: q.data.focus.join(', '), topic: topics.map((x) => x.text).filter(Boolean).join(' · '), topics, tier: q.data.tier, seed, items });
+    const marked = markedSheet(ctx, a.student.id, { focus: q.data.focus, tier: q.data.tier === 'mixed' ? 'mixed' : Number(q.data.tier), count: q.data.count, seed });
+    res.json({
+      student: { displayName: a.student.display_name, grade: a.student.grade, language: a.student.language }, focus: q.data.focus.join(', '), topic: topics.map((x) => x.text).filter(Boolean).join(' · '), topics, tier: q.data.tier, seed, count: q.data.count,
+      marked: marked ? { answered: marked.answered, correct: marked.correct, total: marked.total, xp: marked.xp } : null,
+      items: items.map(({ ref: _ref, ...it }) => it),
+    });
+  });
+
+  // Mark the answers entered for a sheet. The server rebuilds the sheet from its seed and checks every answer itself; a sheet counts once.
+  r.post('/students/:id/worksheet/mark', (req, res) => {
+    const a = access(ctx, me(req), req.params.id!);
+    if (!a) return void res.status(404).json({ error: 'not_found' });
+    const body = z
+      .object({
+        focus: z.array(z.string().regex(/^[A-Z0-9]{2,6}\.[A-F][0-9.]{0,8}$/)).min(1).max(MAX_TOPICS),
+        tier: z.enum(['1', '2', '3', 'mixed']),
+        count: z.number().int().min(4).max(30),
+        seed: z.number().int().min(1).max(2_000_000_000),
+        answers: z.array(z.object({ n: z.number().int().min(1).max(30), given: z.unknown() })).max(30),
+      })
+      .safeParse(req.body);
+    if (!body.success) return void res.status(400).json({ error: 'invalid_request' });
+    try {
+      const out = markWorksheet(ctx, a.student, { focus: body.data.focus, tier: body.data.tier === 'mixed' ? 'mixed' : Number(body.data.tier), count: body.data.count, seed: body.data.seed }, body.data.answers);
+      if (out.already) return void res.status(409).json({ error: 'already_marked', ...out });
+      audit(ctx.db, { kind: 'caregiver', id: me(req).id }, 'worksheet.mark', a.student.id, { answered: out.answered, correct: out.correct, total: out.total, xp: out.xp });
+      res.json(out);
+    } catch (e) {
+      if (e instanceof WorksheetError) return void res.status(e.status).json({ error: e.code });
+      throw e;
+    }
   });
 
   r.get('/students/:id/goals', (req, res) => {

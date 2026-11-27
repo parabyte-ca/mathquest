@@ -104,7 +104,7 @@ export function RewardBar({ highContrast, plainBackground, go }: { highContrast:
 
 const PART_KEY: Record<string, string> = {
   correct: 'rewards.part.correct', effort: 'rewards.part.effort', review: 'rewards.part.review', skill: 'rewards.part.skill', expectation: 'rewards.part.expectation',
-  comeback: 'rewards.part.comeback', 'daily-start': 'rewards.part.dailyStart', 'daily-goal': 'rewards.part.dailyGoal', challenge: 'rewards.part.challenge',
+  comeback: 'rewards.part.comeback', 'daily-start': 'rewards.part.dailyStart', 'daily-goal': 'rewards.part.dailyGoal', challenge: 'rewards.part.challenge', worksheet: 'rewards.part.worksheet',
 };
 
 export function RewardNote({ r, badgeNames }: { r: RewardResult; badgeNames: Record<string, Text> }) {

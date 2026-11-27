@@ -8,7 +8,7 @@ import { t } from './i18n';
 const intText = (s: string) => /^-?\d{1,9}$/.test(s.trim());
 
 /** The answer area for every item format. Calls onSubmit with a Given once the student presses Check. */
-export function ItemInput({ item, disabled, onSubmit }: { item: PublicItem; disabled: boolean; onSubmit: (g: Given) => void }) {
+export function ItemInput({ item, disabled, onSubmit, submitLabel }: { item: PublicItem; disabled: boolean; onSubmit: (g: Given) => void; submitLabel?: string }) {
   const [text, setText] = useState('');
   const [frac, setFrac] = useState({ whole: '', n: '', d: '' });
   const [choice, setChoice] = useState<number | null>(null);
@@ -215,7 +215,7 @@ export function ItemInput({ item, disabled, onSubmit }: { item: PublicItem; disa
         </div>
       )}
 
-      <button type="submit" class="go" disabled={disabled || !given}>{t('play.check')}</button>
+      <button type="submit" class="go" disabled={disabled || !given}>{submitLabel ?? t('play.check')}</button>
     </form>
   );
 }

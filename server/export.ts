@@ -9,6 +9,7 @@ export function studentExport(ctx: Ctx, student: StudentRow) {
     student: publicStudent(student),
     mastery: ctx.db.prepare('SELECT skill_id, p_known, tier, attempts, correct, last_seen_at, next_review_at FROM mastery WHERE student_id = ?').all(id),
     attempts: ctx.db.prepare('SELECT skill_id, tier, correct, hints, tries, ms, at FROM attempt WHERE student_id = ? ORDER BY at').all(id),
+    worksheets: ctx.db.prepare('SELECT sheet, marked_at, total, answered, correct, xp FROM worksheet_marked WHERE student_id = ? ORDER BY marked_at').all(id),
     rewards: {
       state: ctx.db.prepare('SELECT xp, streak, best_streak, last_day, freezes, avatar, palette, frame FROM reward_state WHERE student_id = ?').get(id) ?? null,
       events: ctx.db.prepare('SELECT at, kind, xp FROM reward_event WHERE student_id = ? ORDER BY at').all(id),

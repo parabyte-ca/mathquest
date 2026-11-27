@@ -13,7 +13,7 @@ export interface XpInput {
   kind: 'practice' | 'review' | 'placement';
 }
 export interface XpPart {
-  kind: 'correct' | 'effort' | 'review' | 'skill' | 'expectation' | 'comeback' | 'daily-start' | 'daily-goal' | 'challenge';
+  kind: 'correct' | 'effort' | 'review' | 'skill' | 'expectation' | 'comeback' | 'daily-start' | 'daily-goal' | 'challenge' | 'worksheet';
   xp: number;
 }
 
@@ -32,6 +32,8 @@ export const XP_EXPECTATION_MASTERED = 100;
 export const XP_COMEBACK = 15;
 export const XP_DAILY_START = 10;
 export const XP_DAILY_GOAL = 25;
+/** A small thank-you for finishing a whole worksheet: every question answered. Each correct answer earns the same as a practice question. */
+export const XP_WORKSHEET_FINISH = 15;
 
 // ── levels ────────────────────────────────────────────────────────────────────────
 

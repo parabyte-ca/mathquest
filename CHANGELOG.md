@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.25.0] - 2026-11-27
+### Added
+- A worksheet can now be answered on screen and marked. On a worksheet, a caregiver chooses "Enter answers", types or picks the answers from the paper sheet one question at a time (every question type works the same way as in practice), checks the list, and chooses "Mark the sheet". The app checks each answer by the same exact rules as practice and shows what was right and what the answer was.
+- Marking earns points: every answer pays the same XP as the matching practice question, and finishing the whole sheet (every question answered) adds a 15 XP bonus, shown as "Finished a worksheet". Marked answers also update the student's skill progress, review schedule and weekly challenges, exactly as practice does.
+- Each sheet counts once. A sheet is its topics, difficulty, length and seed, so printing it again or marking it a second time pays nothing more; the sheet says it has been marked, with the score.
+- Marking is recorded in the family's activity log and in the student's data export, and is deleted with the student.
+
+### Notes
+- Marking works with no AI and no connection beyond the app itself. Photo grading (3.26.0) will build on it: a photo only supplies the entered answers, and the same marking and points apply.
+- Marking is for the student's own caregivers. The install admin cannot mark a family's worksheets or see them, and a student cannot reach the answers.
+- The server rebuilds the sheet from its seed and checks every answer itself, so a changed browser cannot award points. A repeated or out-of-range question number is ignored.
+- Migration 14 adds the `worksheet_marked` table.
+
 ## [3.24.0] - 2026-11-27
 ### Changed
 - Amounts of money now use the dollar sign everywhere, the Canadian way: "$45.50" in English and "45,50 $" in French, in practice, lessons, worksheets and answer keys. About 460 questions and answer steps (budgets, e-transfers, fuel, cars, mortgages, interest, taxes, pay) no longer write "45.50 dollars". Whole amounts have no cents ("$45") and amounts with cents always show two ("$12.50", "$1.00").

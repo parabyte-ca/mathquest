@@ -190,6 +190,8 @@ export interface AnswerFacts {
   masteredSkill: boolean;
   masteredExpectation: boolean;
   recovered: boolean;
+  /** XP for finishing a whole worksheet, given with the last answer of the sheet. */
+  worksheetBonus?: number;
 }
 
 /** Awards XP for one answer and updates the streak, badges, unlocks and caregiver goals. Placement answers earn nothing. */
@@ -207,6 +209,7 @@ export function onAnswered(ctx: Ctx, student: StudentRow, a: AnswerFacts): Rewar
   if (a.masteredSkill) parts.push({ kind: 'skill', xp: XP_SKILL_MASTERED });
   if (a.masteredExpectation) parts.push({ kind: 'expectation', xp: XP_EXPECTATION_MASTERED });
   if (a.recovered) parts.push({ kind: 'comeback', xp: XP_COMEBACK });
+  if (a.worksheetBonus) parts.push({ kind: 'worksheet', xp: a.worksheetBonus });
 
   const prev: StreakState = { streak: row.streak, best: row.best_streak, lastDay: row.last_day, freezes: row.freezes };
   const step = streakStep(prev, today);

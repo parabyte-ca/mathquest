@@ -318,7 +318,7 @@ export interface AnswerResult {
   placement?: { done: boolean; next?: PublicItem; result?: { startingSkill: string | null; ladder: string[]; startingIndex: number } };
 }
 
-export function answer(ctx: Ctx, student: StudentRow, itemId: string, given: unknown, ms: number): AnswerResult {
+export function answer(ctx: Ctx, student: StudentRow, itemId: string, given: unknown, ms: number, extra: { worksheetBonus?: number } = {}): AnswerResult {
   if (!isGiven(given)) throw new LearnError('invalid_answer', 400);
   const p = ctx.db.prepare('SELECT id, session_id, kind, target, item_json, hints, issued_at FROM pending_item WHERE id = ? AND student_id = ?').get(itemId, student.id) as
     | { id: string; session_id: string | null; kind: 'practice' | 'review' | 'placement'; target: string; item_json: string; hints: number; issued_at: number }
@@ -372,7 +372,7 @@ export function answer(ctx: Ctx, student: StudentRow, itemId: string, given: unk
     masteredExpectation: masteredSkill && (expectationOf(ctx, item.skill) ? expectationMastered(ctx, student.id, expectationOf(ctx, item.skill)!) : false),
   };
   if (p.kind === 'placement') result.placement = placementStep(ctx, student, p.target, correct);
-  result.reward = onAnswered(ctx, student, { correct, tier: item.tier, hints: p.hints, kind: p.kind, masteredSkill: result.masteredSkill, masteredExpectation: result.masteredExpectation, recovered: event === 'recovered' });
+  result.reward = onAnswered(ctx, student, { correct, tier: item.tier, hints: p.hints, kind: p.kind, masteredSkill: result.masteredSkill, masteredExpectation: result.masteredExpectation, recovered: event === 'recovered', worksheetBonus: extra.worksheetBonus });
   return result;
 }
 
