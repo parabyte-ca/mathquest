@@ -167,4 +167,6 @@ export async function openMenu(page: Page): Promise<void> {
   const button = page.getByRole('button', { name: 'Menu', exact: true });
   if ((await button.getAttribute('aria-expanded')) !== 'true') await button.click();
   await expect(page.getByRole('button', { name: 'Menu', exact: true })).toHaveAttribute('aria-expanded', 'true');
+  // focus moves to the first item once the sheet is ready (its Escape and tap-outside listeners are attached in the same step)
+  await expect(page.locator('#nav-sheet :focus')).toHaveCount(1);
 }

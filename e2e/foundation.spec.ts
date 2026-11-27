@@ -100,7 +100,7 @@ test('French UI, 44 px touch targets and no horizontal scroll on the sign-in pag
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await expect(menu).toBeFocused();
   await openMenu(page);
-  await page.getByRole('heading', { level: 1 }).first().click({ position: { x: 2, y: 2 }, force: true });
+  await page.mouse.click(4, 300); // a tap on the page, clear of the sheet
   await expect(menu).toHaveAttribute('aria-expanded', 'false');
   await openMenu(page);
   await page.getByRole('button', { name: 'Français' }).click();
