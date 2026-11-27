@@ -411,6 +411,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   }
   await expect(parent.getByRole('heading', { name: 'Your worksheet is ready' })).toBeVisible();
   await expect(parent.locator('.sheet ol.qs > li')).toHaveCount(10);
+  await expect(parent.locator('article.sheet')).toHaveCSS('position', 'static'); // not the menu's floating sheet
   await expect(parent.getByRole('heading', { name: 'Answer key' })).toBeVisible();
   await scanOf(parent, 'worksheet');
   await parent.emulateMedia({ media: 'print' });
@@ -427,7 +428,6 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await parent.getByRole('button', { name: 'Save answer' }).click();
   await expect(parent.getByRole('heading', { name: 'Question 2 of 10' })).toBeVisible();
   await scanOf(parent, 'worksheet answer entry');
-  await parent.getByRole('button', { name: 'Check the answers entered' }).click();
   await expect(parent.getByText('Blank questions: 9.')).toBeVisible();
   await scanOf(parent, 'worksheet review');
   await parent.getByRole('button', { name: 'Mark the sheet' }).click();

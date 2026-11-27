@@ -7,6 +7,9 @@
 - Each sheet counts once. A sheet is its topics, difficulty, length and seed, so printing it again or marking it a second time pays nothing more; the sheet says it has been marked, with the score.
 - Marking is recorded in the family's activity log and in the student's data export, and is deleted with the student.
 
+### Fixed
+- Since 3.22.0 the printable worksheet floated over the page on screen (it shared a style name with the new menu, so it was positioned like a pop-up). The menu now has its own style name, and a test checks the worksheet sits in the page.
+
 ### Notes
 - Marking works with no AI and no connection beyond the app itself. Photo grading (3.26.0) will build on it: a photo only supplies the entered answers, and the same marking and points apply.
 - Marking is for the student's own caregivers. The install admin cannot mark a family's worksheets or see them, and a student cannot reach the answers.
