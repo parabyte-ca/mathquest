@@ -1,5 +1,23 @@
 # Changelog
 
+## [3.28.0] - 2026-11-28
+### Added
+- A new colour, **Golden Retro** (French: Rétro doré), unlocked at level 6, taken from a sunset of palms, boats and birds: indigo and plum through magenta and hot pink to coral and orange, with teal for "good" messages. Cards are white with deep indigo text, so every text and button pairing passes the same 4.5:1 contrast checks as the other colours.
+- Its background is a picture held still behind the page, as tall as the screen, with the palm pattern repeating sideways, so it fits an iPad in either direction and a phone without cropping the sky or showing a seam when the page scrolls. It is switched off by the Plain background setting and by high contrast, and it is not printed. The picture is a file of the app (about 60 KB) and is kept for offline use once seen.
+- A new avatar, the **Axolotl**, unlocked at level 9: a pink face with three feathery gills on each side, a wide smile and rosy cheeks, drawn like the other avatars.
+
+### Changed
+- The colour ladder is now Classic 1, Sunrise 2, Forest 4, Golden Retro 6, Ocean 8, Twilight 10, Candy 12 (Ocean, Twilight and Candy each moved up two levels).
+- Nobody loses a colour they already had. A student's Ocean, Twilight or Candy stays unlocked if they had reached its old level (6, 8 and 10) when this update was installed.
+
+### Fixed
+- Headings you tap to open more (such as "Recent activity", "Show as a table" and "Bank sizes by skill") were 24 px tall, too small to tap comfortably on an iPad. They are now at least 44 px tall.
+
+### Notes
+- Migration 17 records those kept colours (`cosmetic_kept`); they are in the student's data export as `keptColours` and are deleted with the student.
+- Tests check the ladder, that no other avatar or frame moved, the picture (size and type, fixed layer, repeats sideways, off for print, plain and high contrast, offline), the Axolotl art, and the kept colours (the upgrade, equipping, and nothing announced twice).
+- A new iPad check opens every main page of the caregiver, admin and student sides at five iPad sizes (mini, 10.2, Air 11, Pro 11, Pro 12.9) in portrait and landscape, with Golden Retro switched on, and turns the iPad while a question is open. It checks for sideways scrolling, controls off the edge of the screen, touch targets under 44 px, inputs under 16 px (iPad Safari zooms into those) and text sitting straight on the picture; typed answers survive turning. (It is Chromium at iPad sizes, not Safari itself.)
+
 ## [3.27.0] - 2026-11-28
 ### Added
 - "Who is practising?" for a device shared by brothers and sisters. On an approved device the sign-in page now shows a tile for each of the caregiver's children, with their avatar and first name. A child taps their tile and types their PIN: no username to type. A "Type a username instead" link is still there.

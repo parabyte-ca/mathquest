@@ -22,6 +22,7 @@ The owner wants another parent to help test the app, so household and family acc
 | 8 | 3.25.0 (shipped) | Worksheets that can be opened on screen, marked, and counted towards XP: XP per correct answer plus a finishing bonus, once per sheet, and the marked answers also update skill progress. | L |
 | 9 | 3.26.0 (shipped) | Photo grading: the AI reads the handwritten answers from a photo, the app marks them by exact rules, the caregiver confirms each one next to the photo, then points. Off unless switched on, monthly cost cap, photo never stored. | L |
 | 10 | 3.23.0 (shipped) | Reward backgrounds: a tiled background for each colour palette, with a Plain background setting. | M |
+| 11 | 3.28.0 (shipped) | Golden Retro colour (level 6, a picture background held still behind the page) and the Axolotl avatar (level 9); Ocean, Twilight and Candy moved up two levels and students keep what they had. | M |
 
 Another parent can already test today without any of this: the admin invites their email from the Admin page, they sign in and add their own children, and the household isolation in 3.12.0 keeps their family apart from every other.
 

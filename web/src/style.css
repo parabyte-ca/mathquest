@@ -300,6 +300,8 @@ table.data th, table.data td { text-align: left; padding: 0.4rem 0.5rem; border-
 .sheet .key li { margin: 0.25rem 0; }
 .sheet .key li > ol.worked { list-style: decimal; margin: 0.25rem 0 0.25rem 1rem; }
 .noprint { }
+/* A disclosure's heading is something to tap: at least 44 px tall, on a tablet as well as a phone. */
+summary { min-height: 44px; box-sizing: border-box; padding-block: 0.6rem; cursor: pointer; }
 .picker h2 { margin-bottom: 0.25rem; }
 .pickgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 0.75rem; margin: 1rem 0; padding: 0; list-style: none; }
 .tile { width: 100%; min-height: 8.5rem; display: grid; justify-items: center; align-content: center; gap: 0.35rem; padding: 0.75rem; background: var(--soft); color: var(--text); border-radius: 22px; box-shadow: var(--shadow-soft); font-weight: 700; margin: 0; }
@@ -401,6 +403,15 @@ html.hc[data-side] .xpmeter > span { background: var(--segfill); }
 /* ── the tiled background that goes with the equipped palette (set by applyPalette; absent in high contrast and with "Plain background") ── */
 html[data-pattern] body { background-image: var(--tile), linear-gradient(180deg, var(--soft) 0, transparent 420px); background-repeat: repeat, no-repeat; background-size: var(--tile-size), auto; background-attachment: scroll; }
 @media print { html[data-pattern] body { background-image: none; } }
+/* Golden Retro: a picture held still behind the page (a fixed layer, because iPad Safari ignores a fixed CSS background), as tall as the screen
+   with its pattern repeating sideways. The page's cards are solid, so text never sits on it. */
+html[data-pattern='palette-retro'] body { background-image: none; }
+/* the app's name sits on its own solid pill, as the rewards strip does, so it reads against the picture */
+/* "Report this question" sits below the question card, so on the picture it gets a card of its own */
+html[data-pattern='palette-retro'] .report { background: var(--card); border-radius: 1.2rem; padding: 0.25rem 1rem; box-shadow: var(--shadow-soft); justify-self: start; width: fit-content; }
+html[data-pattern='palette-retro'] .brand { background: var(--card); border-radius: 999px; padding: 0 1.1rem 0 0.75rem; box-shadow: var(--shadow-soft); }
+html[data-pattern='palette-retro'] body::before { content: ''; position: fixed; inset: 0; z-index: -1; pointer-events: none; background: #37226c url('/backgrounds/golden-retro.webp') repeat-x center top / auto 100%; }
+@media print { html[data-pattern='palette-retro'] body::before { display: none; } }
 
 /* ── the menu button and its sheet ─────────────────────────────────────────── */
 .menuwrap { position: relative; }

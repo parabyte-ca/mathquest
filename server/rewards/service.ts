@@ -27,6 +27,9 @@ interface StateRow {
 }
 
 /** The calendar day (YYYY-MM-DD) in the family's time zone. */
+/** The cosmetics a student keeps although the ladder has since moved them to a higher level. */
+export const keptCosmetics = (ctx: Ctx, sid: string): Set<string> => new Set((ctx.db.prepare('SELECT cosmetic_id FROM cosmetic_kept WHERE student_id = ?').all(sid) as { cosmetic_id: string }[]).map((r) => r.cosmetic_id));
+
 export function localDay(ms: number, tz: string): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(ms);
 }
@@ -203,7 +206,8 @@ export function onAnswered(ctx: Ctx, student: StudentRow, a: AnswerFacts): Rewar
   const row = getState(ctx, student.id);
   const beforeLevel = levelInfo(row.xp).level;
   const beforeBadges = new Set((ctx.db.prepare('SELECT badge_id FROM badge_earned WHERE student_id = ?').all(student.id) as { badge_id: string }[]).map((r) => r.badge_id));
-  const beforeUnlocked = new Set(COSMETICS.filter((c) => isUnlocked(c, beforeLevel, beforeBadges)).map((c) => c.id));
+  const kept = keptCosmetics(ctx, student.id);
+  const beforeUnlocked = new Set(COSMETICS.filter((c) => isUnlocked(c, beforeLevel, beforeBadges, kept)).map((c) => c.id));
 
   const parts: XpPart[] = xpForAnswer(a);
   if (a.masteredSkill) parts.push({ kind: 'skill', xp: XP_SKILL_MASTERED });
@@ -248,7 +252,7 @@ export function onAnswered(ctx: Ctx, student: StudentRow, a: AnswerFacts): Rewar
   const newBadges = newBadgeIds(stats(ctx, student.id, step.state.streak, info.level), beforeBadges);
   for (const id of newBadges) ctx.db.prepare('INSERT OR IGNORE INTO badge_earned (student_id, badge_id, at) VALUES (?,?,?)').run(student.id, id, now);
   const allBadges = new Set([...beforeBadges, ...newBadges]);
-  const newCosmetics = COSMETICS.filter((c) => isUnlocked(c, info.level, allBadges) && !beforeUnlocked.has(c.id)).map((c) => c.id);
+  const newCosmetics = COSMETICS.filter((c) => isUnlocked(c, info.level, allBadges, kept) && !beforeUnlocked.has(c.id)).map((c) => c.id);
 
   const reached = ctx.db
     .prepare('SELECT id, title FROM goal WHERE student_id = ? AND archived = 0 AND reached_at IS NULL AND ? - baseline_xp >= xp_target')
@@ -359,7 +363,7 @@ export function summary(ctx: Ctx, student: StudentRow) {
     palette: row.palette,
     frame: row.frame,
     badges: BADGES.map((b) => ({ id: b.id, icon: b.icon, name: b.name, how: b.how, earnedAt: earned.get(b.id) ?? null })),
-    cosmetics: COSMETICS.map((c) => ({ id: c.id, kind: c.kind, icon: c.icon, name: c.name, unlocked: isUnlocked(c, info.level, have), unlock: c.unlock })),
+    cosmetics: COSMETICS.map((c) => ({ id: c.id, kind: c.kind, icon: c.icon, name: c.name, unlocked: isUnlocked(c, info.level, have, keptCosmetics(ctx, student.id)), unlock: c.unlock })),
     goals: listGoals(ctx, student.id),
     challenges: challengeViews(ctx, student.id),
     teamGoals: familyGoalsForStudent(ctx, student.id),
@@ -372,7 +376,7 @@ export function equip(ctx: Ctx, student: StudentRow, cosmeticId: string): void {
   if (!c) throw new RewardError('unknown_cosmetic', 400);
   const row = getState(ctx, student.id);
   const have = new Set((ctx.db.prepare('SELECT badge_id FROM badge_earned WHERE student_id = ?').all(student.id) as { badge_id: string }[]).map((r) => r.badge_id));
-  if (!isUnlocked(c, levelInfo(row.xp).level, have)) throw new RewardError('locked', 403);
+  if (!isUnlocked(c, levelInfo(row.xp).level, have, keptCosmetics(ctx, student.id))) throw new RewardError('locked', 403);
   ctx.db.prepare(`UPDATE reward_state SET ${c.kind} = ? WHERE student_id = ?`).run(c.id, student.id);
 }
 

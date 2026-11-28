@@ -59,5 +59,5 @@ self.addEventListener('fetch', (event) => {
   if (url.origin !== self.location.origin) return;
   if (url.pathname.startsWith('/api/')) return; // never intercepted or stored
   if (request.mode === 'navigate') return void event.respondWith(networkFirstPage(request));
-  if (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/icons/') || url.pathname === '/favicon.svg') return void event.respondWith(cacheFirst(request));
+  if (url.pathname.startsWith('/assets/') || url.pathname.startsWith('/icons/') || url.pathname.startsWith('/backgrounds/') || url.pathname === '/favicon.svg') return void event.respondWith(cacheFirst(request));
 });

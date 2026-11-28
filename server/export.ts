@@ -13,6 +13,7 @@ export function studentExport(ctx: Ctx, student: StudentRow) {
     rewards: {
       state: ctx.db.prepare('SELECT xp, streak, best_streak, last_day, freezes, avatar, palette, frame FROM reward_state WHERE student_id = ?').get(id) ?? null,
       events: ctx.db.prepare('SELECT at, kind, xp FROM reward_event WHERE student_id = ? ORDER BY at').all(id),
+      keptColours: ctx.db.prepare('SELECT cosmetic_id FROM cosmetic_kept WHERE student_id = ? ORDER BY cosmetic_id').all(id),
       badges: ctx.db.prepare('SELECT badge_id, at FROM badge_earned WHERE student_id = ? ORDER BY at').all(id),
       goals: ctx.db.prepare('SELECT title, xp_target, created_at, reached_at, redeemed_at FROM goal WHERE student_id = ? ORDER BY created_at').all(id),
     },

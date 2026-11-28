@@ -57,7 +57,7 @@ const CLIENT_ONLY_MARKERS: { id: string; re: RegExp }[] = [
   { id: 'source-map-reference', re: /\/\/[#@]\s*sourceMappingURL=/ },
 ];
 
-const CLIENT_ALLOWED_EXTENSIONS = new Set(['.html', '.js', '.css', '.json', '.webmanifest', '.svg', '.png', '.ico', '.woff', '.woff2', '.txt']);
+const CLIENT_ALLOWED_EXTENSIONS = new Set(['.html', '.js', '.css', '.json', '.webmanifest', '.svg', '.png', '.webp', '.ico', '.woff', '.woff2', '.txt']);
 const FORBIDDEN_FILE = /(?:^|\/)\.env(?:\.|$)|\.(?:map|pem|key|p12|pfx|db|sqlite3?|log|ts|tsx)$|(?:^|\/)id_(?:rsa|ed25519)/i;
 /** Files that should never be committed. */
 const SENSITIVE_TRACKED = /(?:^|\/)\.env(?:\.|$)|\.(?:pem|key|p12|pfx|db|sqlite3?|map)$|(?:^|\/)id_(?:rsa|ed25519)/i;
@@ -175,7 +175,7 @@ export function scanClientBundle(dir: string, env: NodeJS.ProcessEnv = {}): Find
     const ext = extname(p).toLowerCase();
     if (FORBIDDEN_FILE.test(rel)) out.push({ file: rel, line: 0, rule: 'forbidden-file-in-client-bundle', sample: rel });
     else if (!CLIENT_ALLOWED_EXTENSIONS.has(ext)) out.push({ file: rel, line: 0, rule: 'unexpected-file-type-in-client-bundle', sample: ext || rel });
-    if (statSync(p).size > 8_000_000 || ['.png', '.ico', '.woff', '.woff2'].includes(ext)) continue;
+    if (statSync(p).size > 8_000_000 || ['.png', '.webp', '.ico', '.woff', '.woff2'].includes(ext)) continue;
     const buf = readFileSync(p);
     if (!isText(buf)) continue;
     const text = buf.toString('utf8');

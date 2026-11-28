@@ -65,3 +65,17 @@ export const backgroundById = (id: string): Background | undefined => BACKGROUND
 /** The tile as a CSS `url(...)` value. */
 export const backgroundUrl = (b: Background): string =>
   `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${b.w}" height="${b.h}" viewBox="0 0 ${b.w} ${b.h}">${b.body}</svg>`)}")`;
+
+/**
+ * A background that is a picture instead of a small tile: held still behind the page, as tall as the screen, with its pattern repeating
+ * sideways so it fits any screen shape without cropping or stretching. The picture is a file of the app, so it is never fetched from
+ * anywhere else, and it is switched off by the "Plain background" setting and by high contrast like the tiled ones.
+ */
+export interface ImageBackground {
+  /** The palette this goes with. */
+  id: string;
+  /** The picture, a file of the app. */
+  url: string;
+}
+export const IMAGE_BACKGROUNDS: ImageBackground[] = [{ id: 'palette-retro', url: '/backgrounds/golden-retro.webp' }];
+export const imageBackgroundById = (id: string): ImageBackground | undefined => IMAGE_BACKGROUNDS.find((b) => b.id === id);
