@@ -7,6 +7,8 @@ import { access } from './students.js';
 import { listMessages, markMessageRead, sendMessage, setGoalNote, archiveFamilyGoal, archiveGoal, createFamilyGoal, createGoal, listFamilyGoals, listGoals, localDay, redeemFamilyGoal, redeemGoal, RewardError, summary } from '../rewards/service.js';
 import { dashboard } from '../rewards/dashboard.js';
 import { buildWorksheet, markedSheet, markWorksheet, MAX_TOPICS, WorksheetError } from '../worksheet.js';
+import { AiError, photoAvailable } from '../ai/anthropic.js';
+import { readSheetPhoto, validImage } from '../ai/photo.js';
 
 const me = (req: Request): UserRow => (req.auth as { kind: 'user'; user: UserRow }).user;
 const tx = (en: string, fr: string): { en: string; fr: string } => ({ en, fr });
@@ -63,8 +65,40 @@ export function rewardRoutes(ctx: Ctx): Router {
     res.json({
       student: { displayName: a.student.display_name, grade: a.student.grade, language: a.student.language }, focus: q.data.focus.join(', '), topic: topics.map((x) => x.text).filter(Boolean).join(' · '), topics, tier: q.data.tier, seed, count: q.data.count,
       marked: marked ? { answered: marked.answered, correct: marked.correct, total: marked.total, xp: marked.xp } : null,
+      photo: photoAvailable(ctx),
       items: items.map(({ ref: _ref, ...it }) => it),
     });
+  });
+
+  // Read the answers from a photo of the sheet. The reader only copies what was written; nothing is marked here, and the photo is not kept.
+  r.post('/students/:id/worksheet/photo', async (req, res) => {
+    const a = access(ctx, me(req), req.params.id!);
+    if (!a) return void res.status(404).json({ error: 'not_found' });
+    const body = z
+      .object({
+        focus: z.array(z.string().regex(/^[A-Z0-9]{2,6}\.[A-F][0-9.]{0,8}$/)).min(1).max(MAX_TOPICS),
+        tier: z.enum(['1', '2', '3', 'mixed']),
+        count: z.number().int().min(4).max(30),
+        seed: z.number().int().min(1).max(2_000_000_000),
+        mediaType: z.string().max(20),
+        image: z.string().max(6_000_000),
+      })
+      .safeParse(req.body);
+    if (!body.success || !validImage(body.data.mediaType, body.data.image)) return void res.status(400).json({ error: 'invalid_request' });
+    if (!photoAvailable(ctx)) return void res.status(409).json({ error: 'photo_off' });
+    const input = { focus: body.data.focus, tier: body.data.tier === 'mixed' ? ('mixed' as const) : Number(body.data.tier), count: body.data.count, seed: body.data.seed };
+    if (markedSheet(ctx, a.student.id, input)) return void res.status(409).json({ error: 'already_marked' });
+    const items = buildWorksheet(ctx, input);
+    if (items.length === 0) return void res.status(404).json({ error: 'no_content' });
+    if (!ctx.limits.photo.take(me(req).id)) return void res.status(429).json({ error: 'too_many_requests' });
+    try {
+      const readings = await readSheetPhoto(ctx, items.map((it) => ({ n: it.n, format: it.format, options: it.options?.length ?? 0, right: it.right?.length ?? 0 })), { mediaType: body.data.mediaType as 'image/jpeg' | 'image/png' | 'image/webp', base64: body.data.image });
+      audit(ctx.db, { kind: 'caregiver', id: me(req).id }, 'worksheet.photo', a.student.id, { questions: items.length, read: readings.filter((x) => x.text !== null).length });
+      res.json({ readings });
+    } catch (e) {
+      if (e instanceof AiError) return void res.status(e.code === 'cap_reached' ? 402 : e.code === 'not_configured' ? 409 : 502).json({ error: e.code });
+      throw e;
+    }
   });
 
   // Mark the answers entered for a sheet. The server rebuilds the sheet from its seed and checks every answer itself; a sheet counts once.

@@ -59,7 +59,10 @@ export function createApp(deps: AppDeps): { app: Express; ctx: Ctx } {
       hsts: deps.cfg.secure,
     }),
   );
-  app.use(express.json({ limit: '100kb' }));
+  // A photo of a worksheet is the one request that is bigger than a page of JSON; everything else stays small.
+  const small = express.json({ limit: '100kb' });
+  const photo = express.json({ limit: '6mb' });
+  app.use((req, res, next) => (/^\/api\/students\/[^/]+\/worksheet\/photo$/.test(req.path) ? photo : small)(req, res, next));
 
   app.get('/api/health', (_req, res) => {
     try {

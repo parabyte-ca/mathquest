@@ -66,7 +66,7 @@ function App() {
   if (me === undefined) return <Shell path={path} me={me} signOut={signOut} go={go}><p role="status">{t('common.loading')}</p></Shell>;
   if (me?.kind === 'student') return <Shell path={path} me={me} signOut={signOut} go={go}><StudentArea me={me} path={path} go={go} /></Shell>;
   if (!me) return <Shell path={path} me={me} signOut={signOut} go={go}><SignIn go={go} /></Shell>;
-  if (path === '/app/admin' && me.user.role === 'admin') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadAdmin} props={{}} /></Shell>;
+  if (path === '/app/admin' && me.user.role === 'admin') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadAdmin} props={{ go }} /></Shell>;
   if (path === '/app/progress') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadProgress} props={{ go }} /></Shell>;
   if (path === '/app/certificate') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadCertificate} props={{ go }} /></Shell>;
   if (path === '/app/worksheet') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadWorksheet} props={{ go }} /></Shell>;
@@ -85,7 +85,8 @@ function Shell(p: { path: string; me: Me | null | undefined; signOut: () => void
         <a class="brand" href="/app" onClick={(e) => { e.preventDefault(); p.go('/app'); }}><img src="/brand/logo.png" alt="" width="30" height="30" />{t('app.name')}</a>
         <nav aria-label="Main">
           <NavMenu>
-            {isAdmin && <a href="/app/admin" onClick={(e) => { e.preventDefault(); p.go('/app/admin'); }}>{t('nav.admin')}</a>}
+            {isAdmin && <a href="/app" aria-current={p.path === '/app/admin' ? undefined : 'page'} onClick={(e) => { e.preventDefault(); p.go('/app'); }}>{t('nav.caregiver')}</a>}
+            {isAdmin && <a href="/app/admin" aria-current={p.path === '/app/admin' ? 'page' : undefined} onClick={(e) => { e.preventDefault(); p.go('/app/admin'); }}>{t('nav.admin')}</a>}
             <InstallButton />
             {p.me && <button type="button" onClick={() => { p.go(p.me!.kind === 'student' ? '/app/learn' : '/app'); startTour(p.me!.kind === 'student' ? 'student' : 'caregiver'); }}><Icon name="help" /> {t('nav.help')}</button>}
             <button type="button" onClick={() => setLang(getLang() === 'en' ? 'fr' : 'en')} lang={getLang() === 'en' ? 'fr' : 'en'}><Icon name="language" /> {t('nav.language')}</button>

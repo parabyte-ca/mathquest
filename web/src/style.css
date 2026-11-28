@@ -300,6 +300,16 @@ table.data th, table.data td { text-align: left; padding: 0.4rem 0.5rem; border-
 .sheet .key li { margin: 0.25rem 0; }
 .sheet .key li > ol.worked { list-style: decimal; margin: 0.25rem 0 0.25rem 1rem; }
 .noprint { }
+.photobox { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.filebtn { position: relative; display: inline-block; }
+.filebtn .btnlike { background: var(--soft); color: var(--brand); display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.1rem; border-radius: 14px; font-weight: 700; cursor: pointer; }
+.filebtn input.sr:focus-visible + .btnlike, .filebtn:focus-within .btnlike { outline: 3px solid var(--brand); outline-offset: 2px; }
+.confirmgrid { display: grid; gap: 1rem; }
+.sheetphoto { width: 100%; max-height: 28rem; object-fit: contain; border-radius: 12px; background: var(--soft); }
+.readrow { display: grid; gap: 0.25rem; margin: 0 0 0.75rem; }
+.readrow input { max-width: 16rem; font-family: var(--mono); }
+.readrow input[aria-invalid='true'] { outline: 2px solid var(--danger); }
+@media (min-width: 52rem) { .confirmgrid { grid-template-columns: 1fr 1fr; align-items: start; } .sheetphoto { position: sticky; top: 1rem; max-height: 80vh; } }
 @media print {
   body { background: #fff; }
   .bar, .rewardbar, .skip, .noprint { display: none !important; }

@@ -2,7 +2,7 @@
 
 > Adaptive Ontario math practice and rewards for Grades 5-12, self-hosted and invite-only.
 
-![Version](https://img.shields.io/badge/version-3.25.1-blue)
+![Version](https://img.shields.io/badge/version-3.26.0-blue)
 
 ## Overview
 
@@ -84,7 +84,7 @@ See `update.sh`, run to deploy a release.
 
 ```bash
 sudo ./update.sh                    # latest release tag
-sudo ./update.sh --version 3.25.1    # a specific release
+sudo ./update.sh --version 3.26.0    # a specific release
 sudo ./update.sh --rollback         # previous tag + the database as it was before the last update
 ```
 
@@ -126,6 +126,8 @@ Set in `.env` (see `.env.example`).
 | `MATHQUEST_TZ` | `America/Toronto` | Time zone for streak days, the daily goal and the weekly email |
 | `AI_MONTHLY_CAP_USD` | `5` | Hard monthly spend cap; generation stops before a call that could pass it |
 | `AI_PRICE_IN_PER_MTOK`, `AI_PRICE_OUT_PER_MTOK` | `3`, `15` | Price assumptions (USD per million tokens) used to estimate spend; set them to your model's current rates |
+| `PHOTO_GRADING` | `false` | Lets a caregiver read a finished worksheet's answers from a photo (Claude reads the handwriting; the caregiver checks every answer before anything is marked). Off unless set to `true`; it also needs `ANTHROPIC_API_KEY`. The photo is sent to Anthropic for that one request and is never stored |
+| `PHOTO_MONTHLY_CAP_USD` | `2` | Monthly spend cap for photo reading, inside `AI_MONTHLY_CAP_USD` |
 | `ANTHROPIC_API_BASE` | `https://api.anthropic.com` | Only change for testing |
 | `BACKUP_RETENTION_DAYS` | `14` | Nightly backup retention |
 | `MATHQUEST_UID`, `MATHQUEST_GID` | `568` | Container user (the TrueNAS apps user) |

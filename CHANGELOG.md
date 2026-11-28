@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.26.0] - 2026-11-28
+### Added
+- Photo reading of worksheets. On a worksheet a caregiver can take or choose a photo of the finished sheet. Claude reads the handwriting and fills in each numbered answer. The caregiver then checks every answer against the photo (shown beside the answers, with unsure or missing ones flagged), fixes anything wrong, and only then marks the sheet. Points, the finishing bonus and "each sheet counts once" are exactly as for answers typed in (3.25.0).
+- The reader only copies. It is never told the correct answers and never marks, corrects or solves anything: the app marks every answer by the same exact rules as practice. A misread answer is therefore simply wrong until a caregiver fixes it, and nothing in a photo, including writing that looks like an instruction, can change a mark.
+- Off unless switched on: set `PHOTO_GRADING=true` (it also needs `ANTHROPIC_API_KEY`). It has its own monthly spend cap (`PHOTO_MONTHLY_CAP_USD`, default 2) inside the overall AI cap, checked against the worst case before each call, and each caregiver can send 10 photos an hour. The Admin page shows whether it is on and what it has spent.
+
+### Fixed
+- From the Admin page there was no clear way back to the caregiver screen. Admin now has a "Back to my students" button at the top, and the menu lists "My students" and "Admin" together, with the one you are on marked as the current page.
+
+### Privacy
+- The photo goes only to the one request that reads it, and MathQuest keeps no copy: it is not saved to disk or the database, and only token counts and cost are recorded. The page shrinks and redraws the picture first, which also drops hidden details such as where it was taken. The request carries no name, username, email or grade, and never the answers. The caregiver is told this beside the button.
+- Only the student's own caregivers can use it; the install admin cannot, and a student cannot. The activity log records that a photo was read (how many questions and how many answers were read), never the photo or the answers.
+
+### Notes
+- Tests check how each kind of answer is read from text (fractions, mixed numbers, letters, orderings, matches, points), that the reader is sent the photo and the kind of answer wanted but never the answers or anything about the student, that no copy of the photo is recorded, both spend caps, the hourly limit, bad images, unreadable replies, access, and that a sheet already marked is refused. An end-to-end test reads a photo with a stand-in reader and checks nothing is marked until the caregiver confirms.
+
 ## [3.25.1] - 2026-11-28
 ### Fixed
 - A student's device that a caregiver had already approved was asked for a new 6-digit code every time the student came back, and every code made another entry in the caregiver's device list. The sign-in page now recognises an approved device, so a returning student is asked only for their username and PIN.

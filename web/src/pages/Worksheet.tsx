@@ -2,12 +2,13 @@ import { useEffect, useState } from 'preact/hooks';
 import type { Given, PublicItem, Text, Visual as VisualSpec } from '../../../shared/items/types';
 import { api } from '../api';
 import { ItemInput } from '../ItemInput';
+import { givenFromText } from '../../../shared/transcribe';
 import { getLang, t, useLang } from '../i18n';
 import { MathText } from '../MathText';
 import { Visual } from '../visuals';
 
 interface Row { n: number; format: string; prompt: Text; options?: Text[]; right?: Text[]; visual?: VisualSpec; answer: Text; steps: Text[] }
-interface Sheet { student: { displayName: string; grade: number; language: 'en' | 'fr' }; focus: string; topic: string; topics: { code: string }[]; tier: string; seed: number; count: number; marked: { answered: number; correct: number; total: number; xp: number } | null; items: Row[] }
+interface Sheet { student: { displayName: string; grade: number; language: 'en' | 'fr' }; focus: string; topic: string; topics: { code: string }[]; tier: string; seed: number; count: number; marked: { answered: number; correct: number; total: number; xp: number } | null; photo: boolean; items: Row[] }
 interface Marked { total: number; answered: number; correct: number; xp: number; finished: boolean; bonus: number; results: { n: number; correct: boolean; xp: number }[]; level: number | null; leveledUp: boolean }
 
 const LETTERS = 'ABCDEFGH';
@@ -37,12 +38,19 @@ export function Worksheet({ go }: { go: (to: string) => void }) {
   const [key, setKey] = useState(true);
   const [solutions, setSolutions] = useState(false);
   // marking: 'off' shows the printable sheet; 'enter' takes one answer at a time; 'review' lists them; 'done' shows the result
-  const [mode, setMode] = useState<'off' | 'enter' | 'review' | 'done'>('off');
+  const [mode, setMode] = useState<'off' | 'enter' | 'review' | 'done' | 'confirm'>('off');
   const [step, setStep] = useState(0);
   const [given, setGiven] = useState<Record<number, Given>>({});
   const [busy, setBusy] = useState(false);
   const [markError, setMarkError] = useState('');
   const [result, setResult] = useState<Marked | null>(null);
+  // reading a photo: the picture stays in this page's memory only, and goes nowhere but the one request that reads it
+  const [photoUrl, setPhotoUrl] = useState('');
+  const [reading, setReading] = useState(false);
+  const [photoError, setPhotoError] = useState('');
+  const [read, setRead] = useState<Record<number, { text: string; low: boolean }>>({});
+  const [rowError, setRowError] = useState<Record<number, boolean>>({});
+  const dropPhoto = (): void => { if (photoUrl) URL.revokeObjectURL(photoUrl); setPhotoUrl(''); setRead({}); setRowError({}); };
   const lang = getLang();
   const tx = (x: Text): string => x[lang];
 
@@ -62,9 +70,55 @@ export function Worksheet({ go }: { go: (to: string) => void }) {
       answers: Object.entries(given).map(([n, g]) => ({ n: Number(n), given: g })),
     });
     setBusy(false);
-    if (r.ok) { setResult(r.data); setMode('done'); setSheet({ ...sheet, marked: { answered: r.data.answered, correct: r.data.correct, total: r.data.total, xp: r.data.xp } }); }
+    if (r.ok) { dropPhoto(); setResult(r.data); setMode('done'); setSheet({ ...sheet, marked: { answered: r.data.answered, correct: r.data.correct, total: r.data.total, xp: r.data.xp } }); }
     else if (r.status === 409) { setMode('off'); setSheet({ ...sheet, marked: { answered: r.data.answered, correct: r.data.correct, total: r.data.total, xp: r.data.xp } }); }
     else setMarkError(t('ws.markError'));
+  };
+  /** Shrinks the picture (and drops its hidden details, such as where it was taken) by drawing it again, then sends it to be read. */
+  const readPhoto = async (file: File): Promise<void> => {
+    if (!sheet) return;
+    setReading(true); setPhotoError('');
+    try {
+      const bmp = await createImageBitmap(file);
+      const scale = Math.min(1, 1568 / Math.max(bmp.width, bmp.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.max(1, Math.round(bmp.width * scale)); canvas.height = Math.max(1, Math.round(bmp.height * scale));
+      canvas.getContext('2d')!.drawImage(bmp, 0, 0, canvas.width, canvas.height);
+      const blob = await new Promise<Blob | null>((ok) => canvas.toBlob(ok, 'image/jpeg', 0.85));
+      if (!blob) throw new Error('no image');
+      const image = await new Promise<string>((ok, fail) => { const f = new FileReader(); f.onload = () => ok(String(f.result).split(',')[1] ?? ''); f.onerror = () => fail(f.error); f.readAsDataURL(blob); });
+      const r = await api<{ readings: { n: number; text: string | null; confidence: 'high' | 'low' | null }[] }>('POST', `/students/${q.get('student')}/worksheet/photo`, {
+        focus: sheet.topics.map((x) => x.code), tier: sheet.tier, count: sheet.count, seed: sheet.seed, mediaType: 'image/jpeg', image,
+      });
+      if (!r.ok) {
+        setPhotoError(r.status === 402 ? t('ws.photoCap') : r.status === 429 ? t('ws.photoSlow') : r.status === 409 ? t('ws.photoOff') : t('ws.photoError'));
+      } else {
+        dropPhoto();
+        setPhotoUrl(URL.createObjectURL(blob));
+        setRead(Object.fromEntries(r.data.readings.map((x) => [x.n, { text: x.text ?? '', low: x.text === null || x.confidence === 'low' }])));
+        setMode('confirm');
+      }
+    } catch {
+      setPhotoError(t('ws.photoError'));
+    }
+    setReading(false);
+  };
+  /** The caregiver has checked each answer against the photo: turn the text into answers, or show which ones still cannot be read. */
+  const useRead = (): void => {
+    if (!sheet) return;
+    const next: Record<number, Given> = {};
+    const bad: Record<number, boolean> = {};
+    for (const it of sheet.items) {
+      const text = read[it.n]?.text.trim() ?? '';
+      if (!text) continue;
+      const g = givenFromText(it.format as Parameters<typeof givenFromText>[0], text, it.options?.length ?? 0, it.right?.length ?? 0);
+      if (g) next[it.n] = g; else bad[it.n] = true;
+    }
+    setRowError(bad);
+    if (Object.keys(bad).length) return;
+    setGiven(next);
+    dropPhoto();
+    setMode('review');
   };
   const save = (n: number, g: Given | null): void => {
     const next = { ...given };
@@ -99,7 +153,48 @@ export function Worksheet({ go }: { go: (to: string) => void }) {
                 <p class="muted">{t('ws.markHelp')}</p>
                 <p class="muted small">{t('ws.markNote')}</p>
                 <div class="actions row-actions"><button type="button" onClick={() => { setStep(0); setMode('enter'); }}>{t('ws.markStart')}</button></div>
+                {sheet.photo && (
+                  <div class="photobox">
+                    <h3>{t('ws.photoTitle')}</h3>
+                    <p class="muted">{t('ws.photoHelp')}</p>
+                    <p class="muted small">{t('ws.photoPrivacy')}</p>
+                    <label class="filebtn">
+                      <span class="secondary btnlike">{reading ? t('ws.photoReading') : t('ws.photoChoose')}</span>
+                      <input type="file" accept="image/*" class="sr" disabled={reading} onChange={(e) => { const f = (e.target as HTMLInputElement).files?.[0]; (e.target as HTMLInputElement).value = ''; if (f) void readPhoto(f); }} />
+                    </label>
+                    {photoError && <p class="note" role="alert">{photoError}</p>}
+                  </div>
+                )}
               </>)}
+        </section>
+      )}
+
+      {mode === 'confirm' && (
+        <section class="card noprint" aria-labelledby="confirm-title">
+          <h2 id="confirm-title">{t('ws.confirmTitle')}</h2>
+          <p class="muted">{t('ws.confirmHelp')}</p>
+          <div class="confirmgrid">
+            <img class="sheetphoto" src={photoUrl} alt={t('ws.photoAlt')} />
+            <ol class="plain readlist">
+              {sheet.items.map((it) => {
+                const r = read[it.n] ?? { text: '', low: true };
+                const id = `read-${it.n}`;
+                return (
+                  <li key={it.n} class="readrow">
+                    <label for={id}>{t('ws.questionN', { n: it.n })}</label>
+                    <input id={id} value={r.text} autocomplete="off" aria-invalid={rowError[it.n] ? 'true' : undefined} placeholder={t('ws.blank')}
+                      onInput={(e) => { const text = (e.target as HTMLInputElement).value; setRead({ ...read, [it.n]: { text, low: false } }); if (rowError[it.n]) setRowError({ ...rowError, [it.n]: false }); }} />
+                    {rowError[it.n] && <span class="note" role="alert">{t('ws.rowBad')}</span>}
+                    {!rowError[it.n] && r.low && <span class="muted small">{r.text ? t('ws.rowUnsure') : t('ws.rowNothing')}</span>}
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+          <div class="actions row-actions">
+            <button type="button" onClick={useRead}>{t('ws.useRead')}</button>
+            <button type="button" class="secondary" onClick={() => { dropPhoto(); setMode('off'); }}>{t('common.cancel')}</button>
+          </div>
         </section>
       )}
 

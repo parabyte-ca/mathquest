@@ -16,6 +16,13 @@ createServer((req, res) => {
       outbox.push(JSON.parse(raw));
       json(200, { id: 'mock' });
     });
+  } else if (req.method === 'POST' && req.url === '/v1/messages') {
+    // a stand-in for the handwriting reader: it "reads" 1 for question 1 and an unsure 2 for question 2, and nothing else
+    let raw = '';
+    req.on('data', (c) => (raw += c));
+    req.on('end', () => {
+      json(200, { content: [{ type: 'text', text: JSON.stringify({ answers: [{ n: 1, text: '1', confidence: 'high' }, { n: 2, text: '2', confidence: 'low' }] }) }], usage: { input_tokens: 1700, output_tokens: 60 } });
+    });
   } else if (req.method === 'GET' && req.url === '/outbox') json(200, outbox);
   else if (req.method === 'DELETE' && req.url === '/outbox') {
     outbox.length = 0;

@@ -19,6 +19,10 @@ Object.assign(process.env, {
   RESEND_API_BASE: mock,
   RELEASES_URL: `${mock}/releases/latest`,
   COOKIE_SECURE: 'false',
+  // photo reading of worksheets is checked against the mock reader in mock-services
+  ANTHROPIC_API_KEY: 'sk-e2e',
+  ANTHROPIC_API_BASE: mock,
+  PHOTO_GRADING: 'true',
 });
 
 const { openDb, newId, nowIso } = await import('../server/db.js');
