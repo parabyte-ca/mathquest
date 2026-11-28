@@ -485,6 +485,15 @@ const MIGRATIONS: { id: number; name: string; sql: string; rebuildsReferencedTab
     );
     `,
   },
+  {
+    id: 15,
+    name: 'device-sessions',
+    sql: `
+    -- The approved device a student signed in on, so removing the device also signs them out of it.
+    ALTER TABLE sessions ADD COLUMN device_id TEXT;
+    CREATE INDEX idx_sessions_device ON sessions(device_id);
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

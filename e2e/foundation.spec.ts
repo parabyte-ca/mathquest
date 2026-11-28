@@ -49,6 +49,19 @@ test('caregiver signs in by magic link, adds a student and approves their device
   await kid.getByRole('button', { name: 'Sign in' }).click();
   await expect(kid.getByRole('heading', { name: 'Welcome, Robin!' })).toBeVisible();
   await noHorizontalScroll(kid);
+
+  // Coming back later: the device is still trusted, so the student is asked for the PIN only, never for a new code.
+  await kid.context().clearCookies({ name: 'mq_session' });
+  await kid.goto('/app/student');
+  await expect(kid.getByLabel('Username')).toBeVisible();
+  await expect(kid.getByRole('button', { name: /code/i })).toHaveCount(0);
+  await kid.waitForTimeout(500);
+  await expect(kid.getByLabel('Username')).toBeVisible();
+  await expect(kid.getByRole('button', { name: /code/i })).toHaveCount(0);
+  await kid.getByLabel('Username').fill(username);
+  await kid.getByLabel('4-digit PIN').fill('4821');
+  await kid.getByRole('button', { name: 'Sign in' }).click();
+  await expect(kid.getByRole('heading', { name: 'Welcome, Robin!' })).toBeVisible();
   await kid.context().close();
 });
 

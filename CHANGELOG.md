@@ -1,5 +1,18 @@
 # Changelog
 
+## [3.25.1] - 2026-11-28
+### Fixed
+- A student's device that a caregiver had already approved was asked for a new 6-digit code every time the student came back, and every code made another entry in the caregiver's device list. The sign-in page now recognises an approved device, so a returning student is asked only for their username and PIN.
+
+### Changed
+- A student now stays signed in on an approved device for 30 days of use (it was 12 hours). Each visit renews it, and the student can still sign out.
+- An approved device stays trusted for a year from its last use, and each use renews it, so a device that is used regularly never needs approving again. A device left unused for a year is asked to be approved again.
+- Removing a device in the caregiver's device list now also signs the student out of that device straight away. Their other devices are not affected.
+
+### Notes
+- Migration 15 records which approved device each student sign-in was made on.
+- Tests check that an approved device is recognised again and again without a second device being made, that a new browser, a made-up cookie and a removed device are not trusted, the 30-day sign-in, and that removing a device signs out only that device. An end-to-end test comes back to an approved device and checks no code is asked for.
+
 ## [3.25.0] - 2026-11-27
 ### Added
 - A worksheet can now be answered on screen and marked. On a worksheet, a caregiver chooses "Enter answers", types or picks the answers from the paper sheet one question at a time (every question type works the same way as in practice), checks the list, and chooses "Mark the sheet". The app checks each answer by the same exact rules as practice and shows what was right and what the answer was.

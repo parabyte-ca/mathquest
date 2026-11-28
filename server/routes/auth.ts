@@ -6,7 +6,7 @@ import type { Ctx, StudentRow, UserRow } from '../context.js';
 import { clientIp } from '../context.js';
 import { dummyVerify, randomToken, sha256, verifyPin } from '../crypto.js';
 import { audit } from '../audit.js';
-import { COOKIE, clearCookie, createSession, destroySession, parseCookies, setCookie } from '../session.js';
+import { COOKIE, clearCookie, createSession, destroySession, parseCookies, renewDevice, setCookie, trustedDevice } from '../session.js';
 import { nowIso } from '../db.js';
 
 const emailSchema = z.string().trim().toLowerCase().email().max(254);
@@ -95,12 +95,7 @@ export function authRoutes(ctx: Ctx): Router {
     if (!ctx.limits.studentIp.take(clientIp(req))) return void res.status(429).json({ error: 'too_many_requests' });
     const invalid = (extra: object = {}) => res.status(401).json({ error: 'invalid_login', ...extra });
 
-    const deviceToken = parseCookies(req.headers.cookie)[COOKIE.device];
-    const device = deviceToken
-      ? (ctx.db.prepare('SELECT * FROM devices WHERE token_hash = ? AND revoked_at IS NULL').get(sha256(deviceToken)) as
-          | { id: string; approved_by: string }
-          | undefined)
-      : undefined;
+    const device = trustedDevice(ctx, req);
     if (!device) return void res.status(403).json({ error: 'device_not_approved' });
 
     // The username is looked up only among the students of the caregiver who approved this device, so two families can use the same name.
@@ -126,8 +121,8 @@ export function authRoutes(ctx: Ctx): Router {
       return void invalid({ attemptsLeft: 5 - failures });
     }
     ctx.db.prepare('UPDATE students SET pin_failures = 0, locked_until = 0 WHERE id = ?').run(student.id);
-    ctx.db.prepare('UPDATE devices SET last_seen_at = ? WHERE id = ?').run(ctx.now(), device.id);
-    const csrf = createSession(ctx, res, 'student', student.id);
+    renewDevice(ctx, req, res, device.id);
+    const csrf = createSession(ctx, res, 'student', student.id, device.id);
     audit(ctx.db, { kind: 'student', id: student.id }, 'auth.student_login');
     res.json({ csrf, student: publicStudent(student) });
   });
