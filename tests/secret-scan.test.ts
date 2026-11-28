@@ -68,6 +68,15 @@ describe('secret scanner: browser bundle', () => {
     expect(scanClientBundle(d, {})).toEqual([]);
   });
 
+  it('accepts the app\'s own pictures (a WebP background) without reading them as text, and still refuses other types', () => {
+    const d = tmp();
+    put(d, 'index.html', '<!doctype html><div id="app"></div>');
+    put(d, 'backgrounds/golden-retro.webp', 'RIFF....WEBPVP8 picture bytes, not text'); // a picture is accepted by type and its bytes are not read as text
+    expect(scanClientBundle(d, {})).toEqual([]);
+    put(d, 'backgrounds/other.bmp', 'BM');
+    expect(scanClientBundle(d, {}).map((x) => x.rule)).toEqual(['unexpected-file-type-in-client-bundle']);
+  });
+
   it('flags a source map, a map reference, an env file and an unexpected file type', () => {
     const d = tmp();
     put(d, 'assets/app.js', 'console.log(1);\n//# sourceMappingURL=app.js.map');

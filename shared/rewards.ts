@@ -191,15 +191,17 @@ export const COSMETICS: Cosmetic[] = [
   { id: 'avatar-butterfly', kind: 'avatar', icon: '🦋', name: t('Butterfly', 'Papillon'), unlock: { level: 4 } },
   { id: 'avatar-dolphin', kind: 'avatar', icon: '🐬', name: t('Dolphin', 'Dauphin'), unlock: { level: 5 } },
   { id: 'avatar-unicorn', kind: 'avatar', icon: '🦄', name: t('Unicorn', 'Licorne'), unlock: { level: 7 } },
+  { id: 'avatar-axolotl', kind: 'avatar', icon: '🦎', name: t('Axolotl', 'Axolotl'), unlock: { level: 9 } },
   { id: 'avatar-dragon', kind: 'avatar', icon: '🐲', name: t('Dragon', 'Dragon'), unlock: { level: 10 } },
   { id: 'avatar-rocket', kind: 'avatar', icon: '🚀', name: t('Rocket', 'Fusée'), unlock: { badge: 'streak-7' } },
   { id: 'avatar-trophy', kind: 'avatar', icon: '🏆', name: t('Trophy', 'Trophée'), unlock: { badge: 'topic-master' } },
   { id: 'palette-classic', kind: 'palette', icon: '🎨', name: t('Classic', 'Classique'), unlock: { level: 1 } },
   { id: 'palette-sunrise', kind: 'palette', icon: '🌅', name: t('Sunrise', 'Aurore'), unlock: { level: 2 } },
   { id: 'palette-forest', kind: 'palette', icon: '🌲', name: t('Forest', 'Forêt'), unlock: { level: 4 } },
-  { id: 'palette-ocean', kind: 'palette', icon: '🌊', name: t('Ocean', 'Océan'), unlock: { level: 6 } },
-  { id: 'palette-twilight', kind: 'palette', icon: '🌌', name: t('Twilight', 'Crépuscule'), unlock: { level: 8 } },
-  { id: 'palette-candy', kind: 'palette', icon: '🍬', name: t('Candy', 'Bonbon'), unlock: { level: 10 } },
+  { id: 'palette-retro', kind: 'palette', icon: '🌴', name: t('Golden Retro', 'Rétro doré'), unlock: { level: 6 } },
+  { id: 'palette-ocean', kind: 'palette', icon: '🌊', name: t('Ocean', 'Océan'), unlock: { level: 8 } },
+  { id: 'palette-twilight', kind: 'palette', icon: '🌌', name: t('Twilight', 'Crépuscule'), unlock: { level: 10 } },
+  { id: 'palette-candy', kind: 'palette', icon: '🍬', name: t('Candy', 'Bonbon'), unlock: { level: 12 } },
   // Frames are drawn around the avatar in the brand's shield shape. "No frame" is the default, so nothing changes for anyone until they choose one.
   { id: 'frame-none', kind: 'frame', icon: '⭕', name: t('No frame', 'Sans cadre'), unlock: { level: 1 } },
   { id: 'frame-blue', kind: 'frame', icon: '🛡️', name: t('Blue shield', 'Écu bleu'), unlock: { level: 2 } },
@@ -212,4 +214,5 @@ export const DEFAULT_AVATAR = 'avatar-fox';
 export const DEFAULT_PALETTE = 'palette-classic';
 export const DEFAULT_FRAME = 'frame-none';
 
-export const isUnlocked = (c: Cosmetic, level: number, badges: Set<string>): boolean => ('level' in c.unlock ? level >= c.unlock.level : badges.has(c.unlock.badge));
+/** `kept` holds what a student already had when a cosmetic moved to a higher level, so a change to the ladder never takes anything away. */
+export const isUnlocked = (c: Cosmetic, level: number, badges: Set<string>, kept?: Set<string>): boolean => !!kept?.has(c.id) || ('level' in c.unlock ? level >= c.unlock.level : badges.has(c.unlock.badge));

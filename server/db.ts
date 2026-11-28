@@ -502,6 +502,22 @@ const MIGRATIONS: { id: number; name: string; sql: string; rebuildsReferencedTab
     ALTER TABLE sessions ADD COLUMN idle_ms INTEGER;
     `,
   },
+  {
+    id: 17,
+    name: 'cosmetic-kept',
+    sql: `
+    -- Colours moved up the level ladder when Golden Retro was added. A student keeps every one they already had: xp 1500, 2800 and 4500 are
+    -- the old levels 6, 8 and 10 for Ocean, Twilight and Candy.
+    CREATE TABLE cosmetic_kept (
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      cosmetic_id TEXT NOT NULL,
+      PRIMARY KEY (student_id, cosmetic_id)
+    );
+    INSERT INTO cosmetic_kept (student_id, cosmetic_id) SELECT student_id, 'palette-ocean' FROM reward_state WHERE xp >= 1500;
+    INSERT INTO cosmetic_kept (student_id, cosmetic_id) SELECT student_id, 'palette-twilight' FROM reward_state WHERE xp >= 2800;
+    INSERT INTO cosmetic_kept (student_id, cosmetic_id) SELECT student_id, 'palette-candy' FROM reward_state WHERE xp >= 4500;
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'preact/hooks';
 import type { Text } from '../../shared/items/types';
 import { PALETTES } from '../../shared/palettes';
-import { backgroundById, backgroundUrl } from '../../shared/backgrounds';
+import { backgroundById, backgroundUrl, imageBackgroundById } from '../../shared/backgrounds';
 import { COSMETICS, challengeById } from '../../shared/rewards';
 import { api } from './api';
 import { Avatar, FramePreview, PaletteSwatch } from './avatars';
@@ -71,6 +71,8 @@ export function applyPalette(id: string, highContrast: boolean, plainBackground 
     for (const [k, v] of Object.entries(p.vars)) el.style.setProperty(k, v);
     el.setAttribute('data-palette', id);
   }
+  // a picture background is held still behind the page by the stylesheet, from the palette's name alone
+  if (imageBackgroundById(id) && !plainBackground) el.setAttribute('data-pattern', id);
   const b = backgroundById(id);
   if (b && !plainBackground) {
     el.style.setProperty('--tile', backgroundUrl(b));

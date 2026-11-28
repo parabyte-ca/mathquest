@@ -336,15 +336,25 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
 
   // with enough XP the colour palettes unlock, and each one stays readable (axe checks the contrast)
   const boost = (xp: number) => { const d = db(); d.prepare('UPDATE reward_state SET xp = xp + ? WHERE student_id = ?').run(xp, studentId(username)); d.close(); };
-  boost(5000);
+  boost(7000); // level 12: every colour is open
   await kid.goto('/app/learn/rewards');
-  for (const name of ['Twilight', 'Candy', 'Forest']) {
+  for (const [name, id] of [['Twilight', 'palette-twilight'], ['Candy', 'palette-candy'], ['Forest', 'palette-forest']] as const) {
     await kid.getByRole('button', { name: new RegExp(name) }).click();
-    await expect(kid.locator('html')).toHaveAttribute('data-palette', `palette-${name.toLowerCase()}`);
-    await expect(kid.locator('html')).toHaveAttribute('data-pattern', `palette-${name.toLowerCase()}`); // each palette brings its own tiled background
+    await expect(kid.locator('html')).toHaveAttribute('data-palette', id);
+    await expect(kid.locator('html')).toHaveAttribute('data-pattern', id); // each palette brings its own tiled background
     expect(await kid.evaluate(() => getComputedStyle(document.body).backgroundImage)).toContain('data:image/svg+xml');
     await scanOf(kid, `palette ${name}`);
   }
+  // Golden Retro's background is a picture held still behind the page, not a tile
+  await kid.getByRole('button', { name: /Golden Retro/ }).click();
+  await expect(kid.locator('html')).toHaveAttribute('data-palette', 'palette-retro');
+  await expect(kid.locator('html')).toHaveAttribute('data-pattern', 'palette-retro');
+  const layer = await kid.evaluate(() => { const c = getComputedStyle(document.body, '::before'); return { position: c.position, image: c.backgroundImage, repeat: c.backgroundRepeat }; });
+  expect(layer.position).toBe('fixed');
+  expect(layer.image).toContain('/backgrounds/golden-retro.webp');
+  expect(layer.repeat).toContain('repeat-x');
+  await scanOf(kid, 'palette Golden Retro');
+  await noHorizontalScroll(kid);
   await kid.getByRole('button', { name: /Classic/ }).click();
   await expect(kid.locator('html')).not.toHaveAttribute('data-palette', /.+/);
   await expect(kid.locator('html')).toHaveAttribute('data-pattern', 'palette-classic');

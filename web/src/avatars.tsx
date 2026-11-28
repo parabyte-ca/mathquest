@@ -7,7 +7,7 @@ import { COSMETICS } from '../../shared/rewards';
 
 const BG: Record<string, string> = {
   'avatar-fox': '#ffe3c7', 'avatar-panda': '#d9efe0', 'avatar-owl': '#e8dcf5', 'avatar-octopus': '#f9d9e6', 'avatar-butterfly': '#dbe6fb',
-  'avatar-dolphin': '#d3ecf6', 'avatar-unicorn': '#fde1f1', 'avatar-dragon': '#dff0cf', 'avatar-rocket': '#dfe3f3', 'avatar-trophy': '#fff0c2',
+  'avatar-dolphin': '#d3ecf6', 'avatar-axolotl': '#d4f1ef', 'avatar-unicorn': '#fde1f1', 'avatar-dragon': '#dff0cf', 'avatar-rocket': '#dfe3f3', 'avatar-trophy': '#fff0c2',
 };
 
 const ART: Record<string, ComponentChildren> = {
@@ -74,6 +74,21 @@ const ART: Record<string, ComponentChildren> = {
       <path d="M40 20 Q54 24 52 40 Q48 30 44 34 Q46 26 38 24 Z" fill="#f06ac0" />
       <circle cx="26" cy="34" r="3" fill="#3b2a52" />
       <ellipse cx="34" cy="54" rx="9" ry="5" fill="#fde1f1" /><circle cx="31" cy="54" r="1.2" fill="#3b2a52" /><circle cx="37" cy="54" r="1.2" fill="#3b2a52" />
+    </>
+  ),
+  'avatar-axolotl': (
+    <>
+      <path d="M15 31 Q8 29 5 22 M14 37 Q6 38 2 33 M16 43 Q9 46 7 52" stroke="#ff6f96" stroke-width="3.6" stroke-linecap="round" fill="none" />
+      <path d="M49 31 Q56 29 59 22 M50 37 Q58 38 62 33 M48 43 Q55 46 57 52" stroke="#ff6f96" stroke-width="3.6" stroke-linecap="round" fill="none" />
+      <g fill="#ff9db9"><circle cx="5" cy="22" r="2.7" /><circle cx="2.4" cy="33" r="2.7" /><circle cx="7" cy="52" r="2.7" /><circle cx="59" cy="22" r="2.7" /><circle cx="61.6" cy="33" r="2.7" /><circle cx="57" cy="52" r="2.7" /></g>
+      <ellipse cx="22" cy="55" rx="6" ry="3.6" fill="#f59bb6" /><ellipse cx="42" cy="55" rx="6" ry="3.6" fill="#f59bb6" />
+      <ellipse cx="32" cy="37" rx="19.5" ry="17" fill="#ffb7cb" />
+      <ellipse cx="32" cy="46" rx="11" ry="6" fill="#ffdbe5" />
+      <circle cx="23.5" cy="34" r="3" fill="#2d1420" /><circle cx="40.5" cy="34" r="3" fill="#2d1420" />
+      <circle cx="24.5" cy="32.8" r="1" fill="#fff" /><circle cx="41.5" cy="32.8" r="1" fill="#fff" />
+      <circle cx="17.5" cy="41" r="3.2" fill="#ff8fab" opacity="0.65" /><circle cx="46.5" cy="41" r="3.2" fill="#ff8fab" opacity="0.65" />
+      <path d="M25 41.5 Q32 48 39 41.5" stroke="#7a2a44" stroke-width="2.2" fill="none" stroke-linecap="round" />
+      <circle cx="30" cy="38.2" r="0.8" fill="#d97a98" /><circle cx="34" cy="38.2" r="0.8" fill="#d97a98" />
     </>
   ),
   'avatar-dragon': (

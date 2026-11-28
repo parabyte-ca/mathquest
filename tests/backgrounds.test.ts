@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { COSMETICS } from '../shared/rewards.js';
-import { BACKGROUNDS, backgroundById, backgroundUrl } from '../shared/backgrounds.js';
+import { BACKGROUNDS, IMAGE_BACKGROUNDS, backgroundById, backgroundUrl } from '../shared/backgrounds.js';
 
 // Each palette a student can unlock has a tiled background drawn for it. They must stay quiet behind the content, be safe to inline,
 // and be switched off by "Plain background" and by high contrast.
@@ -24,9 +24,10 @@ function topLevel(body: string): { tag: string; opacity: number | null }[] {
 }
 
 describe('palette backgrounds', () => {
-  it('has exactly one background for each palette, Classic included', () => {
-    expect(paletteIds).toHaveLength(6);
-    expect(BACKGROUNDS.map((b) => b.id).sort()).toEqual([...paletteIds].sort());
+  it('has exactly one background for each palette, Classic included: a drawn tile, or for Golden Retro a picture', () => {
+    expect(paletteIds).toHaveLength(7);
+    expect([...BACKGROUNDS.map((b) => b.id), ...IMAGE_BACKGROUNDS.map((b) => b.id)].sort()).toEqual([...paletteIds].sort());
+    expect(IMAGE_BACKGROUNDS.map((b) => b.id)).toEqual(['palette-retro']);
   });
 
   it('is drawn faint: every top-level shape has an opacity of 0.45 or less, so text keeps its checked contrast', () => {
