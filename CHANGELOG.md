@@ -6,6 +6,9 @@
 - The reader only copies. It is never told the correct answers and never marks, corrects or solves anything: the app marks every answer by the same exact rules as practice. A misread answer is therefore simply wrong until a caregiver fixes it, and nothing in a photo, including writing that looks like an instruction, can change a mark.
 - Off unless switched on: set `PHOTO_GRADING=true` (it also needs `ANTHROPIC_API_KEY`). It has its own monthly spend cap (`PHOTO_MONTHLY_CAP_USD`, default 2) inside the overall AI cap, checked against the worst case before each call, and each caregiver can send 10 photos an hour. The Admin page shows whether it is on and what it has spent.
 
+### Fixed
+- From the Admin page there was no clear way back to the caregiver screen. Admin now has a "Back to my students" button at the top, and the menu lists "My students" and "Admin" together, with the one you are on marked as the current page.
+
 ### Privacy
 - The photo goes only to the one request that reads it, and MathQuest keeps no copy: it is not saved to disk or the database, and only token counts and cost are recorded. The page shrinks and redraws the picture first, which also drops hidden details such as where it was taken. The request carries no name, username, email or grade, and never the answers. The caregiver is told this beside the button.
 - Only the student's own caregivers can use it; the install admin cannot, and a student cannot. The activity log records that a photo was read (how many questions and how many answers were read), never the photo or the answers.

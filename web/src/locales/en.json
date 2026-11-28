@@ -195,6 +195,8 @@
   "map.recommendFirst": "Recommended first: {codes}. You can still practice it.",
   "map.soon": "Coming soon",
   "map.tap": "Tap a skill to see details.",
+  "nav.caregiver": "My students",
+  "admin.backToStudents": "Back to my students",
   "nav.admin": "Admin",
   "nav.help": "Help",
   "nav.home": "Home",

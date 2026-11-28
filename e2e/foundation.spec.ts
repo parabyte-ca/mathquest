@@ -70,6 +70,18 @@ test('the admin sees the Updates page and requests an upgrade through the reques
   await openMenu(page);
   await page.getByRole('link', { name: 'Admin' }).click();
   await expect(page.getByRole('heading', { name: 'Updates', exact: true })).toBeVisible();
+  // there is a plain way back to the caregiver screen, on the page and in the menu
+  await page.getByRole('button', { name: /Back to my students/ }).click();
+  await expect(page.getByRole('heading', { name: 'Your students', exact: true })).toBeVisible();
+  await openMenu(page);
+  await page.getByRole('link', { name: 'Admin' }).click();
+  await openMenu(page);
+  await expect(page.getByRole('link', { name: 'Admin' })).toHaveAttribute('aria-current', 'page');
+  await page.getByRole('link', { name: 'My students' }).click();
+  await expect(page.getByRole('heading', { name: 'Your students', exact: true })).toBeVisible();
+  await openMenu(page);
+  await page.getByRole('link', { name: 'Admin' }).click();
+  await expect(page.getByRole('heading', { name: 'Updates', exact: true })).toBeVisible();
   await expect(page.getByText('Mock release notes', { exact: true })).toBeVisible();
   // release notes for every version in between, newest first
   await expect(page.getByText('Version 99.0.0')).toBeVisible();

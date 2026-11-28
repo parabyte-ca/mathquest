@@ -16,7 +16,7 @@ interface UpdateInfo {
   log: string[];
 }
 
-export function Admin() {
+export function Admin({ go }: { go: (to: string) => void }) {
   useLang();
   const [users, setUsers] = useState<UserRow[]>([]);
   const [audit, setAudit] = useState<AuditRow[]>([]);
@@ -47,6 +47,7 @@ export function Admin() {
 
   return (
     <>
+      <p><button type="button" class="secondary" onClick={() => go('/app')}>← {t('admin.backToStudents')}</button></p>
       <h1 class="page">{t('admin.title')}</h1>
       <Updates />
       <AiPanel />

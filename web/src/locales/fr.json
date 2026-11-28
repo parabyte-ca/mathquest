@@ -195,6 +195,8 @@
   "map.recommendFirst": "Recommandé d'abord : {codes}. Tu peux quand même la pratiquer.",
   "map.soon": "Bientôt",
   "map.tap": "Touche une habileté pour voir les détails.",
+  "nav.caregiver": "Mes élèves",
+  "admin.backToStudents": "Retour à mes élèves",
   "nav.admin": "Administration",
   "nav.help": "Aide",
   "nav.home": "Accueil",
