@@ -8,7 +8,7 @@ import './style.css';
 import { loadMe, api, setCsrf, type Me } from './api';
 import { t, useLang, setLang, getLang } from './i18n';
 import { SignIn, Verify } from './pages/SignIn';
-import { StudentLogin } from './pages/Student';
+import { StudentLogin, childUsedHere } from './pages/Student';
 import { StudentArea } from './pages/StudentArea';
 import { Caregiver } from './pages/Caregiver';
 import { Lazy } from './lazy';
@@ -96,7 +96,7 @@ function App() {
   if (me === undefined) return <Shell path={path} me={me} signOut={signOut} go={go}><p role="status">{t('common.loading')}</p></Shell>;
   if (me?.kind === 'student') return <Shell path={path} me={me} signOut={signOut} go={go}><StudentArea me={me} path={path} go={go} /></Shell>;
   // a child whose sign-in has ended goes back to "who is practising?", not to the caregiver's sign-in
-  if (!me && path.startsWith('/app/learn')) return <Shell path={path} me={me} signOut={signOut} go={go}><StudentLogin onDone={refresh} go={go} /></Shell>;
+  if (!me && path.startsWith('/app/learn') && childUsedHere()) return <Shell path={path} me={me} signOut={signOut} go={go}><StudentLogin onDone={refresh} go={go} /></Shell>;
   if (!me) return <Shell path={path} me={me} signOut={signOut} go={go}><SignIn go={go} /></Shell>;
   if (path === '/app/admin' && me.user.role === 'admin') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadAdmin} props={{ go }} /></Shell>;
   if (path === '/app/progress') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadProgress} props={{ go }} /></Shell>;

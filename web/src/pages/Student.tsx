@@ -9,6 +9,8 @@ interface Tile { id: string; name: string; avatar: string; frame: string }
 // The child who signed in last on this device, so their tile comes first. Only a convenience: wrapped in try, and the page works without it.
 const LAST = 'mq_last_student';
 const lastChild = (): string => { try { return localStorage.getItem(LAST) ?? ''; } catch { return ''; } };
+/** True on a browser where a child has signed in before, so a page that needs a child goes to the tiles rather than the caregiver's sign-in. */
+export const childUsedHere = (): boolean => lastChild() !== '';
 const rememberChild = (id: string): void => { try { localStorage.setItem(LAST, id); } catch { /* no storage: the picker simply has no favourite */ } };
 
 export function StudentLogin({ onDone, go }: { onDone: () => void; go: (to: string) => void }) {
