@@ -32,7 +32,7 @@ export function NavMenu({ children }: { children: ComponentChildren }) {
         <Icon name={open ? 'close' : 'menu'} size={22} />
       </button>
       {open && (
-        <div id="nav-sheet" class="sheet" ref={sheet} onClick={(e) => { if (!(e.target as HTMLElement).closest('[data-keep]') && (e.target as HTMLElement).closest('button, a')) setOpen(false); }}>
+        <div id="nav-sheet" class="navsheet" ref={sheet} onClick={(e) => { if (!(e.target as HTMLElement).closest('[data-keep]') && (e.target as HTMLElement).closest('button, a')) setOpen(false); }}>
           {children}
         </div>
       )}

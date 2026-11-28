@@ -411,6 +411,7 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   }
   await expect(parent.getByRole('heading', { name: 'Your worksheet is ready' })).toBeVisible();
   await expect(parent.locator('.sheet ol.qs > li')).toHaveCount(10);
+  await expect(parent.locator('article.sheet')).toHaveCSS('position', 'static'); // not the menu's floating sheet
   await expect(parent.getByRole('heading', { name: 'Answer key' })).toBeVisible();
   await scanOf(parent, 'worksheet');
   await parent.emulateMedia({ media: 'print' });
@@ -419,6 +420,25 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await parent.emulateMedia({ media: 'screen' });
   await parent.getByLabel('Include the answer key').uncheck();
   await expect(parent.getByRole('heading', { name: 'Answer key' })).toHaveCount(0);
+
+  // the same sheet answered on screen and marked: the app checks the answers and adds the points once
+  await parent.getByRole('button', { name: 'Enter answers' }).click();
+  await expect(parent.getByRole('heading', { name: 'Question 1 of 10' })).toBeVisible();
+  await parent.getByLabel('Your answer').fill('1');
+  await parent.getByRole('button', { name: 'Save answer' }).click();
+  await expect(parent.getByRole('heading', { name: 'Question 2 of 10' })).toBeVisible();
+  await scanOf(parent, 'worksheet answer entry');
+  await parent.getByRole('button', { name: 'Check the answers entered' }).click();
+  await expect(parent.getByText('Blank questions: 9.')).toBeVisible();
+  await scanOf(parent, 'worksheet review');
+  await parent.getByRole('button', { name: 'Mark the sheet' }).click();
+  await expect(parent.getByRole('heading', { name: /^\d+ of 10 correct$/ })).toBeVisible();
+  await expect(parent.getByText(/\+\d+ XP earned/)).toBeVisible();
+  await scanOf(parent, 'worksheet result');
+  await noHorizontalScroll(parent);
+  await parent.getByRole('button', { name: 'Done' }).click();
+  await expect(parent.getByText(/This sheet has been marked: \d+ of 10 correct\./)).toBeVisible();
+  expect(db().prepare('SELECT answered, total FROM worksheet_marked WHERE student_id = ?').all(studentId(username))).toEqual([{ answered: 1, total: 10 }]);
 
   // a certificate for the goal the student reached, ready to print
   await parent.goto(`/app/progress?student=${studentId(username)}`);

@@ -468,6 +468,23 @@ const MIGRATIONS: { id: number; name: string; sql: string; rebuildsReferencedTab
     ALTER TABLE reward_state ADD COLUMN frame TEXT NOT NULL DEFAULT 'frame-none';
     `,
   },
+  {
+    id: 14,
+    name: 'worksheet-marking',
+    sql: `
+    -- A worksheet that has been marked, so it counts towards points once. A sheet is its topics, difficulty, length and seed.
+    CREATE TABLE worksheet_marked (
+      student_id TEXT NOT NULL REFERENCES students(id) ON DELETE CASCADE,
+      sheet TEXT NOT NULL,
+      marked_at INTEGER NOT NULL,
+      total INTEGER NOT NULL,
+      answered INTEGER NOT NULL,
+      correct INTEGER NOT NULL,
+      xp INTEGER NOT NULL DEFAULT 0,
+      PRIMARY KEY (student_id, sheet)
+    );
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

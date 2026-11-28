@@ -385,14 +385,14 @@ html[data-pattern] body { background-image: var(--tile), linear-gradient(180deg,
 /* ── the menu button and its sheet ─────────────────────────────────────────── */
 .menuwrap { position: relative; }
 .menubtn { width: 44px; height: 44px; min-width: 44px; padding: 0; margin: 0; background: var(--card); color: var(--brand); box-shadow: var(--shadow-soft); border-radius: 50%; }
-.sheet { position: absolute; right: 0; top: calc(100% + 0.5rem); z-index: 30; min-width: 14.5rem; padding: 0.5rem; background: var(--card); border-radius: 22px; box-shadow: 0 18px 40px rgba(10, 30, 60, 0.22); display: grid; gap: 0.15rem; }
-.sheet button, .sheet a { display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; width: 100%; min-height: 48px; padding: 0 0.9rem; margin: 0; background: transparent; color: var(--text); font-weight: 600; text-decoration: none; border-radius: 14px; }
-.sheet button:hover, .sheet a:hover, .sheet button:focus-visible, .sheet a:focus-visible { background: var(--soft); color: var(--brand); }
-.sheet .install { display: block; }
-.sheet .installhelp { position: static; width: auto; margin: 0.25rem 0; border: 0; box-shadow: none; background: var(--soft); border-radius: 14px; }
+.navsheet { position: absolute; right: 0; top: calc(100% + 0.5rem); z-index: 30; min-width: 14.5rem; padding: 0.5rem; background: var(--card); border-radius: 22px; box-shadow: 0 18px 40px rgba(10, 30, 60, 0.22); display: grid; gap: 0.15rem; }
+.navsheet button, .navsheet a { display: flex; align-items: center; justify-content: flex-start; gap: 0.5rem; width: 100%; min-height: 48px; padding: 0 0.9rem; margin: 0; background: transparent; color: var(--text); font-weight: 600; text-decoration: none; border-radius: 14px; }
+.navsheet button:hover, .navsheet a:hover, .navsheet button:focus-visible, .navsheet a:focus-visible { background: var(--soft); color: var(--brand); }
+.navsheet .install { display: block; }
+.navsheet .installhelp { position: static; width: auto; margin: 0.25rem 0; border: 0; box-shadow: none; background: var(--soft); border-radius: 14px; }
 
 /* high contrast keeps hard edges instead of shadows and tints */
-html.hc .card, html.hc .rewardbar, html.hc .menubtn, html.hc .sheet { border: 2px solid #fff; box-shadow: none; }
+html.hc .card, html.hc .rewardbar, html.hc .menubtn, html.hc .navsheet { border: 2px solid #fff; box-shadow: none; }
 html.hc input:not([type='checkbox']), html.hc select, html.hc textarea { border: 2px solid #fff; }
 html.hc button.secondary { border: 2px solid var(--brand); background: transparent; }
 html.hc fieldset.strands label.check { border: 2px solid #fff; }
