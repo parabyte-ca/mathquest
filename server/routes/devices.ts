@@ -5,10 +5,9 @@ import { clientIp, requireUser } from '../context.js';
 import { randomDigits, randomToken, sha256 } from '../crypto.js';
 import { audit } from '../audit.js';
 import { newId } from '../db.js';
-import { COOKIE, parseCookies, setCookie } from '../session.js';
+import { COOKIE, DEVICE_TTL, parseCookies, renewDevice, setCookie, trustedDevice } from '../session.js';
 
 const PAIR_TTL = 10 * 60_000;
-const DEVICE_TTL = 365 * 24 * 3_600_000;
 
 export function deviceRoutes(ctx: Ctx): Router {
   const r = Router();
@@ -28,6 +27,12 @@ export function deviceRoutes(ctx: Ctx): Router {
 
   // Student's device polls. Once approved it receives a long-lived device trust cookie.
   r.get('/devices/status', (req, res) => {
+    // A device that has already been approved is recognised by its cookie, every time it comes back, with no new code.
+    const trusted = trustedDevice(ctx, req);
+    if (trusted) {
+      renewDevice(ctx, req, res, trusted.id);
+      return void res.json({ state: 'approved' });
+    }
     const raw = parseCookies(req.headers.cookie)[COOKIE.pair] ?? '';
     const [id, secret] = raw.split('.');
     const p = id && secret
@@ -78,6 +83,7 @@ export function deviceRoutes(ctx: Ctx): Router {
       .prepare('UPDATE devices SET revoked_at = ? WHERE id = ? AND approved_by = ? AND revoked_at IS NULL')
       .run(ctx.now(), req.params.id, user.id);
     if (result.changes !== 1) return void res.status(404).json({ error: 'not_found' });
+    ctx.db.prepare('DELETE FROM sessions WHERE device_id = ?').run(req.params.id); // whoever was signed in on it is signed out
     audit(ctx.db, { kind: 'caregiver', id: user.id }, 'device.revoke', req.params.id);
     res.json({ ok: true });
   });

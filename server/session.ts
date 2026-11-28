@@ -9,7 +9,10 @@ const CSRF_EXEMPT = new Set(['/auth/magic', '/auth/verify', '/auth/student', '/d
 export const COOKIE = { session: 'mq_session', device: 'mq_device', login: 'mq_login', pair: 'mq_pair' } as const;
 
 const USER_TTL = 30 * 24 * 3_600_000;
-const STUDENT_TTL = 12 * 3_600_000;
+/** A student stays signed in on an approved device for 30 days of use: the session is renewed whenever it is used past its half-way point. */
+const STUDENT_TTL = 30 * 24 * 3_600_000;
+/** An approved device stays trusted for a year from its last use. */
+export const DEVICE_TTL = 365 * 24 * 3_600_000;
 
 export function parseCookies(header: string | undefined): Record<string, string> {
   const out: Record<string, string> = {};
@@ -37,14 +40,28 @@ export function setCookie(ctx: Ctx, res: Response, name: string, value: string, 
 }
 export const clearCookie = (ctx: Ctx, res: Response, name: string): void => setCookie(ctx, res, name, '', 0);
 
-export function createSession(ctx: Ctx, res: Response, kind: 'user' | 'student', subjectId: string): string {
+/** The approved device this request comes from, if its cookie names one that has not been removed or gone unused for a year. */
+export function trustedDevice(ctx: Ctx, req: Request): { id: string; approved_by: string } | undefined {
+  const token = parseCookies(req.headers.cookie)[COOKIE.device];
+  if (!token) return undefined;
+  return ctx.db.prepare('SELECT id, approved_by FROM devices WHERE token_hash = ? AND revoked_at IS NULL AND last_seen_at > ?').get(sha256(token), ctx.now() - DEVICE_TTL) as { id: string; approved_by: string } | undefined;
+}
+
+/** Records a use of an approved device and gives its cookie another year, so a device that is used regularly never has to be approved again. */
+export function renewDevice(ctx: Ctx, req: Request, res: Response, deviceId: string): void {
+  ctx.db.prepare('UPDATE devices SET last_seen_at = ? WHERE id = ?').run(ctx.now(), deviceId);
+  const token = parseCookies(req.headers.cookie)[COOKIE.device];
+  if (token) setCookie(ctx, res, COOKIE.device, token, DEVICE_TTL);
+}
+
+export function createSession(ctx: Ctx, res: Response, kind: 'user' | 'student', subjectId: string, deviceId: string | null = null): string {
   const token = randomToken();
   const csrf = randomToken(24);
   const t = ctx.now();
   const ttl = kind === 'user' ? USER_TTL : STUDENT_TTL;
   ctx.db
-    .prepare('INSERT INTO sessions (id_hash, kind, subject_id, csrf, expires_at, created_at, last_seen_at) VALUES (?,?,?,?,?,?,?)')
-    .run(sha256(token), kind, subjectId, csrf, t + ttl, t, t);
+    .prepare('INSERT INTO sessions (id_hash, kind, subject_id, csrf, expires_at, created_at, last_seen_at, device_id) VALUES (?,?,?,?,?,?,?,?)')
+    .run(sha256(token), kind, subjectId, csrf, t + ttl, t, t, deviceId);
   setCookie(ctx, res, COOKIE.session, token, ttl);
   return csrf;
 }
