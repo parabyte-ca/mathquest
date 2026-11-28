@@ -62,7 +62,9 @@ export async function studentOnNewDevice(browser: Browser, baseURL: string, pare
   await parent.getByLabel("Code shown on the student's device").fill(code);
   await parent.getByRole('button', { name: 'Approve device' }).click();
   await expect(parent.getByText('Device approved.')).toBeVisible();
-  await expect(kid.getByLabel('Username')).toBeVisible({ timeout: 15_000 });
+  // the page notices the approval and shows who is practising; these helpers sign in by typing the username so the child is unambiguous
+  await expect(kid.getByRole('button', { name: 'Type a username instead' })).toBeVisible({ timeout: 15_000 });
+  await kid.getByRole('button', { name: 'Type a username instead' }).click();
   await kid.getByLabel('Username').fill(opts.username);
   await kid.getByLabel('4-digit PIN').fill('4821');
   await kid.getByRole('button', { name: 'Sign in' }).click();

@@ -30,7 +30,7 @@ export interface StudentRow {
   created_at: string;
 }
 
-export type Auth = { kind: 'user'; user: UserRow; csrf: string } | { kind: 'student'; student: StudentRow; csrf: string };
+export type Auth = { kind: 'user'; user: UserRow; csrf: string } | { kind: 'student'; student: StudentRow; csrf: string; idleMs: number | null };
 
 declare module 'express-serve-static-core' {
   interface Request {
@@ -57,6 +57,8 @@ export interface Ctx {
     exportAll: RateLimiter;
     /** Each photo read costs money, so each caregiver gets a few an hour. */
     photo: RateLimiter;
+    /** The "who is practising?" list is asked for each time the sign-in page opens. */
+    picker: RateLimiter;
   };
 }
 
@@ -71,6 +73,7 @@ export function makeLimits(now: () => number): Ctx['limits'] {
     invite: new RateLimiter(10, H, now),
     exportAll: new RateLimiter(5, H, now),
     photo: new RateLimiter(10, H, now),
+    picker: new RateLimiter(60, 600_000, now),
   };
 }
 

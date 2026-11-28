@@ -40,7 +40,8 @@ test('caregiver signs in by magic link, adds a student and approves their device
   await expect(page.getByText('Device approved.')).toBeVisible();
 
   // The student's page notices approval, then the PIN login works.
-  await expect(kid.getByLabel('Username')).toBeVisible({ timeout: 15_000 });
+  await expect(kid.getByRole('heading', { name: 'Who is practising?' })).toBeVisible({ timeout: 15_000 });
+  await kid.getByRole('button', { name: 'Type a username instead' }).click();
   await kid.getByLabel('Username').fill(username);
   await kid.getByLabel('4-digit PIN').fill('0000');
   await kid.getByRole('button', { name: 'Sign in' }).click();
@@ -50,15 +51,45 @@ test('caregiver signs in by magic link, adds a student and approves their device
   await expect(kid.getByRole('heading', { name: 'Welcome, Robin!' })).toBeVisible();
   await noHorizontalScroll(kid);
 
-  // Coming back later: the device is still trusted, so the student is asked for the PIN only, never for a new code.
+  // Coming back later: the device is still trusted, so the student sees who is practising and needs only a tap and the PIN, never a new code.
   await kid.context().clearCookies({ name: 'mq_session' });
   await kid.goto('/app/student');
-  await expect(kid.getByLabel('Username')).toBeVisible();
+  await expect(kid.getByRole('heading', { name: 'Who is practising?' })).toBeVisible();
   await expect(kid.getByRole('button', { name: /code/i })).toHaveCount(0);
   await kid.waitForTimeout(500);
-  await expect(kid.getByLabel('Username')).toBeVisible();
+  await expect(kid.getByRole('button', { name: /Robin/ })).toBeVisible();
   await expect(kid.getByRole('button', { name: /code/i })).toHaveCount(0);
-  await kid.getByLabel('Username').fill(username);
+  await kid.getByRole('button', { name: /Robin/ }).click();
+  await expect(kid.getByRole('heading', { name: 'Hi, Robin' })).toBeVisible();
+  await kid.getByLabel('4-digit PIN').fill('4821');
+  await kid.getByRole('button', { name: 'Sign in' }).click();
+  await expect(kid.getByRole('heading', { name: 'Welcome, Robin!' })).toBeVisible();
+
+  // A brother or sister on the same device: both are listed, the one who signed in last comes first, and switching goes back to the list.
+  await page.getByLabel('Display name').fill('Alex');
+  await page.getByLabel(/^Username/).fill(`sib_${info.project.name}`);
+  await page.getByLabel('4-digit PIN').fill('1357');
+  await page.getByLabel('Grade').selectOption('5');
+  await page.getByRole('button', { name: 'Create student' }).click();
+  await expect(page.getByText(`@sib_${info.project.name}`)).toBeVisible();
+  await kid.context().clearCookies({ name: 'mq_session' });
+  await kid.goto('/app/student');
+  await expect(kid.getByRole('button', { name: /Alex/ })).toBeVisible();
+  await expect(kid.getByRole('button', { name: /Robin/ })).toBeVisible();
+  await expect(kid.locator('.tile.last')).toContainText('Robin'); // the last to sign in on this device
+  await noHorizontalScroll(kid);
+  await kid.getByRole('button', { name: /Alex/ }).click();
+  await kid.getByLabel('4-digit PIN').fill('0000');
+  await kid.getByRole('button', { name: 'Sign in' }).click();
+  await expect(kid.getByText(/do not match/)).toBeVisible();
+  await kid.getByLabel('4-digit PIN').fill('1357');
+  await kid.getByRole('button', { name: 'Sign in' }).click();
+  await expect(kid.getByRole('heading', { name: 'Welcome, Alex!' })).toBeVisible();
+  await openMenu(kid);
+  await kid.getByRole('button', { name: 'Switch student' }).click();
+  await expect(kid.getByRole('heading', { name: 'Who is practising?' })).toBeVisible();
+  await expect(kid.locator('.tile.last')).toContainText('Alex');
+  await kid.getByRole('button', { name: /Robin/ }).click();
   await kid.getByLabel('4-digit PIN').fill('4821');
   await kid.getByRole('button', { name: 'Sign in' }).click();
   await expect(kid.getByRole('heading', { name: 'Welcome, Robin!' })).toBeVisible();

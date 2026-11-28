@@ -29,7 +29,7 @@ export interface StudentInfo { id: string; username: string; displayName: string
 export type Me =
   | { kind: 'user'; csrf: string; user: UserInfo; version: string }
   /** `offline` is set when the server could not be reached and the student's details came from this device. */
-  | { kind: 'student'; csrf: string; student: StudentInfo; version: string; offline?: boolean };
+  | { kind: 'student'; csrf: string; student: StudentInfo; version: string; offline?: boolean; /** Minutes of no use after which a sign-in on a shared device ends; null when it does not. */ idleMinutes?: number | null };
 
 /** Who is signed in. A student who was signed in before the connection dropped is remembered, so the app can still open to offline practice. */
 export async function loadMe(): Promise<Me | null> {
