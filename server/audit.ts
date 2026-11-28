@@ -2,7 +2,7 @@ import type { DB } from './db.js';
 import { nowIso } from './db.js';
 
 /** Actions whose target is a student: they appear in that student's activity log. */
-const STUDENT_SCOPED = /^(student\.|goal\.|message\.send$|worksheet\.(create|mark)$)/;
+const STUDENT_SCOPED = /^(student\.|goal\.|message\.send$|worksheet\.(create|mark|photo)$)/;
 const FORBIDDEN = /token|secret|pin|password|link|key/i;
 
 /** Records who did what. Metadata keys that look secret are dropped so tokens never reach the log. */

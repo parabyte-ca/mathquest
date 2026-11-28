@@ -20,6 +20,10 @@ export interface Config {
   /** Price assumptions in USD per million tokens, used only to estimate spend. Set to your model's current rates. */
   aiPriceInPerMTok: number;
   aiPriceOutPerMTok: number;
+  /** Reading a photo of a marked worksheet. Off unless switched on, and it needs the Anthropic key. */
+  photoGrading: boolean;
+  /** Its own monthly spend cap, inside the overall AI cap. */
+  photoMonthlyCapUsd: number;
   magicLinkBind: 'strict' | 'off';
   magicLinkTtlMs: number;
   backupRetentionDays: number;
@@ -65,6 +69,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     aiMonthlyCapUsd: num(env.AI_MONTHLY_CAP_USD, 5),
     aiPriceInPerMTok: num(env.AI_PRICE_IN_PER_MTOK, 3),
     aiPriceOutPerMTok: num(env.AI_PRICE_OUT_PER_MTOK, 15),
+    photoGrading: bool(env.PHOTO_GRADING, false),
+    photoMonthlyCapUsd: num(env.PHOTO_MONTHLY_CAP_USD, 2),
     magicLinkBind: env.MAGIC_LINK_BIND === 'off' ? 'off' : 'strict',
     magicLinkTtlMs: int(env.MAGIC_LINK_TTL_MINUTES, 15) * 60_000,
     backupRetentionDays: int(env.BACKUP_RETENTION_DAYS, 14),

@@ -3,7 +3,7 @@ import { z } from 'zod';
 import type { Ctx, UserRow } from '../context.js';
 import { requireUser } from '../context.js';
 import { audit } from '../audit.js';
-import { AiError, capMicro, spentThisMonth } from '../ai/anthropic.js';
+import { AiError, capMicro, PHOTO_KIND, spentThisMonth } from '../ai/anthropic.js';
 import { generateDrafts } from '../ai/pipeline.js';
 import { allMicros, microById } from '../ai/pipeline.js';
 import { bankSummary } from '../ai/bank.js';
@@ -23,6 +23,7 @@ export function aiRoutes(ctx: Ctx): Router {
       capUsd: ctx.cfg.aiMonthlyCapUsd,
       spentUsd: usd(spentThisMonth(ctx)),
       remainingUsd: usd(Math.max(0, capMicro(ctx) - spentThisMonth(ctx))),
+      photo: { on: ctx.cfg.photoGrading, capUsd: ctx.cfg.photoMonthlyCapUsd, spentUsd: usd(spentThisMonth(ctx, PHOTO_KIND)) },
       counts: Object.fromEntries((ctx.db.prepare('SELECT status, COUNT(*) AS n FROM bank_item GROUP BY status').all() as { status: string; n: number }[]).map((x) => [x.status, x.n])),
     });
   });

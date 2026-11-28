@@ -55,6 +55,8 @@ export interface Ctx {
     invite: RateLimiter;
     /** Downloading the whole account is heavier than a page. */
     exportAll: RateLimiter;
+    /** Each photo read costs money, so each caregiver gets a few an hour. */
+    photo: RateLimiter;
   };
 }
 
@@ -68,6 +70,7 @@ export function makeLimits(now: () => number): Ctx['limits'] {
     approve: new RateLimiter(10, 600_000, now),
     invite: new RateLimiter(10, H, now),
     exportAll: new RateLimiter(5, H, now),
+    photo: new RateLimiter(10, H, now),
   };
 }
 

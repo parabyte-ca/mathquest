@@ -422,6 +422,26 @@ test('rewards, caregiver progress and goals, printable worksheets, and the new s
   await expect(parent.getByRole('heading', { name: 'Answer key' })).toHaveCount(0);
 
   // the same sheet answered on screen and marked: the app checks the answers and adds the points once
+  // reading the answers from a photo: the reader only copies what is written, the caregiver checks it, and then the sheet is marked
+  await expect(parent.getByRole('heading', { name: 'Or read the answers from a photo' })).toBeVisible();
+  await expect(parent.getByText(/MathQuest does not keep it/)).toBeVisible();
+  await scanOf(parent, 'worksheet photo option');
+  const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==', 'base64'); // a real 1 pixel picture; the page redraws it as a JPEG
+  await parent.locator('input[type=file]').setInputFiles({ name: 'sheet.png', mimeType: 'image/png', buffer: png });
+  await expect(parent.getByRole('heading', { name: 'Check what was read' })).toBeVisible();
+  await expect(parent.getByLabel('Question 1', { exact: true })).toHaveValue('1');
+  await expect(parent.getByLabel('Question 2', { exact: true })).toHaveValue('2');
+  await expect(parent.getByText('Not sure about this one. Please check it.')).toBeVisible();
+  await scanOf(parent, 'worksheet photo check');
+  await noHorizontalScroll(parent);
+  await parent.getByLabel('Question 2', { exact: true }).fill('');
+  await parent.getByRole('button', { name: 'Use these answers' }).click();
+  await expect(parent.getByRole('heading', { name: 'Check the answers entered' })).toBeVisible();
+  await expect(parent.getByText('Blank questions: 9.')).toBeVisible();
+  await parent.getByRole('button', { name: 'Cancel' }).click();
+  expect(db().prepare('SELECT COUNT(*) AS n FROM worksheet_marked WHERE student_id = ?').get(studentId(username))).toEqual({ n: 0 });
+
+  // answers can also be typed in one at a time
   await parent.getByRole('button', { name: 'Enter answers' }).click();
   await expect(parent.getByRole('heading', { name: 'Question 1 of 10' })).toBeVisible();
   await parent.getByLabel('Your answer').fill('1');

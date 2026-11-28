@@ -182,7 +182,7 @@ function Updates() {
   );
 }
 
-interface AiStatus { configured: boolean; model: string; capUsd: number; spentUsd: number; remainingUsd: number; counts: Record<string, number> }
+interface AiStatus { configured: boolean; model: string; capUsd: number; spentUsd: number; remainingUsd: number; photo: { on: boolean; capUsd: number; spentUsd: number }; counts: Record<string, number> }
 interface BankRow { id: number; skill: string; tier: number; compute: string; reports: number; item: { prompt: { en: string; fr: string }; answer: { value: number }; steps: { en: string }[] } }
 interface ReportRow { id: number; itemRef: string; bankId: number | null; reason: string; itemStatus: string | null }
 interface BankSize { id: string; name: string; expectation: string; generator: boolean; variety: number[]; thin: boolean; approved: number; drafts: number; served: number; openReports: number }
@@ -269,6 +269,7 @@ function AiPanel() {
       {!status.configured ? <p class="note">{t('ai.notConfigured')}</p> : (
         <>
           <p>{t('ai.spend', { spent: status.spentUsd.toFixed(2), cap: status.capUsd.toFixed(2), left: status.remainingUsd.toFixed(2) })}</p>
+          <p>{status.photo.on ? t('ai.photoOn', { spent: status.photo.spentUsd.toFixed(2), cap: status.photo.capUsd.toFixed(2) }) : t('ai.photoOff')}</p>
           <form class="inline" onSubmit={generate}>
             <label for="ai-skill">{t('ai.skill')}</label>
             <select id="ai-skill" value={skill} onChange={(e) => setSkill((e.target as HTMLSelectElement).value)}>

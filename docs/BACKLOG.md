@@ -20,7 +20,7 @@ The owner wants another parent to help test the app, so household and family acc
 | 6 | 3.22.0 (shipped) | Soft theme: rewards strip as a floating pill, one round menu button for Help, Language, Sign out and Install, soft shadows instead of outlines, rounder student look and calmer caregiver look. | M |
 | 7 | 3.24.0 (shipped) | Dollar sign everywhere (Canadian style: "$45.50", French "45,50 $"; phrases with no amount keep the word). | S |
 | 8 | 3.25.0 (shipped) | Worksheets that can be opened on screen, marked, and counted towards XP: XP per correct answer plus a finishing bonus, once per sheet, and the marked answers also update skill progress. | L |
-| 9 | 3.26.0 | Photo grading: the AI reads the handwritten answers from a photo, the app marks them by exact rules, the caregiver confirms each one next to the photo, then points. Off unless switched on, monthly cost cap, photo never stored. | L |
+| 9 | 3.26.0 (shipped) | Photo grading: the AI reads the handwritten answers from a photo, the app marks them by exact rules, the caregiver confirms each one next to the photo, then points. Off unless switched on, monthly cost cap, photo never stored. | L |
 | 10 | 3.23.0 (shipped) | Reward backgrounds: a tiled background for each colour palette, with a Plain background setting. | M |
 
 Another parent can already test today without any of this: the admin invites their email from the Admin page, they sign in and add their own children, and the household isolation in 3.12.0 keeps their family apart from every other.
