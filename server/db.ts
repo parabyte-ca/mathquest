@@ -494,6 +494,14 @@ const MIGRATIONS: { id: number; name: string; sql: string; rebuildsReferencedTab
     CREATE INDEX idx_sessions_device ON sessions(device_id);
     `,
   },
+  {
+    id: 16,
+    name: 'idle-sign-out',
+    sql: `
+    -- How long a student sign-in may sit unused before it ends (NULL: never, apart from the 30 day limit). Set when the caregiver has more than one child.
+    ALTER TABLE sessions ADD COLUMN idle_ms INTEGER;
+    `,
+  },
 ];
 
 export function openDb(path: string): DB {

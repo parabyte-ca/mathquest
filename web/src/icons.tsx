@@ -54,6 +54,7 @@ const LINE: Record<string, ComponentChildren> = {
   home: <><path d="M4 11 L12 4 L20 11" /><path d="M6 10 L6 20 L18 20 L18 10" /></>,
   help: <><circle cx="12" cy="12" r="8.5" /><path d="M9.5 9.5 Q9.5 7 12 7 Q14.5 7 14.5 9.3 Q14.5 11 12 12 L12 13.5" /><path d="M12 16.5 L12 16.6" /></>,
   language: <><circle cx="12" cy="12" r="8.5" /><path d="M3.5 12 L20.5 12 M12 3.5 Q8 12 12 20.5 M12 3.5 Q16 12 12 20.5" /></>,
+  switch: <><path d="M4 8 L18 8 M14 4 L18 8 L14 12" /><path d="M20 16 L6 16 M10 12 L6 16 L10 20" /></>,
   signout: <><path d="M10 4 L5 4 L5 20 L10 20" /><path d="M9 12 L20 12 M16 8 L20 12 L16 16" /></>,
   install: <><rect x="6" y="3" width="12" height="18" rx="2.5" /><path d="M12 8 L12 14 M9.5 12 L12 14.5 L14.5 12" /></>,
   progress: <><path d="M4 20 L20 20" /><path d="M7 20 L7 12 M12 20 L12 6 M17 20 L17 10" /></>,

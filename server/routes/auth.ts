@@ -6,7 +6,7 @@ import type { Ctx, StudentRow, UserRow } from '../context.js';
 import { clientIp } from '../context.js';
 import { dummyVerify, randomToken, sha256, verifyPin } from '../crypto.js';
 import { audit } from '../audit.js';
-import { COOKIE, clearCookie, createSession, destroySession, parseCookies, renewDevice, setCookie, trustedDevice } from '../session.js';
+import { COOKIE, SHARED_IDLE_MS, clearCookie, createSession, destroySession, parseCookies, renewDevice, setCookie, trustedDevice } from '../session.js';
 import { nowIso } from '../db.js';
 
 const emailSchema = z.string().trim().toLowerCase().email().max(254);
@@ -90,7 +90,11 @@ export function authRoutes(ctx: Ctx): Router {
   });
 
   r.post('/auth/student', (req, res) => {
-    const parsed = z.object({ username: z.string().trim().min(3).max(20), pin: z.string().regex(/^\d{4}$/) }).safeParse(req.body);
+    // A child is named either by tapping their tile on the "who is practising?" page (their id) or by typing a username.
+    const parsed = z
+      .object({ username: z.string().trim().min(3).max(20).optional(), studentId: z.string().regex(/^[A-Za-z0-9_-]{8,40}$/).optional(), pin: z.string().regex(/^\d{4}$/) })
+      .refine((b) => (b.username === undefined) !== (b.studentId === undefined))
+      .safeParse(req.body);
     if (!parsed.success) return void res.status(400).json({ error: 'invalid_request' });
     if (!ctx.limits.studentIp.take(clientIp(req))) return void res.status(429).json({ error: 'too_many_requests' });
     const invalid = (extra: object = {}) => res.status(401).json({ error: 'invalid_login', ...extra });
@@ -100,8 +104,8 @@ export function authRoutes(ctx: Ctx): Router {
 
     // The username is looked up only among the students of the caregiver who approved this device, so two families can use the same name.
     const student = ctx.db
-      .prepare('SELECT s.* FROM students s JOIN student_caregivers sc ON sc.student_id = s.id WHERE s.username = ? AND sc.caregiver_id = ?')
-      .get(parsed.data.username, device.approved_by) as StudentRow | undefined;
+      .prepare(`SELECT s.* FROM students s JOIN student_caregivers sc ON sc.student_id = s.id WHERE ${parsed.data.studentId !== undefined ? 's.id' : 's.username'} = ? AND sc.caregiver_id = ?`)
+      .get(parsed.data.studentId ?? parsed.data.username, device.approved_by) as StudentRow | undefined;
     if (!student) {
       dummyVerify(parsed.data.pin);
       return void invalid();
@@ -122,7 +126,9 @@ export function authRoutes(ctx: Ctx): Router {
     }
     ctx.db.prepare('UPDATE students SET pin_failures = 0, locked_until = 0 WHERE id = ?').run(student.id);
     renewDevice(ctx, req, res, device.id);
-    const csrf = createSession(ctx, res, 'student', student.id, device.id);
+    // Where brothers and sisters share a device, a sign-in ends after a spell of no use, so the next child lands on the picker.
+    const siblings = (ctx.db.prepare('SELECT COUNT(*) AS n FROM student_caregivers WHERE caregiver_id = ?').get(device.approved_by) as { n: number }).n;
+    const csrf = createSession(ctx, res, 'student', student.id, device.id, siblings > 1 ? SHARED_IDLE_MS : null);
     audit(ctx.db, { kind: 'student', id: student.id }, 'auth.student_login');
     res.json({ csrf, student: publicStudent(student) });
   });
@@ -137,7 +143,7 @@ export function authRoutes(ctx: Ctx): Router {
     if (req.auth.kind === 'user') {
       return void res.json({ kind: 'user', csrf: req.auth.csrf, user: publicUser(req.auth.user), version: ctx.cfg.version });
     }
-    res.json({ kind: 'student', csrf: req.auth.csrf, student: publicStudent(req.auth.student), version: ctx.cfg.version });
+    res.json({ kind: 'student', csrf: req.auth.csrf, student: publicStudent(req.auth.student), version: ctx.cfg.version, idleMinutes: req.auth.idleMs ? Math.round(req.auth.idleMs / 60_000) : null });
   });
 
   return r;

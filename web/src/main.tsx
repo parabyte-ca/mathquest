@@ -52,12 +52,42 @@ function App() {
   const online = useOnline();
   useEffect(() => { if (online && me?.kind === 'student' && me.offline) void refresh(); }, [online]);
   const signOut = async () => {
+    const wasStudent = me?.kind === 'student';
     await api('POST', '/auth/logout');
     void forgetStudent();
     setCsrf('');
     setMe(null);
-    go('/app');
+    go(wasStudent ? '/app/student' : '/app'); // a child who signs out is back at "who is practising?", not at the caregiver's sign-in
   };
+  // On a device shared by brothers and sisters, a child's sign-in ends after a spell of no use. The server enforces it; this also brings the page back to the picker.
+  const idleMinutes = me?.kind === 'student' ? (me.idleMinutes ?? null) : null;
+  useEffect(() => {
+    if (!idleMinutes) return;
+    let last = Date.now();
+    let pinged = Date.now();
+    const limit = idleMinutes * 60_000;
+    const out = (): void => {
+      void api('POST', '/auth/logout');
+      void forgetStudent();
+      setCsrf('');
+      setMe(null);
+      go('/app/student?idle=1');
+    };
+    const touch = (): void => {
+      const t = Date.now();
+      if (t - last > limit) return out();
+      last = t;
+      // reading or watching with no clicks to the server still counts as use, so the server's own clock is kept fresh
+      if (t - pinged > 5 * 60_000) { pinged = t; void api('GET', '/me'); }
+    };
+    const check = (): void => { if (Date.now() - last > limit) out(); };
+    const events = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
+    for (const e of events) addEventListener(e, touch, { passive: true });
+    const tick = window.setInterval(check, 30_000);
+    const visible = (): void => { if (document.visibilityState === 'visible') check(); };
+    document.addEventListener('visibilitychange', visible);
+    return () => { for (const e of events) removeEventListener(e, touch); window.clearInterval(tick); document.removeEventListener('visibilitychange', visible); };
+  }, [idleMinutes]);
 
   if (path === '/app/verify') return <Shell path={path} me={me} signOut={signOut} go={go}><Verify onDone={async () => { await refresh(); go('/app'); }} go={go} /></Shell>;
   if (path === '/app/student') {
@@ -65,6 +95,8 @@ function App() {
   }
   if (me === undefined) return <Shell path={path} me={me} signOut={signOut} go={go}><p role="status">{t('common.loading')}</p></Shell>;
   if (me?.kind === 'student') return <Shell path={path} me={me} signOut={signOut} go={go}><StudentArea me={me} path={path} go={go} /></Shell>;
+  // a child whose sign-in has ended goes back to "who is practising?", not to the caregiver's sign-in
+  if (!me && path.startsWith('/app/learn')) return <Shell path={path} me={me} signOut={signOut} go={go}><StudentLogin onDone={refresh} go={go} /></Shell>;
   if (!me) return <Shell path={path} me={me} signOut={signOut} go={go}><SignIn go={go} /></Shell>;
   if (path === '/app/admin' && me.user.role === 'admin') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadAdmin} props={{ go }} /></Shell>;
   if (path === '/app/progress') return <Shell path={path} me={me} signOut={signOut} go={go}><Lazy load={loadProgress} props={{ go }} /></Shell>;
@@ -90,7 +122,9 @@ function Shell(p: { path: string; me: Me | null | undefined; signOut: () => void
             <InstallButton />
             {p.me && <button type="button" onClick={() => { p.go(p.me!.kind === 'student' ? '/app/learn' : '/app'); startTour(p.me!.kind === 'student' ? 'student' : 'caregiver'); }}><Icon name="help" /> {t('nav.help')}</button>}
             <button type="button" onClick={() => setLang(getLang() === 'en' ? 'fr' : 'en')} lang={getLang() === 'en' ? 'fr' : 'en'}><Icon name="language" /> {t('nav.language')}</button>
-            {p.me && <button type="button" onClick={p.signOut}><Icon name="signout" /> {t('nav.signOut')}</button>}
+            {p.me && (p.me.kind === 'student' && p.me.idleMinutes
+              ? <button type="button" onClick={p.signOut}><Icon name="switch" /> {t('nav.switch')}</button>
+              : <button type="button" onClick={p.signOut}><Icon name="signout" /> {t('nav.signOut')}</button>)}
           </NavMenu>
         </nav>
       </header>

@@ -4,6 +4,7 @@ import type { Ctx } from '../context.js';
 import { clientIp, requireUser } from '../context.js';
 import { randomDigits, randomToken, sha256 } from '../crypto.js';
 import { audit } from '../audit.js';
+import { DEFAULT_AVATAR } from '../../shared/rewards.js';
 import { newId } from '../db.js';
 import { COOKIE, DEVICE_TTL, parseCookies, renewDevice, setCookie, trustedDevice } from '../session.js';
 
@@ -52,6 +53,21 @@ export function deviceRoutes(ctx: Ctx): Router {
     setCookie(ctx, res, COOKIE.device, token, DEVICE_TTL);
     setCookie(ctx, res, COOKIE.pair, '', 0);
     res.json({ state: 'approved' });
+  });
+
+  // The "who is practising?" page: the children of the caregiver who approved this device, by first name and avatar. Only an approved device is told.
+  r.get('/devices/students', (req, res) => {
+    if (!ctx.limits.picker.take(clientIp(req))) return void res.status(429).json({ error: 'too_many_requests' });
+    const device = trustedDevice(ctx, req);
+    if (!device) return void res.status(403).json({ error: 'device_not_approved' });
+    const rows = ctx.db
+      .prepare(
+        `SELECT s.id, s.display_name AS name, COALESCE(rs.avatar, ?) AS avatar, COALESCE(rs.frame, 'frame-none') AS frame
+           FROM students s JOIN student_caregivers sc ON sc.student_id = s.id LEFT JOIN reward_state rs ON rs.student_id = s.id
+          WHERE sc.caregiver_id = ? ORDER BY s.display_name COLLATE NOCASE`,
+      )
+      .all(DEFAULT_AVATAR, device.approved_by) as { id: string; name: string; avatar: string; frame: string }[];
+    res.json({ students: rows });
   });
 
   // Caregiver approves the code shown on the student's device.

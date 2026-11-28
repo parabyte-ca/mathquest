@@ -1,5 +1,19 @@
 # Changelog
 
+## [3.27.0] - 2026-11-28
+### Added
+- "Who is practising?" for a device shared by brothers and sisters. On an approved device the sign-in page now shows a tile for each of the caregiver's children, with their avatar and first name. A child taps their tile and types their PIN: no username to type. A "Type a username instead" link is still there.
+- The child who signed in last on the device comes first, marked "Last time".
+- "Switch student" in the menu (shown where the caregiver has more than one child) signs the child out and goes straight back to the tiles. Signing out as a student now returns to the tiles instead of the caregiver's sign-in page, and so does a sign-in that has ended.
+- On a device shared by brothers and sisters (a caregiver with more than one child), a child's sign-in ends after 20 minutes without use, so the next child lands on the tiles. Time spent reading or watching counts as use. The page returns to the tiles with a short note, and the server enforces it too, so a closed or sleeping tab cannot stay signed in. A caregiver with one child is not affected and stays signed in for 30 days as in 3.25.1.
+
+### Privacy
+- The tiles are told only to a device a caregiver has approved, and show only first name and avatar: no username, PIN, grade or email. A device that is removed, or a browser that was never approved, gets nothing. Tapping a tile uses the same PIN check, wrong-PIN count and 15 minute lock as typing a username, and only children of the caregiver who approved the device can be chosen.
+
+### Notes
+- Migration 16 adds a per-sign-in idle limit.
+- Tests check the list (names and avatars only, approved devices only, only that caregiver's children, rate limit), signing in from a tile, the shared lock count, other families' children being refused, the 20 minute idle sign-out and that use keeps it going, signing back in without a new code, and that a one-child household and a caregiver's own sign-in are untouched. An end-to-end test checks the tiles, "Last time", a wrong PIN, switching student and returning on phone, tablet and desktop.
+
 ## [3.26.0] - 2026-11-28
 ### Added
 - Photo reading of worksheets. On a worksheet a caregiver can take or choose a photo of the finished sheet. Claude reads the handwriting and fills in each numbered answer. The caregiver then checks every answer against the photo (shown beside the answers, with unsure or missing ones flagged), fixes anything wrong, and only then marks the sheet. Points, the finishing bonus and "each sheet counts once" are exactly as for answers typed in (3.25.0).

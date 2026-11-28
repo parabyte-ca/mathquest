@@ -300,6 +300,16 @@ table.data th, table.data td { text-align: left; padding: 0.4rem 0.5rem; border-
 .sheet .key li { margin: 0.25rem 0; }
 .sheet .key li > ol.worked { list-style: decimal; margin: 0.25rem 0 0.25rem 1rem; }
 .noprint { }
+.picker h2 { margin-bottom: 0.25rem; }
+.pickgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 0.75rem; margin: 1rem 0; padding: 0; list-style: none; }
+.tile { width: 100%; min-height: 8.5rem; display: grid; justify-items: center; align-content: center; gap: 0.35rem; padding: 0.75rem; background: var(--soft); color: var(--text); border-radius: 22px; box-shadow: var(--shadow-soft); font-weight: 700; margin: 0; }
+.tile:hover, .tile:focus-visible { background: var(--chip, var(--soft)); box-shadow: var(--shadow); }
+.tile.last { outline: 3px solid var(--brand); outline-offset: 2px; }
+.tilename { font-size: 1.15rem; overflow-wrap: anywhere; }
+.tilelast { font-size: 0.8rem; font-weight: 600; color: var(--brand); }
+.hi { display: flex; align-items: center; gap: 0.6rem; }
+button.linkish { background: none; color: var(--brand); padding: 0.5rem 0; min-height: 44px; font-weight: 600; text-decoration: underline; box-shadow: none; margin: 0; }
+html.hc .tile { border: 2px solid #fff; box-shadow: none; }
 .photobox { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line); }
 .filebtn { position: relative; display: inline-block; }
 .filebtn .btnlike { background: var(--soft); color: var(--brand); display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.1rem; border-radius: 14px; font-weight: 700; cursor: pointer; }

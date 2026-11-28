@@ -54,14 +54,17 @@ export function renewDevice(ctx: Ctx, req: Request, res: Response, deviceId: str
   if (token) setCookie(ctx, res, COOKIE.device, token, DEVICE_TTL);
 }
 
-export function createSession(ctx: Ctx, res: Response, kind: 'user' | 'student', subjectId: string, deviceId: string | null = null): string {
+/** On a device shared by brothers and sisters, a student's sign-in ends after this long unused, so the next child lands on the picker. */
+export const SHARED_IDLE_MS = 20 * 60_000;
+
+export function createSession(ctx: Ctx, res: Response, kind: 'user' | 'student', subjectId: string, deviceId: string | null = null, idleMs: number | null = null): string {
   const token = randomToken();
   const csrf = randomToken(24);
   const t = ctx.now();
   const ttl = kind === 'user' ? USER_TTL : STUDENT_TTL;
   ctx.db
-    .prepare('INSERT INTO sessions (id_hash, kind, subject_id, csrf, expires_at, created_at, last_seen_at, device_id) VALUES (?,?,?,?,?,?,?,?)')
-    .run(sha256(token), kind, subjectId, csrf, t + ttl, t, t, deviceId);
+    .prepare('INSERT INTO sessions (id_hash, kind, subject_id, csrf, expires_at, created_at, last_seen_at, device_id, idle_ms) VALUES (?,?,?,?,?,?,?,?,?)')
+    .run(sha256(token), kind, subjectId, csrf, t + ttl, t, t, deviceId, idleMs);
   setCookie(ctx, res, COOKIE.session, token, ttl);
   return csrf;
 }
@@ -79,16 +82,21 @@ export function sessionMiddleware(ctx: Ctx) {
     if (token) {
       const t = ctx.now();
       const row = ctx.db.prepare('SELECT * FROM sessions WHERE id_hash = ?').get(sha256(token)) as
-        | { id_hash: string; kind: 'user' | 'student'; subject_id: string; csrf: string; expires_at: number }
+        | { id_hash: string; kind: 'user' | 'student'; subject_id: string; csrf: string; expires_at: number; last_seen_at: number; idle_ms: number | null }
         | undefined;
-      if (row && row.expires_at > t) {
+      // a student's sign-in on a shared device ends when it has sat unused for too long
+      if (row && row.kind === 'student' && row.idle_ms && t - row.last_seen_at > row.idle_ms) {
+        ctx.db.prepare('DELETE FROM sessions WHERE id_hash = ?').run(row.id_hash);
+        clearCookie(ctx, res, COOKIE.session);
+      } else if (row && row.expires_at > t) {
         if (row.kind === 'user') {
           const user = ctx.db.prepare("SELECT * FROM users WHERE id = ? AND status = 'active'").get(row.subject_id) as UserRow | undefined;
           if (user) req.auth = { kind: 'user', user, csrf: row.csrf };
         } else {
           const student = ctx.db.prepare('SELECT * FROM students WHERE id = ?').get(row.subject_id) as StudentRow | undefined;
-          if (student) req.auth = { kind: 'student', student, csrf: row.csrf };
+          if (student) req.auth = { kind: 'student', student, csrf: row.csrf, idleMs: row.idle_ms };
         }
+        if (req.auth && row.idle_ms && t - row.last_seen_at > 30_000) ctx.db.prepare('UPDATE sessions SET last_seen_at = ? WHERE id_hash = ?').run(t, row.id_hash);
         if (req.auth) {
           const ttl = row.kind === 'user' ? USER_TTL : STUDENT_TTL;
           if (row.expires_at - t < ttl / 2) {
